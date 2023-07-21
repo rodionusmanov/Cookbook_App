@@ -2,11 +2,11 @@ package com.example.cookbook.di
 
 import androidx.lifecycle.MutableLiveData
 import com.example.cookbook.CookbookApp
+import com.example.cookbook.model.AppState
 import com.example.cookbook.model.IRepositorySearchRequestToRecipeList
 import com.example.cookbook.model.SearchRepositoryImpl
 import com.example.cookbook.model.retrofit.ISearchRecipeApi
 import com.example.cookbook.utils.COMPLEX_SEARCH_RECIPE_API
-import com.example.cookbook.viewModel.searchRecipe.SearchRecipeFragmentAppState
 import com.example.cookbook.viewModel.searchRecipe.SearchRecipeViewModel
 import com.google.gson.GsonBuilder
 import org.koin.android.ext.koin.androidApplication
@@ -37,7 +37,7 @@ val appModule = module {
     }
 
     factory {
-        MutableLiveData<SearchRecipeFragmentAppState>()
+        MutableLiveData<AppState>()
     }
 
     viewModel {
