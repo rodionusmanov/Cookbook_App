@@ -1,30 +1,27 @@
 package com.example.cookbook.viewModel.searchRecipe
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.example.cookbook.domain.Recipe
 import com.example.cookbook.model.AppState
-import com.example.cookbook.model.IRepositorySearchRequestToRecipeList
-import com.example.cookbook.model.ISearchRecipeCallback
-import java.io.IOException
+import com.example.cookbook.model.interactor.SearchFragmentInteractor
+import com.example.cookbook.view.base.BaseViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 
 class SearchRecipeViewModel(
-    val searchRecipeLiveData: MutableLiveData<AppState> = MutableLiveData(),
-    private val repository: IRepositorySearchRequestToRecipeList
-) : ViewModel() {
+    private val interactor: SearchFragmentInteractor
+) : BaseViewModel<AppState>() {
+
+    private val _stateFlow = MutableStateFlow<AppState>(AppState.Loading)
+    val stateFlow: StateFlow<AppState> get() = _stateFlow
 
     fun searchRecipeRequest(request: String) {
-//        searchRecipeLiveData.value = SearchRecipeFragmentAppState.Loading
-        repository.getSearchResult(request, callback)
-    }
-
-    private val callback = object : ISearchRecipeCallback {
-        override fun onResponse(recipeList: List<Recipe>) {
-            searchRecipeLiveData.postValue(AppState.Success(recipeList))
-        }
-
-        override fun onFailure(e: IOException) {
-            searchRecipeLiveData.postValue(AppState.Error(e))
+        viewModelCoroutineScope.launch {
+            _stateFlow.value = AppState.Loading
+            try {
+                _stateFlow.emit(interactor.searchRecipe(request, true))
+            } catch (e:Throwable) {
+                _stateFlow.emit(AppState.Error(e))
+            }
         }
     }
 }

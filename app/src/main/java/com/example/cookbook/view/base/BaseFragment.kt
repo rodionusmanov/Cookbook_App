@@ -34,7 +34,7 @@ abstract class BaseFragment<T: AppState, I> : Fragment() {
             }
             is AppState.Error -> {
                 showWorkingView()
-                showErrorDialog()
+                showErrorDialog(appState.error.message)
             }
         }
     }
@@ -43,12 +43,11 @@ abstract class BaseFragment<T: AppState, I> : Fragment() {
         bindingLayout.loadingLayout.visibility = View.VISIBLE
     }
 
-    abstract fun showErrorDialog()
+    abstract fun showErrorDialog(message: String?)
 
     abstract fun setupData(data: List<I>)
 
     private fun showWorkingView() {
         bindingLayout.loadingLayout.visibility = View.GONE
     }
-
 }

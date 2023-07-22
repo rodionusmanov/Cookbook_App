@@ -4,15 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.cookbook.databinding.FragmentSearchRecipeBinding
 import com.example.cookbook.domain.Recipe
 import com.example.cookbook.model.AppState
 import com.example.cookbook.view.base.BaseFragment
 import com.example.cookbook.viewModel.searchRecipe.SearchRecipeViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchRecipeFragment : BaseFragment<AppState, Recipe>() {
@@ -23,7 +24,7 @@ class SearchRecipeFragment : BaseFragment<AppState, Recipe>() {
             return _binding!!
         }
 
-    private val viewModel by viewModel<SearchRecipeViewModel>()
+    private lateinit var model: SearchRecipeViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,7 +32,20 @@ class SearchRecipeFragment : BaseFragment<AppState, Recipe>() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSearchRecipeBinding.inflate(inflater, container, false)
+
+        initViewModel()
+
         return binding.root
+    }
+
+    private fun initViewModel() {
+        val viewModel by viewModel<SearchRecipeViewModel>()
+        model = viewModel
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED){
+                model.stateFlow.collect{ renderData(it)}
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,20 +55,12 @@ class SearchRecipeFragment : BaseFragment<AppState, Recipe>() {
         }
     }
 
-    override fun showErrorDialog() {
-        TODO("Not yet implemented")
+    override fun showErrorDialog(message: String?) {
+        Toast.makeText(context, "Ошибка {$message}", Toast.LENGTH_LONG).show()
     }
 
-
     private fun getBeefResponse() {
-        GlobalScope.launch(Dispatchers.IO) {
-            viewModel.searchRecipeRequest("beef mushroom")
-            withContext(Dispatchers.Main){
-                viewModel.searchRecipeLiveData.observe(viewLifecycleOwner) {
-                    renderData(it)
-                }
-            }
-        }
+        model.searchRecipeRequest("beef mushroom")
     }
 
     override fun setupData(data: List<Recipe>) {
@@ -62,5 +68,10 @@ class SearchRecipeFragment : BaseFragment<AppState, Recipe>() {
             val firstTitle = data.first().recipeName
             tvSearchRecipe.text = firstTitle
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
