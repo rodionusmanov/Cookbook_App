@@ -5,9 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cookbook.databinding.FragmentSearchRecipeBinding
 import com.example.cookbook.domain.Recipe
 import com.example.cookbook.model.AppState
@@ -25,6 +27,7 @@ class SearchRecipeFragment : BaseFragment<AppState, Recipe>() {
         }
 
     private lateinit var model: SearchRecipeViewModel
+    private val adapter: SearchRecipeAdapter by lazy { SearchRecipeAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,8 +37,28 @@ class SearchRecipeFragment : BaseFragment<AppState, Recipe>() {
         _binding = FragmentSearchRecipeBinding.inflate(inflater, container, false)
 
         initViewModel()
+        setupSearchView()
 
         return binding.root
+    }
+
+    private fun setupSearchView() {
+
+        binding.searchView.setOnQueryTextListener(
+            object: OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    query?.let{
+                        model.searchRecipeRequest(query)
+                    }
+                    return true
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    return true
+                }
+
+            }
+        )
     }
 
     private fun initViewModel() {
@@ -48,26 +71,14 @@ class SearchRecipeFragment : BaseFragment<AppState, Recipe>() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.tvSearchRecipe.setOnClickListener {
-            getBeefResponse()
-        }
-    }
-
     override fun showErrorDialog(message: String?) {
         Toast.makeText(context, "Ошибка {$message}", Toast.LENGTH_LONG).show()
     }
-
-    private fun getBeefResponse() {
-        model.searchRecipeRequest("beef mushroom")
-    }
-
+    
     override fun setupData(data: List<Recipe>) {
-        with(binding){
-            val firstTitle = data.first().recipeName
-            tvSearchRecipe.text = firstTitle
-        }
+        adapter.setData(data)
+        binding.resultRecyclerView.layoutManager = LinearLayoutManager(context)
+        binding.resultRecyclerView.adapter = adapter
     }
 
     override fun onDestroyView() {
