@@ -12,9 +12,9 @@ class SearchRepositoryImpl(
     private val dataSource: DataSource<Response<SearchRecipeListDTO>>
 ) : IRepositorySearchRequestToRecipeList {
 
-    override suspend fun getSearchResult(request: String): List<Recipe> {
+    override suspend fun getSearchResult(request: String, ingredients: String): List<Recipe> {
 
-        val response = dataSource.getData(request)
+        val response = dataSource.getData(request, ingredients)
 
         if (response.isSuccessful && response.body() != null) {
             return convertSearchDTOToRecipeList(response.body()!!)

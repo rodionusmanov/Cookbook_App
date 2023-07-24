@@ -14,11 +14,11 @@ class SearchRecipeViewModel(
     private val _stateFlow = MutableStateFlow<AppState>(AppState.Loading)
     val stateFlow: StateFlow<AppState> get() = _stateFlow
 
-    fun searchRecipeRequest(request: String) {
+    fun searchRecipeRequest(request: String, ingredients: String) {
         viewModelCoroutineScope.launch {
             _stateFlow.value = AppState.Loading
             try {
-                _stateFlow.emit(interactor.searchRecipe(request, true))
+                _stateFlow.emit(interactor.searchRecipe(request, ingredients,true))
             } catch (e:Throwable) {
                 _stateFlow.emit(AppState.Error(e))
             }
