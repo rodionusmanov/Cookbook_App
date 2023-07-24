@@ -27,13 +27,43 @@
 
     </com.google.android.material.card.MaterialCardView>
 
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/ingredientsChipGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="12dp"
+        app:singleSelection="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_toolbar"
+        >
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_chicken"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/chip_chicken"
+            android:paddingHorizontal="8dp"
+            android:checkable="true"
+            />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_tomato"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/chip_tomato"
+            android:paddingHorizontal="8dp"
+            android:checkable="true"
+            />
+
+    </com.google.android.material.chip.ChipGroup>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/result_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:padding="8dp"
+        android:padding="12dp"
         tools:listitem="@layout/item_search_result"
-        app:layout_constraintTop_toBottomOf="@id/search_toolbar"
+        app:layout_constraintTop_toBottomOf="@id/ingredientsChipGroup"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

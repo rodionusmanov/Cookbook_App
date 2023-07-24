@@ -10,8 +10,11 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitImplementation : DataSource<Response<SearchRecipeListDTO>>{
-    override suspend fun getData(request: String): Response<SearchRecipeListDTO> {
-        return getService().callApi().await()
+    override suspend fun getData(
+        request: String,
+        ingredients: String
+    ): Response<SearchRecipeListDTO> {
+        return getService().callApi(request, ingredients).await()
     }
 
     private fun getService() : ISearchRecipeApi{
