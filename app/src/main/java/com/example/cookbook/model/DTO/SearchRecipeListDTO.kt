@@ -8,4 +8,4 @@ import kotlinx.parcelize.Parcelize
 data class SearchRecipeListDTO(
     @SerializedName("results")
     val searchRecipeList: List<SearchRecipeData>
-):Parcelable
+) : Parcelable

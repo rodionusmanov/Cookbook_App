@@ -9,4 +9,12 @@
     <string name="search_recipe">search recipe</string>
     <string name="favorite">favorite</string>
     <string name="my_experience">my experience</string>
+
+    //NetworkStatus
+    <string name="dialog_message_device_is_offline">Отсутствует подключение к сети Интернет</string>
+
+    //IngredientChips
+    <string name="chip_chicken">Курица</string>
+    <string name="chip_tomato">Помидор</string>
+
 </resources>
