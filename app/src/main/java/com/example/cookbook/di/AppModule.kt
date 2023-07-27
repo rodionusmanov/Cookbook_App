@@ -1,7 +1,7 @@
 package com.example.cookbook.di
 
 import androidx.lifecycle.MutableLiveData
-import com.example.cookbook.CookbookApp
+import com.example.cookbook.app.CookbookApp
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.datasource.retrofit.RetrofitImplementation
 import com.example.cookbook.model.interactor.SearchFragmentInteractor

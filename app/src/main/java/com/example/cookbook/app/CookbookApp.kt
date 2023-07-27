@@ -1,4 +1,4 @@
-package com.example.cookbook
+package com.example.cookbook.app
 
 import android.app.Application
 import com.example.cookbook.di.appModule

@@ -26,6 +26,10 @@ class RetrofitImplementation : DataSource<Response<SearchRecipeListDTO>> {
             DEFAULT_RECIPE_NUMBER, userDietAndIntolerance).await()
     }
 
+    suspend fun getRecipeFullInformation(id: Int) : Response<SearchRecipeListDTO> {
+        return getService().getRecipeFullInformation(id, false).await()
+    }
+
     private fun getService() : ISearchRecipeApi {
         return createRetrofit().create(ISearchRecipeApi::class.java)
     }

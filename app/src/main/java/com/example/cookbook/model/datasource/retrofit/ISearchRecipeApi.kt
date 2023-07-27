@@ -24,4 +24,11 @@ interface ISearchRecipeApi {
         @Query("tags") tags: String,
         @Query("apiKey") apiKey: String = SPOONACULAR_API_KEY
     ) : Deferred<Response<RandomRecipeDTO>>
+
+    @GET("recipes/{id}/information")
+    fun getRecipeFullInformation(
+        @Query("id") recipeId: Int,
+        @Query("includeNutrition") includeNutrition: Boolean,
+        @Query("apiKey") apiKey: String = SPOONACULAR_API_KEY
+    ) : Deferred<Response<SearchRecipeListDTO>>
 }
