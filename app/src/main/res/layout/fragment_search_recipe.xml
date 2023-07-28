@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@android:color/holo_orange_light">
 
     <com.google.android.material.card.MaterialCardView
@@ -13,17 +13,15 @@
         app:cardCornerRadius="8dp"
         app:cardElevation="12dp"
         app:cardUseCompatPadding="true"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        >
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/search_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:iconifiedByDefault="false"
-            />
+            app:iconifiedByDefault="false" />
 
     </com.google.android.material.card.MaterialCardView>
 
@@ -32,28 +30,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingHorizontal="12dp"
-        app:singleSelection="false"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_toolbar"
-        >
+        app:singleSelection="false">
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_chicken"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/chip_chicken"
-            android:paddingHorizontal="8dp"
             android:checkable="true"
-            />
+            android:paddingHorizontal="8dp"
+            android:text="@string/chip_chicken" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_tomato"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/chip_tomato"
-            android:paddingHorizontal="8dp"
             android:checkable="true"
-            />
+            android:paddingHorizontal="8dp"
+            android:text="@string/chip_tomato" />
 
     </com.google.android.material.chip.ChipGroup>
 
@@ -61,15 +56,14 @@
         android:id="@+id/result_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:padding="12dp"
-        tools:listitem="@layout/item_search_result"
-        app:layout_constraintTop_toBottomOf="@id/ingredientsChipGroup"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingHorizontal="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ingredientsChipGroup"
+        tools:listitem="@layout/item_search_result" />
 
-    <include layout = "@layout/layout_loading" />
+    <include layout="@layout/layout_loading" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

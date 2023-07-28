@@ -9,8 +9,9 @@ fun convertSearchDTOToRecipeList(searchRecipeListDTO: SearchRecipeListDTO): List
     recipeList.forEach {
         returnRecipeList.add(
             Recipe(
-                it.id,
-                it.title
+                id = it.id,
+                recipeName = it.title,
+                recipeImage = it.image
             )
         )
     }
