@@ -1,64 +1,35 @@
 package com.example.cookbook.view
 
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupWithNavController
 import com.example.cookbook.R
 import com.example.cookbook.databinding.ActivityMainBinding
-import com.example.cookbook.view.favorite.FavoriteFragment
-import com.example.cookbook.view.myExperience.MyExperienceFragment
-import com.example.cookbook.view.searchRecipe.SearchRecipeFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        initStartingScreen()
-        initBottomNavigation()
+        val navView: BottomNavigationView = binding.navView
+        val navHost =
+            supportFragmentManager.findFragmentById(R.id.main_container) as NavHostFragment
+        navController = navHost.navController
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
     }
 
-    private fun initStartingScreen() {
-        navigateToFragment(SearchRecipeFragment())
-    }
-
-    private fun initBottomNavigation() {
-        binding.navView.setOnItemSelectedListener { item ->
-            onOptionsItemSelected(item)
-            true
-        }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.navigation_search_recipe -> {
-                navigateToFragment(SearchRecipeFragment())
-            }
-
-            R.id.navigation_favorite -> {
-                navigateToFragment(FavoriteFragment())
-            }
-
-            R.id.navigation_my_experience -> {
-                navigateToFragment(MyExperienceFragment())
-            }
-            else -> {
-                navigateToFragment(SearchRecipeFragment())
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    private fun navigateToFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-            .replace(binding.container.id, fragment)
-            .addToBackStack(null)
-            .commit()
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 }
