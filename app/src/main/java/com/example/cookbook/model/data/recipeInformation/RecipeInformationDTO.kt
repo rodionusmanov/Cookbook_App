@@ -1,6 +1,6 @@
 package com.example.cookbook.model.data.recipeInformation
 
-data class RecipeInformation(
+data class RecipeInformationDTO(
     val analyzedInstructions: List<AnalyzedInstruction> = listOf(),
     val dairyFree: Boolean = false,
     val dishTypes: List<String> = listOf(),
@@ -13,7 +13,6 @@ data class RecipeInformation(
     val readyInMinutes: Int = 0,
     val servings: Int = 0,
     val sourceUrl: String = "",
-    val spoonacularSourceUrl: String = "",
     val summary: String = "",
     val title: String = "",
     val vegan: Boolean = false,
