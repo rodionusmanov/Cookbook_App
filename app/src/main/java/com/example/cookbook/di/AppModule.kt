@@ -3,11 +3,14 @@ package com.example.cookbook.di
 import androidx.lifecycle.MutableLiveData
 import com.example.cookbook.app.CookbookApp
 import com.example.cookbook.model.AppState
+import com.example.cookbook.model.datasource.RandomRecipeDataSource
+import com.example.cookbook.model.datasource.RecipeInformationDataSource
+import com.example.cookbook.model.datasource.SearchRecipeDataSource
 import com.example.cookbook.model.datasource.retrofit.RetrofitImplementation
 import com.example.cookbook.model.interactor.SearchFragmentInteractor
-import com.example.cookbook.model.repository.IRepositorySearchRequestToRecipeList
-import com.example.cookbook.model.repository.SearchRepositoryImpl
+import com.example.cookbook.model.repository.remoteDataSource.SearchRepositoryImpl
 import com.example.cookbook.model.repository.network.NetworkRepository
+import com.example.cookbook.model.repository.remoteDataSource.IRepositorySearchRequest
 import com.example.cookbook.utils.network.NetworkLiveData
 import com.example.cookbook.viewModel.searchRecipe.SearchRecipeViewModel
 import org.koin.android.ext.koin.androidApplication
@@ -21,20 +24,29 @@ val appModule = module {
         androidApplication().applicationContext as CookbookApp
     }
 
-    single<IRepositorySearchRequestToRecipeList> {
-        SearchRepositoryImpl(RetrofitImplementation())
+    single<IRepositorySearchRequest> {
+        SearchRepositoryImpl(
+            searchRecipeDataSource = get(),
+            randomRecipeDataSource = get(),
+            recipeInformationDataSource = get()
+        )
     }
+    single<RetrofitImplementation> { RetrofitImplementation() }
+
+    single<SearchRecipeDataSource> { get<RetrofitImplementation>() }
+    single<RandomRecipeDataSource> { get<RetrofitImplementation>() }
+    single<RecipeInformationDataSource> { get<RetrofitImplementation>() }
 
     factory {
         MutableLiveData<AppState>()
     }
 
-    factory { SearchFragmentInteractor( get() ) }
+    factory { SearchFragmentInteractor(get()) }
 
     viewModel {
-        SearchRecipeViewModel( get() )
+        SearchRecipeViewModel(get())
     }
 
     single { NetworkLiveData(androidContext()) }
-    single { NetworkRepository( get() ) }
+    single { NetworkRepository(get()) }
 }

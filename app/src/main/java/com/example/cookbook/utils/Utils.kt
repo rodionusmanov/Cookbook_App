@@ -1,7 +1,7 @@
 package com.example.cookbook.utils
 
-import com.example.cookbook.domain.Recipe
-import com.example.cookbook.model.DTO.SearchRecipeListDTO
+import com.example.cookbook.model.data.randomRecipe.Recipe
+import com.example.cookbook.model.data.searchRecipe.SearchRecipeListDTO
 
 fun convertSearchDTOToRecipeList(searchRecipeListDTO: SearchRecipeListDTO): List<Recipe> {
     val recipeList = searchRecipeListDTO.searchRecipeList
@@ -10,7 +10,8 @@ fun convertSearchDTOToRecipeList(searchRecipeListDTO: SearchRecipeListDTO): List
         returnRecipeList.add(
             Recipe(
                 it.id,
-                it.title
+                it.title,
+                it.image
             )
         )
     }
