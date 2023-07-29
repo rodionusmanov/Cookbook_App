@@ -7,6 +7,7 @@ import com.example.cookbook.utils.SPOONACULAR_API_KEY
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ISearchRecipeApi {
@@ -28,7 +29,7 @@ interface ISearchRecipeApi {
 
     @GET("recipes/{id}/information")
     fun getRecipeFullInformation(
-        @Query("id") recipeId: Int,
+        @Path("id") recipeId: Int,
         @Query("includeNutrition") includeNutrition: Boolean,
         @Query("apiKey") apiKey: String = SPOONACULAR_API_KEY
     ): Deferred<Response<RecipeInformationDTO>>
