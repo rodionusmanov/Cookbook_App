@@ -81,7 +81,8 @@
                     android:layout_height="wrap_content"
                     android:checkable="true"
                     android:paddingHorizontal="8dp"
-                    android:text="@string/chip_chicken" />
+                    android:text="@string/chip_chicken"
+                    app:chipBackgroundColor="@color/orange_light" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_tomato"
@@ -89,7 +90,8 @@
                     android:layout_height="wrap_content"
                     android:checkable="true"
                     android:paddingHorizontal="8dp"
-                    android:text="@string/chip_tomato" />
+                    android:text="@string/chip_tomato"
+                    app:chipBackgroundColor="@color/orange_light" />
 
             </com.google.android.material.chip.ChipGroup>
         </androidx.constraintlayout.widget.ConstraintLayout>
