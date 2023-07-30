@@ -9,5 +9,7 @@ data class SearchRecipeData(
     @SerializedName("id")
     val id: String,
     @SerializedName("title")
-    val title: String
-): Parcelable
+    val title: String,
+    @SerializedName("image")
+    val image: String
+) : Parcelable
