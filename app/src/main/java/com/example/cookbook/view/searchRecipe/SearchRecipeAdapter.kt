@@ -3,33 +3,24 @@ package com.example.cookbook.view.searchRecipe
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import coil.transform.RoundedCornersTransformation
 import com.example.cookbook.R
-import com.example.cookbook.domain.Recipe
+import com.example.cookbook.model.data.searchRecipe.SearchRecipeData
 
 class SearchRecipeAdapter : RecyclerView.Adapter<SearchRecipeAdapter.RecyclerItemViewHolder>() {
 
-    private var data: List<Recipe> = arrayListOf()
+    private var data: List<SearchRecipeData> = arrayListOf()
 
-    fun setData(data: List<Recipe>) {
+    fun setData(data: List<SearchRecipeData>) {
         this.data = data
         notifyDataSetChanged()
     }
 
     inner class RecyclerItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(data: Recipe) {
+        fun bind(data: SearchRecipeData) {
             if (layoutPosition != RecyclerView.NO_POSITION){
-                itemView.findViewById<TextView>(R.id.tv_search_recipe).text = data.recipeName
-                itemView.findViewById<ImageView>(R.id.iv_search_recipe).apply {
-                    load(data.recipeImage) {
-                        crossfade(true)
-                        transformations(RoundedCornersTransformation(16f))
-                    }
-                }
+                itemView.findViewById<TextView>(R.id.tv_search_recipe).text = data.title
             }
         }
     }

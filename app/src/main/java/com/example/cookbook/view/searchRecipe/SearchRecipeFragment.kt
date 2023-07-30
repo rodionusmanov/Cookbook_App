@@ -11,15 +11,15 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cookbook.databinding.FragmentSearchRecipeBinding
-import com.example.cookbook.domain.Recipe
 import com.example.cookbook.model.AppState
+import com.example.cookbook.model.data.searchRecipe.SearchRecipeData
 import com.example.cookbook.view.base.BaseFragment
 import com.example.cookbook.viewModel.searchRecipe.SearchRecipeViewModel
 import com.google.android.material.chip.Chip
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SearchRecipeFragment : BaseFragment<AppState, Recipe>() {
+class SearchRecipeFragment : BaseFragment<AppState, SearchRecipeData>() {
 
     private var _binding: FragmentSearchRecipeBinding? = null
     private val binding: FragmentSearchRecipeBinding
@@ -100,7 +100,7 @@ class SearchRecipeFragment : BaseFragment<AppState, Recipe>() {
         Toast.makeText(context, "Ошибка {$message}", Toast.LENGTH_LONG).show()
     }
 
-    override fun setupData(data: List<Recipe>) {
+    override fun setupData(data: List<SearchRecipeData>) {
         adapter.setData(data)
         binding.resultRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.resultRecyclerView.adapter = adapter

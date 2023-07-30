@@ -1,4 +1,4 @@
-package com.example.cookbook.model.DTO
+package com.example.cookbook.model.data.searchRecipe
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
