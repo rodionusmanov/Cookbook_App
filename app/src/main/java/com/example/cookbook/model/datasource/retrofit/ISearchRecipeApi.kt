@@ -1,8 +1,8 @@
 package com.example.cookbook.model.datasource.retrofit
 
-import com.example.cookbook.model.data.searchRecipe.SearchRecipeListDTO
-import com.example.cookbook.model.data.randomRecipe.RandomRecipeDTO
-import com.example.cookbook.model.data.recipeInformation.RecipeInformationDTO
+import com.example.cookbook.model.datasource.DTO.searchRecipe.SearchRecipeListDTO
+import com.example.cookbook.model.datasource.DTO.randomRecipe.RandomRecipeListDTO
+import com.example.cookbook.model.datasource.DTO.recipeInformation.RecipeInformationDTO
 import com.example.cookbook.utils.SPOONACULAR_API_KEY
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
@@ -25,7 +25,7 @@ interface ISearchRecipeApi {
         @Query("number") number: Int,
         @Query("tags") tags: String,
         @Query("apiKey") apiKey: String = SPOONACULAR_API_KEY
-    ): Deferred<Response<RandomRecipeDTO>>
+    ): Deferred<Response<RandomRecipeListDTO>>
 
     @GET("recipes/{id}/information")
     fun getRecipeFullInformation(

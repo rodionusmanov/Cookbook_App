@@ -1,8 +1,8 @@
 package com.example.cookbook.model.datasource
 
-import com.example.cookbook.model.data.randomRecipe.RandomRecipeDTO
+import com.example.cookbook.model.datasource.DTO.randomRecipe.RandomRecipeListDTO
 import retrofit2.Response
 
 interface RandomRecipeDataSource {
-    suspend fun getRandomRecipes(): Response<RandomRecipeDTO>
+    suspend fun getRandomRecipes(): Response<RandomRecipeListDTO>
 }

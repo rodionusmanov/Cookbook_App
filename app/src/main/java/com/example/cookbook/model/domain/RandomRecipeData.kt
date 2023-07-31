@@ -1,6 +1,6 @@
-package com.example.cookbook.model.data.randomRecipe
+package com.example.cookbook.model.domain
 
-data class Recipe(
+data class RandomRecipeData(
     val id: Int = 0,
     val image: String = "",
     val summary: String = "",

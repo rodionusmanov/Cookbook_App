@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cookbook.R
-import com.example.cookbook.model.data.searchRecipe.SearchRecipeData
+import com.example.cookbook.model.domain.SearchRecipeData
 
 class SearchRecipeAdapter : RecyclerView.Adapter<SearchRecipeAdapter.RecyclerItemViewHolder>() {
 

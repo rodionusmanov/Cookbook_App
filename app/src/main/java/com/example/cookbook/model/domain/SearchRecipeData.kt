@@ -1,4 +1,4 @@
-package com.example.cookbook.model.data.searchRecipe
+package com.example.cookbook.model.domain
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

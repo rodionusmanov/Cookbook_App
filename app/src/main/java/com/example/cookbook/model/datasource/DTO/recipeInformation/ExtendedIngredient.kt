@@ -1,4 +1,4 @@
-package com.example.cookbook.model.data.recipeInformation
+package com.example.cookbook.model.datasource.DTO.recipeInformation
 
 data class ExtendedIngredient(
     val aisle: String = "",

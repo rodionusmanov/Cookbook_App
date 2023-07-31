@@ -1,4 +1,9 @@
-package com.example.cookbook.model.data.recipeInformation
+package com.example.cookbook.model.domain
+
+import com.example.cookbook.model.datasource.DTO.recipeInformation.AnalyzedInstruction
+import com.example.cookbook.model.datasource.DTO.recipeInformation.ExtendedIngredient
+import com.example.cookbook.model.datasource.DTO.recipeInformation.Nutrient
+import com.example.cookbook.model.datasource.DTO.recipeInformation.WeightPerServing
 
 data class RecipeInformation(
     val analyzedInstructions: List<AnalyzedInstruction> = listOf(),

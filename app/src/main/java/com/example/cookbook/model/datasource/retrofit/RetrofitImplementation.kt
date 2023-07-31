@@ -1,8 +1,8 @@
 package com.example.cookbook.model.datasource.retrofit
 
-import com.example.cookbook.model.data.searchRecipe.SearchRecipeListDTO
-import com.example.cookbook.model.data.randomRecipe.RandomRecipeDTO
-import com.example.cookbook.model.data.recipeInformation.RecipeInformationDTO
+import com.example.cookbook.model.datasource.DTO.searchRecipe.SearchRecipeListDTO
+import com.example.cookbook.model.datasource.DTO.randomRecipe.RandomRecipeListDTO
+import com.example.cookbook.model.datasource.DTO.recipeInformation.RecipeInformationDTO
 import com.example.cookbook.model.datasource.RandomRecipeDataSource
 import com.example.cookbook.model.datasource.RecipeInformationDataSource
 import com.example.cookbook.model.datasource.SearchRecipeDataSource
@@ -24,7 +24,7 @@ class RetrofitImplementation : SearchRecipeDataSource, RandomRecipeDataSource,
         ).await()
     }
 
-    override suspend fun getRandomRecipes(): Response<RandomRecipeDTO> {
+    override suspend fun getRandomRecipes(): Response<RandomRecipeListDTO> {
         val userDietAndIntolerance = arrayOf(DEFAULT_USER_DIET, DEFAULT_USER_INTOLERANCE)
             .joinToString(",")
         return getService().getRandomRecipes(

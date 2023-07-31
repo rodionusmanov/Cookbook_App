@@ -1,6 +1,6 @@
 package com.example.cookbook.model.repository.remoteDataSource
 
-import com.example.cookbook.model.data.searchRecipe.SearchRecipeData
+import com.example.cookbook.model.domain.SearchRecipeData
 
 
 interface IRepositorySearchRequest {

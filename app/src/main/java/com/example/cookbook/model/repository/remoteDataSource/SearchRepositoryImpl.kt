@@ -1,14 +1,14 @@
 package com.example.cookbook.model.repository.remoteDataSource
 
-import com.example.cookbook.model.data.randomRecipe.Recipe
-import com.example.cookbook.model.data.recipeInformation.AnalyzedInstruction
-import com.example.cookbook.model.data.recipeInformation.Equipment
-import com.example.cookbook.model.data.recipeInformation.ExtendedIngredient
-import com.example.cookbook.model.data.recipeInformation.Ingredient
-import com.example.cookbook.model.data.recipeInformation.Nutrient
-import com.example.cookbook.model.data.recipeInformation.RecipeInformation
-import com.example.cookbook.model.data.recipeInformation.Step
-import com.example.cookbook.model.data.searchRecipe.SearchRecipeData
+import com.example.cookbook.model.domain.RandomRecipeData
+import com.example.cookbook.model.datasource.DTO.recipeInformation.AnalyzedInstruction
+import com.example.cookbook.model.datasource.DTO.recipeInformation.Equipment
+import com.example.cookbook.model.datasource.DTO.recipeInformation.ExtendedIngredient
+import com.example.cookbook.model.datasource.DTO.recipeInformation.Ingredient
+import com.example.cookbook.model.datasource.DTO.recipeInformation.Nutrient
+import com.example.cookbook.model.domain.RecipeInformation
+import com.example.cookbook.model.datasource.DTO.recipeInformation.Step
+import com.example.cookbook.model.domain.SearchRecipeData
 import com.example.cookbook.model.datasource.RandomRecipeDataSource
 import com.example.cookbook.model.datasource.RecipeInformationDataSource
 import com.example.cookbook.model.datasource.SearchRecipeDataSource
@@ -29,10 +29,10 @@ class SearchRepositoryImpl(
         return parseResponse(response) { it.searchRecipeList }
     }
 
-    suspend fun getRandomRecipes(): List<Recipe> {
+    suspend fun getRandomRecipes(): List<RandomRecipeData> {
 
         val response = randomRecipeDataSource.getRandomRecipes()
-        return parseResponse(response) { it.recipes }
+        return parseResponse(response) { it.randomRecipeData }
     }
 
     suspend fun getRecipeInfo(id: Int): RecipeInformation {
