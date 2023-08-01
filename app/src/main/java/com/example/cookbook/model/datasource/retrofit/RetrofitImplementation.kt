@@ -7,8 +7,11 @@ import com.example.cookbook.model.datasource.RandomRecipeDataSource
 import com.example.cookbook.model.datasource.RecipeInformationDataSource
 import com.example.cookbook.model.datasource.SearchRecipeDataSource
 import com.example.cookbook.utils.COMPLEX_SEARCH_RECIPE_API
+import com.example.cookbook.utils.SPOONACULAR_API_KEY
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -49,7 +52,27 @@ class RetrofitImplementation : SearchRecipeDataSource, RandomRecipeDataSource,
                 )
             )
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
+            .client(createOkHttpClient())
             .build()
+    }
+
+    private fun createOkHttpClient() : OkHttpClient {
+        val httpClient = OkHttpClient.Builder()
+
+        httpClient.addInterceptor { chain ->
+            var request = chain.request()
+            val url = request.url.newBuilder()
+                .addQueryParameter("apiKey", SPOONACULAR_API_KEY)
+                .build()
+
+            request = request.newBuilder().url(url).build()
+            chain.proceed(request)
+        }
+
+        httpClient.addInterceptor(HttpLoggingInterceptor()
+            .setLevel(HttpLoggingInterceptor.Level.BODY))
+
+        return httpClient.build()
     }
 
     companion object {
