@@ -17,4 +17,8 @@
     <string name="chip_chicken">Курица</string>
     <string name="chip_tomato">Помидор</string>
 
+    //SearchFragment
+    <string name="search_view_hint">Search recipe</string>
+    <string name="content_description_avatar">User avatar</string>
+
 </resources>
