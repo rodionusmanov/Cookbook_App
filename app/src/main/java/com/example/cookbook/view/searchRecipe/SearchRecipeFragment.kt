@@ -113,7 +113,6 @@ class SearchRecipeFragment : BaseFragment<AppState, SearchRecipeData>() {
     private fun initFavoriteRecipes() {
         model.getAllLocalRecipes().observe(viewLifecycleOwner) {
             favoriteRecipes = it
-            Toast.makeText(context, "${favoriteRecipes.size}", Toast.LENGTH_SHORT).show()
         }
     }
 
