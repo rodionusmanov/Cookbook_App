@@ -28,9 +28,11 @@ class SearchRecipeFragment : BaseFragment<AppState, SearchRecipeData>() {
         }
 
     private lateinit var model: SearchRecipeViewModel
-    private val adapter: SearchRecipeAdapter by lazy { SearchRecipeAdapter() }
+    private val adapter: SearchRecipeAdapter by lazy { SearchRecipeAdapter(callbackSaveItem) }
 
     private val selectedIngredients = mutableSetOf<String>()
+
+    private lateinit var favoriteRecipes: List<SearchRecipeData>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,9 +44,11 @@ class SearchRecipeFragment : BaseFragment<AppState, SearchRecipeData>() {
         initViewModel()
         setupSearchView()
         setupChips()
+        initFavoriteRecipes()
 
         return binding.root
     }
+
 
     private fun setupChips() {
         val chipChicken: Chip = binding.chipChicken
@@ -60,7 +64,7 @@ class SearchRecipeFragment : BaseFragment<AppState, SearchRecipeData>() {
     }
 
     private fun handleChipCheck(isChecked: Boolean, ingredient: String) {
-        if(isChecked) {
+        if (isChecked) {
             selectedIngredients.add(ingredient)
         } else {
             selectedIngredients.remove(ingredient)
@@ -70,9 +74,9 @@ class SearchRecipeFragment : BaseFragment<AppState, SearchRecipeData>() {
     private fun setupSearchView() {
 
         binding.searchView.setOnQueryTextListener(
-            object: OnQueryTextListener {
+            object : OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
-                    query?.let{
+                    query?.let {
                         model.searchRecipeRequest(it, selectedIngredients.joinToString(","))
                     }
                     return true
@@ -90,8 +94,8 @@ class SearchRecipeFragment : BaseFragment<AppState, SearchRecipeData>() {
         val viewModel by viewModel<SearchRecipeViewModel>()
         model = viewModel
         lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED){
-                model.stateFlow.collect{ renderData(it)}
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                model.stateFlow.collect { renderData(it) }
             }
         }
     }
@@ -104,6 +108,19 @@ class SearchRecipeFragment : BaseFragment<AppState, SearchRecipeData>() {
         adapter.setData(data)
         binding.resultRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.resultRecyclerView.adapter = adapter
+    }
+
+    private fun initFavoriteRecipes() {
+        model.getAllLocalRecipes().observe(viewLifecycleOwner) {
+            favoriteRecipes = it
+            Toast.makeText(context, "${favoriteRecipes.size}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private val callbackSaveItem = object : ISaveRecipe {
+        override fun saveRecipe(recipe: SearchRecipeData) {
+            model.insertNewRecipeToDataBase(recipe)
+        }
     }
 
     override fun onDestroyView() {
