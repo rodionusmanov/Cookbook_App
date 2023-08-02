@@ -33,10 +33,6 @@ class SearchRecipeAdapter(val callbackSaveRecipe: ISaveRecipe) : RecyclerView.Ad
                         callbackSaveRecipe.saveRecipe(data)
                         ivAddFavorite.setImageResource(R.drawable.icon_favorite_solid)
                         ivAddFavorite.setBackgroundResource(R.color.orange_dark)
-
-                        /*ivAddFavorite.setImageResource(R.drawable.icon_favorite)
-                        ivAddFavorite.setBackgroundResource(R.color.orange_light)
-                        itemView.setBackgroundResource(R.color.white)*/
                     }
                 }
             }
