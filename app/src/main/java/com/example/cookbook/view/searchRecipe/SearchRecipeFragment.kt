@@ -11,15 +11,15 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cookbook.databinding.FragmentSearchRecipeBinding
-import com.example.cookbook.domain.Recipe
 import com.example.cookbook.model.AppState
+import com.example.cookbook.model.domain.SearchRecipeData
 import com.example.cookbook.view.base.BaseFragment
 import com.example.cookbook.viewModel.searchRecipe.SearchRecipeViewModel
 import com.google.android.material.chip.Chip
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SearchRecipeFragment : BaseFragment<AppState, Recipe>() {
+class SearchRecipeFragment : BaseFragment<AppState, SearchRecipeData>() {
 
     private var _binding: FragmentSearchRecipeBinding? = null
     private val binding: FragmentSearchRecipeBinding
@@ -28,9 +28,11 @@ class SearchRecipeFragment : BaseFragment<AppState, Recipe>() {
         }
 
     private lateinit var model: SearchRecipeViewModel
-    private val adapter: SearchRecipeAdapter by lazy { SearchRecipeAdapter() }
+    private val adapter: SearchRecipeAdapter by lazy { SearchRecipeAdapter(callbackSaveItem) }
 
     private val selectedIngredients = mutableSetOf<String>()
+
+    private lateinit var favoriteRecipes: List<SearchRecipeData>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,9 +44,11 @@ class SearchRecipeFragment : BaseFragment<AppState, Recipe>() {
         initViewModel()
         setupSearchView()
         setupChips()
+        initFavoriteRecipes()
 
         return binding.root
     }
+
 
     private fun setupChips() {
         val chipChicken: Chip = binding.chipChicken
@@ -60,7 +64,7 @@ class SearchRecipeFragment : BaseFragment<AppState, Recipe>() {
     }
 
     private fun handleChipCheck(isChecked: Boolean, ingredient: String) {
-        if(isChecked) {
+        if (isChecked) {
             selectedIngredients.add(ingredient)
         } else {
             selectedIngredients.remove(ingredient)
@@ -70,9 +74,9 @@ class SearchRecipeFragment : BaseFragment<AppState, Recipe>() {
     private fun setupSearchView() {
 
         binding.searchView.setOnQueryTextListener(
-            object: OnQueryTextListener {
+            object : OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
-                    query?.let{
+                    query?.let {
                         model.searchRecipeRequest(it, selectedIngredients.joinToString(","))
                     }
                     return true
@@ -90,8 +94,8 @@ class SearchRecipeFragment : BaseFragment<AppState, Recipe>() {
         val viewModel by viewModel<SearchRecipeViewModel>()
         model = viewModel
         lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED){
-                model.stateFlow.collect{ renderData(it)}
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                model.stateFlow.collect { renderData(it) }
             }
         }
     }
@@ -100,10 +104,23 @@ class SearchRecipeFragment : BaseFragment<AppState, Recipe>() {
         Toast.makeText(context, "Ошибка {$message}", Toast.LENGTH_LONG).show()
     }
 
-    override fun setupData(data: List<Recipe>) {
+    override fun setupData(data: List<SearchRecipeData>) {
         adapter.setData(data)
         binding.resultRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.resultRecyclerView.adapter = adapter
+    }
+
+    private fun initFavoriteRecipes() {
+        model.getAllLocalRecipes().observe(viewLifecycleOwner) {
+            favoriteRecipes = it
+            Toast.makeText(context, "${favoriteRecipes.size}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private val callbackSaveItem = object : ISaveRecipe {
+        override fun saveRecipe(recipe: SearchRecipeData) {
+            model.insertNewRecipeToDataBase(recipe)
+        }
     }
 
     override fun onDestroyView() {

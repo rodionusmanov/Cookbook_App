@@ -8,7 +8,8 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "recipes_table", indices = [Index("id")])
 data class RecipesEntity(
     @PrimaryKey(autoGenerate = false)
-    val id: String,
+    val id: Int,
     @ColumnInfo(name = "recipe_title")
-    val recipeTitle: String
+    val title: String,
+    val image: String
 )

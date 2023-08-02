@@ -1,10 +1,10 @@
 package com.example.cookbook.model.interactor
 
 import com.example.cookbook.model.AppState
-import com.example.cookbook.model.repository.IRepositorySearchRequestToRecipeList
+import com.example.cookbook.model.repository.remoteDataSource.IRepositorySearchRequest
 
 class SearchFragmentInteractor(
-    private val remoteRepository: IRepositorySearchRequestToRecipeList
+    private val remoteRepository: IRepositorySearchRequest
 ) {
 
     suspend fun searchRecipe(request:String, ingredients: String, isOnline: Boolean): AppState {

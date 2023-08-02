@@ -1,18 +1,18 @@
 package com.example.cookbook.utils
 
-import com.example.cookbook.domain.Recipe
-import com.example.cookbook.model.DTO.SearchRecipeListDTO
+import com.example.cookbook.model.domain.SearchRecipeData
+import com.example.cookbook.model.room.RecipesEntity
 
-fun convertSearchDTOToRecipeList(searchRecipeListDTO: SearchRecipeListDTO): List<Recipe> {
-    val recipeList = searchRecipeListDTO.searchRecipeList
-    val returnRecipeList: MutableList<Recipe> = mutableListOf()
-    recipeList.forEach {
-        returnRecipeList.add(
-            Recipe(
-                it.id,
-                it.title
-            )
-        )
+fun convertRecipeEntityToList(entityList: List<RecipesEntity>): List<SearchRecipeData> {
+    return entityList.map {
+        SearchRecipeData(it.id, it.title, it.image)
     }
-    return returnRecipeList
 }
+fun convertRecipeToEntity(recipe: SearchRecipeData): RecipesEntity {
+    return RecipesEntity(
+        recipe.id,
+        recipe.title,
+        recipe.image
+    )
+}
+

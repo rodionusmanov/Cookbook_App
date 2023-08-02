@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation"
+    app:startDestination="@id/navigation_search_recipe">
+
+    <fragment
+        android:id="@+id/navigation_search_recipe"
+        android:name="com.example.cookbook.view.searchRecipe.SearchRecipeFragment"
+        android:label="SearchRecipeFragment" />
+    <fragment
+        android:id="@+id/navigation_favorite"
+        android:name="com.example.cookbook.view.favorite.FavoriteFragment"
+        android:label="FavoriteFragment" />
+    <fragment
+        android:id="@+id/navigation_my_experience"
+        android:name="com.example.cookbook.view.myExperience.MyExperienceFragment"
+        android:label="MyExperienceFragment" />
+</navigation>
