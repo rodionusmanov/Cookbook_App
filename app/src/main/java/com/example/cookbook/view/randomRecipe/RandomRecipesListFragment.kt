@@ -5,15 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.example.cookbook.databinding.FragmentRandomRecipeListsBinding
+import com.example.cookbook.databinding.FragmentRandomRecipeListBinding
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.RandomRecipeData
 import com.example.cookbook.view.base.BaseFragment
 
 class RandomRecipesListFragment : BaseFragment<AppState>() {
 
-    private var _binding: FragmentRandomRecipeListsBinding? = null
-    private val binding: FragmentRandomRecipeListsBinding get() = _binding!!
+    private var _binding: FragmentRandomRecipeListBinding? = null
+    private val binding: FragmentRandomRecipeListBinding get() = _binding!!
 
     companion object {
         private const val RANDOM_RECIPE_LISTS_KEY = "RandomRecipesListsKey"
@@ -32,7 +32,7 @@ class RandomRecipesListFragment : BaseFragment<AppState>() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentRandomRecipeListsBinding.inflate(inflater, container, false)
+        _binding = FragmentRandomRecipeListBinding.inflate(inflater, container, false)
 
         arguments?.getParcelableArrayList<RandomRecipeData>(RANDOM_RECIPE_LISTS_KEY)?.let{randomData ->
             setupData(randomData)
