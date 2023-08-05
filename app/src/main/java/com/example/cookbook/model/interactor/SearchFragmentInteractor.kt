@@ -10,4 +10,9 @@ class SearchFragmentInteractor(
     suspend fun searchRecipe(request:String, ingredients: String, isOnline: Boolean): AppState {
         return AppState.Success(remoteRepository.getSearchResult(request, ingredients))
     }
+
+    suspend fun getRandomRecipes(): AppState {
+        return AppState.Success(remoteRepository.getRandomRecipes())
+    }
+
 }

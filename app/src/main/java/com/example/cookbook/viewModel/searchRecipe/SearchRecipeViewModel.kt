@@ -24,4 +24,15 @@ class SearchRecipeViewModel(
             }
         }
     }
+
+    fun getRandomRecipes(){
+        viewModelCoroutineScope.launch {
+            _stateFlow.value = AppState.Loading
+            try {
+                _stateFlow.emit(interactor.getRandomRecipes())
+            } catch (e:Throwable) {
+                _stateFlow.emit(AppState.Error(e))
+            }
+        }
+    }
 }

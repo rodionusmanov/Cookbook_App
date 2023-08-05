@@ -9,13 +9,12 @@ import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cookbook.databinding.FragmentSearchRecipeBinding
 import com.example.cookbook.model.AppState
+import com.example.cookbook.model.domain.RandomRecipeData
 import com.example.cookbook.model.domain.SearchRecipeData
 import com.example.cookbook.view.base.BaseFragment
 import com.example.cookbook.viewModel.searchRecipe.SearchRecipeViewModel
-import com.google.android.material.chip.Chip
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -41,30 +40,8 @@ class SearchRecipeFragment : BaseFragment<AppState, SearchRecipeData>() {
 
         initViewModel()
         setupSearchView()
-        setupChips()
 
         return binding.root
-    }
-
-    private fun setupChips() {
-        val chipChicken: Chip = binding.chipChicken
-        val chipTomato: Chip = binding.chipTomato
-
-        chipChicken.setOnCheckedChangeListener { _, isChecked ->
-            handleChipCheck(isChecked, "chicken")
-        }
-
-        chipTomato.setOnCheckedChangeListener { _, isChecked ->
-            handleChipCheck(isChecked, "tomato")
-        }
-    }
-
-    private fun handleChipCheck(isChecked: Boolean, ingredient: String) {
-        if(isChecked) {
-            selectedIngredients.add(ingredient)
-        } else {
-            selectedIngredients.remove(ingredient)
-        }
     }
 
     private fun setupSearchView() {
@@ -94,6 +71,7 @@ class SearchRecipeFragment : BaseFragment<AppState, SearchRecipeData>() {
                 model.stateFlow.collect{ renderData(it)}
             }
         }
+        model.getRandomRecipes()
     }
 
     override fun showErrorDialog(message: String?) {
@@ -101,9 +79,17 @@ class SearchRecipeFragment : BaseFragment<AppState, SearchRecipeData>() {
     }
 
     override fun setupData(data: List<SearchRecipeData>) {
-        adapter.setData(data)
-        binding.resultRecyclerView.layoutManager = LinearLayoutManager(context)
-        binding.resultRecyclerView.adapter = adapter
+        when (val typedData = data.firstOrNull()) {
+            is SearchRecipeData -> {
+                val searchData = data as? List<SearchRecipeData>
+            }
+            is RandomRecipeData -> {
+                val randomData = data as? List<RandomRecipeData>
+            }
+            else -> {
+                showErrorDialog("Неверный тип данных: ${typedData?.javaClass?.name}")
+            }
+        }
     }
 
     override fun onDestroyView() {
