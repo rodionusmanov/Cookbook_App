@@ -36,6 +36,18 @@ class SearchResultFragment : BaseFragment<AppState>() {
 
     private lateinit var favoriteRecipes: List<SearchRecipeData>
 
+    companion object {
+        private const val SEARCH_DATA_KEY = "SEARCH_DATA_KEY"
+
+        fun newInstance(searchData: List<SearchRecipeData>): SearchResultFragment {
+            return SearchResultFragment().apply {
+                arguments = Bundle().apply{
+                    putParcelableArrayList(SEARCH_DATA_KEY, ArrayList(searchData))
+                }
+            }
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -45,6 +57,11 @@ class SearchResultFragment : BaseFragment<AppState>() {
 
         initViewModel()
         initFavoriteRecipes()
+
+        arguments?.getParcelableArrayList<SearchRecipeData>("SearchDataKey")?.
+        let { searchData ->
+            setupData(searchData)
+        }
 
         return binding.root
     }
