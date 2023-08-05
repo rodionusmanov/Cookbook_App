@@ -10,7 +10,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cookbook.R
 import com.example.cookbook.databinding.FragmentSearchRecipeBinding
 import com.example.cookbook.model.AppState
@@ -21,7 +20,7 @@ import com.example.cookbook.viewModel.searchRecipe.SearchRecipeViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SearchRecipeFragment : BaseFragment<AppState, List<SearchRecipeData>>() {
+class SearchRecipeFragment : BaseFragment<AppState>() {
 
     private var _binding: FragmentSearchRecipeBinding? = null
     private val binding: FragmentSearchRecipeBinding
@@ -93,8 +92,6 @@ class SearchRecipeFragment : BaseFragment<AppState, List<SearchRecipeData>>() {
                     putInt(ID, it.id)
                 })
         }
-        binding.resultRecyclerView.layoutManager = LinearLayoutManager(context)
-        binding.resultRecyclerView.adapter = adapter
     }
 
     private fun initFavoriteRecipes() {
