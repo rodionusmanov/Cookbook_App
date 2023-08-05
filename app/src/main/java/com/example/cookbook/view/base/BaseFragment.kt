@@ -49,7 +49,7 @@ abstract class BaseFragment<T: AppState, I> : Fragment() {
         when (appState) {
             is AppState.Success<*> -> {
                 showWorkingView()
-                val data = appState.data as List<I>
+                val data = appState.data as I
                 setupData(data)
             }
             is AppState.Loading -> {
@@ -62,13 +62,13 @@ abstract class BaseFragment<T: AppState, I> : Fragment() {
         }
     }
 
+    abstract fun setupData(data: I)
+
     private fun showViewLoading() {
         bindingLoading.loadingLayout.visibility = View.VISIBLE
     }
 
     abstract fun showErrorDialog(message: String?)
-
-    abstract fun setupData(data: List<I>)
 
     private fun showWorkingView() {
         bindingLoading.loadingLayout.visibility = View.GONE

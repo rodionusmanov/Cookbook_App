@@ -9,17 +9,20 @@ import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.cookbook.R
 import com.example.cookbook.databinding.FragmentSearchRecipeBinding
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.SearchRecipeData
+import com.example.cookbook.utils.ID
 import com.example.cookbook.view.base.BaseFragment
 import com.example.cookbook.viewModel.searchRecipe.SearchRecipeViewModel
 import com.google.android.material.chip.Chip
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SearchRecipeFragment : BaseFragment<AppState, SearchRecipeData>() {
+class SearchRecipeFragment : BaseFragment<AppState, List<SearchRecipeData>>() {
 
     private var _binding: FragmentSearchRecipeBinding? = null
     private val binding: FragmentSearchRecipeBinding
@@ -106,6 +109,13 @@ class SearchRecipeFragment : BaseFragment<AppState, SearchRecipeData>() {
 
     override fun setupData(data: List<SearchRecipeData>) {
         adapter.setData(data)
+        adapter.listener = {
+            findNavController().navigate(
+                R.id.action_navigation_search_recipe_to_recipeInfoFragment,
+                Bundle().apply {
+                    putInt(ID, it.id)
+                })
+        }
         binding.resultRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.resultRecyclerView.adapter = adapter
     }
