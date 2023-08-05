@@ -10,7 +10,7 @@ import com.example.cookbook.model.repository.network.NetworkRepository
 import com.google.android.material.snackbar.Snackbar
 import org.koin.android.ext.android.inject
 
-abstract class BaseFragment<T: AppState, I> : Fragment() {
+abstract class BaseFragment<T: AppState> : Fragment() {
 
     private var _bindingLoading: LayoutLoadingBinding? = null
     private val bindingLoading get() = _bindingLoading!!
@@ -49,7 +49,7 @@ abstract class BaseFragment<T: AppState, I> : Fragment() {
         when (appState) {
             is AppState.Success<*> -> {
                 showWorkingView()
-                val data = appState.data as I
+                val data = appState.data
                 setupData(data)
             }
             is AppState.Loading -> {
@@ -62,7 +62,7 @@ abstract class BaseFragment<T: AppState, I> : Fragment() {
         }
     }
 
-    abstract fun setupData(data: I)
+    abstract fun setupData(data: Any?)
 
     private fun showViewLoading() {
         bindingLoading.loadingLayout.visibility = View.VISIBLE

@@ -69,7 +69,7 @@ class MappingUtils {
         return ingredients.map { ingredient ->
             Ingredient(
                 id = ingredient.id,
-                image = BASE_EQUIPMENT_IMAGE_URL + ingredient.image,
+                image = BASE_INGREDIENT_IMAGE_URL + ingredient.image,
                 name = ingredient.name
             )
         }

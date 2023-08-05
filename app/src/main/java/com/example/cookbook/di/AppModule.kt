@@ -21,6 +21,7 @@ import com.example.cookbook.utils.network.NetworkLiveData
 import com.example.cookbook.viewModel.favorite.FavoriteRecipesViewModel
 import com.example.cookbook.viewModel.recipeInfo.RecipeInfoViewModel
 import com.example.cookbook.viewModel.searchRecipe.SearchRecipeViewModel
+import com.example.cookbook.viewModel.searchRecipe.SearchResultViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -58,6 +59,10 @@ val appModule = module {
 
     viewModel {
         FavoriteRecipesViewModel(LocalRepositoryImpl(get<IRecipesDAO>()))
+    }
+
+    viewModel{
+        SearchResultViewModel(LocalRepositoryImpl(get<IRecipesDAO>()))
     }
 
     viewModel {
