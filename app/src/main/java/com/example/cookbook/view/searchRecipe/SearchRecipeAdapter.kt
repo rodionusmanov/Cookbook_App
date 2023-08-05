@@ -10,9 +10,11 @@ import com.example.cookbook.R
 import com.example.cookbook.databinding.ItemSearchResultBinding
 import com.example.cookbook.model.domain.SearchRecipeData
 
-class SearchRecipeAdapter(val callbackSaveRecipe: ISaveRecipe) : RecyclerView.Adapter<SearchRecipeAdapter.RecyclerItemViewHolder>() {
+class SearchRecipeAdapter(val callbackSaveRecipe: ISaveRecipe) :
+    RecyclerView.Adapter<SearchRecipeAdapter.RecyclerItemViewHolder>() {
 
     private var data: List<SearchRecipeData> = arrayListOf()
+    var listener: ((SearchRecipeData) -> Unit)? = null
 
     fun setData(data: List<SearchRecipeData>) {
         this.data = data
@@ -33,6 +35,9 @@ class SearchRecipeAdapter(val callbackSaveRecipe: ISaveRecipe) : RecyclerView.Ad
                         callbackSaveRecipe.saveRecipe(data)
                         ivAddFavorite.setImageResource(R.drawable.icon_favorite_solid)
                         ivAddFavorite.setBackgroundResource(R.color.orange_dark)
+                    }
+                    root.setOnClickListener {
+                        listener?.invoke(data)
                     }
                 }
             }

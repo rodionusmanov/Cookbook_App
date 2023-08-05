@@ -12,8 +12,6 @@ import com.example.cookbook.model.domain.SearchRecipeData
 import com.example.cookbook.model.datasource.RandomRecipeDataSource
 import com.example.cookbook.model.datasource.RecipeInformationDataSource
 import com.example.cookbook.model.datasource.SearchRecipeDataSource
-import com.example.cookbook.model.room.IRecipesDAO
-import com.example.cookbook.utils.convertRecipeToEntity
 import retrofit2.Response
 
 class SearchRepositoryImpl(
@@ -37,7 +35,7 @@ class SearchRepositoryImpl(
         return parseResponse(response) { it.randomRecipeData }
     }
 
-    suspend fun getRecipeInfo(id: Int): RecipeInformation {
+    override suspend fun getRecipeInfo(id: Int): RecipeInformation {
         val response = recipeInformationDataSource.getRecipeFullInformation(id)
 
         if (response.isSuccessful) {
