@@ -55,13 +55,13 @@ class SearchResultFragment : BaseFragment<AppState>() {
     ): View {
         _binding = FragmentSearchResultBinding.inflate(inflater, container, false)
 
-        initViewModel()
-        initFavoriteRecipes()
-
-        arguments?.getParcelableArrayList<SearchRecipeData>("SearchDataKey")?.
+        arguments?.getParcelableArrayList<SearchRecipeData>(SEARCH_DATA_KEY)?.
         let { searchData ->
             setupData(searchData)
         }
+
+        initViewModel()
+        initFavoriteRecipes()
 
         return binding.root
     }

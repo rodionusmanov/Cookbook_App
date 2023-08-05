@@ -80,7 +80,6 @@ class SearchRecipeFragment : BaseFragment<AppState>() {
     }
 
     override fun setupData(data: Any?) {
-
         when(data) {
             is List<*> -> {
                 when (val firstItem = data.firstOrNull()) {
@@ -90,7 +89,7 @@ class SearchRecipeFragment : BaseFragment<AppState>() {
                         val fragment = SearchResultFragment.newInstance(searchData)
                         requireActivity().supportFragmentManager
                             .beginTransaction()
-                            .replace(R.id.container, fragment)
+                            .replace(R.id.search_fragment_container, fragment)
                             .commit()
                     }
 

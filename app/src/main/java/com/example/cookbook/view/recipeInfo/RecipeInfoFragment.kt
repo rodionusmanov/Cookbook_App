@@ -18,7 +18,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class RecipeInfoFragment : BaseFragment<AppState, RecipeInformation>() {
+class RecipeInfoFragment : BaseFragment<AppState>() {
 
     private var _binding: FragmentRecipeInfoBinding? = null
     private val binding get() = _binding!!
@@ -50,7 +50,8 @@ class RecipeInfoFragment : BaseFragment<AppState, RecipeInformation>() {
         super.onDestroyView()
     }
 
-    override fun setupData(data: RecipeInformation) {
+    override fun setupData(recipeData: Any?) {
+        val data = recipeData as RecipeInformation
         with(binding) {
             tvRecipeInfoTitle.text = data.title
             ivRecipeInfoImage.load(data.image) {
