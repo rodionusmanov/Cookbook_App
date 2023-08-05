@@ -22,4 +22,11 @@
     <string name="fat">fat</string>
     <string name="carb">carb</string>
 
+    //SearchFragment
+    <string name="search_view_hint">Search recipe</string>
+    <string name="content_description_avatar">User avatar</string>
+
+    //RandomRecipeFragment
+    <string name="random_recipe_list_title">Let\'s try today one of this dishes</string>
+
 </resources>

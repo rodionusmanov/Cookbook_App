@@ -14,11 +14,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cookbook.R
 import com.example.cookbook.databinding.FragmentSearchRecipeBinding
 import com.example.cookbook.model.AppState
+import com.example.cookbook.model.domain.RandomRecipeData
 import com.example.cookbook.model.domain.SearchRecipeData
 import com.example.cookbook.utils.ID
 import com.example.cookbook.view.base.BaseFragment
 import com.example.cookbook.viewModel.searchRecipe.SearchRecipeViewModel
-import com.google.android.material.chip.Chip
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -101,6 +101,7 @@ class SearchRecipeFragment : BaseFragment<AppState, List<SearchRecipeData>>() {
                 model.stateFlow.collect { renderData(it) }
             }
         }
+        model.getRandomRecipes()
     }
 
     override fun showErrorDialog(message: String?) {

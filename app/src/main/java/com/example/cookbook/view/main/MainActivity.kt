@@ -1,4 +1,4 @@
-package com.example.cookbook.view
+package com.example.cookbook.view.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
