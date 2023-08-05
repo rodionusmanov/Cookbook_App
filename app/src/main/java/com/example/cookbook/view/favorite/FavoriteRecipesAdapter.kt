@@ -1,4 +1,4 @@
-package com.example.cookbook.view.searchRecipe
+package com.example.cookbook.view.favorite
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,12 +9,11 @@ import coil.size.Scale
 import com.example.cookbook.R
 import com.example.cookbook.databinding.ItemSearchResultBinding
 import com.example.cookbook.model.domain.SearchRecipeData
+import com.example.cookbook.view.searchRecipe.ISaveRecipe
 
-class SearchRecipeAdapter(val callbackSaveRecipe: ISaveRecipe) :
-    RecyclerView.Adapter<SearchRecipeAdapter.RecyclerItemViewHolder>() {
+class FavoriteRecipesAdapter(val callbackSaveRecipe: ISaveRecipe) : RecyclerView.Adapter<FavoriteRecipesAdapter.RecyclerItemViewHolder>() {
 
     private var data: List<SearchRecipeData> = arrayListOf()
-    var listener: ((SearchRecipeData) -> Unit)? = null
 
     fun setData(data: List<SearchRecipeData>) {
         this.data = data
@@ -35,9 +34,6 @@ class SearchRecipeAdapter(val callbackSaveRecipe: ISaveRecipe) :
                         callbackSaveRecipe.saveRecipe(data)
                         ivAddFavorite.setImageResource(R.drawable.icon_favorite_solid)
                         ivAddFavorite.setBackgroundResource(R.color.orange_dark)
-                    }
-                    root.setOnClickListener {
-                        listener?.invoke(data)
                     }
                 }
             }

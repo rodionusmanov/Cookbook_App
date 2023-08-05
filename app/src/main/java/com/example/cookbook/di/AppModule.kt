@@ -1,17 +1,25 @@
 package com.example.cookbook.di
 
 import androidx.lifecycle.MutableLiveData
+import androidx.room.Room
 import com.example.cookbook.app.CookbookApp
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.datasource.RandomRecipeDataSource
 import com.example.cookbook.model.datasource.RecipeInformationDataSource
 import com.example.cookbook.model.datasource.SearchRecipeDataSource
 import com.example.cookbook.model.datasource.retrofit.RetrofitImplementation
+import com.example.cookbook.model.interactor.RecipeInfoFragmentInteractor
 import com.example.cookbook.model.interactor.SearchFragmentInteractor
-import com.example.cookbook.model.repository.remoteDataSource.SearchRepositoryImpl
+import com.example.cookbook.model.repository.local.ILocalRecipesRepository
+import com.example.cookbook.model.repository.local.LocalRepositoryImpl
 import com.example.cookbook.model.repository.network.NetworkRepository
 import com.example.cookbook.model.repository.remoteDataSource.IRepositorySearchRequest
+import com.example.cookbook.model.repository.remoteDataSource.SearchRepositoryImpl
+import com.example.cookbook.model.room.IRecipesDAO
+import com.example.cookbook.model.room.RecipesDatabase
 import com.example.cookbook.utils.network.NetworkLiveData
+import com.example.cookbook.viewModel.favorite.FavoriteRecipesViewModel
+import com.example.cookbook.viewModel.recipeInfo.RecipeInfoViewModel
 import com.example.cookbook.viewModel.searchRecipe.SearchRecipeViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
@@ -42,11 +50,33 @@ val appModule = module {
     }
 
     factory { SearchFragmentInteractor(get()) }
+    factory { RecipeInfoFragmentInteractor(get()) }
 
     viewModel {
-        SearchRecipeViewModel(get())
+        SearchRecipeViewModel(get(), LocalRepositoryImpl(get<IRecipesDAO>()))
+    }
+
+    viewModel {
+        FavoriteRecipesViewModel(LocalRepositoryImpl(get<IRecipesDAO>()))
+    }
+
+    viewModel {
+        RecipeInfoViewModel(get())
     }
 
     single { NetworkLiveData(androidContext()) }
     single { NetworkRepository(get()) }
+
+    single<ILocalRecipesRepository> {
+        get<LocalRepositoryImpl>()
+    }
+
+    single<RecipesDatabase> {
+        Room.databaseBuilder(
+            androidApplication(),
+            RecipesDatabase::class.java,
+            "recipesdatabase.db"
+        ).build()
+    }
+    single<IRecipesDAO> { get<RecipesDatabase>().getRecipesDAO() }
 }

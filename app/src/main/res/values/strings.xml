@@ -16,6 +16,11 @@
     //IngredientChips
     <string name="chip_chicken">Курица</string>
     <string name="chip_tomato">Помидор</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="protein">protein</string>
+    <string name="fat">fat</string>
+    <string name="carb">carb</string>
 
     //SearchFragment
     <string name="search_view_hint">Search recipe</string>
