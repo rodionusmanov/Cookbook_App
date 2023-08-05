@@ -15,12 +15,14 @@ class RandomRecipesListFragment : BaseFragment<AppState>() {
     private var _binding: FragmentRandomRecipeListBinding? = null
     private val binding: FragmentRandomRecipeListBinding get() = _binding!!
 
+    private val adapter: RandomRecipeListAdapter by lazy { RandomRecipeListAdapter() }
+
     companion object {
         private const val RANDOM_RECIPE_LISTS_KEY = "RandomRecipesListsKey"
 
         fun newInstance(randomData: List<RandomRecipeData>): RandomRecipesListFragment {
             return RandomRecipesListFragment().apply {
-                arguments = Bundle().apply{
+                arguments = Bundle().apply {
                     putParcelableArrayList(RANDOM_RECIPE_LISTS_KEY, ArrayList(randomData))
                 }
             }
@@ -34,15 +36,19 @@ class RandomRecipesListFragment : BaseFragment<AppState>() {
     ): View {
         _binding = FragmentRandomRecipeListBinding.inflate(inflater, container, false)
 
-        arguments?.getParcelableArrayList<RandomRecipeData>(RANDOM_RECIPE_LISTS_KEY)?.let{randomData ->
-            setupData(randomData)
-        }
+        arguments?.getParcelableArrayList<RandomRecipeData>(RANDOM_RECIPE_LISTS_KEY)
+            ?.let { randomData ->
+                setupData(randomData)
+            }
 
         return binding.root
     }
 
     override fun setupData(data: Any?) {
-        TODO("Not yet implemented")
+        val randomRecipeData = data as List<RandomRecipeData>
+        adapter.setData(randomRecipeData)
+        binding.randomRecipesRecyclerView.adapter = adapter
+
     }
 
     override fun showErrorDialog(message: String?) {

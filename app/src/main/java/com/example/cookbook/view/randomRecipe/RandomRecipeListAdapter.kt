@@ -10,7 +10,8 @@ import com.example.cookbook.R
 import com.example.cookbook.databinding.ItemRandomRecipeRvBinding
 import com.example.cookbook.model.domain.RandomRecipeData
 
-class RandomRecipeListAdapter : RecyclerView.Adapter<RandomRecipeListAdapter.RecyclerItemViewHolder>() {
+class RandomRecipeListAdapter :
+    RecyclerView.Adapter<RandomRecipeListAdapter.RecyclerItemViewHolder>() {
 
     private var data: List<RandomRecipeData> = arrayListOf()
 
@@ -21,7 +22,7 @@ class RandomRecipeListAdapter : RecyclerView.Adapter<RandomRecipeListAdapter.Rec
     inner class RecyclerItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         fun bind(data: RandomRecipeData) {
-            if(layoutPosition != RecyclerView.NO_POSITION) {
+            if (layoutPosition != RecyclerView.NO_POSITION) {
                 ItemRandomRecipeRvBinding.bind(itemView).apply {
                     randomRecipeTitle.text = data.title
                     randomRecipeImage.load(data.image) {
@@ -32,7 +33,6 @@ class RandomRecipeListAdapter : RecyclerView.Adapter<RandomRecipeListAdapter.Rec
                 }
             }
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerItemViewHolder {
