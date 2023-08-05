@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cookbook.R
 import com.example.cookbook.databinding.FragmentSearchRecipeBinding
 import com.example.cookbook.model.AppState
-import com.example.cookbook.model.domain.RandomRecipeData
 import com.example.cookbook.model.domain.SearchRecipeData
 import com.example.cookbook.utils.ID
 import com.example.cookbook.view.base.BaseFragment
@@ -46,32 +45,9 @@ class SearchRecipeFragment : BaseFragment<AppState, List<SearchRecipeData>>() {
 
         initViewModel()
         setupSearchView()
-        setupChips()
         initFavoriteRecipes()
 
         return binding.root
-    }
-
-
-    private fun setupChips() {
-        val chipChicken: Chip = binding.chipChicken
-        val chipTomato: Chip = binding.chipTomato
-
-        chipChicken.setOnCheckedChangeListener { _, isChecked ->
-            handleChipCheck(isChecked, "chicken")
-        }
-
-        chipTomato.setOnCheckedChangeListener { _, isChecked ->
-            handleChipCheck(isChecked, "tomato")
-        }
-    }
-
-    private fun handleChipCheck(isChecked: Boolean, ingredient: String) {
-        if (isChecked) {
-            selectedIngredients.add(ingredient)
-        } else {
-            selectedIngredients.remove(ingredient)
-        }
     }
 
     private fun setupSearchView() {
