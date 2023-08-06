@@ -18,11 +18,11 @@ import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class RecipeInfoFragment : BaseFragment<AppState>() {
+class RecipeInfoFragment : BaseFragment<AppState, RecipeInformation>() {
 
     private var _binding: FragmentRecipeInfoBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: RecipeInfoViewModel by viewModel<RecipeInfoViewModel>()
+    private val viewModel: RecipeInfoViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,8 +50,7 @@ class RecipeInfoFragment : BaseFragment<AppState>() {
         super.onDestroyView()
     }
 
-    override fun setupData(recipeData: Any?) {
-        val data = recipeData as RecipeInformation
+    override fun setupData(data: RecipeInformation) {
         with(binding) {
             tvRecipeInfoTitle.text = data.title
             ivRecipeInfoImage.load(data.image) {

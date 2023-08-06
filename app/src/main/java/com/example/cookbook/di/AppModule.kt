@@ -62,7 +62,7 @@ val appModule = module {
 
     viewModel { RecipeInfoViewModel(get()) }
 
-    viewModel { RandomRecipeListViewModel(get()) }
+    viewModel { RandomRecipeListViewModel(LocalRepositoryImpl(get<IRecipesDAO>())) }
 
     single { NetworkLiveData(androidContext()) }
     single { NetworkRepository(get()) }
