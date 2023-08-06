@@ -9,14 +9,22 @@ import com.cookbook.stacklayoutmanager.StackLayoutManager
 import com.example.cookbook.databinding.FragmentRandomRecipeListBinding
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.RandomRecipeData
+import com.example.cookbook.model.domain.SearchRecipeData
 import com.example.cookbook.view.base.BaseFragment
+import com.example.cookbook.view.searchRecipe.ISaveRecipe
+import com.example.cookbook.viewModel.randomRecipeList.RandomRecipeListViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RandomRecipesListFragment : BaseFragment<AppState>() {
 
     private var _binding: FragmentRandomRecipeListBinding? = null
     private val binding: FragmentRandomRecipeListBinding get() = _binding!!
 
-    private val adapter: RandomRecipeListAdapter by lazy { RandomRecipeListAdapter() }
+    private lateinit var model: RandomRecipeListViewModel
+
+    private val adapter: RandomRecipeListAdapter by lazy { RandomRecipeListAdapter(callbackSaveItem) }
+
+    private lateinit var favoriteRecipes: List<SearchRecipeData>
 
     companion object {
         private const val RANDOM_RECIPE_LISTS_KEY = "RandomRecipesListsKey"
@@ -42,7 +50,14 @@ class RandomRecipesListFragment : BaseFragment<AppState>() {
                 setupData(randomData)
             }
 
+        initViewModel()
+
         return binding.root
+    }
+
+    private fun initViewModel() {
+        val viewModel by viewModel<RandomRecipeListViewModel>()
+        model = viewModel
     }
 
     override fun setupData(data: Any?) {
@@ -60,6 +75,12 @@ class RandomRecipesListFragment : BaseFragment<AppState>() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private val callbackSaveItem = object : ISaveRecipe {
+        override fun saveRecipe(recipe: SearchRecipeData) {
+            model.insertNewRecipeToDataBase(recipe)
+        }
     }
 
 }

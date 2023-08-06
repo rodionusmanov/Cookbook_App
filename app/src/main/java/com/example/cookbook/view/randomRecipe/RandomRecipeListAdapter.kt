@@ -9,11 +9,14 @@ import coil.size.Scale
 import com.example.cookbook.R
 import com.example.cookbook.databinding.ItemRandomRecipeRvBinding
 import com.example.cookbook.model.domain.RandomRecipeData
+import com.example.cookbook.view.searchRecipe.ISaveRecipe
 
-class RandomRecipeListAdapter :
-    RecyclerView.Adapter<RandomRecipeListAdapter.RecyclerItemViewHolder>() {
+class RandomRecipeListAdapter(
+    val callbackSaveRecipe: ISaveRecipe
+) : RecyclerView.Adapter<RandomRecipeListAdapter.RecyclerItemViewHolder>() {
 
     private var data: List<RandomRecipeData> = arrayListOf()
+    var listener: ((RandomRecipeData) -> Unit)? = null
 
     fun setData(data: List<RandomRecipeData>) {
         this.data = data
@@ -25,14 +28,32 @@ class RandomRecipeListAdapter :
             if (layoutPosition != RecyclerView.NO_POSITION) {
                 ItemRandomRecipeRvBinding.bind(itemView).apply {
                     randomRecipeTitle.text = data.title
+
+                    val cookingTime = data.readyInMinutes.toString() + " min"
+                    tvCookingTime.text = cookingTime
+
                     randomRecipeImage.load(data.image) {
                         crossfade(500)
                         scale(Scale.FILL)
                         placeholder(R.drawable.icon_search)
                     }
+                    cbAddFavorite.setOnCheckedChangeListener { buttonView, isChecked ->
+                        if (isChecked) {
+                            addToFavorites(data)
+                        } else {
+
+                        }
+                    }
+                    root.setOnClickListener {
+                        listener?.invoke(data)
+                    }
                 }
             }
         }
+    }
+
+    private fun addToFavorites(data: RandomRecipeData) {
+        callbackSaveRecipe.saveRecipe(data)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerItemViewHolder {
