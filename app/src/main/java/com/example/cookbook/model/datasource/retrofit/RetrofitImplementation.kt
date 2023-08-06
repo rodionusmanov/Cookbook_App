@@ -1,7 +1,7 @@
 package com.example.cookbook.model.datasource.retrofit
 
-import com.example.cookbook.model.datasource.DTO.searchRecipe.SearchRecipeListDTO
 import com.example.cookbook.model.datasource.DTO.randomRecipe.RandomRecipeListDTO
+import com.example.cookbook.model.datasource.DTO.searchRecipe.SearchRecipeListDTO
 import com.example.cookbook.model.datasource.DTO.recipeInformation.RecipeInformationDTO
 import com.example.cookbook.model.datasource.RandomRecipeDataSource
 import com.example.cookbook.model.datasource.RecipeInformationDataSource

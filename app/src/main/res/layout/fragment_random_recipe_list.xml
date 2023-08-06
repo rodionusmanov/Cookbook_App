@@ -3,12 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:id="@+id/random_recipe_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/search_layout_height"
         android:orientation="vertical"
         android:padding="@dimen/margin_8dp_small"
         app:layout_constraintTop_toTopOf="parent"
@@ -19,9 +19,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_16dp_medium"
+            android:layout_marginTop="@dimen/margin_8dp_small"
             android:text="@string/random_recipe_list_title"
-            android:textSize="40sp"
+            android:textSize="@dimen/random_recipe_layout_title"
             android:textColor="#212121"
             android:textStyle="bold"
             />
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/random_recipe_list_title_second_line"
-            android:textSize="40sp"
+            android:textSize="@dimen/random_recipe_layout_title_second_line"
             android:textStyle="bold"
             />
 
@@ -38,8 +38,8 @@
             android:id="@+id/random_recipes_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginVertical="@dimen/margin_16dp_medium"
-            />
+            android:layout_marginVertical="@dimen/margin_8dp_small"
+            tools:listitem="@layout/item_random_recipe_rv" />
 
     </LinearLayout>
 

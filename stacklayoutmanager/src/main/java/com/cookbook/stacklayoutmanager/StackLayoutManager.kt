@@ -1,516 +1,684 @@
 package com.cookbook.stacklayoutmanager
+
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.TimeInterpolator
+import android.animation.ValueAnimator
+import android.content.Context
+import android.content.res.Resources
+import android.graphics.Rect
+import android.os.Build
+import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.View
+import android.view.View.MeasureSpec
 import android.view.ViewGroup
-import android.widget.AbsListView.OnScrollListener.SCROLL_STATE_IDLE
+import android.view.animation.LinearInterpolator
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_DRAGGING
-import kotlin.math.ceil
-import kotlin.math.floor
+import androidx.recyclerview.widget.RecyclerView.Recycler
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.math.pow
+import kotlin.math.roundToInt
 
-class StackLayoutManager(scrollOrientation: ScrollOrientation,
-                         visibleCount: Int,
-                         animation: Class<out StackAnimation>,
-                         layout: Class<out StackLayout>) : RecyclerView.LayoutManager() {
-    private enum class FlingOrientation{NONE, LEFT_TO_RIGHT, RIGHT_TO_LEFT, TOP_TO_BOTTOM, BOTTOM_TO_TOP}
+/**
+ * A lightweight and highly-customizable, interpolator-based layout manager for RecyclerView
+ * visit https://github.com/DarkionAvey/StackLayoutManager for more info
+ */
+class StackLayoutManager(
+    //toggle between horizontal and vertical modes
+    horizontalLayout: Boolean = true,
+    //should first item be centered?
+    val centerFirstItem: Boolean = true,
+    //how many items should be scrolled in one edge-to-edge swipe
+    val scrollMultiplier: Float = 1.2f,
+    // the max number of children the recyclerview should have
+    val maxViews: Int = 6,
+    //interpolator for laying out views
+    layoutInterpolator: TimeInterpolator = Internal.LAYOUT_INTERPOLATOR,
+    //supply a higher-order function to receive ViewTransformation object
+    //for custom view transformations.
+    //x represents the raw x value that needs to be interpolated into y
+    viewTransformer: ((x: Float, view: View, stackLayoutManager: StackLayoutManager) -> Unit?)? = ElevationTransformer::transform
 
-    enum class ScrollOrientation{LEFT_TO_RIGHT, RIGHT_TO_LEFT, TOP_TO_BOTTOM, BOTTOM_TO_TOP}
+) : RecyclerView.LayoutManager() {
 
-    private var mVisibleItemCount = visibleCount
-
-    private var mScrollOrientation = scrollOrientation
-
-    private var mScrollOffset: Int
-
-    private lateinit var mOnScrollListener: RecyclerView.OnScrollListener
-    private lateinit var mOnFlingListener: RecyclerView.OnFlingListener
-
-    //做动画的组件，支持自定义
-    private var mAnimation: StackAnimation? = null
-    //做布局的组件，支持自定义
-    private var mLayout: StackLayout? = null
-
-    //是否是翻页效果
-    private var mPagerMode = true
-
-    //触发翻页效果的最低 Fling速度
-    private var mPagerFlingVelocity = 0
-
-    //标志当前滚动是否是调用scrollToCenter之后触发的滚动
-    private var mFixScrolling = false
-
-    //fling的方向，用来判断是前翻还是后翻
-    private var mFlingOrientation = FlingOrientation.NONE
-
-    //当前所处item对应的位置
-    private var itemPosition = 0
-
-    //判断item位置是否发生了改变
-    private var isItemPositionChanged = false
-
-    //item 位置发生改变的回调
-    private var itemChangedListener: ItemChangedListener? = null
-
-    interface ItemChangedListener {
-        fun onItemChanged(position: Int)
-    }
-
-    /**
-     *  设置是否为ViewPager 式翻页模式.
-     *  <p>
-     *      当设置为 true 的时候，可以配合[com.cookbook.stacklayoutmanager.StackLayoutManager.setPagerFlingVelocity]设置触发翻页的最小速度.
-     *  @param isPagerMode 这个值默认是 false，当设置为 true 的时候，会有 viewPager 翻页效果.
-     */
-    fun setPagerMode(isPagerMode: Boolean) {
-        mPagerMode = isPagerMode
-    }
-
-    /**
-     * @return 当前是否为ViewPager翻页模式.
-     */
-    fun getPagerMode(): Boolean {
-        return mPagerMode
-    }
-
-    /**
-     * @return 当前触发翻页的最小 fling 速度.
-     */
-    fun getPagerFlingVelocity(): Int {
-        return mPagerFlingVelocity
-    }
-
-    /**
-     * 设置recyclerView 静止时候可见的itemView 个数.
-     * @param count 可见 itemView，默认为3
-     */
-    fun setVisibleItemCount(count: Int) {
-        mVisibleItemCount = (itemCount - 1).coerceAtMost(1.coerceAtLeast(count))
-        mAnimation?.setVisibleCount(mVisibleItemCount)
-    }
-
-    /**
-     * 获取recyclerView 静止时候可见的itemView 个数.
-     * @return 静止时候可见的itemView 个数，默认为3.
-     */
-    fun getVisibleItemCount(): Int {
-        return mVisibleItemCount
-    }
-
-    /**
-     * 设置 item 偏移值，即第 i 个 item 相对于 第 i-1个 item 在水平方向的偏移值，默认是40px.
-     * @param offset 每个 item 相对于前一个的偏移值.
-     */
-    fun setItemOffset(offset: Int) {
-        mLayout?.setItemOffset(offset)
-    }
-
-    /**
-     * 获取每个 item 相对于前一个的水平偏移值.
-     * @return 每个 item 相对于前一个的水平偏移值.
-     */
-    fun getItemOffset(): Int {
-        return if (mLayout == null) {
-            0
-        } else {
-            mLayout!!.getItemOffset()
+    var viewTransformer: ((x: Float, view: View, stackLayoutManager: StackLayoutManager) -> Unit?)? =
+        viewTransformer
+        set(value) {
+            //due to the dynamic way view transformation works
+            //the caller is responsible for resetting the views
+            //to their original, pre-transformation state
+            requestSimpleAnimationsInNextLayout()
+            field = value
+            requestLayout()
         }
-    }
-
-    /**
-     * 设置item 移动动画.
-     * @param animation item 移动动画.
-     */
-    fun setAnimation(animation: StackAnimation) {
-        mAnimation = animation
-    }
-
-    /**
-     * 获取 item 移动动画.
-     * @return item 移动动画.
-     */
-    fun getAnimation(): StackAnimation? {
-        return mAnimation
-    }
-
-    /**
-     * 获取StackLayoutManager 的滚动方向.
-     * @return com.cookbook.stacklayoutmanager.StackLayoutManager 的滚动方向.
-     */
-    fun getScrollOrientation(): ScrollOrientation {
-        return mScrollOrientation
-    }
-
-    /**
-     * 返回第一个可见 itemView 的位置.
-     * @return 返回第一个可见 itemView 的位置.
-     */
-    private fun getFirstVisibleItemPosition(): Int {
-        if (width == 0 || height == 0) {
-            return 0
+    var layoutInterpolator = layoutInterpolator
+        set(value) {
+            field = value
+            requestSimpleAnimationsInNextLayout()
+            requestLayout()
         }
-        return when(mScrollOrientation) {
-            ScrollOrientation.RIGHT_TO_LEFT -> floor((mScrollOffset * 1.0 / width)).toInt()
-            ScrollOrientation.LEFT_TO_RIGHT -> itemCount - 1 - ceil((mScrollOffset * 1.0 / width)).toInt()
-            ScrollOrientation.BOTTOM_TO_TOP -> floor((mScrollOffset * 1.0 / height)).toInt()
-            ScrollOrientation.TOP_TO_BOTTOM -> itemCount - 1 - ceil((mScrollOffset * 1.0 / height)).toInt()
-        }
-    }
+    private val stopScrollingRunnable by lazy { Runnable { stopScrolling() } }
+    private var displayRect = Rect()
+    private val viewRect = Rect()
+    private val marginsRect = Rect()
+    private val tmpRect = Rect()
+    private var scrollAnimator: ValueAnimator? = null
+    private val stackAlgorithm: LayoutAlgorithm = LayoutAlgorithm()
+    private val scroller: StackScroller = StackScroller()
+    private var decoratedChildHeight = -1
+    private val firstItemPosition: Int
+        get() = max(
+            0,
+            min(itemCount - maxViews, currentItem - maxViews / 2)
+        )
+    private val lastVisibleItemPosition: Int
+        get() = if (firstItemPosition == 0) min(
+            maxViews,
+            itemCount
+        ) else min(itemCount, currentItem + maxViews / 2)
 
-    /**
-     * 设置 item 位置改变时触发的回调
-     */
-    fun setItemChangedListener(listener: ItemChangedListener) {
-        itemChangedListener = listener
-    }
-
-    constructor(scrollOrientation: ScrollOrientation) : this(scrollOrientation, 3, DefaultAnimation::class.java, DefaultLayout::class.java)
-
-    constructor(scrollOrientation: ScrollOrientation, visibleCount: Int) : this(scrollOrientation, visibleCount, DefaultAnimation::class.java, DefaultLayout::class.java)
-
-    constructor() : this(ScrollOrientation.RIGHT_TO_LEFT)
-
-    init {
-        mScrollOffset = when(mScrollOrientation) {
-            ScrollOrientation.RIGHT_TO_LEFT, ScrollOrientation.BOTTOM_TO_TOP -> 0
-            else -> Int.MAX_VALUE
+    var horizontalLayout: Boolean = horizontalLayout
+        set(value) {
+            if (field == value) return
+            field = value
+            requestSimpleAnimationsInNextLayout()
+            displayRect.setEmpty()
+            requestLayout()
         }
 
-        if (StackAnimation::class.java.isAssignableFrom(animation)) {
-            try {
-                val cla = animation.getDeclaredConstructor(ScrollOrientation::class.java, Int::class.javaPrimitiveType)
-                mAnimation = cla.newInstance(scrollOrientation, visibleCount) as StackAnimation
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-        if (StackLayout::class.java.isAssignableFrom(layout)) {
-            try {
-                val cla = layout.getDeclaredConstructor(ScrollOrientation::class.java, Int::class.javaPrimitiveType, Int::class.javaPrimitiveType)
-                mLayout = cla.newInstance(scrollOrientation, visibleCount, 30) as StackLayout
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
+    //return how far has the recyclerview been scrolled relative to its length
+    val relativeScroll: Float
+        get() = scroller.stackScroll
+
+    //return how far has the recyclerview been scrolled in pixels
+    val absoluteScroll: Float
+        get() = stackAlgorithm.getYForDeltaP(scroller.stackScroll).toFloat()
+
+    //return currently focused item
+    val currentItem: Int
+        get() = min(
+            max(
+                0,
+                kotlin.math.floor(
+                    scroller.stackScroll.toDouble()
+                ).toInt()
+            ), itemCount
+        )
+
+    override fun isSmoothScrolling(): Boolean {
+        return super.isSmoothScrolling() || scrollAnimator != null && scrollAnimator!!.isRunning
     }
 
-    override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams {
-        return RecyclerView.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT)
+    override fun scrollVerticallyBy(
+        dy: Int,
+        recycler: Recycler,
+        state: RecyclerView.State
+    ): Int {
+        return scroll(dy.toFloat(), recycler, state)
     }
 
-    override fun onAttachedToWindow(view: RecyclerView) {
-        super.onAttachedToWindow(view)
-        mOnFlingListener = object : RecyclerView.OnFlingListener() {
-            override fun onFling(velocityX: Int, velocityY: Int): Boolean {
-                if (mPagerMode) {
-                    when(mScrollOrientation) {
-                        ScrollOrientation.RIGHT_TO_LEFT, ScrollOrientation.LEFT_TO_RIGHT -> {
-                            mFlingOrientation = when {
-                                velocityX > mPagerFlingVelocity -> FlingOrientation.RIGHT_TO_LEFT
-                                velocityX < -mPagerFlingVelocity -> FlingOrientation.LEFT_TO_RIGHT
-                                else -> FlingOrientation.NONE
-                            }
-                            if (mScrollOffset in 1 until width * (itemCount - 1)) { //边界不需要滚动
-                                mFixScrolling = true
-                            }
-                        }
-                        else -> {
-                            mFlingOrientation = when {
-                                velocityY > mPagerFlingVelocity -> FlingOrientation.BOTTOM_TO_TOP
-                                velocityY < -mPagerFlingVelocity -> FlingOrientation.TOP_TO_BOTTOM
-                                else -> FlingOrientation.NONE
-                            }
-                            if (mScrollOffset in 1 until width * (itemCount - 1)) { //边界不需要滚动
-                                mFixScrolling = true
-                            }
-                        }
-                    }
-                    calculateAndScrollToTarget(view)
-                }
-                return mPagerMode
-            }
-        }
-        view.onFlingListener = mOnFlingListener
-
-        mOnScrollListener = object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                if (newState == SCROLL_STATE_IDLE) {
-                    if (!mFixScrolling) {
-                        mFixScrolling = true
-                        calculateAndScrollToTarget(view)
-                    } else {
-                        //表示此次 IDLE 是由修正位置结束触发的
-                        mFixScrolling = false
-                    }
-                } else if (newState == SCROLL_STATE_DRAGGING) {
-                    mFixScrolling = false
-                }
-            }
-        }
-        view.addOnScrollListener(mOnScrollListener)
-    }
-
-    override fun onDetachedFromWindow(view: RecyclerView?, recycler: RecyclerView.Recycler?) {
-        super.onDetachedFromWindow(view, recycler)
-        if (view?.onFlingListener == mOnFlingListener) {
-            view.onFlingListener = null
-        }
-        view?.removeOnScrollListener(mOnScrollListener)
-    }
-
-    override fun canScrollHorizontally(): Boolean {
-        if (itemCount == 0) {
-            return false
-        }
-        return when (mScrollOrientation) {
-            ScrollOrientation.LEFT_TO_RIGHT, ScrollOrientation.RIGHT_TO_LEFT -> true
-            else -> false
-        }
+    override fun scrollHorizontallyBy(
+        dx: Int,
+        recycler: Recycler,
+        state: RecyclerView.State
+    ): Int {
+        return scroll(dx.toFloat(), recycler, state)
     }
 
     override fun canScrollVertically(): Boolean {
-        if (itemCount == 0) {
-            return false
-        }
-        return when (mScrollOrientation) {
-            ScrollOrientation.TOP_TO_BOTTOM, ScrollOrientation.BOTTOM_TO_TOP -> true
-            else -> false
-        }
+        return itemCount != 0 && !horizontalLayout
     }
 
-    override fun onLayoutChildren(recycler: RecyclerView.Recycler, state: RecyclerView.State) {
+    override fun canScrollHorizontally(): Boolean {
+        return itemCount != 0 && horizontalLayout
+    }
 
-        mLayout?.requestLayout()
+    private fun scroll(
+        thisMuch: Float,
+        recycler: Recycler,
+        state: RecyclerView.State
+    ): Int {
+        var delta = thisMuch
+        stopScrolling()
 
-        removeAndRecycleAllViews(recycler)
-
-        if (itemCount > 0) {
-            mScrollOffset = getValidOffset(mScrollOffset)
-            loadItemView(recycler)
+        if (childCount == 0) {
+            return 0
         }
-    }
-
-    override fun scrollHorizontallyBy(dx: Int, recycler: RecyclerView.Recycler, state: RecyclerView.State): Int {
-        return handleScrollBy(dx, recycler)
-    }
-
-    override fun scrollVerticallyBy(dy: Int, recycler: RecyclerView.Recycler, state: RecyclerView.State?): Int {
-        return handleScrollBy(dy, recycler)
+        val deltaP = stackAlgorithm.getDeltaPForY(delta)
+        var scrollCurrent = scroller.stackScroll + deltaP
+        if (scrollCurrent < 0) {
+            scrollCurrent = 0f
+            delta = 0f
+        } else if (scrollCurrent >= itemCount - 1) {
+            scrollCurrent = itemCount - 1.toFloat()
+            delta = 0f
+        }
+        scroller.stackScroll = scrollCurrent
+        onLayoutChildren(recycler, state)
+        return delta.toInt()
     }
 
     override fun scrollToPosition(position: Int) {
-        if (position < 0 || position >= itemCount) {
-            throw ArrayIndexOutOfBoundsException("$position is out of bound [0..$itemCount-1]")
-        }
-        mScrollOffset = getPositionOffset(position)
-        requestLayout()
+        scrollToPosition(position.toFloat(), true, null)
     }
 
-    override fun smoothScrollToPosition(recyclerView: RecyclerView, state: RecyclerView.State?, position: Int) {
-        if (position < 0 || position >= itemCount) {
-            throw ArrayIndexOutOfBoundsException("$position is out of bound [0..$itemCount-1]")
-        }
-        mFixScrolling = true
-        scrollToCenter(position, recyclerView, true)
+    fun scrollToPosition(
+        position: Float,
+        animated: Boolean = true,
+        duration: Long? = null,
+        endRunnable: Runnable? = null
+    ) {
+        animateScrollToItem(position, endRunnable)
+            .also {
+                if (animated.not())
+                    it.duration = 0
+                else if (duration != null)
+                    it.duration = duration
+            }
+            .start()
     }
 
-    private fun updatePositionRecordAndNotify(position: Int) {
-        if (itemChangedListener == null) {
+    private fun animateScrollToItem(
+        toItem: Float,
+        postRunnable: Runnable?
+    ): ValueAnimator {
+        stopScrolling()
+        return ValueAnimator.ofFloat(scroller.stackScroll, toItem).apply {
+            addUpdateListener { animation ->
+                scroller.stackScroll = animation.animatedValue as Float
+                requestLayout()
+            }
+            if (postRunnable != null)
+                addListener(object :
+                    AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        super.onAnimationEnd(animation)
+                        postRunnable.run()
+                    }
+                })
+            interpolator = Internal.SCROLL_INTERPOLATOR
+            duration = (150 * kotlin.math.abs(toItem - scroller.stackScroll)).roundToInt()
+                .toLong()
+        }.also { animator ->
+            scrollAnimator = animator
+        }
+    }
+
+    override fun onMeasure(
+        recycler: Recycler,
+        state: RecyclerView.State,
+        widthMeasureSpec: Int,
+        heightMeasureSpec: Int
+    ) {
+        super.onMeasure(recycler, state, widthMeasureSpec, heightMeasureSpec)
+        if (state.itemCount <= 0) return
+        setMeasuredDimension(
+            MeasureSpec.getSize(widthMeasureSpec),
+            MeasureSpec.getSize(heightMeasureSpec)
+        )
+    }
+
+    override fun onLayoutChildren(
+        recycler: Recycler,
+        state: RecyclerView.State
+    ) {
+        if (state.itemCount <= 0) {
+            removeAndRecycleAllViews(recycler)
             return
         }
-        if (position != itemPosition) {
-            isItemPositionChanged = true
-            itemPosition = position
-            itemChangedListener?.onItemChanged(itemPosition)
-        } else {
-            isItemPositionChanged = false
-        }
-    }
 
-    private fun handleScrollBy(offset: Int, recycler: RecyclerView.Recycler): Int {
-        //期望值，不得超过最大最小值，所以期望值不一定等于实际值
-        val expectOffset = mScrollOffset + offset
-
-        //实际值
-        mScrollOffset = getValidOffset(expectOffset)
-
-        //实际偏移，超过最大最小值之后的偏移都应该是0，该值作为返回值，否则在极限位置进行滚动的时候不会出现弹性阴影
-        val exactMove = mScrollOffset - expectOffset + offset
-
-        if (exactMove == 0) {
-            //itemViews 位置都不会改变，直接 return
-            return 0
-        }
-
-        detachAndScrapAttachedViews(recycler)
-
-        loadItemView(recycler)
-        return exactMove
-    }
-
-    private fun loadItemView(recycler: RecyclerView.Recycler) {
-        val firstVisiblePosition = getFirstVisibleItemPosition()
-        val lastVisiblePosition = getLastVisibleItemPosition()
-
-        //位移百分比
-        val movePercent = getFirstVisibleItemMovePercent()
-
-        for (i in lastVisiblePosition downTo firstVisiblePosition) {
-            val view = recycler.getViewForPosition(i)
-            //添加到recycleView 中
-            addView(view)
-            //测量
-            measureChild(view, 0, 0)
-            //布局
-            mLayout?.doLayout(this, mScrollOffset, movePercent, view, i - firstVisiblePosition)
-            //做动画
-            mAnimation?.doAnimation(movePercent, view, i - firstVisiblePosition)
-        }
-
-        //尝试更新当前item的位置并通知外界
-        updatePositionRecordAndNotify(firstVisiblePosition)
-
-        //重用
-        if (firstVisiblePosition - 1 >= 0) {
-            val view = recycler.getViewForPosition(firstVisiblePosition - 1)
-            resetViewAnimateProperty(view)
-            removeAndRecycleView(view, recycler)
-        }
-        if (lastVisiblePosition + 1 < itemCount) {
-            val view = recycler.getViewForPosition(lastVisiblePosition + 1)
-            resetViewAnimateProperty(view)
-            removeAndRecycleView(view, recycler)
-        }
-    }
-
-    private fun resetViewAnimateProperty(view: View) {
-        view.rotationY = 0f
-        view.rotationX = 0f
-        view.scaleX = 1f
-        view.scaleY = 1f
-        view.alpha = 1f
-    }
-
-    private fun calculateAndScrollToTarget(view: RecyclerView) {
-        val targetPosition = calculateCenterPosition(getFirstVisibleItemPosition())
-        scrollToCenter(targetPosition, view, true)
-    }
-
-    private fun scrollToCenter(targetPosition: Int, recyclerView: RecyclerView, animation: Boolean) {
-        val targetOffset = getPositionOffset(targetPosition)
-        when(mScrollOrientation) {
-            ScrollOrientation.LEFT_TO_RIGHT, ScrollOrientation.RIGHT_TO_LEFT -> {
-                if (animation) {
-                    recyclerView.smoothScrollBy(targetOffset - mScrollOffset, 0)
-                } else {
-                    recyclerView.scrollBy(targetOffset - mScrollOffset, 0)
-                }
+        if (updateDisplayRect()) {
+            val v = recycler.getViewForPosition(0)
+            addDisappearingView(v)
+            measureChildWithMargins(v, 0, 0)
+            val childWidth = v.measuredWidth
+            decoratedChildHeight = v.measuredHeight
+            val left: Int
+            val top: Int
+            val right: Int
+            val bottom: Int
+            val additionalPadding = 0
+            left =
+                additionalPadding + paddingStart + kotlin.math.abs(displayRect.width() - childWidth) / 2
+            top = additionalPadding + paddingTop + (displayRect.height() - decoratedChildHeight) / 2
+            right = childWidth - paddingEnd - additionalPadding
+            bottom = decoratedChildHeight - additionalPadding
+            viewRect.setEmpty()
+            viewRect[left, top, left + right] = top + bottom
+            if (v.right == 0) {
+                v.left = 0
+                v.right = childWidth
             }
-            else -> {
-                if (animation) {
-                    recyclerView.smoothScrollBy(0, targetOffset - mScrollOffset)
-                } else {
-                    recyclerView.scrollBy(0, targetOffset - mScrollOffset)
-                }
+            if (v.bottom == 0) {
+                v.top = 0
+                v.bottom = decoratedChildHeight
+            }
+            getDecoratedBoundsWithMargins(v, marginsRect)
+            removeAndRecycleView(v, recycler)
+        }
+        stackAlgorithm.update(lastVisibleItemPosition)
+        bindVisibleViews(recycler, state)
+    }
+
+    override fun onAdapterChanged(
+        oldAdapter: RecyclerView.Adapter<*>?,
+        newAdapter: RecyclerView.Adapter<*>?
+    ) {
+        super.onAdapterChanged(oldAdapter, newAdapter)
+        removeAllViews()
+    }
+
+    fun forceRemeasureInNextLayout() {
+        displayRect.setEmpty()
+        viewRect.setEmpty()
+    }
+
+    private fun updateDisplayRect(): Boolean {
+        if (displayRect.width() == 0 ||
+            displayRect.height() == 0 ||
+            displayRect.width() != width - paddingEnd ||
+            displayRect.height() != height - paddingBottom
+        ) {
+            displayRect.left = paddingStart
+            displayRect.top = paddingTop
+            displayRect.right = width - paddingEnd
+            displayRect.bottom = height - paddingBottom
+            return true
+        }
+        return false
+    }
+
+    private fun bindVisibleViews(recycler: Recycler, state: RecyclerView.State) {
+        val currentLowerLimit = firstItemPosition
+        val currentUpperLimit = lastVisibleItemPosition
+        if (scroller.isScrollOutOfBounds) {
+            scroller.boundScroll()
+        }
+        for (i in childCount - 1 downTo 0) {
+            val tv = getChildAt(i) ?: continue
+            detachAndScrapView(tv, recycler)
+        }
+
+        for (i in currentLowerLimit until currentUpperLimit) {
+            if (i >= state.itemCount) continue
+            val v = createView(i, recycler, state)
+            if (v != null) {
+                v.bringToFront()
+                stackAlgorithm.transform(
+                    i.toFloat(),
+                    scroller.stackScroll,
+                    v
+                )
             }
         }
+
     }
 
-    private fun getValidOffset(expectOffset: Int): Int {
-        return when(mScrollOrientation) {
-            ScrollOrientation.RIGHT_TO_LEFT, ScrollOrientation.LEFT_TO_RIGHT -> max(min(width * (itemCount - 1), expectOffset), 0)
-            else -> max(min(height * (itemCount - 1), expectOffset), 0)
+    override fun checkLayoutParams(lp: RecyclerView.LayoutParams): Boolean {
+        return lp is StackLayoutParams
+    }
+
+    override fun generateLayoutParams(lp: ViewGroup.LayoutParams): RecyclerView.LayoutParams {
+        return StackLayoutParams(lp)
+    }
+
+    override fun generateLayoutParams(
+        c: Context,
+        attrs: AttributeSet
+    ): RecyclerView.LayoutParams {
+        return StackLayoutParams(c, attrs)
+    }
+
+    override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams {
+        return StackLayoutParams(-2, -2)
+    }
+
+    class StackLayoutParams : RecyclerView.LayoutParams {
+        constructor(width: Int, height: Int) : super(width, height)
+        constructor(source: ViewGroup.LayoutParams?) : super(source)
+        constructor(c: Context?, attrs: AttributeSet?) :
+                super(c, attrs)
+
+        var dimAmount: Float = 0f
+    }
+
+    internal inner class LayoutAlgorithm {
+        var mMinScrollP = 0f
+        var mMaxScrollP = 0f
+        private var mInitialScrollP = 0f
+
+        fun update(upperLimit: Int) {
+            if (upperLimit == 0) {
+                mInitialScrollP = 0f
+                mMaxScrollP = mInitialScrollP
+                mMinScrollP = mMaxScrollP
+                return
+            }
+            val launchIndex = upperLimit - 1
+            mMinScrollP = 0f
+            mMaxScrollP = max(
+                mMinScrollP, upperLimit - 1f
+            )
+            mInitialScrollP = Internal.clamp(
+                launchIndex.toFloat(),
+                mMinScrollP,
+                mMaxScrollP
+            )
+        }
+
+
+        private fun getLength(rect: Rect): Int {
+            return if (!horizontalLayout) {
+                rect.height()
+            } else rect.width()
+        }
+
+        fun transform(
+            position: Float,
+            scroll: Float,
+            view: View
+        ) {
+            tmpRect.setEmpty()
+
+            //even though we should clamp the value between 0 and 1
+            //it is better to leave it for the interpolator to handle
+            //overshooting values
+            val interpolatedValue =
+                1f - layoutInterpolator.getInterpolation(
+                    1f - (position - scroll)
+                )
+
+
+            val displacementFloat =
+                interpolatedValue * getLength(marginsRect) * (
+                        if (position < 1f && !centerFirstItem)
+                            getLength(marginsRect).toFloat()
+                        else 1f
+                        )
+
+
+            var displacement = displacementFloat.toInt()
+
+            if (centerFirstItem && position < 1f && displacement > 0)
+                displacement = 0
+
+            tmpRect.set(viewRect)
+
+            if (!horizontalLayout) {
+                tmpRect.offset(0, displacement)
+            } else {
+                tmpRect.offset(displacement, 0)
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                view.setLeftTopRightBottom(tmpRect.left, tmpRect.top, tmpRect.right, tmpRect.bottom)
+            } else {
+                view.left = tmpRect.left
+                view.top = tmpRect.top
+                view.right = tmpRect.right
+                view.bottom = tmpRect.bottom
+            }
+
+            view.getStackLayoutParams().dimAmount =
+                if (scroll <= position) 0f
+                else
+                    Internal.clamp01(
+                        Internal.DIMMING_INTERPOLATOR.getInterpolation(scroll - position)
+                    ) * 0.4f
+
+
+            viewTransformer?.invoke(position - scroll, view, this@StackLayoutManager)
+        }
+
+        fun getDeltaPForY(dy: Float): Float {
+            return dy / getLength(viewRect) * scrollMultiplier
+        }
+
+        fun getYForDeltaP(scroll: Float): Int {
+            return (scroll * getLength(viewRect) *
+                    (1f / scrollMultiplier)).toInt()
         }
     }
 
-    private fun getPositionOffset(position: Int): Int {
-        return when(mScrollOrientation) {
-            ScrollOrientation.RIGHT_TO_LEFT -> position * width
-            ScrollOrientation.LEFT_TO_RIGHT -> (itemCount - 1 - position) * width
-            ScrollOrientation.BOTTOM_TO_TOP -> position * height
-            ScrollOrientation.TOP_TO_BOTTOM -> (itemCount - 1 - position) * height
+    object ElevationTransformer {
+        private fun mapRange(value: Float, min: Float, max: Float): Float {
+            return min + value * (max - min)
+        }
+
+        private val minTranslationZ by lazy {
+            TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                1f,
+                Resources.getSystem().displayMetrics
+            )
+        }
+        private val maxTranslationZ by lazy {
+            TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                10f,
+                Resources.getSystem().displayMetrics
+            )
+        }
+
+        fun transform(x: Float, view: View, stackLayoutManager: StackLayoutManager) {
+            if (Build.VERSION.SDK_INT < 21) return
+            ViewCompat.setTranslationZ(
+                view, mapRange(
+                    max(
+                        0f,
+                        min(
+                            1f,
+                            stackLayoutManager.layoutInterpolator.getInterpolation(x)
+                        )
+                    ),
+                    minTranslationZ,
+                    maxTranslationZ
+                )
+            )
         }
     }
 
-    private fun getLastVisibleItemPosition(): Int {
-        val firstVisiblePosition = getFirstVisibleItemPosition()
-        return if (firstVisiblePosition + mVisibleItemCount > itemCount - 1) {
-            itemCount - 1
-        } else {
-            firstVisiblePosition + mVisibleItemCount
-        }
-    }
+    internal inner class StackScroller {
+        var stackScroll = 0f
+            internal set
 
-    private fun getFirstVisibleItemMovePercent(): Float {
-        if (width == 0 || height == 0) {
+        fun boundScroll() {
+            val curScroll = stackScroll
+            val newScroll = getBoundedStackScroll(curScroll)
+            if (newScroll.compareTo(curScroll) != 0) {
+                stackScroll = newScroll
+            }
+        }
+
+        private fun getBoundedStackScroll(scroll: Float): Float {
+            return Internal.clamp(
+                scroll,
+                stackAlgorithm.mMinScrollP,
+                stackAlgorithm.mMaxScrollP
+            )
+        }
+
+        private fun getScrollAmountOutOfBounds(scroll: Float): Float {
+            if (scroll < stackAlgorithm.mMinScrollP) {
+                return kotlin.math.abs(scroll - stackAlgorithm.mMinScrollP)
+            } else if (scroll > stackAlgorithm.mMaxScrollP) {
+                return kotlin.math.abs(scroll - stackAlgorithm.mMaxScrollP)
+            }
             return 0f
         }
-        return when (mScrollOrientation) {
-            ScrollOrientation.RIGHT_TO_LEFT -> (mScrollOffset % width) * 1.0f / width
-            ScrollOrientation.LEFT_TO_RIGHT -> {
-                val targetPercent = 1 - (mScrollOffset % width) * 1.0f / width
-                return if (targetPercent == 1f) {
-                    0f
-                } else {
-                    targetPercent
-                }
-            }
-            ScrollOrientation.BOTTOM_TO_TOP -> (mScrollOffset % height) * 1.0f / height
-            ScrollOrientation.TOP_TO_BOTTOM -> {
-                val targetPercent = 1 - (mScrollOffset % height) * 1.0f / height
-                return if (targetPercent == 1f) {
-                    0f
-                } else {
-                    targetPercent
-                }
+
+        val isScrollOutOfBounds: Boolean
+            get() = getScrollAmountOutOfBounds(stackScroll).compareTo(0f) != 0
+
+    }
+
+    fun findFirstVisibleItemPosition(): Int {
+        val child = findOneVisibleChild(0, childCount, false)
+        return child?.let { getPosition(it) } ?: RecyclerView.NO_POSITION
+    }
+
+    fun findFirstCompletelyVisibleItemPosition(): Int {
+        val child = findOneVisibleChild(0, childCount, true)
+        return child?.let { getPosition(it) } ?: RecyclerView.NO_POSITION
+    }
+
+    fun findLastVisibleItemPosition(): Int {
+        val child = findOneVisibleChild(childCount - 1, -1, false)
+        return child?.let { getPosition(it) } ?: RecyclerView.NO_POSITION
+    }
+
+    fun findLastCompletelyVisibleItemPosition(): Int {
+        val child = findOneVisibleChild(childCount - 1, -1, true)
+        return child?.let { getPosition(it) } ?: RecyclerView.NO_POSITION
+    }
+
+    fun stopScrolling() {
+        scrollAnimator?.also { scrollAnimator ->
+            if (scrollAnimator.isRunning) {
+                scrollAnimator.removeAllUpdateListeners()
+                scrollAnimator.removeAllListeners()
+                scrollAnimator.end()
+                scrollAnimator.cancel()
             }
         }
     }
 
-    private fun calculateCenterPosition(position: Int): Int {
-        //当是 Fling 触发的时候
-        val triggerOrientation = mFlingOrientation
-        mFlingOrientation = FlingOrientation.NONE
-        when(mScrollOrientation) {
-            ScrollOrientation.RIGHT_TO_LEFT -> {
-                if (triggerOrientation == FlingOrientation.RIGHT_TO_LEFT) {
-                    return position + 1
-                } else if (triggerOrientation == FlingOrientation.LEFT_TO_RIGHT) {
-                    return position
+    companion object {
+        private fun View.getStackLayoutParams(): StackLayoutParams {
+            return this.layoutParams as StackLayoutParams
+        }
+    }
+
+    private fun findOneVisibleChild(
+        fromIndex: Int,
+        toIndex: Int,
+        completelyVisible: Boolean
+    ): View? {
+        val next = if (toIndex > fromIndex) 1 else -1
+        var partiallyVisible: View? = null
+        var i = fromIndex
+        while (i != toIndex) {
+            val child = getChildAt(i)
+            if (child!!.top < height) {
+                if (completelyVisible) {
+                    if (child.top < height && child.top + decoratedChildHeight < height) {
+                        return child
+                    } else if (!completelyVisible && partiallyVisible == null) {
+                        partiallyVisible = child
+                    }
+                } else {
+                    return child
                 }
             }
-            ScrollOrientation.LEFT_TO_RIGHT -> {
-                if (triggerOrientation == FlingOrientation.LEFT_TO_RIGHT) {
-                    return position + 1
-                } else if (triggerOrientation == FlingOrientation.RIGHT_TO_LEFT) {
-                    return position
-                }
+            i += next
+        }
+        return partiallyVisible
+    }
+
+    private fun createView(
+        index: Int,
+        recycler: Recycler,
+        state: RecyclerView.State
+    ): View? {
+        if (state.itemCount == 0) return null
+        val tv = recycler.getViewForPosition(index)
+        if (tv.parent == null) {
+            addView(tv, index % maxViews)
+            layoutView(tv)
+        }
+        return tv
+    }
+
+    private fun layoutView(tv: View) {
+        measureChildWithMargins(tv, 0, 0)
+        tmpRect.setEmpty()
+        if (tv.background != null) {
+            tv.background.getPadding(tmpRect)
+        }
+        layoutDecoratedWithMargins(
+            tv,
+            viewRect.left - tmpRect.left,
+            viewRect.top - tmpRect.top,
+            viewRect.right + tmpRect.right,
+            viewRect.bottom + tmpRect.bottom
+        )
+    }
+
+    fun peek() {
+        stopScrolling()
+        val out =
+            animateScrollToItem(scroller.stackScroll + 0.6f) {
+                val `in` = animateScrollToItem(
+                    scroller.stackScroll - 0.6f,
+                    stopScrollingRunnable
+                )
+                `in`.interpolator = Internal.ACCELERATE_INTERPOLATOR
+                `in`.duration = 400
+                `in`.startDelay = 50
+                `in`.start()
             }
-            ScrollOrientation.BOTTOM_TO_TOP -> {
-                if (triggerOrientation == FlingOrientation.BOTTOM_TO_TOP) {
-                    return position + 1
-                } else if (triggerOrientation == FlingOrientation.TOP_TO_BOTTOM) {
-                    return position
-                }
+        out.interpolator = Internal.SCROLL_INTERPOLATOR
+        out.duration = 300
+        out.start()
+    }
+
+    fun snap() {
+        val toPosition = scroller.stackScroll.roundToInt().toFloat()
+        animateScrollToItem(toPosition, null)
+            .also {
+                val delta = kotlin.math.abs(scroller.stackScroll - toPosition)
+                it.duration = (500f * (1f - delta)).toLong()
             }
-            ScrollOrientation.TOP_TO_BOTTOM -> {
-                if (triggerOrientation == FlingOrientation.TOP_TO_BOTTOM) {
-                    return position + 1
-                } else if (triggerOrientation == FlingOrientation.BOTTOM_TO_TOP) {
-                    return position
-                }
+            .start()
+    }
+
+    internal object Internal {
+        val ACCELERATE_INTERPOLATOR: TimeInterpolator = LogAccelerateInterpolator(60, 0)
+        val SCROLL_INTERPOLATOR: TimeInterpolator = LogDecelerateInterpolator(60f, 0f)
+        val LAYOUT_INTERPOLATOR: TimeInterpolator = LogDecelerateInterpolator(20f, 0f)
+        val DIMMING_INTERPOLATOR: TimeInterpolator = LinearInterpolator()
+
+        internal class LogDecelerateInterpolator(
+            private val base: Float,
+            private val drift: Float
+        ) :
+            TimeInterpolator {
+            private fun computeLog(t: Float): Float {
+                return 1f - base.toDouble().pow(-t.toDouble()).toFloat() + drift * t
             }
+
+            override fun getInterpolation(t: Float): Float {
+                return computeLog(t) / computeLog(1f)
+            }
+
         }
 
-        //当不是 fling 触发的时候
-        val percent = getFirstVisibleItemMovePercent()
-        //向左移动超过50% position(firstVisibleItemPosition)++
-        //否 position不变
-        return if (percent < 0.5) {
-            position
-        } else {
-            position + 1
+        internal class LogAccelerateInterpolator(private val mBase: Int, private val mDrift: Int) :
+            TimeInterpolator {
+            private val mLogScale: Float = 1f / computeLog(1f, mBase, mDrift)
+            override fun getInterpolation(t: Float): Float {
+                return 1 - computeLog(
+                    1 - t,
+                    mBase,
+                    mDrift
+                ) * mLogScale
+            }
+
+            private fun computeLog(t: Float, base: Int, drift: Int): Float {
+                return (-base.toDouble().pow(-t.toDouble())).toFloat() + 1 + drift * t
+            }
+
+        }
+
+        fun clamp(value: Float, min: Float, max: Float): Float {
+            return max(min, min(max, value))
+        }
+
+        fun clamp01(value: Float): Float {
+            return max(0f, min(1f, value))
         }
     }
 }

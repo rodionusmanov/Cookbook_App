@@ -1,6 +1,7 @@
 package com.example.cookbook.view.searchRecipe
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -81,6 +82,7 @@ class SearchRecipeFragment : BaseFragment<AppState>() {
     }
 
     override fun setupData(data: Any?) {
+        Log.d("@@@", "Data: $data")
         when (data) {
             is List<*> -> {
                 when (val firstItem = data.firstOrNull()) {

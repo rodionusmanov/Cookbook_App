@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.cookbook.stacklayoutmanager.StackLayoutManager
 import com.example.cookbook.databinding.FragmentRandomRecipeListBinding
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.RandomRecipeData
@@ -47,8 +48,9 @@ class RandomRecipesListFragment : BaseFragment<AppState>() {
     override fun setupData(data: Any?) {
         val randomRecipeData = data as List<RandomRecipeData>
         adapter.setData(randomRecipeData)
+        val layoutManager = StackLayoutManager()
         binding.randomRecipesRecyclerView.adapter = adapter
-
+        binding.randomRecipesRecyclerView.layoutManager = layoutManager
     }
 
     override fun showErrorDialog(message: String?) {

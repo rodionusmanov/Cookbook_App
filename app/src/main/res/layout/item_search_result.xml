@@ -9,8 +9,8 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_x_small"
-        app:cardCornerRadius="@dimen/material_card_corner_radius"
+        android:layout_margin="@dimen/margin_8dp_small"
+        app:cardCornerRadius="@dimen/material_card_corner_radius_15dp"
         app:cardElevation="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
