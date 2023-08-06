@@ -4,56 +4,85 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_8dp_small"
+    >
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
+        android:id="@+id/recipe_image"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_8dp_small"
+        android:elevation="@dimen/elevation_5dp_small"
+        android:layout_margin="0dp"
         app:cardCornerRadius="@dimen/material_card_corner_radius_15dp"
-        app:cardElevation="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:strokeColor="@color/orange_light"
-        app:strokeWidth="1dp">
+        >
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/iv_add_favorite"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.2"
-                android:src="@drawable/icon_favorite_checked"
-                android:background="@color/orange_light"/>
-
-            <TextView
-                android:id="@+id/tv_search_recipe"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                android:text="@string/search_recipe"
-                android:textSize="20sp"
-                android:layout_gravity="center_vertical"/>
+            >
 
             <ImageView
                 android:id="@+id/iv_search_recipe"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="1:0.6"
+                tools:ignore="ContentDescription"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="ContentDescription" />
+                />
 
-        </LinearLayout>
+            <FrameLayout
+                android:layout_width="35dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="@dimen/margin_20dp_medium"
+                android:layout_marginTop="@dimen/margin_20dp_medium"
+                android:background="@drawable/background_rectangle"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="@dimen/margin_8dp_small"
+                android:paddingVertical="@dimen/margin_2dp_small"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                >
+
+                <CheckBox
+                    android:id="@+id/iv_add_favorite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:alpha="1"
+                    android:buttonTint="@color/white"
+                    android:button="@drawable/selector_favorite_checkbox"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    />
+
+            </FrameLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/tv_search_recipe"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/search_result_item_recipe_title_height"
+        android:text="@string/search_recipe"
+        android:textSize="@dimen/search_result_item_layout_recipe_title"
+        android:textColor="@color/search_result_recipe_title_text_color"
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/margin_8dp_small"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recipe_image"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

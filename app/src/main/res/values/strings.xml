@@ -24,12 +24,9 @@
 
     //SearchFragment
     <string name="search_view_hint">Search recipe</string>
-    <string name="content_description_avatar">User avatar</string>
 
     //RandomRecipeFragment
     <string name="random_recipe_list_title">What you want to try</string>
     <string name="random_recipe_list_title_second_line">today?</string>
-    <string name="cd_recipe_image">recipe image</string>
-    <string name="timer_text_image">timer text</string>
 
 </resources>

@@ -3,11 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="@dimen/margin_10dp_small"
     android:elevation="@dimen/margin_8dp_small"
     android:padding="@dimen/margin_8dp_small"
-    app:cardCornerRadius="@dimen/material_card_corner_radius_20dp"
-    >
+    app:cardCornerRadius="@dimen/material_card_corner_radius_20dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
             android:id="@+id/random_recipe_image"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:contentDescription="@string/cd_recipe_image"
+            tools:ignore="ContentDescription"
             android:scaleType="centerCrop"
             app:layout_constraintDimensionRatio="1:0.75"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -72,7 +72,7 @@
             <ImageView
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:contentDescription="@string/timer_text_image"
+                tools:ignore="ContentDescription"
                 android:src="@drawable/icon_timer"
                 app:tint="@color/white"
                 />
@@ -94,7 +94,7 @@
             android:layout_height="30dp"
             android:layout_marginEnd="@dimen/margin_20dp_medium"
             android:layout_marginTop="@dimen/margin_20dp_medium"
-            android:background="@drawable/background_rectangle"
+            android:background="@drawable/background_circle"
             android:gravity="center_vertical"
             android:paddingHorizontal="@dimen/margin_8dp_small"
             android:paddingVertical="@dimen/margin_2dp_small"
@@ -108,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:alpha="1"
-                android:drawableTint="@color/white"
+                android:buttonTint="@color/white"
                 android:button="@drawable/selector_favorite_checkbox"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
