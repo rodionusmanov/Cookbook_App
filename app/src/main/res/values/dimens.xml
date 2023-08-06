@@ -25,6 +25,7 @@
     <dimen name="text_size_40sp">18sp</dimen>
     <dimen name="random_recipe_layout_title">30sp</dimen>
     <dimen name="random_recipe_layout_title_second_line">30sp</dimen>
+    <dimen name="random_recipe_layout_cooking_time_text">15sp</dimen>
 
     //Elevation
     <dimen name="elevation_8dp_small">8dp</dimen>

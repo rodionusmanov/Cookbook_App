@@ -22,7 +22,7 @@ import com.example.cookbook.viewModel.searchRecipe.SearchResultViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SearchResultFragment : BaseFragment<AppState>() {
+class SearchResultFragment : BaseFragment<AppState, List<SearchRecipeData>>() {
 
     private var _binding: FragmentSearchResultBinding? = null
     private val binding: FragmentSearchResultBinding
@@ -67,12 +67,11 @@ class SearchResultFragment : BaseFragment<AppState>() {
     }
 
     override fun showErrorDialog(message: String?) {
-        Toast.makeText(context, "Ошибка {$message}", Toast.LENGTH_LONG).show()
+        Toast.makeText(context, "Error {$message}", Toast.LENGTH_LONG).show()
     }
 
-    override fun setupData(data: Any?) {
-        val searchData = data as List<SearchRecipeData>
-        adapter.setData(searchData)
+    override fun setupData(data: List<SearchRecipeData>) {
+        adapter.setData(data)
         adapter.listener = {
             findNavController().navigate(
                 R.id.action_navigation_search_recipe_to_recipeInfoFragment,

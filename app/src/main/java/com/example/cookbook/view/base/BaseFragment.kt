@@ -10,7 +10,8 @@ import com.example.cookbook.model.repository.network.NetworkRepository
 import com.google.android.material.snackbar.Snackbar
 import org.koin.android.ext.android.inject
 
-abstract class BaseFragment<T: AppState> : Fragment() {
+@Suppress("UNCHECKED_CAST")
+abstract class BaseFragment<T: AppState, I> : Fragment() {
 
     private var _bindingLoading: LayoutLoadingBinding? = null
     private val bindingLoading get() = _bindingLoading!!
@@ -45,11 +46,11 @@ abstract class BaseFragment<T: AppState> : Fragment() {
         _bindingLoading = null
     }
 
-    protected fun renderData(appState: T) {
+    protected fun renderData(appState: AppState) {
         when (appState) {
             is AppState.Success<*> -> {
                 showWorkingView()
-                val data = appState.data
+                val data = appState.data as I
                 setupData(data)
             }
             is AppState.Loading -> {
@@ -62,7 +63,7 @@ abstract class BaseFragment<T: AppState> : Fragment() {
         }
     }
 
-    abstract fun setupData(data: Any?)
+    abstract fun setupData(data: I)
 
     private fun showViewLoading() {
         bindingLoading.loadingLayout.visibility = View.VISIBLE

@@ -14,6 +14,7 @@ class RandomRecipeListAdapter :
     RecyclerView.Adapter<RandomRecipeListAdapter.RecyclerItemViewHolder>() {
 
     private var data: List<RandomRecipeData> = arrayListOf()
+    var listener: ((RandomRecipeData) -> Unit)? = null
 
     fun setData(data: List<RandomRecipeData>) {
         this.data = data
@@ -25,10 +26,17 @@ class RandomRecipeListAdapter :
             if (layoutPosition != RecyclerView.NO_POSITION) {
                 ItemRandomRecipeRvBinding.bind(itemView).apply {
                     randomRecipeTitle.text = data.title
+
+                    val cookingTime = data.readyInMinutes.toString() + " min"
+                    tvCookingTime.text = cookingTime
+
                     randomRecipeImage.load(data.image) {
                         crossfade(500)
                         scale(Scale.FILL)
                         placeholder(R.drawable.icon_search)
+                    }
+                    root.setOnClickListener {
+                        listener?.invoke(data)
                     }
                 }
             }

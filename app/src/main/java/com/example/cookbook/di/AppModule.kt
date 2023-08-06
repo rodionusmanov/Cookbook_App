@@ -19,6 +19,7 @@ import com.example.cookbook.model.room.IRecipesDAO
 import com.example.cookbook.model.room.RecipesDatabase
 import com.example.cookbook.utils.network.NetworkLiveData
 import com.example.cookbook.viewModel.favorite.FavoriteRecipesViewModel
+import com.example.cookbook.viewModel.randomRecipeList.RandomRecipeListViewModel
 import com.example.cookbook.viewModel.recipeInfo.RecipeInfoViewModel
 import com.example.cookbook.viewModel.searchRecipe.SearchRecipeViewModel
 import com.example.cookbook.viewModel.searchRecipe.SearchResultViewModel
@@ -53,21 +54,15 @@ val appModule = module {
     factory { SearchFragmentInteractor(get()) }
     factory { RecipeInfoFragmentInteractor(get()) }
 
-    viewModel {
-        SearchRecipeViewModel(get(), LocalRepositoryImpl(get<IRecipesDAO>()))
-    }
+    viewModel { SearchRecipeViewModel(get(), LocalRepositoryImpl(get<IRecipesDAO>())) }
 
-    viewModel {
-        FavoriteRecipesViewModel(LocalRepositoryImpl(get<IRecipesDAO>()))
-    }
+    viewModel { FavoriteRecipesViewModel(LocalRepositoryImpl(get<IRecipesDAO>())) }
 
-    viewModel{
-        SearchResultViewModel(LocalRepositoryImpl(get<IRecipesDAO>()))
-    }
+    viewModel { SearchResultViewModel(LocalRepositoryImpl(get<IRecipesDAO>())) }
 
-    viewModel {
-        RecipeInfoViewModel(get())
-    }
+    viewModel { RecipeInfoViewModel(get()) }
+
+    viewModel { RandomRecipeListViewModel(LocalRepositoryImpl(get<IRecipesDAO>())) }
 
     single { NetworkLiveData(androidContext()) }
     single { NetworkRepository(get()) }

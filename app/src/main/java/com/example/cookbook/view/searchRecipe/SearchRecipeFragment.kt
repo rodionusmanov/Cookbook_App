@@ -1,7 +1,6 @@
 package com.example.cookbook.view.searchRecipe
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +12,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.example.cookbook.R
 import com.example.cookbook.databinding.FragmentSearchRecipeBinding
 import com.example.cookbook.model.AppState
+import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.RandomRecipeData
 import com.example.cookbook.model.domain.SearchRecipeData
 import com.example.cookbook.view.base.BaseFragment
@@ -22,7 +22,7 @@ import com.example.cookbook.viewModel.searchRecipe.SearchRecipeViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SearchRecipeFragment : BaseFragment<AppState>() {
+class SearchRecipeFragment : BaseFragment<AppState, List<BaseRecipeData>>() {
 
     private var _binding: FragmentSearchRecipeBinding? = null
     private val binding: FragmentSearchRecipeBinding
@@ -78,44 +78,33 @@ class SearchRecipeFragment : BaseFragment<AppState>() {
     }
 
     override fun showErrorDialog(message: String?) {
-        Toast.makeText(context, "Ошибка {$message}", Toast.LENGTH_LONG).show()
+        Toast.makeText(context, "Error {$message}", Toast.LENGTH_LONG).show()
     }
 
-    override fun setupData(data: Any?) {
-        Log.d("@@@", "Data: $data")
-        when (data) {
-            is List<*> -> {
-                when (val firstItem = data.firstOrNull()) {
-                    is SearchRecipeData -> {
-                        val searchData = data as List<SearchRecipeData>
-
-                        val fragment = SearchResultFragment.newInstance(searchData)
-                        requireActivity().supportFragmentManager
-                            .beginTransaction()
-                            .replace(R.id.search_fragment_container, fragment)
-                            .commit()
-                    }
-
-                    is RandomRecipeData -> {
-                        val randomData = data as List<RandomRecipeData>
-
-                        val fragment = RandomRecipesListFragment.newInstance(randomData)
-                        requireActivity().supportFragmentManager
-                            .beginTransaction()
-                            .replace(R.id.search_fragment_container, fragment)
-                            .commit()
-                    }
-
-                    else -> {
-                        showErrorDialog("Неверный тип данных: ${firstItem?.javaClass?.name}")
-                    }
-                }
-            }
-
+    override fun setupData(data: List<BaseRecipeData>) {
+        when(val firstItem = data.firstOrNull()) {
+            is SearchRecipeData -> setupSearchData(data.filterIsInstance<SearchRecipeData>())
+            is RandomRecipeData -> setupRandomData(data.filterIsInstance<RandomRecipeData>())
             else -> {
-                showErrorDialog("Данные не являются списком : ${data?.javaClass?.name}")
+                showErrorDialog("Incorrect data type: ${firstItem?.javaClass?.name}")
             }
         }
+    }
+
+    private fun setupRandomData(randomData: List<RandomRecipeData>) {
+        val fragment = RandomRecipesListFragment.newInstance(randomData)
+        requireActivity().supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.search_fragment_container, fragment)
+            .commit()
+    }
+
+    private fun setupSearchData(searchData: List<SearchRecipeData>) {
+        val fragment = SearchResultFragment.newInstance(searchData)
+        requireActivity().supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.search_fragment_container, fragment)
+            .commit()
     }
 
     override fun onDestroyView() {

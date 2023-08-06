@@ -43,7 +43,7 @@
         android:layout_height="0dp"
         android:contentDescription="@string/content_description_avatar"
         android:layout_marginHorizontal="@dimen/margin_16dp_medium"
-        android:background="@drawable/circle_avatar_background"
+        android:background="@drawable/background_circle_avatar"
         android:src="@drawable/icon_user_avatar"
         app:layout_constraintBottom_toBottomOf="@id/search_toolbar"
         app:layout_constraintDimensionRatio="1:1"
