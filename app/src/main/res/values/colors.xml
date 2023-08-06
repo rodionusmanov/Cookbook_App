@@ -16,4 +16,6 @@
 
     //Random Recipe CardView
     <color name="title_text_background">#D6000000</color>
+    <color name="time_text_background">#99000000</color>
+
 </resources>
