@@ -29,7 +29,7 @@ class SearchRepositoryImpl(
     override suspend fun getRandomRecipes(): List<RandomRecipeData> {
 
         val response = randomRecipeDataSource.getRandomRecipes()
-        return parseResponse(response) { it.randomRecipeData }
+        return parseResponse(response) { it.recipes }
     }
 
     override suspend fun getRecipeInfo(id: Int): RecipeInformation {

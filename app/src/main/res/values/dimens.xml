@@ -6,21 +6,40 @@
 
     //Margins
     <dimen name="hairline">1px</dimen>
-    <dimen name="margin_xxxx_small">2dp</dimen>
-    <dimen name="margin_xxx_small">4dp</dimen>
-    <dimen name="margin_xx_small">6dp</dimen>
-    <dimen name="margin_x_small">8dp</dimen>
-    <dimen name="margin_small">10dp</dimen>
-    <dimen name="margin_medium">16dp</dimen>
-    <dimen name="margin_x_medium">18dp</dimen>
-    <dimen name="margin_xx_medium">20dp</dimen>
-    <dimen name="margin_xxx_medium">26dp</dimen>
-    <dimen name="margin_large">30dp</dimen>
-    <dimen name="margin_x_large">35dp</dimen>
-    <dimen name="margin_xx_large">40dp</dimen>
-    <dimen name="margin_xxx_large">45dp</dimen>
+    <dimen name="margin_2dp_small">2dp</dimen>
+    <dimen name="margin_4dp_small">4dp</dimen>
+    <dimen name="margin_6dp_small">6dp</dimen>
+    <dimen name="margin_8dp_small">8dp</dimen>
+    <dimen name="margin_10dp_small">10dp</dimen>
+    <dimen name="margin_16dp_medium">16dp</dimen>
+    <dimen name="margin_18dp_medium">18dp</dimen>
+    <dimen name="margin_20dp_medium">20dp</dimen>
+    <dimen name="margin_26dp_medium">26dp</dimen>
+    <dimen name="margin_30dp_large">30dp</dimen>
+    <dimen name="margin_36dp_large">36dp</dimen>
+    <dimen name="margin_40dp_large">40dp</dimen>
+    <dimen name="margin_45dp_large">45dp</dimen>
+
+    //TextSize
+    <dimen name="text_size_25sp">15sp</dimen>
+    <dimen name="text_size_40sp">18sp</dimen>
+    <dimen name="random_recipe_layout_title">30sp</dimen>
+    <dimen name="random_recipe_layout_title_second_line">30sp</dimen>
+
+    //Elevation
+    <dimen name="elevation_8dp_small">8dp</dimen>
+    <dimen name="elevation_10dp_small">10dp</dimen>
 
     //Corner radius
-    <dimen name="material_card_corner_radius">15dp</dimen>
+    <dimen name="material_card_corner_radius_15dp">15dp</dimen>
+    <dimen name="material_card_corner_radius_20dp">20dp</dimen>
+
+    //Random Recipe Layout
+    <dimen name="random_recipe_image_view_height">180dp</dimen>
+    <dimen name="random_recipe_bottom_view_height">60dp</dimen>
+
+    //Recipe Search Layout
+    <dimen name="search_view_height">40dp</dimen>
+    <dimen name="search_layout_height">400dp</dimen>
 
 </resources>

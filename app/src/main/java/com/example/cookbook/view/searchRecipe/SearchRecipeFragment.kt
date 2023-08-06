@@ -1,6 +1,7 @@
 package com.example.cookbook.view.searchRecipe
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.RandomRecipeData
 import com.example.cookbook.model.domain.SearchRecipeData
 import com.example.cookbook.view.base.BaseFragment
+import com.example.cookbook.view.randomRecipe.RandomRecipesListFragment
 import com.example.cookbook.view.searchResult.SearchResultFragment
 import com.example.cookbook.viewModel.searchRecipe.SearchRecipeViewModel
 import kotlinx.coroutines.launch
@@ -72,7 +74,7 @@ class SearchRecipeFragment : BaseFragment<AppState>() {
                 model.stateFlow.collect { renderData(it) }
             }
         }
-        //model.getRandomRecipes()
+        model.getRandomRecipes()
     }
 
     override fun showErrorDialog(message: String?) {
@@ -80,7 +82,8 @@ class SearchRecipeFragment : BaseFragment<AppState>() {
     }
 
     override fun setupData(data: Any?) {
-        when(data) {
+        Log.d("@@@", "Data: $data")
+        when (data) {
             is List<*> -> {
                 when (val firstItem = data.firstOrNull()) {
                     is SearchRecipeData -> {
@@ -95,6 +98,12 @@ class SearchRecipeFragment : BaseFragment<AppState>() {
 
                     is RandomRecipeData -> {
                         val randomData = data as List<RandomRecipeData>
+
+                        val fragment = RandomRecipesListFragment.newInstance(randomData)
+                        requireActivity().supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.search_fragment_container, fragment)
+                            .commit()
                     }
 
                     else -> {
