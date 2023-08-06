@@ -33,8 +33,8 @@ class SearchRecipeAdapter(val callbackSaveRecipe: ISaveRecipe) :
                     }
                     ivAddFavorite.setOnClickListener {
                         callbackSaveRecipe.saveRecipe(data)
-                        ivAddFavorite.setImageResource(R.drawable.icon_favorite_solid)
-                        ivAddFavorite.setBackgroundResource(R.color.orange_dark)
+                        //ivAddFavorite.setImageResource(R.drawable.icon_favorite_solid)
+                        //ivAddFavorite.setBackgroundResource(R.color.orange_dark)
                     }
                     root.setOnClickListener {
                         listener?.invoke(data)

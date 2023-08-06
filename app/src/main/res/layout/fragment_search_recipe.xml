@@ -41,7 +41,7 @@
         android:id="@+id/user_avatar"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:contentDescription="@string/content_description_avatar"
+        tools:ignore="ContentDescription"
         android:layout_marginHorizontal="@dimen/margin_16dp_medium"
         android:background="@drawable/background_circle_avatar"
         android:src="@drawable/icon_user_avatar"
@@ -55,12 +55,10 @@
         android:layout_height="0dp"
         android:layout_margin="@dimen/margin_8dp_small"
         app:cardCornerRadius="@dimen/material_card_corner_radius_15dp"
-        app:cardElevation="@dimen/elevation_10dp_small"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_toolbar"
-        app:strokeColor="@color/orange_dark"
         app:strokeWidth="1dp">
 
         <FrameLayout

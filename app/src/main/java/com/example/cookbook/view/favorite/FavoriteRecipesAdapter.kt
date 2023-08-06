@@ -32,8 +32,8 @@ class FavoriteRecipesAdapter(val callbackSaveRecipe: ISaveRecipe) : RecyclerView
                     }
                     ivAddFavorite.setOnClickListener {
                         callbackSaveRecipe.saveRecipe(data)
-                        ivAddFavorite.setImageResource(R.drawable.icon_favorite_solid)
-                        ivAddFavorite.setBackgroundResource(R.color.orange_dark)
+                        //ivAddFavorite.setImageResource(R.drawable.icon_favorite_solid)
+                        //ivAddFavorite.setBackgroundResource(R.color.orange_dark)
                     }
                 }
             }
