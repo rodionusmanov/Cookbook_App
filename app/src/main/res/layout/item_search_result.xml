@@ -29,7 +29,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.2"
-                android:src="@drawable/icon_favorite"
+                android:src="@drawable/icon_favorite_checked"
                 android:background="@color/orange_light"/>
 
             <TextView
@@ -56,5 +56,4 @@
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,5 +17,10 @@
     //Random Recipe CardView
     <color name="title_text_background">#D6000000</color>
     <color name="time_text_background">#99000000</color>
+    <color name="favorite_label_background">#D6000000</color>
+
+    //Favorite checkbox
+    <color name="checkbox_unchecked">#FFFFFFFF</color>
+    <color name="checkbox_checked">#A82121</color>
 
 </resources>
