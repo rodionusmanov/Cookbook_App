@@ -3,7 +3,6 @@ package com.example.cookbook.model.datasource.retrofit
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException
-import kotlin.jvm.Throws
 
 class BaseInterceptor private constructor() : Interceptor {
 

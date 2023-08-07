@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class RandomRecipeData(
     override val id: Int = 0,
-    override val title: String = "",
     override val image: String = "",
-    val readyInMinutes: Int = 0
+    override val readyInMinutes: Int = 0,
+    override val title: String = ""
 ) : BaseRecipeData

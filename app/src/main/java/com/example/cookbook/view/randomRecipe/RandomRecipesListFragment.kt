@@ -16,7 +16,7 @@ import com.example.cookbook.viewModel.randomRecipeList.RandomRecipeListViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RandomRecipesListFragment :
-    BaseFragment<AppState, List<RandomRecipeData>, FragmentRandomRecipeListBinding>(
+    BaseFragment<AppState, List<BaseRecipeData>, FragmentRandomRecipeListBinding>(
         FragmentRandomRecipeListBinding::inflate
     ) {
 
@@ -50,7 +50,7 @@ class RandomRecipesListFragment :
         model = viewModel
     }
 
-    override fun setupData(data: List<RandomRecipeData>) {
+    override fun setupData(data: List<BaseRecipeData>) {
         adapter.setData(data)
         val layoutManager = StackLayoutManager()
         binding.randomRecipesRecyclerView.adapter = adapter

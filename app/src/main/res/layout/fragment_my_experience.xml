@@ -63,6 +63,6 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-    <include layout = "@layout/layout_loading" />
+    <include layout="@layout/layout_loading" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

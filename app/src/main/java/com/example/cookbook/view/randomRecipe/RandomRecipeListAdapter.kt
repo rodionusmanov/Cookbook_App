@@ -8,23 +8,23 @@ import coil.load
 import coil.size.Scale
 import com.example.cookbook.R
 import com.example.cookbook.databinding.ItemRandomRecipeRvBinding
-import com.example.cookbook.model.domain.RandomRecipeData
+import com.example.cookbook.model.domain.BaseRecipeData
 
 class RandomRecipeListAdapter :
     RecyclerView.Adapter<RandomRecipeListAdapter.RecyclerItemViewHolder>() {
 
-    private var data: List<RandomRecipeData> = arrayListOf()
-    var listener: ((RandomRecipeData) -> Unit)? = null
-    var listenerOnSaveRecipe: ((RandomRecipeData) -> Unit)? = null
-    var listenerOnRemoveRecipe: ((RandomRecipeData) -> Unit)? = null
+    private var data: List<BaseRecipeData> = arrayListOf()
+    var listener: ((BaseRecipeData) -> Unit)? = null
+    var listenerOnSaveRecipe: ((BaseRecipeData) -> Unit)? = null
+    var listenerOnRemoveRecipe: ((BaseRecipeData) -> Unit)? = null
 
-    fun setData(data: List<RandomRecipeData>) {
+    fun setData(data: List<BaseRecipeData>) {
         this.data = data
     }
 
     inner class RecyclerItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        fun bind(data: RandomRecipeData) {
+        fun bind(data: BaseRecipeData) {
             if (layoutPosition != RecyclerView.NO_POSITION) {
                 ItemRandomRecipeRvBinding.bind(itemView).apply {
                     setTextAndImage(data)
@@ -34,7 +34,7 @@ class RandomRecipeListAdapter :
             }
         }
 
-        private fun ItemRandomRecipeRvBinding.setCheckBox(data: RandomRecipeData) {
+        private fun ItemRandomRecipeRvBinding.setCheckBox(data: BaseRecipeData) {
             cbAddFavorite.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     listenerOnSaveRecipe?.invoke(data)
@@ -44,11 +44,11 @@ class RandomRecipeListAdapter :
             }
         }
 
-        private fun ItemRandomRecipeRvBinding.setOnClickListener(data: RandomRecipeData) {
+        private fun ItemRandomRecipeRvBinding.setOnClickListener(data: BaseRecipeData) {
             root.setOnClickListener { listener?.invoke(data) }
         }
 
-        private fun ItemRandomRecipeRvBinding.setTextAndImage(data: RandomRecipeData) {
+        private fun ItemRandomRecipeRvBinding.setTextAndImage(data: BaseRecipeData) {
             randomRecipeTitle.text = data.title
 
             val cookingTime = data.readyInMinutes.toString() + " min"

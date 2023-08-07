@@ -7,6 +7,6 @@ import androidx.room.RoomDatabase
     version = 1,
     entities = [RecipesEntity::class]
 )
-abstract class RecipesDatabase: RoomDatabase() {
+abstract class RecipesDatabase : RoomDatabase() {
     abstract fun getRecipesDAO(): IRecipesDAO
 }

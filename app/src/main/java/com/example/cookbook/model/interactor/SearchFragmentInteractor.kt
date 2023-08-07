@@ -7,7 +7,7 @@ class SearchFragmentInteractor(
     private val remoteRepository: IRepositorySearchRequest
 ) {
 
-    suspend fun searchRecipe(request:String, ingredients: String, isOnline: Boolean): AppState {
+    suspend fun searchRecipe(request: String, ingredients: String, isOnline: Boolean): AppState {
         return AppState.Success(remoteRepository.getSearchResult(request, ingredients))
     }
 

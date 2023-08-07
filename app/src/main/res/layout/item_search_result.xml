@@ -1,68 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/margin_8dp_small"
-    >
+    android:layout_margin="@dimen/margin_8dp_small">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/recipe_image"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:elevation="@dimen/elevation_5dp_small"
         android:layout_margin="0dp"
+        android:elevation="@dimen/elevation_5dp_small"
         app:cardCornerRadius="@dimen/material_card_corner_radius_15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/iv_search_recipe"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_constraintDimensionRatio="1:0.6"
                 android:scaleType="centerCrop"
-                tools:ignore="ContentDescription"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:0.6"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                />
+                tools:ignore="ContentDescription" />
 
             <FrameLayout
                 android:layout_width="35dp"
                 android:layout_height="30dp"
-                android:layout_marginEnd="@dimen/margin_20dp_medium"
                 android:layout_marginTop="@dimen/margin_20dp_medium"
+                android:layout_marginEnd="@dimen/margin_20dp_medium"
                 android:background="@drawable/background_rectangle"
                 android:gravity="center_vertical"
                 android:paddingHorizontal="@dimen/margin_8dp_small"
                 android:paddingVertical="@dimen/margin_2dp_small"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                >
+                app:layout_constraintTop_toTopOf="parent">
 
                 <CheckBox
                     android:id="@+id/iv_add_favorite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:alpha="1"
                     android:button="@drawable/selector_favorite_checkbox"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:gravity="center"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </FrameLayout>
 
@@ -74,15 +67,14 @@
         android:id="@+id/tv_search_recipe"
         android:layout_width="0dp"
         android:layout_height="@dimen/search_result_item_recipe_title_height"
-        android:text="@string/search_recipe"
-        android:textSize="@dimen/search_result_item_layout_recipe_title"
-        android:textColor="@color/search_result_recipe_title_text_color"
-        android:textStyle="bold"
         android:layout_marginTop="@dimen/margin_8dp_small"
+        android:text="@string/search_recipe"
+        android:textColor="@color/search_result_recipe_title_text_color"
+        android:textSize="@dimen/search_result_item_layout_recipe_title"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recipe_image"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recipe_image" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

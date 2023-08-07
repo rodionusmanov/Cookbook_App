@@ -6,4 +6,5 @@ interface BaseRecipeData : Parcelable {
     val id: Int
     val title: String
     val image: String
+    val readyInMinutes: Int
 }

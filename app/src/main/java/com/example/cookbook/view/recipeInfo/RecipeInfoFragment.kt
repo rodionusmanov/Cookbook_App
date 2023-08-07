@@ -50,6 +50,7 @@ class RecipeInfoFragment :
                 "${data.carbohydrates?.amount}${data.carbohydrates?.unit}"
 
             viewPager.adapter = RecipeInformationPageAdapter(data, requireActivity())
+            viewPager.isUserInputEnabled = false
             TabLayoutMediator(tabLayout, viewPager) { tab, pos ->
                 when (pos) {
                     0 -> tab.text = "Ingredient"

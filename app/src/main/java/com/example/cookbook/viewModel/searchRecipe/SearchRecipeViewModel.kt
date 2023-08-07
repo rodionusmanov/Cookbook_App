@@ -3,11 +3,10 @@ package com.example.cookbook.viewModel.searchRecipe
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.cookbook.model.AppState
-import com.example.cookbook.model.domain.SearchRecipeData
+import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.interactor.SearchFragmentInteractor
 import com.example.cookbook.model.repository.local.LocalRepositoryImpl
 import com.example.cookbook.view.base.BaseViewModel
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -31,19 +30,19 @@ class SearchRecipeViewModel(
         }
     }
 
-    fun getRandomRecipes(){
+    fun getRandomRecipes() {
         viewModelCoroutineScope.launch {
             _stateFlow.value = AppState.Loading
             try {
                 _stateFlow.emit(interactor.getRandomRecipes())
-            } catch (e:Throwable) {
+            } catch (e: Throwable) {
                 _stateFlow.emit(AppState.Error(e))
             }
         }
     }
 
-    fun getAllLocalRecipes(): LiveData<List<SearchRecipeData>> {
-        val result = MutableLiveData<List<SearchRecipeData>>()
+    fun getAllLocalRecipes(): LiveData<List<BaseRecipeData>> {
+        val result = MutableLiveData<List<BaseRecipeData>>()
         viewModelCoroutineScope.launch {
             val returnedData = localRepository.getAllRecipesData()
             result.postValue(returnedData)
@@ -51,7 +50,7 @@ class SearchRecipeViewModel(
         return result
     }
 
-    fun insertNewRecipeToDataBase(recipeData: SearchRecipeData) {
+    fun insertNewRecipeToDataBase(recipeData: BaseRecipeData) {
         viewModelCoroutineScope.launch {
             localRepository.insertNewRecipe(recipeData)
         }

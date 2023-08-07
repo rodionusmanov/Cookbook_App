@@ -16,7 +16,7 @@ import org.koin.android.ext.android.inject
 typealias Inflate<F> = (LayoutInflater, ViewGroup?, Boolean) -> F
 
 @Suppress("UNCHECKED_CAST")
-abstract class BaseFragment<T: AppState, I, VB: ViewBinding>(
+abstract class BaseFragment<T : AppState, I, VB : ViewBinding>(
     private val inflate: Inflate<VB>
 ) : Fragment() {
 
@@ -26,8 +26,8 @@ abstract class BaseFragment<T: AppState, I, VB: ViewBinding>(
     private val networkRepository: NetworkRepository by inject()
     private var isNetworkAvailable: Boolean = true
 
-    private var _binding : VB? = null
-    val binding : VB get() = _binding!!
+    private var _binding: VB? = null
+    val binding: VB get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,8 +52,10 @@ abstract class BaseFragment<T: AppState, I, VB: ViewBinding>(
         networkRepository.getNetworkStatusLiveData().observe(viewLifecycleOwner) {
             isNetworkAvailable = it
             if (!isNetworkAvailable) {
-                snackbar = Snackbar.make(requireView(), R.string.dialog_message_device_is_offline,
-                    Snackbar.LENGTH_INDEFINITE)
+                snackbar = Snackbar.make(
+                    requireView(), R.string.dialog_message_device_is_offline,
+                    Snackbar.LENGTH_INDEFINITE
+                )
                 snackbar?.show()
             } else {
                 snackbar?.dismiss()
@@ -74,9 +76,11 @@ abstract class BaseFragment<T: AppState, I, VB: ViewBinding>(
                 val data = appState.data as I
                 setupData(data)
             }
+
             is AppState.Loading -> {
                 showViewLoading()
             }
+
             is AppState.Error -> {
                 showWorkingView()
                 showErrorDialog(appState.error.message)

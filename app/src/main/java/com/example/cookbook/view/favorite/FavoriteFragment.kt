@@ -4,11 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cookbook.databinding.FragmentFavoriteBinding
-import com.example.cookbook.model.domain.SearchRecipeData
+import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.view.searchRecipe.ISaveRecipe
 import com.example.cookbook.viewModel.favorite.FavoriteRecipesViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -24,16 +23,13 @@ class FavoriteFragment : Fragment() {
     private lateinit var model: FavoriteRecipesViewModel
     private val adapter: FavoriteRecipesAdapter by lazy { FavoriteRecipesAdapter(callbackSaveItem) }
 
-    private lateinit var favoriteRecipes: List<SearchRecipeData>
+    private lateinit var favoriteRecipes: List<BaseRecipeData>
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
-
-        initViewModel()
-        initFavoriteRecipes()
         return binding.root
     }
 
@@ -46,20 +42,14 @@ class FavoriteFragment : Fragment() {
         }
     }
 
-    private fun setupData(favoriteRecipes: List<SearchRecipeData>) {
+    private fun setupData(favoriteRecipes: List<BaseRecipeData>) {
         adapter.setData(favoriteRecipes)
         binding.favoriteRecipesRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.favoriteRecipesRecyclerView.adapter = adapter
     }
 
-    private fun initFavoriteRecipes() {
-        model.getAllLocalRecipes().observe(viewLifecycleOwner) {
-            favoriteRecipes = it
-        }
-    }
-
     private val callbackSaveItem = object : ISaveRecipe {
-        override fun saveRecipe(recipe: SearchRecipeData) {
+        override fun saveRecipe(recipe: BaseRecipeData) {
             model.insertNewRecipeToDataBase(recipe)
         }
     }

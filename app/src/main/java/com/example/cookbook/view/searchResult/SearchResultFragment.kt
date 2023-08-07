@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cookbook.R
 import com.example.cookbook.databinding.FragmentSearchResultBinding
 import com.example.cookbook.model.AppState
+import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.SearchRecipeData
 import com.example.cookbook.utils.ID
 import com.example.cookbook.view.base.BaseFragment
@@ -28,7 +29,7 @@ class SearchResultFragment :
 
     private val adapter: SearchRecipeAdapter by lazy { SearchRecipeAdapter() }
 
-    private lateinit var favoriteRecipes: List<SearchRecipeData>
+    private lateinit var favoriteRecipes: List<BaseRecipeData>
 
     companion object {
         private const val SEARCH_DATA_KEY = "SEARCH_DATA_KEY"

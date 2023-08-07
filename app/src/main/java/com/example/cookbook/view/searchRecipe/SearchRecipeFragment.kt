@@ -25,6 +25,8 @@ class SearchRecipeFragment :
         FragmentSearchRecipeBinding::inflate
     ) {
 
+    private var _binding: FragmentSearchRecipeBinding? = null
+
     private lateinit var model: SearchRecipeViewModel
 
     private val selectedIngredients = mutableSetOf<String>()
@@ -92,5 +94,10 @@ class SearchRecipeFragment :
             .beginTransaction()
             .replace(R.id.search_fragment_container, fragment)
             .commit()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

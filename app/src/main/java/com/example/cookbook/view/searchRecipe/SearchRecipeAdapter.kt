@@ -8,23 +8,23 @@ import coil.load
 import coil.size.Scale
 import com.example.cookbook.R
 import com.example.cookbook.databinding.ItemSearchResultBinding
-import com.example.cookbook.model.domain.SearchRecipeData
+import com.example.cookbook.model.domain.BaseRecipeData
 
-class SearchRecipeAdapter() :
+class SearchRecipeAdapter :
     RecyclerView.Adapter<SearchRecipeAdapter.RecyclerItemViewHolder>() {
 
-    private var data: List<SearchRecipeData> = arrayListOf()
-    var listener: ((SearchRecipeData) -> Unit)? = null
-    var listenerOnSaveRecipe: ((SearchRecipeData) -> Unit)? = null
-    var listenerOnRemoveRecipe: ((SearchRecipeData) -> Unit)? = null
+    private var data: List<BaseRecipeData> = arrayListOf()
+    var listener: ((BaseRecipeData) -> Unit)? = null
+    var listenerOnSaveRecipe: ((BaseRecipeData) -> Unit)? = null
+    var listenerOnRemoveRecipe: ((BaseRecipeData) -> Unit)? = null
 
-    fun setData(data: List<SearchRecipeData>) {
+    fun setData(data: List<BaseRecipeData>) {
         this.data = data
         notifyDataSetChanged()
     }
 
     inner class RecyclerItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(data: SearchRecipeData) {
+        fun bind(data: BaseRecipeData) {
             if (layoutPosition != RecyclerView.NO_POSITION) {
                 ItemSearchResultBinding.bind(itemView).apply {
                     setTextAndImage(data)
@@ -34,11 +34,11 @@ class SearchRecipeAdapter() :
             }
         }
 
-        private fun ItemSearchResultBinding.setOnClickListener(data: SearchRecipeData) {
+        private fun ItemSearchResultBinding.setOnClickListener(data: BaseRecipeData) {
             root.setOnClickListener { listener?.invoke(data) }
         }
 
-        private fun ItemSearchResultBinding.setTextAndImage(data: SearchRecipeData) {
+        private fun ItemSearchResultBinding.setTextAndImage(data: BaseRecipeData) {
             tvSearchRecipe.text = data.title
             ivSearchRecipe.load(data.image) {
                 crossfade(500)
@@ -47,7 +47,7 @@ class SearchRecipeAdapter() :
             }
         }
 
-        private fun ItemSearchResultBinding.setCheckBox(data: SearchRecipeData) {
+        private fun ItemSearchResultBinding.setCheckBox(data: BaseRecipeData) {
             ivAddFavorite.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     listenerOnSaveRecipe?.invoke(data)

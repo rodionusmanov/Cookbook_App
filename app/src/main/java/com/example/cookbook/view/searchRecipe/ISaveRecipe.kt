@@ -1,8 +1,7 @@
 package com.example.cookbook.view.searchRecipe
 
-import com.example.cookbook.model.domain.SearchRecipeData
-import java.text.FieldPosition
+import com.example.cookbook.model.domain.BaseRecipeData
 
 interface ISaveRecipe {
-    fun saveRecipe(recipe: SearchRecipeData)
+    fun saveRecipe(recipe: BaseRecipeData)
 }

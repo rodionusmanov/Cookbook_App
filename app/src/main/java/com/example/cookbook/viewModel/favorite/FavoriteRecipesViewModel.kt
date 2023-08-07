@@ -3,17 +3,17 @@ package com.example.cookbook.viewModel.favorite
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.cookbook.model.AppState
-import com.example.cookbook.model.domain.SearchRecipeData
+import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.repository.local.LocalRepositoryImpl
 import com.example.cookbook.view.base.BaseViewModel
 import kotlinx.coroutines.launch
 
 class FavoriteRecipesViewModel(
     private val localRepository: LocalRepositoryImpl
-    ) : BaseViewModel<AppState>() {
+) : BaseViewModel<AppState>() {
 
-    fun getAllLocalRecipes(): LiveData<List<SearchRecipeData>> {
-        val result = MutableLiveData<List<SearchRecipeData>>()
+    fun getAllLocalRecipes(): LiveData<List<BaseRecipeData>> {
+        val result = MutableLiveData<List<BaseRecipeData>>()
         viewModelCoroutineScope.launch {
             val returnedData = localRepository.getAllRecipesData()
             result.postValue(returnedData)
@@ -21,7 +21,7 @@ class FavoriteRecipesViewModel(
         return result
     }
 
-    fun insertNewRecipeToDataBase(recipeData: SearchRecipeData) {
+    fun insertNewRecipeToDataBase(recipeData: BaseRecipeData) {
         viewModelCoroutineScope.launch {
             localRepository.insertNewRecipe(recipeData)
         }

@@ -1,8 +1,8 @@
 package com.example.cookbook.model.datasource.retrofit
 
 import com.example.cookbook.model.datasource.DTO.randomRecipe.RandomRecipeListDTO
-import com.example.cookbook.model.datasource.DTO.searchRecipe.SearchRecipeListDTO
 import com.example.cookbook.model.datasource.DTO.recipeInformation.RecipeInformationDTO
+import com.example.cookbook.model.datasource.DTO.searchRecipe.SearchRecipeListDTO
 import com.example.cookbook.utils.SPOONACULAR_API_KEY
 import kotlinx.coroutines.Deferred
 import retrofit2.Response

@@ -1,8 +1,8 @@
 package com.example.cookbook.model.datasource.retrofit
 
 import com.example.cookbook.model.datasource.DTO.randomRecipe.RandomRecipeListDTO
-import com.example.cookbook.model.datasource.DTO.searchRecipe.SearchRecipeListDTO
 import com.example.cookbook.model.datasource.DTO.recipeInformation.RecipeInformationDTO
+import com.example.cookbook.model.datasource.DTO.searchRecipe.SearchRecipeListDTO
 import com.example.cookbook.model.datasource.RandomRecipeDataSource
 import com.example.cookbook.model.datasource.RecipeInformationDataSource
 import com.example.cookbook.model.datasource.SearchRecipeDataSource
@@ -59,7 +59,7 @@ class RetrofitImplementation : SearchRecipeDataSource, RandomRecipeDataSource,
             .build()
     }
 
-    private fun createOkHttpClient(interceptor: Interceptor) : OkHttpClient {
+    private fun createOkHttpClient(interceptor: Interceptor): OkHttpClient {
         val httpClient = OkHttpClient.Builder()
 
         httpClient.addInterceptor { chain ->
@@ -74,8 +74,10 @@ class RetrofitImplementation : SearchRecipeDataSource, RandomRecipeDataSource,
 
         httpClient.addInterceptor(interceptor)
 
-        httpClient.addInterceptor(HttpLoggingInterceptor()
-            .setLevel(HttpLoggingInterceptor.Level.BODY))
+        httpClient.addInterceptor(
+            HttpLoggingInterceptor()
+                .setLevel(HttpLoggingInterceptor.Level.BODY)
+        )
 
         return httpClient.build()
     }
