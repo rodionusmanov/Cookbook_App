@@ -30,7 +30,11 @@ class SearchRepositoryImpl(
     override suspend fun getRandomRecipes(): List<RandomRecipeData> {
 
         val response = randomRecipeDataSource.getRandomRecipes()
-        return parseResponse(response) { it.recipes }
+        return parseResponse(response) { responseDto ->
+            responseDto.recipes.map { recipe ->
+                mapper.mapRecipeData(recipe) as RandomRecipeData
+            }
+        }
     }
 
     override suspend fun getRecipeInfo(id: Int): RecipeInformation {
