@@ -8,9 +8,10 @@
     tools:context=".view.recipeInfo.preparation.PreparationFragment">
 
     <TextView
+        android:id="@+id/tv_equipments"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Equipment"
+        android:text="@string/equipment"
         android:textAlignment="center"
         android:textSize="30sp"
         android:textStyle="bold" />
@@ -24,9 +25,10 @@
         tools:listitem="@layout/item_ingredients_and_equipments" />
 
     <TextView
+        android:id="@+id/tv_ingredient"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ingredients"
+        android:text="@string/ingredients"
         android:textAlignment="center"
         android:textSize="30sp"
         android:textStyle="bold" />
@@ -40,9 +42,10 @@
         tools:listitem="@layout/item_ingredients_and_equipments" />
 
     <TextView
+        android:id="@+id/tv_steps"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Steps"
+        android:text="@string/steps"
         android:textAlignment="center"
         android:textSize="30sp"
         android:textStyle="bold" />

@@ -20,7 +20,8 @@ class IngredientsAdapter : RecyclerView.Adapter<IngredientsAdapter.IngredientsVi
         ViewHolder(binding.root) {
         fun bind(data: ExtendedIngredient) {
             with(binding) {
-                tvIngredient.text = data.originalName
+                tvIngredient.text =
+                    "${data.originalName} ${data.measures.metric.amount} ${data.measures.metric.unitLong}"
             }
         }
     }

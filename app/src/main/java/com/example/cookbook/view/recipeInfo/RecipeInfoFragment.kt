@@ -37,6 +37,12 @@ class RecipeInfoFragment :
 
     override fun setupData(data: RecipeInformation) {
         with(binding) {
+            chDairyFree.isChecked = data.dairyFree
+            chGlutenFree.isChecked = data.glutenFree
+            chVegan.isChecked = data.vegan
+            chVegetarian.isChecked = data.vegetarian
+            chVeryHealthy.isChecked = data.veryHealthy
+
             tvRecipeInfoTitle.text = data.title
             ivRecipeInfoImage.load(data.image) {
                 crossfade(true)
@@ -61,6 +67,6 @@ class RecipeInfoFragment :
     }
 
     override fun showErrorDialog(message: String?) {
-        TODO("Not yet implemented")
+
     }
 }
