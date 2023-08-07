@@ -1,9 +1,7 @@
 package com.example.cookbook.view.recipeInfo
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import coil.load
 import coil.transform.RoundedCornersTransformation
@@ -18,19 +16,12 @@ import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class RecipeInfoFragment : BaseFragment<AppState, RecipeInformation>() {
+class RecipeInfoFragment :
+    BaseFragment<AppState, RecipeInformation, FragmentRecipeInfoBinding>(
+        FragmentRecipeInfoBinding::inflate
+    ) {
 
-    private var _binding: FragmentRecipeInfoBinding? = null
-    private val binding get() = _binding!!
     private val viewModel: RecipeInfoViewModel by viewModel()
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentRecipeInfoBinding.inflate(inflater)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -42,12 +33,6 @@ class RecipeInfoFragment : BaseFragment<AppState, RecipeInformation>() {
                 renderData(it)
             }
         }
-
-    }
-
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
     }
 
     override fun setupData(data: RecipeInformation) {
@@ -72,7 +57,6 @@ class RecipeInfoFragment : BaseFragment<AppState, RecipeInformation>() {
                 }
             }.attach()
         }
-
     }
 
     override fun showErrorDialog(message: String?) {

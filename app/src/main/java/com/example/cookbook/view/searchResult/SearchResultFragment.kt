@@ -1,9 +1,7 @@
 package com.example.cookbook.view.searchResult
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -22,13 +20,10 @@ import com.example.cookbook.viewModel.searchRecipe.SearchResultViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SearchResultFragment : BaseFragment<AppState, List<SearchRecipeData>>() {
-
-    private var _binding: FragmentSearchResultBinding? = null
-    private val binding: FragmentSearchResultBinding
-        get() {
-            return _binding!!
-        }
+class SearchResultFragment :
+    BaseFragment<AppState, List<SearchRecipeData>, FragmentSearchResultBinding>(
+        FragmentSearchResultBinding::inflate
+    ) {
 
     private lateinit var model: SearchResultViewModel
 
@@ -41,29 +36,20 @@ class SearchResultFragment : BaseFragment<AppState, List<SearchRecipeData>>() {
 
         fun newInstance(searchData: List<SearchRecipeData>): SearchResultFragment {
             return SearchResultFragment().apply {
-                arguments = Bundle().apply{
+                arguments = Bundle().apply {
                     putParcelableArrayList(SEARCH_DATA_KEY, ArrayList(searchData))
                 }
             }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentSearchResultBinding.inflate(inflater, container, false)
-
-        arguments?.getParcelableArrayList<SearchRecipeData>(SEARCH_DATA_KEY)?.
-        let { searchData ->
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        arguments?.getParcelableArrayList<SearchRecipeData>(SEARCH_DATA_KEY)?.let { searchData ->
             setupData(searchData)
         }
-
         initViewModel()
         initFavoriteRecipes()
-
-        return binding.root
+        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun showErrorDialog(message: String?) {
@@ -103,10 +89,5 @@ class SearchResultFragment : BaseFragment<AppState, List<SearchRecipeData>>() {
         model.getAllLocalRecipes().observe(viewLifecycleOwner) {
             favoriteRecipes = it
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
