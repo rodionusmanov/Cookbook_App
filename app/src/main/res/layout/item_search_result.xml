@@ -57,7 +57,6 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:alpha="1"
-                    android:buttonTint="@color/white"
                     android:button="@drawable/selector_favorite_checkbox"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"

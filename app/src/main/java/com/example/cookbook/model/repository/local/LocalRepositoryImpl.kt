@@ -1,6 +1,7 @@
 package com.example.cookbook.model.repository.local
 
 import com.example.cookbook.model.domain.BaseRecipeData
+import com.example.cookbook.model.domain.SearchRecipeData
 import com.example.cookbook.model.room.IRecipesDAO
 import com.example.cookbook.utils.convertRecipeEntityToList
 import com.example.cookbook.utils.convertRecipeToEntity
@@ -11,7 +12,7 @@ class LocalRepositoryImpl(private val recipeDAO: IRecipesDAO): ILocalRecipesRepo
         recipeDAO.insertNewRecipe(convertRecipeToEntity(recipeData))
     }
 
-    override suspend fun getAllRecipesData(): List<BaseRecipeData> {
+    override suspend fun getAllRecipesData(): List<SearchRecipeData> {
         return convertRecipeEntityToList(recipeDAO.getAllFavoriteRecipes())
     }
 

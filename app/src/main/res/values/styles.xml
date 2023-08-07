@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <style name="FavoriteCheckBoxStyle">
+        <item name="android:button">@drawable/selector_favorite_checkbox</item>
+    </style>
+
+</resources>

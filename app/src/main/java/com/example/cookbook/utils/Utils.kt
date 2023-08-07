@@ -4,7 +4,7 @@ import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.SearchRecipeData
 import com.example.cookbook.model.room.RecipesEntity
 
-fun convertRecipeEntityToList(entityList: List<RecipesEntity>): List<BaseRecipeData> {
+fun convertRecipeEntityToList(entityList: List<RecipesEntity>): List<SearchRecipeData> {
     return entityList.map {entity ->
        SearchRecipeData(entity.id, entity.title, entity.image)
     }
