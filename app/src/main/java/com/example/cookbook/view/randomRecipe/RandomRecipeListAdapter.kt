@@ -15,6 +15,8 @@ class RandomRecipeListAdapter :
 
     private var data: List<RandomRecipeData> = arrayListOf()
     var listener: ((RandomRecipeData) -> Unit)? = null
+    var listenerOnSaveRecipe: ((RandomRecipeData) -> Unit)? = null
+    var listenerOnRemoveRecipe: ((RandomRecipeData) -> Unit)? = null
 
     fun setData(data: List<RandomRecipeData>) {
         this.data = data
@@ -25,20 +27,37 @@ class RandomRecipeListAdapter :
         fun bind(data: RandomRecipeData) {
             if (layoutPosition != RecyclerView.NO_POSITION) {
                 ItemRandomRecipeRvBinding.bind(itemView).apply {
-                    randomRecipeTitle.text = data.title
-
-                    val cookingTime = data.readyInMinutes.toString() + " min"
-                    tvCookingTime.text = cookingTime
-
-                    randomRecipeImage.load(data.image) {
-                        crossfade(500)
-                        scale(Scale.FILL)
-                        placeholder(R.drawable.icon_search)
-                    }
-                    root.setOnClickListener {
-                        listener?.invoke(data)
-                    }
+                    setTextAndImage(data)
+                    setOnClickListener(data)
+                    setCheckBox(data)
                 }
+            }
+        }
+
+        private fun ItemRandomRecipeRvBinding.setCheckBox(data: RandomRecipeData) {
+            cbAddFavorite.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    listenerOnSaveRecipe?.invoke(data)
+                } else {
+                    listenerOnRemoveRecipe?.invoke(data)
+                }
+            }
+        }
+
+        private fun ItemRandomRecipeRvBinding.setOnClickListener(data: RandomRecipeData) {
+            root.setOnClickListener { listener?.invoke(data) }
+        }
+
+        private fun ItemRandomRecipeRvBinding.setTextAndImage(data: RandomRecipeData) {
+            randomRecipeTitle.text = data.title
+
+            val cookingTime = data.readyInMinutes.toString() + " min"
+            tvCookingTime.text = cookingTime
+
+            randomRecipeImage.load(data.image) {
+                crossfade(500)
+                scale(Scale.FILL)
+                placeholder(R.drawable.icon_search)
             }
         }
     }

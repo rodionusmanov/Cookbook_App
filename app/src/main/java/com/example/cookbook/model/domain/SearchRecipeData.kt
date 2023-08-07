@@ -4,7 +4,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class SearchRecipeData(
-    val id: Int = 0,
-    val title: String = "",
-    val image: String = "",
+    override val id: Int = 0,
+    override val title: String = "",
+    override val image: String = "",
 ): BaseRecipeData
