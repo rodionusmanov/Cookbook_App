@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cookbook.databinding.FragmentPreparationBinding
@@ -63,6 +64,8 @@ class PreparationFragment : Fragment() {
         ingredientAdapter.setData(ingredientsList.distinct())
 
         with(binding) {
+            tvEquipments.isVisible = equipmentList.isNotEmpty()
+            tvIngredient.isVisible = ingredientsList.isNotEmpty()
             rvIngredientsPreparation.layoutManager = ingredientHorizontalLayoutManager
             rvEquipments.layoutManager = equipmentHorizontalLayoutManager
 
