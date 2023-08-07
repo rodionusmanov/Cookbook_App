@@ -1,8 +1,11 @@
 package com.example.cookbook.view.base
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.viewbinding.ViewBinding
 import com.example.cookbook.R
 import com.example.cookbook.databinding.LayoutLoadingBinding
 import com.example.cookbook.model.AppState
@@ -10,8 +13,12 @@ import com.example.cookbook.model.repository.network.NetworkRepository
 import com.google.android.material.snackbar.Snackbar
 import org.koin.android.ext.android.inject
 
+typealias Inflate<F> = (LayoutInflater, ViewGroup?, Boolean) -> F
+
 @Suppress("UNCHECKED_CAST")
-abstract class BaseFragment<T: AppState, I> : Fragment() {
+abstract class BaseFragment<T: AppState, I, VB: ViewBinding>(
+    private val inflate: Inflate<VB>
+) : Fragment() {
 
     private var _bindingLoading: LayoutLoadingBinding? = null
     private val bindingLoading get() = _bindingLoading!!
@@ -19,9 +26,22 @@ abstract class BaseFragment<T: AppState, I> : Fragment() {
     private val networkRepository: NetworkRepository by inject()
     private var isNetworkAvailable: Boolean = true
 
+    private var _binding : VB? = null
+    val binding : VB get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = inflate.invoke(inflater, container, false)
+        _bindingLoading = LayoutLoadingBinding.inflate(layoutInflater)
+
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _bindingLoading = LayoutLoadingBinding.inflate(layoutInflater)
         subscribeToNetworkChange()
     }
 
@@ -33,7 +53,7 @@ abstract class BaseFragment<T: AppState, I> : Fragment() {
             isNetworkAvailable = it
             if (!isNetworkAvailable) {
                 snackbar = Snackbar.make(requireView(), R.string.dialog_message_device_is_offline,
-                Snackbar.LENGTH_INDEFINITE)
+                    Snackbar.LENGTH_INDEFINITE)
                 snackbar?.show()
             } else {
                 snackbar?.dismiss()
@@ -43,6 +63,7 @@ abstract class BaseFragment<T: AppState, I> : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        _binding = null
         _bindingLoading = null
     }
 

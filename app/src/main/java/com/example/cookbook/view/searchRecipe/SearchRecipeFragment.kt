@@ -13,7 +13,7 @@ import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.RandomRecipeData
 import com.example.cookbook.model.domain.SearchRecipeData
-import com.example.cookbook.view.base.BaseFragment2
+import com.example.cookbook.view.base.BaseFragment
 import com.example.cookbook.view.randomRecipe.RandomRecipesListFragment
 import com.example.cookbook.view.searchResult.SearchResultFragment
 import com.example.cookbook.viewModel.searchRecipe.SearchRecipeViewModel
@@ -21,8 +21,9 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchRecipeFragment :
-    BaseFragment2<AppState, List<BaseRecipeData>, FragmentSearchRecipeBinding>(
-        FragmentSearchRecipeBinding::inflate) {
+    BaseFragment<AppState, List<BaseRecipeData>, FragmentSearchRecipeBinding>(
+        FragmentSearchRecipeBinding::inflate
+    ) {
 
     private lateinit var model: SearchRecipeViewModel
 
@@ -68,7 +69,7 @@ class SearchRecipeFragment :
     }
 
     override fun setupData(data: List<BaseRecipeData>) {
-        when(val firstItem = data.firstOrNull()) {
+        when (val firstItem = data.firstOrNull()) {
             is SearchRecipeData -> setupSearchData(data.filterIsInstance<SearchRecipeData>())
             is RandomRecipeData -> setupRandomData(data.filterIsInstance<RandomRecipeData>())
             else -> {
