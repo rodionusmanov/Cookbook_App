@@ -14,7 +14,6 @@ import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.SearchRecipeData
 import com.example.cookbook.utils.ID
 import com.example.cookbook.view.base.BaseFragment
-import com.example.cookbook.view.searchRecipe.ISaveRecipe
 import com.example.cookbook.view.searchRecipe.SearchRecipeAdapter
 import com.example.cookbook.viewModel.searchRecipe.SearchResultViewModel
 import kotlinx.coroutines.launch
@@ -27,7 +26,7 @@ class SearchResultFragment :
 
     private lateinit var model: SearchResultViewModel
 
-    private val adapter: SearchRecipeAdapter by lazy { SearchRecipeAdapter(callbackSaveItem) }
+    private val adapter: SearchRecipeAdapter by lazy { SearchRecipeAdapter() }
 
     private lateinit var favoriteRecipes: List<SearchRecipeData>
 
@@ -58,15 +57,33 @@ class SearchResultFragment :
 
     override fun setupData(data: List<SearchRecipeData>) {
         adapter.setData(data)
-        adapter.listener = {
-            findNavController().navigate(
-                R.id.action_navigation_search_recipe_to_recipeInfoFragment,
-                Bundle().apply {
-                    putInt(ID, it.id)
-                })
+
+        initFavoriteListeners()
+
+        adapter.listener = { recipe ->
+            openRecipeInfoFragment(recipe.id)
         }
+
         binding.resultRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.resultRecyclerView.adapter = adapter
+    }
+
+    private fun initFavoriteListeners() {
+        adapter.listenerOnSaveRecipe = { recipe ->
+            model.insertNewRecipeToDataBase(recipe)
+        }
+
+        adapter.listenerOnRemoveRecipe = { recipe ->
+            model.deleteRecipeFromData(recipe.id)
+        }
+    }
+
+    private fun openRecipeInfoFragment(recipeId: Int) {
+        findNavController().navigate(
+            R.id.action_navigation_search_recipe_to_recipeInfoFragment,
+            Bundle().apply {
+                putInt(ID, recipeId)
+            })
     }
 
     private fun initViewModel() {
@@ -76,12 +93,6 @@ class SearchResultFragment :
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 model.stateFlow.collect { renderData(it) }
             }
-        }
-    }
-
-    private val callbackSaveItem = object : ISaveRecipe {
-        override fun saveRecipe(recipe: SearchRecipeData) {
-            model.insertNewRecipeToDataBase(recipe)
         }
     }
 
