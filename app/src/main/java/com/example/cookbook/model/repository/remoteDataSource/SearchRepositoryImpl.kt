@@ -3,6 +3,7 @@ package com.example.cookbook.model.repository.remoteDataSource
 import com.example.cookbook.model.datasource.RandomRecipeDataSource
 import com.example.cookbook.model.datasource.RecipeInformationDataSource
 import com.example.cookbook.model.datasource.SearchRecipeDataSource
+import com.example.cookbook.model.datasource.retrofit.BaseInterceptor
 import com.example.cookbook.model.domain.RandomRecipeData
 import com.example.cookbook.model.domain.RecipeInformation
 import com.example.cookbook.model.domain.SearchRecipeData
@@ -41,12 +42,30 @@ class SearchRepositoryImpl(
     }
 
     private fun <T, R> parseResponse(response: Response<T>, dataSelector: (T) -> R): R {
-        if (response.isSuccessful) {
-            val body = response.body()
-            if (body != null) {
-                return dataSelector(body)
-            } else {
-                throw Exception("Response body is null")
+
+        val responseStatusCode = BaseInterceptor.interceptor.getResponseCode()
+
+        if (response.isSuccessful && response.body() != null) {
+            return when (responseStatusCode) {
+                BaseInterceptor.ServerResponseStatusCode.SUCCESS -> {
+                    val body = response.body()
+                    body?.let { dataSelector(it) } ?: throw Exception("Body should not be null")
+                }
+
+                BaseInterceptor.ServerResponseStatusCode.REDIRECTION ->
+                    throw Exception("Redirection occurred")
+
+                BaseInterceptor.ServerResponseStatusCode.CLIENT_ERROR -> {
+                    val errorMessage = response.errorBody()?.string() ?: "Client Error"
+                    throw Exception("Client Error: $errorMessage")
+                }
+
+                BaseInterceptor.ServerResponseStatusCode.SERVER_ERROR -> {
+                    val errorMessage = response.errorBody()?.string() ?: "Server Error"
+                    throw Exception("A server error: $errorMessage occured. Please try again later.")
+                }
+
+                else -> throw Exception("Unknown Error")
             }
         } else {
             throw Exception("Response was not successful: ${response.message()}")

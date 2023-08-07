@@ -1,9 +1,7 @@
 package com.example.cookbook.view.searchRecipe
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.lifecycle.Lifecycle
@@ -15,36 +13,25 @@ import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.RandomRecipeData
 import com.example.cookbook.model.domain.SearchRecipeData
-import com.example.cookbook.view.base.BaseFragment
+import com.example.cookbook.view.base.BaseFragment2
 import com.example.cookbook.view.randomRecipe.RandomRecipesListFragment
 import com.example.cookbook.view.searchResult.SearchResultFragment
 import com.example.cookbook.viewModel.searchRecipe.SearchRecipeViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SearchRecipeFragment : BaseFragment<AppState, List<BaseRecipeData>>() {
-
-    private var _binding: FragmentSearchRecipeBinding? = null
-    private val binding: FragmentSearchRecipeBinding
-        get() {
-            return _binding!!
-        }
+class SearchRecipeFragment :
+    BaseFragment2<AppState, List<BaseRecipeData>, FragmentSearchRecipeBinding>(
+        FragmentSearchRecipeBinding::inflate) {
 
     private lateinit var model: SearchRecipeViewModel
 
     private val selectedIngredients = mutableSetOf<String>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentSearchRecipeBinding.inflate(inflater, container, false)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initViewModel()
         setupSearchView()
-
-        return binding.root
+        super.onViewCreated(view, savedInstanceState)
     }
 
     private fun setupSearchView() {
@@ -61,7 +48,6 @@ class SearchRecipeFragment : BaseFragment<AppState, List<BaseRecipeData>>() {
                 override fun onQueryTextChange(newText: String?): Boolean {
                     return true
                 }
-
             }
         )
     }
@@ -105,10 +91,5 @@ class SearchRecipeFragment : BaseFragment<AppState, List<BaseRecipeData>>() {
             .beginTransaction()
             .replace(R.id.search_fragment_container, fragment)
             .commit()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
