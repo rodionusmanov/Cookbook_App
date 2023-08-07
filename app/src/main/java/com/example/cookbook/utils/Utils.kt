@@ -1,18 +1,16 @@
 package com.example.cookbook.utils
 
+import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.SearchRecipeData
 import com.example.cookbook.model.room.RecipesEntity
 
-fun convertRecipeEntityToList(entityList: List<RecipesEntity>): List<SearchRecipeData> {
-    return entityList.map {
-        SearchRecipeData(it.id, it.title, it.image)
+fun convertRecipeEntityToList(entityList: List<RecipesEntity>): List<BaseRecipeData> {
+    return entityList.map {entity ->
+       SearchRecipeData(entity.id, entity.title, entity.image)
     }
 }
-fun convertRecipeToEntity(recipe: SearchRecipeData): RecipesEntity {
-    return RecipesEntity(
-        recipe.id,
-        recipe.title,
-        recipe.image
-    )
+
+fun convertRecipeToEntity(recipeData: BaseRecipeData): RecipesEntity {
+    return RecipesEntity(recipeData.id, recipeData.title, recipeData.image)
 }
 

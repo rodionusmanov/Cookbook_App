@@ -27,26 +27,37 @@ class SearchRecipeAdapter() :
         fun bind(data: SearchRecipeData) {
             if (layoutPosition != RecyclerView.NO_POSITION) {
                 ItemSearchResultBinding.bind(itemView).apply {
-                    tvSearchRecipe.text = data.title
-                    ivSearchRecipe.load(data.image) {
-                        crossfade(500)
-                        scale(Scale.FILL)
-                        placeholder(R.drawable.icon_search)
-                    }
-                    ivAddFavorite.setOnCheckedChangeListener { _, isChecked ->
-                        if(isChecked) {
-                            listenerOnSaveRecipe?.invoke(data)
-                        } else {
-                            listenerOnRemoveRecipe?.invoke(data)
-                        }
-                    }
-                    root.setOnClickListener {
-                        listener?.invoke(data)
-                    }
+                    setTextAndImage(data)
+                    setCheckBox(data)
+                    setOnClickListener(data)
+                }
+            }
+        }
+
+        private fun ItemSearchResultBinding.setOnClickListener(data: SearchRecipeData) {
+            root.setOnClickListener { listener?.invoke(data) }
+        }
+
+        private fun ItemSearchResultBinding.setTextAndImage(data: SearchRecipeData) {
+            tvSearchRecipe.text = data.title
+            ivSearchRecipe.load(data.image) {
+                crossfade(500)
+                scale(Scale.FILL)
+                placeholder(R.drawable.icon_search)
+            }
+        }
+
+        private fun ItemSearchResultBinding.setCheckBox(data: SearchRecipeData) {
+            ivAddFavorite.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    listenerOnSaveRecipe?.invoke(data)
+                } else {
+                    listenerOnRemoveRecipe?.invoke(data)
                 }
             }
         }
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerItemViewHolder {
         val binding =
