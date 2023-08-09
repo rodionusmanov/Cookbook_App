@@ -12,7 +12,6 @@ import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.RandomRecipeData
 import com.example.cookbook.utils.ID
 import com.example.cookbook.view.base.BaseFragment
-import com.example.cookbook.viewModel.home.randomRecipeList.RandomRecipeListViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RandomRecipesListFragment :

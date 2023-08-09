@@ -18,11 +18,11 @@ import com.example.cookbook.model.repository.remoteDataSource.SearchRepositoryIm
 import com.example.cookbook.model.room.IRecipesDAO
 import com.example.cookbook.model.room.RecipesDatabase
 import com.example.cookbook.utils.network.NetworkLiveData
-import com.example.cookbook.viewModel.favorite.FavoriteRecipesViewModel
-import com.example.cookbook.viewModel.home.randomRecipeList.RandomRecipeListViewModel
-import com.example.cookbook.viewModel.recipeInfo.RecipeInfoViewModel
-import com.example.cookbook.viewModel.home.HomeViewModel
-import com.example.cookbook.viewModel.searchRecipe.SearchResultViewModel
+import com.example.cookbook.view.favorite.FavoriteRecipesViewModel
+import com.example.cookbook.view.home.randomRecipe.RandomRecipeListViewModel
+import com.example.cookbook.view.recipeInfo.RecipeInfoViewModel
+import com.example.cookbook.view.home.HomeViewModel
+import com.example.cookbook.view.search.searchResult.SearchResultViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel

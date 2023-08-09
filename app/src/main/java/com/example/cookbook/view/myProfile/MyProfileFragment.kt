@@ -1,4 +1,4 @@
-package com.example.cookbook.view.myExperience
+package com.example.cookbook.view.myProfile
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.cookbook.databinding.FragmentMyExperienceBinding
 
-class MyExperienceFragment : Fragment() {
+class MyProfileFragment : Fragment() {
 
     private var _binding: FragmentMyExperienceBinding? = null
     private val binding: FragmentMyExperienceBinding

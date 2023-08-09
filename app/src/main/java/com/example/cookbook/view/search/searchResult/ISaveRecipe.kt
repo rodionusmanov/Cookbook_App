@@ -1,4 +1,4 @@
-package com.example.cookbook.view.searchRecipe
+package com.example.cookbook.view.search.searchResult
 
 import com.example.cookbook.model.domain.BaseRecipeData
 

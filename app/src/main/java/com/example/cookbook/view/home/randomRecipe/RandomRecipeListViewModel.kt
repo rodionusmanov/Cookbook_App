@@ -1,4 +1,4 @@
-package com.example.cookbook.viewModel.home.randomRecipeList
+package com.example.cookbook.view.home.randomRecipe
 
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.BaseRecipeData

@@ -15,8 +15,6 @@ import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.SearchRecipeData
 import com.example.cookbook.utils.ID
 import com.example.cookbook.view.base.BaseFragment
-import com.example.cookbook.view.searchRecipe.SearchRecipeAdapter
-import com.example.cookbook.viewModel.searchRecipe.SearchResultViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -27,7 +25,7 @@ class SearchResultFragment :
 
     private lateinit var model: SearchResultViewModel
 
-    private val adapter: SearchRecipeAdapter by lazy { SearchRecipeAdapter() }
+    private val adapter: SearchResultAdapter by lazy { SearchResultAdapter() }
 
     private lateinit var favoriteRecipes: List<BaseRecipeData>
 

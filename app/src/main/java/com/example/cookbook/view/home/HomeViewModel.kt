@@ -1,4 +1,4 @@
-package com.example.cookbook.viewModel.home
+package com.example.cookbook.view.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
