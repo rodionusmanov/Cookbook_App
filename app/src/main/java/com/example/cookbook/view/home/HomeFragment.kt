@@ -81,7 +81,7 @@ class HomeFragment :
         val fragment = RandomRecipesListFragment.newInstance(randomData)
         requireActivity().supportFragmentManager
             .beginTransaction()
-            .replace(R.id.home_fragment_container, fragment)
+            .replace(R.id.random_recipe_container, fragment)
             .commit()
     }
 

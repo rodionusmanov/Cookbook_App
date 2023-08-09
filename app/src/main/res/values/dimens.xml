@@ -27,6 +27,7 @@
     <dimen name="random_recipe_layout_title_second_line">30sp</dimen>
     <dimen name="random_recipe_layout_cooking_time_text">15sp</dimen>
     <dimen name="search_result_item_layout_recipe_title">18sp</dimen>
+    <dimen name="home_service_card_title">10sp</dimen>
 
     //Elevation
     <dimen name="elevation_5dp_small">5dp</dimen>
@@ -41,9 +42,10 @@
     <dimen name="random_recipe_image_view_height">180dp</dimen>
     <dimen name="random_recipe_bottom_view_height">60dp</dimen>
 
-    //Recipe Search Layout
+    //Home Fragment Layout
     <dimen name="search_view_height">40dp</dimen>
-    <dimen name="search_layout_height">400dp</dimen>
+    <dimen name="random_recipe_layout_height">400dp</dimen>
+
 
     //Search Result Layout
     <dimen name="search_result_item_recipe_title_height">70dp</dimen>

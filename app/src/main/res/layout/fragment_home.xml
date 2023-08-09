@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/search_toolbar"
@@ -17,11 +18,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@color/orange_dark"
-        app:strokeWidth="1dp">
+        app:strokeWidth="1dp"
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            >
 
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/search_view"
@@ -32,9 +35,11 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </com.google.android.material.card.MaterialCardView>
 
     <ImageView
@@ -48,7 +53,8 @@
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/search_toolbar"
-        tools:ignore="ContentDescription" />
+        tools:ignore="ContentDescription"
+        />
 
 
     <FrameLayout
@@ -61,7 +67,155 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_toolbar"
         app:strokeWidth="1dp"
-        />
+        >
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+                <FrameLayout
+                    android:id="@+id/random_recipe_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/random_recipe_layout_height"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
+                <LinearLayout
+                    android:id="@+id/services_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/random_recipe_container"
+                    android:orientation="horizontal"
+                    android:weightSum="3"
+                    >
+
+                    <com.example.cookbook.view.customviews.SquareMaterialCardView
+                        android:id="@+id/favorites_service"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@color/service_cardview_background"
+                        android:elevation="@dimen/elevation_10dp_small"
+                        android:layout_margin="@dimen/margin_8dp_small"
+                        >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            >
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/card_searching_by_ingredient_title"
+                                android:gravity="start|center_vertical"
+                                android:textSize="@dimen/home_service_card_title"
+                                android:textColor="@color/black"
+                                />
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/icon_search_by_ingredient"
+                                tools:ignore="ContentDescription"
+                                />
+
+                        </LinearLayout>
+
+                    </com.example.cookbook.view.customviews.SquareMaterialCardView>
+
+                    <com.example.cookbook.view.customviews.SquareMaterialCardView
+                        android:id="@+id/detailed_ingredient_search"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@color/service_cardview_background"
+                        android:elevation="@dimen/elevation_10dp_small"
+                        android:layout_margin="@dimen/margin_8dp_small"
+                        >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            >
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/card_favorite_list_title"
+                                android:gravity="start|center_vertical"
+                                android:textSize="@dimen/home_service_card_title"
+                                android:textColor="@color/black"
+                                />
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/icon_favorite_list"
+                                tools:ignore="ContentDescription"
+                                />
+
+                        </LinearLayout>
+
+
+
+                    </com.example.cookbook.view.customviews.SquareMaterialCardView>
+
+                    <com.example.cookbook.view.customviews.SquareMaterialCardView
+                        android:id="@+id/shopping_list_service"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@color/service_cardview_background"
+                        android:elevation="@dimen/elevation_10dp_small"
+                        android:layout_margin="@dimen/margin_8dp_small"
+                        >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            >
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/card_shopping_list_title"
+                                android:gravity="start|center_vertical"
+                                android:textSize="@dimen/home_service_card_title"
+                                android:textColor="@color/black"
+                                />
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/icon_shop_list"
+                                tools:ignore="ContentDescription"
+                                />
+
+                        </LinearLayout>
+
+                    </com.example.cookbook.view.customviews.SquareMaterialCardView>
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </FrameLayout>
 
     <include
         layout="@layout/layout_loading"
