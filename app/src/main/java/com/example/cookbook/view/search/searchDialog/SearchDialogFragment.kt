@@ -1,4 +1,4 @@
-package ru.dk.mydictionary.ui.search
+package com.example.cookbook.view.search.searchDialog
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable

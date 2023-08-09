@@ -1,4 +1,4 @@
-package com.example.cookbook.view.searchRecipe
+package com.example.cookbook.view.search.searchResult
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +10,8 @@ import com.example.cookbook.R
 import com.example.cookbook.databinding.ItemSearchResultBinding
 import com.example.cookbook.model.domain.BaseRecipeData
 
-class SearchRecipeAdapter :
-    RecyclerView.Adapter<SearchRecipeAdapter.RecyclerItemViewHolder>() {
+class SearchResultAdapter :
+    RecyclerView.Adapter<SearchResultAdapter.RecyclerItemViewHolder>() {
 
     private var data: List<BaseRecipeData> = arrayListOf()
     var listener: ((BaseRecipeData) -> Unit)? = null

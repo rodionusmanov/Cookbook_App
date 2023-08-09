@@ -1,4 +1,4 @@
-package com.example.cookbook.view.main
+package com.example.cookbook.view.mainActivity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -32,5 +32,4 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
-
 }

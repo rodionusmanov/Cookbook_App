@@ -3,12 +3,13 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-    <string name="title_search_recipe">Search</string>
-    <string name="title_favorite">Favorite</string>
-    <string name="title_my_experience">My experience</string>
-    <string name="search_recipe">search recipe</string>
-    <string name="favorite">favorite</string>
-    <string name="my_experience">my experience</string>
+
+    //NavigationMenu
+    <string name="nav_home">Home</string>
+    <string name="nav_search_recipe">Search recipe</string>
+    <string name="nav_favorite">Favorite</string>
+    <string name="nav_my_profile">My profile</string>
+
 
     //NetworkStatus
     <string name="dialog_message_device_is_offline">Отсутствует подключение к сети Интернет</string>
@@ -21,6 +22,9 @@
     <string name="protein">protein</string>
     <string name="fat">fat</string>
     <string name="carb">carb</string>
+
+    //SearchDialog
+    <string name="search_recipe">Search recipe</string>
 
     //SearchFragment
     <string name="search_view_hint">Search recipe</string>

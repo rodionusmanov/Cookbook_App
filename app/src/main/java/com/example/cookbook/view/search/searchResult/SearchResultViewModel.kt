@@ -1,45 +1,21 @@
-package com.example.cookbook.viewModel.searchRecipe
+package com.example.cookbook.view.search.searchResult
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.BaseRecipeData
-import com.example.cookbook.model.interactor.SearchFragmentInteractor
 import com.example.cookbook.model.repository.local.LocalRepositoryImpl
 import com.example.cookbook.view.base.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class SearchRecipeViewModel(
-    private val interactor: SearchFragmentInteractor,
+class SearchResultViewModel(
     private val localRepository: LocalRepositoryImpl
 ) : BaseViewModel<AppState>() {
 
     private val _stateFlow = MutableStateFlow<AppState>(AppState.Loading)
     val stateFlow: StateFlow<AppState> get() = _stateFlow
-
-    fun searchRecipeRequest(request: String, ingredients: String) {
-        viewModelCoroutineScope.launch {
-            _stateFlow.value = AppState.Loading
-            try {
-                _stateFlow.emit(interactor.searchRecipe(request, ingredients, true))
-            } catch (e: Throwable) {
-                _stateFlow.emit(AppState.Error(e))
-            }
-        }
-    }
-
-    fun getRandomRecipes() {
-        viewModelCoroutineScope.launch {
-            _stateFlow.value = AppState.Loading
-            try {
-                _stateFlow.emit(interactor.getRandomRecipes())
-            } catch (e: Throwable) {
-                _stateFlow.emit(AppState.Error(e))
-            }
-        }
-    }
 
     fun getAllLocalRecipes(): LiveData<List<BaseRecipeData>> {
         val result = MutableLiveData<List<BaseRecipeData>>()

@@ -43,7 +43,7 @@ class MappingUtils {
             extendedIngredients = mapExtendedIngredients(dto.extendedIngredients),
             glutenFree = dto.glutenFree,
             id = dto.id,
-            image = dto.image,
+            image = mapImageUrl(dto.image),
             instructions = dto.instructions,
             calories = extractNutritionInfo(nutritionMap, "Calories"),
             fat = extractNutritionInfo(nutritionMap, "Fat"),
@@ -115,7 +115,7 @@ class MappingUtils {
         }
     }
 
-    fun mapImageUrl(url:String): String {
+    private fun mapImageUrl(url:String): String {
         val newSize = "636x393"
         val patterns = listOf("90x90", "240x150", "312x150", "312x231", "480x360", "556x370")
         return patterns.fold(url){currentUrl, pattern ->

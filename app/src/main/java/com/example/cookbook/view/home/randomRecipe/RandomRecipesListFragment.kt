@@ -1,4 +1,4 @@
-package com.example.cookbook.view.randomRecipe
+package com.example.cookbook.view.home.randomRecipe
 
 import android.os.Bundle
 import android.view.View
@@ -11,8 +11,8 @@ import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.RandomRecipeData
 import com.example.cookbook.utils.ID
+import com.example.cookbook.utils.parcelableArrayList
 import com.example.cookbook.view.base.BaseFragment
-import com.example.cookbook.viewModel.randomRecipeList.RandomRecipeListViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RandomRecipesListFragment :
@@ -25,19 +25,19 @@ class RandomRecipesListFragment :
     private val adapter: RandomRecipeListAdapter by lazy { RandomRecipeListAdapter() }
 
     companion object {
-        private const val RANDOM_RECIPE_LISTS_KEY = "RandomRecipesListsKey"
+        private const val RANDOM_RECIPE_LIST_KEY = "RandomRecipesListsKey"
 
         fun newInstance(randomData: List<BaseRecipeData>): RandomRecipesListFragment {
             return RandomRecipesListFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelableArrayList(RANDOM_RECIPE_LISTS_KEY, ArrayList(randomData))
+                    putParcelableArrayList(RANDOM_RECIPE_LIST_KEY, ArrayList(randomData))
                 }
             }
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        arguments?.getParcelableArrayList<RandomRecipeData>(RANDOM_RECIPE_LISTS_KEY)
+        arguments?.parcelableArrayList<RandomRecipeData>(RANDOM_RECIPE_LIST_KEY)
             ?.let { randomData ->
                 setupData(randomData)
             }

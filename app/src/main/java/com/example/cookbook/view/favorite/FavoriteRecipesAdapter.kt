@@ -9,7 +9,7 @@ import coil.size.Scale
 import com.example.cookbook.R
 import com.example.cookbook.databinding.ItemSearchResultBinding
 import com.example.cookbook.model.domain.BaseRecipeData
-import com.example.cookbook.view.searchRecipe.ISaveRecipe
+import com.example.cookbook.view.search.searchResult.ISaveRecipe
 
 class FavoriteRecipesAdapter(val callbackSaveRecipe: ISaveRecipe) :
     RecyclerView.Adapter<FavoriteRecipesAdapter.RecyclerItemViewHolder>() {
