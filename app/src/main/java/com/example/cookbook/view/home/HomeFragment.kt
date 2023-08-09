@@ -15,7 +15,7 @@ import com.example.cookbook.model.domain.RandomRecipeData
 import com.example.cookbook.model.domain.SearchRecipeData
 import com.example.cookbook.view.base.BaseFragment
 import com.example.cookbook.view.home.randomRecipe.RandomRecipesListFragment
-import com.example.cookbook.view.search.searchResult.SearchResultFragment
+import com.example.cookbook.view.search.SearchFragment
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -86,10 +86,10 @@ class HomeFragment :
     }
 
     private fun setupSearchData(searchData: List<SearchRecipeData>) {
-        val fragment = SearchResultFragment.newInstance(searchData)
+        val searchFragment = SearchFragment.newInstance(searchData)
         requireActivity().supportFragmentManager
             .beginTransaction()
-            .replace(R.id.search_fragment_container, fragment)
+            .replace(R.id.main_container, searchFragment)
             .commit()
     }
 }

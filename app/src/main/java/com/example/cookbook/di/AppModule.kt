@@ -10,6 +10,7 @@ import com.example.cookbook.model.datasource.SearchRecipeDataSource
 import com.example.cookbook.model.datasource.retrofit.RetrofitImplementation
 import com.example.cookbook.model.interactor.RecipeInfoFragmentInteractor
 import com.example.cookbook.model.interactor.HomeFragmentInteractor
+import com.example.cookbook.model.interactor.SearchFragmentInteractor
 import com.example.cookbook.model.repository.local.ILocalRecipesRepository
 import com.example.cookbook.model.repository.local.LocalRepositoryImpl
 import com.example.cookbook.model.repository.network.NetworkRepository
@@ -22,6 +23,7 @@ import com.example.cookbook.view.favorite.FavoriteRecipesViewModel
 import com.example.cookbook.view.home.randomRecipe.RandomRecipeListViewModel
 import com.example.cookbook.view.recipeInfo.RecipeInfoViewModel
 import com.example.cookbook.view.home.HomeViewModel
+import com.example.cookbook.view.search.SearchViewModel
 import com.example.cookbook.view.search.searchResult.SearchResultViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
@@ -53,6 +55,7 @@ val appModule = module {
 
     factory { HomeFragmentInteractor(get(), LocalRepositoryImpl(get<IRecipesDAO>())) }
     factory { RecipeInfoFragmentInteractor(get()) }
+    factory { SearchFragmentInteractor(get()) }
 
     viewModel { HomeViewModel(get()) }
 
@@ -63,6 +66,8 @@ val appModule = module {
     viewModel { RecipeInfoViewModel(get()) }
 
     viewModel { RandomRecipeListViewModel(LocalRepositoryImpl(get<IRecipesDAO>())) }
+
+    viewModel { SearchViewModel(get()) }
 
     single { NetworkLiveData(androidContext()) }
     single { NetworkRepository(get()) }

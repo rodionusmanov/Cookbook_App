@@ -21,11 +21,34 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
     FragmentSearchBinding::inflate
 ) {
 
+    companion object {
+
+        private const val SEARCH_RECIPE_LIST_KEY = "SEARCH_DATA_KEY"
+
+        fun newInstance(searchData: List<SearchRecipeData>): SearchFragment {
+            return SearchFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelableArrayList(SEARCH_RECIPE_LIST_KEY, ArrayList(searchData))
+                }
+            }
+        }
+    }
+
     private lateinit var model: SearchViewModel
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initViewModel()
         setupSearchView()
+
+        arguments?.let {args ->
+            val searchData = args.getParcelableArrayList<SearchRecipeData>(SEARCH_RECIPE_LIST_KEY)
+            if (!searchData.isNullOrEmpty()) {
+                setupData(searchData)
+            }
+        }
+
         super.onViewCreated(view, savedInstanceState)
     }
 

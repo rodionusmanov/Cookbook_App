@@ -23,6 +23,9 @@
     <string name="fat">fat</string>
     <string name="carb">carb</string>
 
+    //SearchDialog
+    <string name="search_recipe">Search recipe</string>
+
     //SearchFragment
     <string name="search_view_hint">Search recipe</string>
 

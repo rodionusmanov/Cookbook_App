@@ -24,19 +24,19 @@ class RandomRecipesListFragment :
     private val adapter: RandomRecipeListAdapter by lazy { RandomRecipeListAdapter() }
 
     companion object {
-        private const val RANDOM_RECIPE_LISTS_KEY = "RandomRecipesListsKey"
+        private const val RANDOM_RECIPE_LIST_KEY = "RandomRecipesListsKey"
 
         fun newInstance(randomData: List<BaseRecipeData>): RandomRecipesListFragment {
             return RandomRecipesListFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelableArrayList(RANDOM_RECIPE_LISTS_KEY, ArrayList(randomData))
+                    putParcelableArrayList(RANDOM_RECIPE_LIST_KEY, ArrayList(randomData))
                 }
             }
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        arguments?.getParcelableArrayList<RandomRecipeData>(RANDOM_RECIPE_LISTS_KEY)
+        arguments?.getParcelableArrayList<RandomRecipeData>(RANDOM_RECIPE_LIST_KEY)
             ?.let { randomData ->
                 setupData(randomData)
             }
