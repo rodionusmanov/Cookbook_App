@@ -12,6 +12,7 @@ import com.example.cookbook.databinding.FragmentSearchBinding
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.SearchRecipeData
+import com.example.cookbook.utils.parcelableArrayList
 import com.example.cookbook.view.base.BaseFragment
 import com.example.cookbook.view.search.searchResult.SearchResultFragment
 import kotlinx.coroutines.launch
@@ -42,7 +43,7 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
         setupSearchView()
 
         arguments?.let { args ->
-            val searchData = args.getParcelableArrayList<SearchRecipeData>(SEARCH_RECIPE_LIST_KEY)
+            val searchData = args.parcelableArrayList<SearchRecipeData>(SEARCH_RECIPE_LIST_KEY)
             if (!searchData.isNullOrEmpty()) {
                 setupData(searchData)
             }

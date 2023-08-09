@@ -11,6 +11,7 @@ import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.RandomRecipeData
 import com.example.cookbook.utils.ID
+import com.example.cookbook.utils.parcelableArrayList
 import com.example.cookbook.view.base.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -36,7 +37,7 @@ class RandomRecipesListFragment :
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        arguments?.getParcelableArrayList<RandomRecipeData>(RANDOM_RECIPE_LIST_KEY)
+        arguments?.parcelableArrayList<RandomRecipeData>(RANDOM_RECIPE_LIST_KEY)
             ?.let { randomData ->
                 setupData(randomData)
             }

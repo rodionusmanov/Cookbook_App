@@ -14,6 +14,7 @@ import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.SearchRecipeData
 import com.example.cookbook.utils.ID
+import com.example.cookbook.utils.parcelableArrayList
 import com.example.cookbook.view.base.BaseFragment
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -42,7 +43,7 @@ class SearchResultFragment :
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        arguments?.getParcelableArrayList<SearchRecipeData>(SEARCH_DATA_KEY)?.let { searchData ->
+        arguments?.parcelableArrayList<SearchRecipeData>(SEARCH_DATA_KEY)?.let { searchData ->
             setupData(searchData)
         }
         initViewModel()
