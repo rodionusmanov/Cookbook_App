@@ -24,6 +24,14 @@
     <string name="card_shopping_list_title">List of ingredients need to purchase</string>
     <string name="joke_of_the_day_title">Joke of the day</string>
     <string name="joke_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </string>
+    <string name="dishes_table_title">What do you want to cook?</string>
+    <string name="card_breakfast_title">Breakfast</string>
+    <string name="card_side_dish_title">Side Dish</string>
+    <string name="card_main_course_title">Main Course</string>
+    <string name="card_salads_title">Salads</string>
+    <string name="card_snacks_title">Snacks</string>
+    <string name="card_desserts_title">Desserts</string>
+
 
     //SearchDialog
     <string name="search_recipe">Search recipe</string>

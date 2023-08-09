@@ -38,7 +38,7 @@
                 android:layout_height="30dp"
                 android:layout_marginTop="@dimen/margin_20dp_medium"
                 android:layout_marginEnd="@dimen/margin_20dp_medium"
-                android:background="@drawable/background_rectangle"
+                android:background="@drawable/background_cardview_rectangle"
                 android:gravity="center_vertical"
                 android:paddingHorizontal="@dimen/margin_8dp_small"
                 android:paddingVertical="@dimen/margin_2dp_small"

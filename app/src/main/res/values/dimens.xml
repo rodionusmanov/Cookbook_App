@@ -30,6 +30,7 @@
     <dimen name="home_service_card_title">10sp</dimen>
     <dimen name="home_joke_of_the_day_title">30sp</dimen>
     <dimen name="home_joke_text">20sp</dimen>
+    <dimen name="home_dishes_card_title">16sp</dimen>
 
     //Elevation
     <dimen name="elevation_5dp_small">5dp</dimen>
@@ -39,6 +40,7 @@
     //Corner radius
     <dimen name="material_card_corner_radius_15dp">15dp</dimen>
     <dimen name="material_card_corner_radius_20dp">20dp</dimen>
+    <dimen name="material_card_corner_radius_50dp">50dp</dimen>
 
     //Random Recipe Layout
     <dimen name="random_recipe_image_view_height">180dp</dimen>
