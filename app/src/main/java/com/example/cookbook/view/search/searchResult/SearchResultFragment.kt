@@ -1,4 +1,4 @@
-package com.example.cookbook.view.searchResult
+package com.example.cookbook.view.search.searchResult
 
 import android.os.Bundle
 import android.view.View

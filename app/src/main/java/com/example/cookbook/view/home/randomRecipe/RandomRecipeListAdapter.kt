@@ -1,4 +1,4 @@
-package com.example.cookbook.view.randomRecipe
+package com.example.cookbook.view.home.randomRecipe
 
 import android.view.LayoutInflater
 import android.view.View

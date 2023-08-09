@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_search_recipe"
-        android:name="com.example.cookbook.view.searchRecipe.SearchRecipeFragment"
+        android:name="com.example.cookbook.view.home.HomeFragment"
         android:label="SearchRecipeFragment">
         <action
             android:id="@+id/action_navigation_search_recipe_to_recipeInfoFragment"

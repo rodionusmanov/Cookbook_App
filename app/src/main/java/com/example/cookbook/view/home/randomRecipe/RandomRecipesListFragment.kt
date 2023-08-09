@@ -1,4 +1,4 @@
-package com.example.cookbook.view.randomRecipe
+package com.example.cookbook.view.home.randomRecipe
 
 import android.os.Bundle
 import android.view.View
@@ -12,7 +12,7 @@ import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.RandomRecipeData
 import com.example.cookbook.utils.ID
 import com.example.cookbook.view.base.BaseFragment
-import com.example.cookbook.viewModel.randomRecipeList.RandomRecipeListViewModel
+import com.example.cookbook.viewModel.home.randomRecipeList.RandomRecipeListViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RandomRecipesListFragment :

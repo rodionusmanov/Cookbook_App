@@ -1,4 +1,4 @@
-package com.example.cookbook.view.searchRecipe
+package com.example.cookbook.view.home
 
 import android.os.Bundle
 import android.view.View
@@ -8,26 +8,24 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.cookbook.R
-import com.example.cookbook.databinding.FragmentSearchRecipeBinding
+import com.example.cookbook.databinding.FragmentHomeBinding
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.RandomRecipeData
 import com.example.cookbook.model.domain.SearchRecipeData
 import com.example.cookbook.view.base.BaseFragment
-import com.example.cookbook.view.randomRecipe.RandomRecipesListFragment
-import com.example.cookbook.view.searchResult.SearchResultFragment
-import com.example.cookbook.viewModel.searchRecipe.SearchRecipeViewModel
+import com.example.cookbook.view.home.randomRecipe.RandomRecipesListFragment
+import com.example.cookbook.view.search.searchResult.SearchResultFragment
+import com.example.cookbook.viewModel.home.HomeViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SearchRecipeFragment :
-    BaseFragment<AppState, List<BaseRecipeData>, FragmentSearchRecipeBinding>(
-        FragmentSearchRecipeBinding::inflate
+class HomeFragment :
+    BaseFragment<AppState, List<BaseRecipeData>, FragmentHomeBinding>(
+        FragmentHomeBinding::inflate
     ) {
 
-    private var _binding: FragmentSearchRecipeBinding? = null
-
-    private lateinit var model: SearchRecipeViewModel
+    private lateinit var model: HomeViewModel
 
     private val selectedIngredients = mutableSetOf<String>()
 
@@ -56,7 +54,7 @@ class SearchRecipeFragment :
     }
 
     private fun initViewModel() {
-        val viewModel by viewModel<SearchRecipeViewModel>()
+        val viewModel by viewModel<HomeViewModel>()
         model = viewModel
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -94,10 +92,5 @@ class SearchRecipeFragment :
             .beginTransaction()
             .replace(R.id.search_fragment_container, fragment)
             .commit()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
