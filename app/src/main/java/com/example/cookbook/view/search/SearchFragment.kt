@@ -21,6 +21,8 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
     FragmentSearchBinding::inflate
 ) {
 
+    private lateinit var model: SearchViewModel
+
     companion object {
 
         private const val SEARCH_RECIPE_LIST_KEY = "SEARCH_DATA_KEY"
@@ -34,15 +36,12 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
         }
     }
 
-    private lateinit var model: SearchViewModel
-
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initViewModel()
         setupSearchView()
 
-        arguments?.let {args ->
+        arguments?.let { args ->
             val searchData = args.getParcelableArrayList<SearchRecipeData>(SEARCH_RECIPE_LIST_KEY)
             if (!searchData.isNullOrEmpty()) {
                 setupData(searchData)
