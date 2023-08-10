@@ -43,7 +43,7 @@
     <dimen name="material_card_corner_radius_50dp">50dp</dimen>
 
     //Random Recipe Layout
-    <dimen name="random_recipe_image_view_height">180dp</dimen>
+    <dimen name="random_recipe_image_view_height">160dp</dimen>
     <dimen name="random_recipe_bottom_view_height">60dp</dimen>
 
     //Home Fragment Layout

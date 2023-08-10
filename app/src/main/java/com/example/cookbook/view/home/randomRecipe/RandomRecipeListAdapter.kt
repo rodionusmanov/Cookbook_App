@@ -9,16 +9,17 @@ import coil.size.Scale
 import com.example.cookbook.R
 import com.example.cookbook.databinding.ItemRandomRecipeRvBinding
 import com.example.cookbook.model.domain.BaseRecipeData
+import com.example.cookbook.model.domain.RandomRecipeData
 
 class RandomRecipeListAdapter :
     RecyclerView.Adapter<RandomRecipeListAdapter.RecyclerItemViewHolder>() {
 
-    private var data: List<BaseRecipeData> = arrayListOf()
+    private var data: List<RandomRecipeData> = arrayListOf()
     var listener: ((BaseRecipeData) -> Unit)? = null
     var listenerOnSaveRecipe: ((BaseRecipeData) -> Unit)? = null
     var listenerOnRemoveRecipe: ((BaseRecipeData) -> Unit)? = null
 
-    fun setData(data: List<BaseRecipeData>) {
+    fun setData(data: List<RandomRecipeData>) {
         this.data = data
     }
 
