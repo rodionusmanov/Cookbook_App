@@ -19,9 +19,9 @@
     <string name="carb">carb</string>
 
     //HomeFragment
-    <string name="card_searching_by_ingredient_title">Let\'s search a recipe by the available ingredients</string>
-    <string name="card_favorite_list_title">Here is your list of favorite recipes</string>
-    <string name="card_shopping_list_title">List of ingredients need to purchase</string>
+    <string name="card_searching_by_ingredient_title">Search a recipe by the available ingredients</string>
+    <string name="card_favorite_list_title">Your list of favorite recipes</string>
+    <string name="card_shopping_list_title">Your shopping list for ingredients</string>
     <string name="joke_of_the_day_title">Joke of the day</string>
     <string name="joke_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </string>
     <string name="dishes_table_title">What do you want to cook?</string>

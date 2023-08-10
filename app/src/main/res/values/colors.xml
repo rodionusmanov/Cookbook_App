@@ -15,7 +15,6 @@
 
     //HomeFragment
     <color name="service_cardview_background">#FFFFFFFF</color>
-    <color name="cardview_dishes_title_background">#BFFFFFFF</color>
 
     //Random Recipe CardView
     <color name="title_text_background">#D6000000</color>

@@ -91,69 +91,78 @@
                     app:layout_constraintTop_toBottomOf="@id/random_recipe_container">
 
                     <com.example.cookbook.view.customviews.SquareMaterialCardView
-                        android:id="@+id/favorites_service"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_margin="@dimen/margin_8dp_small"
-                        android:layout_weight="1"
-                        android:background="@drawable/background_cardview_rectangle"
-                        android:elevation="@dimen/elevation_10dp_small">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="start|center_vertical"
-                                android:padding="@dimen/margin_6dp_small"
-                                android:text="@string/card_searching_by_ingredient_title"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/home_service_card_title" />
-
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:src="@drawable/icon_search_by_ingredient"
-                                tools:ignore="ContentDescription" />
-
-                        </LinearLayout>
-
-                    </com.example.cookbook.view.customviews.SquareMaterialCardView>
-
-                    <com.example.cookbook.view.customviews.SquareMaterialCardView
                         android:id="@+id/detailed_ingredient_search"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_margin="@dimen/margin_8dp_small"
                         android:layout_weight="1"
-                        android:background="@drawable/background_cardview_rectangle"
-                        android:elevation="@dimen/elevation_10dp_small">
+                        android:elevation="@dimen/elevation_10dp_small"
+                        app:cardCornerRadius="@dimen/material_card_corner_radius_20dp">
 
-                        <LinearLayout
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:orientation="vertical">
+                            >
+
+                            <ImageView
+                                android:id="@+id/search_by_ingredient_logo"
+                                android:layout_width="@dimen/home_service_card_logo_size"
+                                android:layout_height="@dimen/home_service_card_logo_size"
+                                android:layout_marginTop="@dimen/margin_10dp_small"
+                                android:layout_marginStart="@dimen/margin_8dp_small"
+                                android:src="@drawable/icon_search_by_ingredient"
+                                tools:ignore="ContentDescription"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                />
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:gravity="start|center_vertical"
-                                android:padding="@dimen/margin_6dp_small"
-                                android:text="@string/card_favorite_list_title"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/home_service_card_title" />
+                                android:text="@string/card_searching_by_ingredient_title"
+                                style="@style/HomeFragmentServiceCardTitleStyle"
+                                app:layout_constraintTop_toBottomOf="@id/search_by_ingredient_logo"
+                                />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </com.example.cookbook.view.customviews.SquareMaterialCardView>
+
+                    <com.example.cookbook.view.customviews.SquareMaterialCardView
+                        android:id="@+id/favorites_service"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_margin="@dimen/margin_8dp_small"
+                        android:layout_weight="1"
+                        android:elevation="@dimen/elevation_10dp_small"
+                        app:cardCornerRadius="@dimen/material_card_corner_radius_20dp">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            >
 
                             <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:id="@+id/favorites_list_logo"
+                                android:layout_width="@dimen/home_service_card_logo_size"
+                                android:layout_height="@dimen/home_service_card_logo_size"
                                 android:src="@drawable/icon_favorite_list"
-                                tools:ignore="ContentDescription" />
+                                android:layout_marginTop="@dimen/margin_10dp_small"
+                                android:layout_marginStart="@dimen/margin_8dp_small"
+                                tools:ignore="ContentDescription"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                />
 
-                        </LinearLayout>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/card_favorite_list_title"
+                                style="@style/HomeFragmentServiceCardTitleStyle"
+                                app:layout_constraintTop_toBottomOf="@id/favorites_list_logo"
+                                />
 
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
                     </com.example.cookbook.view.customviews.SquareMaterialCardView>
 
@@ -163,30 +172,36 @@
                         android:layout_height="0dp"
                         android:layout_margin="@dimen/margin_8dp_small"
                         android:layout_weight="1"
-                        android:background="@drawable/background_cardview_rectangle"
-                        android:elevation="@dimen/elevation_10dp_small">
+                        android:elevation="@dimen/elevation_10dp_small"
+                        app:cardCornerRadius="@dimen/material_card_corner_radius_20dp"
+                        >
 
-                        <LinearLayout
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:orientation="vertical">
+                            >
+
+                            <ImageView
+                                android:id="@+id/shopping_list_logo"
+                                android:layout_width="@dimen/home_service_card_logo_size"
+                                android:layout_height="@dimen/home_service_card_logo_size"
+                                android:src="@drawable/icon_shop_list"
+                                android:layout_marginTop="@dimen/margin_10dp_small"
+                                android:layout_marginStart="@dimen/margin_8dp_small"
+                                tools:ignore="ContentDescription"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                />
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:gravity="start|center_vertical"
-                                android:padding="@dimen/margin_6dp_small"
                                 android:text="@string/card_shopping_list_title"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/home_service_card_title" />
+                                style="@style/HomeFragmentServiceCardTitleStyle"
+                                app:layout_constraintTop_toBottomOf="@id/shopping_list_logo"
+                                />
 
-                            <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:src="@drawable/icon_shop_list"
-                                tools:ignore="ContentDescription" />
-
-                        </LinearLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
                     </com.example.cookbook.view.customviews.SquareMaterialCardView>
 
@@ -196,8 +211,9 @@
                     android:id="@+id/random_cuisine_recipes_container"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/random_recipe_layout_height"
-                    android:layout_marginTop="@dimen/margin_16dp_medium"
+                    android:layout_marginTop="60dp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/services_container" />
 
