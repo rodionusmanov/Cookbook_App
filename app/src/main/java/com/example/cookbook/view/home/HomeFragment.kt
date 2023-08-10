@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.example.cookbook.R
 import com.example.cookbook.databinding.FragmentHomeBinding
 import com.example.cookbook.model.AppState
@@ -31,12 +33,22 @@ class HomeFragment :
         initViewModel()
         setupSearchView()
         initRandomRecipeFragment()
+        initDishTypeCards()
         super.onViewCreated(view, savedInstanceState)
     }
 
+    private fun initDishTypeCards() {
+        binding.cardBreakfast.setOnClickListener { view ->
+            val navController = findNavController()
+            val action = R.id.action_navigation_home_to_searchFragment
+            val bundle = bundleOf("search_query" to "breakfast")
+            navController.navigate(action, bundle)
+            }
+        }
+
     private fun initRandomRecipeFragment() {
         val fragment = RandomRecipesListFragment.newInstance()
-        parentFragmentManager
+        childFragmentManager
             .beginTransaction()
             .replace(R.id.random_recipe_container, fragment)
             .commit()
@@ -85,7 +97,7 @@ class HomeFragment :
 
     private fun setupSearchData(searchData: List<SearchRecipeData>) {
         val searchFragment = SearchFragment.newInstance(searchData)
-        requireActivity().supportFragmentManager
+        childFragmentManager
             .beginTransaction()
             .replace(R.id.main_container, searchFragment)
             .commit()

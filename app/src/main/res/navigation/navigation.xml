@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_navigation_search_recipe_to_recipeInfoFragment"
             app:destination="@id/recipeInfoFragment" />
+        <argument
+            android:name="search_query"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/navigation_home"
@@ -20,6 +23,10 @@
         <action
             android:id="@+id/action_navigation_home_to_recipeInfoFragment"
             app:destination="@id/recipeInfoFragment" />
+
+        <action
+            android:id="@+id/action_navigation_home_to_searchFragment"
+            app:destination="@id/navigation_search_recipe" />
     </fragment>
     <fragment
         android:id="@+id/navigation_favorite"
