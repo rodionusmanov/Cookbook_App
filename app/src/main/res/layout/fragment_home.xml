@@ -212,8 +212,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_16dp_medium"
-                    android:background="@drawable/background_cardview_rectangle"
                     android:elevation="@dimen/elevation_10dp_small"
+                    app:cardCornerRadius="@dimen/material_card_corner_radius_20dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/random_cuisine_recipes_container">
@@ -227,7 +227,6 @@
                             style="@style/HomeFragmentTitleTextStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="@dimen/margin_8dp_small"
                             android:text="@string/joke_of_the_day_title"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -506,14 +505,35 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/various_dishes_table_container" />
 
-                <FrameLayout
+                <LinearLayout
                     android:id="@+id/recently_viewed_recipes_container"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/random_recipe_layout_height"
                     android:layout_marginTop="@dimen/margin_16dp_medium"
+                    android:layout_marginHorizontal="@dimen/margin_16dp_medium"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/healthy_random_recipes_container" />
+                    app:layout_constraintTop_toBottomOf="@id/healthy_random_recipes_container"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        android:id="@+id/recently_viewed_title"
+                        style="@style/HomeFragmentTitleTextStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/recently_viewed_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:listitem="@layout/item_random_recipe_rv"
+                        />
+
+                </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
