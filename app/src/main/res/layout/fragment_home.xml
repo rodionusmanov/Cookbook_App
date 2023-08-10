@@ -83,8 +83,8 @@
                     android:id="@+id/services_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_marginHorizontal="@dimen/margin_16dp_medium"
+                    android:orientation="horizontal"
                     android:weightSum="3"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -101,28 +101,25 @@
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            >
+                            android:layout_height="match_parent">
 
                             <ImageView
                                 android:id="@+id/search_by_ingredient_logo"
                                 android:layout_width="@dimen/home_service_card_logo_size"
                                 android:layout_height="@dimen/home_service_card_logo_size"
-                                android:layout_marginTop="@dimen/margin_10dp_small"
                                 android:layout_marginStart="@dimen/margin_8dp_small"
+                                android:layout_marginTop="@dimen/margin_10dp_small"
                                 android:src="@drawable/icon_search_by_ingredient"
-                                tools:ignore="ContentDescription"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
-                                />
+                                tools:ignore="ContentDescription" />
 
                             <TextView
+                                style="@style/HomeFragmentServiceCardTitleStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="@string/card_searching_by_ingredient_title"
-                                style="@style/HomeFragmentServiceCardTitleStyle"
-                                app:layout_constraintTop_toBottomOf="@id/search_by_ingredient_logo"
-                                />
+                                app:layout_constraintTop_toBottomOf="@id/search_by_ingredient_logo" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -139,28 +136,25 @@
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            >
+                            android:layout_height="match_parent">
 
                             <ImageView
                                 android:id="@+id/favorites_list_logo"
                                 android:layout_width="@dimen/home_service_card_logo_size"
                                 android:layout_height="@dimen/home_service_card_logo_size"
-                                android:src="@drawable/icon_favorite_list"
-                                android:layout_marginTop="@dimen/margin_10dp_small"
                                 android:layout_marginStart="@dimen/margin_8dp_small"
-                                tools:ignore="ContentDescription"
+                                android:layout_marginTop="@dimen/margin_10dp_small"
+                                android:src="@drawable/icon_favorite_list"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
-                                />
+                                tools:ignore="ContentDescription" />
 
                             <TextView
+                                style="@style/HomeFragmentServiceCardTitleStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="@string/card_favorite_list_title"
-                                style="@style/HomeFragmentServiceCardTitleStyle"
-                                app:layout_constraintTop_toBottomOf="@id/favorites_list_logo"
-                                />
+                                app:layout_constraintTop_toBottomOf="@id/favorites_list_logo" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -173,33 +167,29 @@
                         android:layout_margin="@dimen/margin_8dp_small"
                         android:layout_weight="1"
                         android:elevation="@dimen/elevation_10dp_small"
-                        app:cardCornerRadius="@dimen/material_card_corner_radius_20dp"
-                        >
+                        app:cardCornerRadius="@dimen/material_card_corner_radius_20dp">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            >
+                            android:layout_height="match_parent">
 
                             <ImageView
                                 android:id="@+id/shopping_list_logo"
                                 android:layout_width="@dimen/home_service_card_logo_size"
                                 android:layout_height="@dimen/home_service_card_logo_size"
-                                android:src="@drawable/icon_shop_list"
-                                android:layout_marginTop="@dimen/margin_10dp_small"
                                 android:layout_marginStart="@dimen/margin_8dp_small"
-                                tools:ignore="ContentDescription"
+                                android:layout_marginTop="@dimen/margin_10dp_small"
+                                android:src="@drawable/icon_shop_list"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
-                                />
+                                tools:ignore="ContentDescription" />
 
                             <TextView
+                                style="@style/HomeFragmentServiceCardTitleStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="@string/card_shopping_list_title"
-                                style="@style/HomeFragmentServiceCardTitleStyle"
-                                app:layout_constraintTop_toBottomOf="@id/shopping_list_logo"
-                                />
+                                app:layout_constraintTop_toBottomOf="@id/shopping_list_logo" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -234,11 +224,11 @@
 
                         <TextView
                             android:id="@+id/joke_of_the_day_title"
+                            style="@style/HomeFragmentTitleTextStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="@dimen/margin_8dp_small"
                             android:text="@string/joke_of_the_day_title"
-                            style="@style/HomeFragmentTitleTextStyle"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -247,25 +237,23 @@
                             android:id="@+id/joke_quote_start"
                             android:layout_width="@dimen/home_joke_of_the_day_layout_quote_size"
                             android:layout_height="@dimen/home_joke_of_the_day_layout_quote_size"
-                            android:src="@drawable/icon_quote"
                             android:rotation="180"
-                            tools:ignore="ContentDescription"
+                            android:src="@drawable/icon_quote"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/joke_of_the_day_title"
-                            />
+                            tools:ignore="ContentDescription" />
 
                         <TextView
                             android:id="@+id/joke_text"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="-20dp"
                             android:layout_marginStart="8dp"
-                            app:layout_constraintStart_toEndOf="@id/joke_quote_start"
-                            app:layout_constraintTop_toBottomOf="@id/joke_quote_start"
-                            app:layout_constraintEnd_toStartOf="@id/joke_quote_close"
+                            android:layout_marginTop="-20dp"
                             android:text="@string/joke_text"
                             android:textSize="@dimen/home_joke_text"
-                            />
+                            app:layout_constraintEnd_toStartOf="@id/joke_quote_close"
+                            app:layout_constraintStart_toEndOf="@id/joke_quote_start"
+                            app:layout_constraintTop_toBottomOf="@id/joke_quote_start" />
 
                         <ImageView
                             android:id="@+id/joke_quote_close"
@@ -273,10 +261,9 @@
                             android:layout_height="@dimen/home_joke_of_the_day_layout_quote_size"
                             android:layout_marginTop="-20dp"
                             android:src="@drawable/icon_quote"
-                            tools:ignore="ContentDescription"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/joke_text"
-                            />
+                            tools:ignore="ContentDescription" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -286,133 +273,120 @@
                     android:id="@+id/various_dishes_table_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_16dp_medium"
                     android:layout_marginHorizontal="@dimen/margin_16dp_medium"
+                    android:layout_marginTop="@dimen/margin_16dp_medium"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/joke_of_the_day_container"
-                    >
+                    app:layout_constraintTop_toBottomOf="@id/joke_of_the_day_container">
 
                     <TextView
                         android:id="@+id/dishes_table_title"
+                        style="@style/HomeFragmentTitleTextStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingHorizontal="@dimen/margin_8dp_small"
                         android:layout_marginVertical="@dimen/margin_16dp_medium"
-                        android:text="@string/dishes_table_title"
-                        style="@style/HomeFragmentTitleTextStyle"
-                        />
+                        android:paddingHorizontal="@dimen/margin_8dp_small"
+                        android:text="@string/dishes_table_title" />
 
                     <LinearLayout
                         android:id="@+id/dishes_table_first_line_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:weightSum="3"
                         android:baselineAligned="false"
-                        >
+                        android:orientation="horizontal"
+                        android:weightSum="3">
 
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_weight="1"
                             android:layout_marginHorizontal="@dimen/margin_8dp_small"
-                            >
+                            android:layout_weight="1"
+                            android:orientation="vertical">
 
                             <com.example.cookbook.view.customviews.SquareMaterialCardView
                                 android:id="@+id/card_breakfast"
+                                style="@style/HomeFragmentDishCardStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                style="@style/HomeFragmentDishCardStyle"
-                                app:cardCornerRadius="20dp"
-                                >
+                                app:cardCornerRadius="20dp">
 
                                 <ImageView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:src="@drawable/background_breakfast"
-                                    tools:ignore="ContentDescription"
                                     android:scaleType="centerCrop"
-                                    />
+                                    android:src="@drawable/background_breakfast"
+                                    tools:ignore="ContentDescription" />
 
                             </com.example.cookbook.view.customviews.SquareMaterialCardView>
 
                             <TextView
+                                style="@style/HomeFragmentDishCardTitleStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@string/card_breakfast_title"
-                                style="@style/HomeFragmentDishCardTitleStyle"
-                                />
+                                android:text="@string/card_breakfast_title" />
 
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/margin_8dp_small"
                             android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:layout_marginHorizontal="@dimen/margin_8dp_small">
+                            android:orientation="vertical">
 
                             <com.example.cookbook.view.customviews.SquareMaterialCardView
                                 android:id="@+id/side_dish"
+                                style="@style/HomeFragmentDishCardStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                style="@style/HomeFragmentDishCardStyle"
-                                app:cardCornerRadius="@dimen/material_card_corner_radius_20dp"
-                                >
+                                app:cardCornerRadius="@dimen/material_card_corner_radius_20dp">
 
                                 <ImageView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:src="@drawable/background_side_dish"
-                                    tools:ignore="ContentDescription"
                                     android:scaleType="centerCrop"
-                                    />
+                                    android:src="@drawable/background_side_dish"
+                                    tools:ignore="ContentDescription" />
 
                             </com.example.cookbook.view.customviews.SquareMaterialCardView>
 
                             <TextView
+                                style="@style/HomeFragmentDishCardTitleStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@string/card_side_dish_title"
-                                style="@style/HomeFragmentDishCardTitleStyle"
-                                />
+                                android:text="@string/card_side_dish_title" />
 
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/margin_8dp_small"
                             android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:layout_marginHorizontal="@dimen/margin_8dp_small">
+                            android:orientation="vertical">
 
                             <com.example.cookbook.view.customviews.SquareMaterialCardView
                                 android:id="@+id/card_main_course"
+                                style="@style/HomeFragmentDishCardStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                style="@style/HomeFragmentDishCardStyle"
-                                app:cardCornerRadius="@dimen/material_card_corner_radius_20dp"
-                                >
+                                app:cardCornerRadius="@dimen/material_card_corner_radius_20dp">
 
                                 <ImageView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:src="@drawable/background_main_course"
-                                    tools:ignore="ContentDescription"
                                     android:scaleType="centerCrop"
-                                    />
+                                    android:src="@drawable/background_main_course"
+                                    tools:ignore="ContentDescription" />
 
                             </com.example.cookbook.view.customviews.SquareMaterialCardView>
 
                             <TextView
+                                style="@style/HomeFragmentDishCardTitleStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@string/card_main_course_title"
-                                style="@style/HomeFragmentDishCardTitleStyle"
-                                />
+                                android:text="@string/card_main_course_title" />
 
                         </LinearLayout>
 
@@ -422,110 +396,100 @@
                         android:id="@+id/dishes_table_second_line_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:weightSum="3"
                         android:baselineAligned="false"
-                        >
+                        android:orientation="horizontal"
+                        android:weightSum="3">
 
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_8dp_small"
                             android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:layout_margin="@dimen/margin_8dp_small">
+                            android:orientation="vertical">
 
                             <com.example.cookbook.view.customviews.SquareMaterialCardView
                                 android:id="@+id/card_salads"
+                                style="@style/HomeFragmentDishCardStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
-                                style="@style/HomeFragmentDishCardStyle"
-                                app:cardCornerRadius="@dimen/material_card_corner_radius_20dp"
-                                >
+                                app:cardCornerRadius="@dimen/material_card_corner_radius_20dp">
 
                                 <ImageView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:src="@drawable/background_salads"
-                                    tools:ignore="ContentDescription"
                                     android:scaleType="centerCrop"
-                                    />
+                                    android:src="@drawable/background_salads"
+                                    tools:ignore="ContentDescription" />
 
                             </com.example.cookbook.view.customviews.SquareMaterialCardView>
 
                             <TextView
+                                style="@style/HomeFragmentDishCardTitleStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@string/card_salads_title"
-                                style="@style/HomeFragmentDishCardTitleStyle"
-                                />
+                                android:text="@string/card_salads_title" />
 
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_8dp_small"
                             android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:layout_margin="@dimen/margin_8dp_small">
+                            android:orientation="vertical">
 
                             <com.example.cookbook.view.customviews.SquareMaterialCardView
                                 android:id="@+id/card_snack"
+                                style="@style/HomeFragmentDishCardStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
-                                style="@style/HomeFragmentDishCardStyle"
-                                app:cardCornerRadius="@dimen/material_card_corner_radius_20dp"
-                                >
+                                app:cardCornerRadius="@dimen/material_card_corner_radius_20dp">
 
                                 <ImageView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:src="@drawable/background_snacks"
-                                    tools:ignore="ContentDescription"
                                     android:scaleType="centerCrop"
-                                    />
+                                    android:src="@drawable/background_snacks"
+                                    tools:ignore="ContentDescription" />
 
                             </com.example.cookbook.view.customviews.SquareMaterialCardView>
 
                             <TextView
+                                style="@style/HomeFragmentDishCardTitleStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@string/card_snacks_title"
-                                style="@style/HomeFragmentDishCardTitleStyle"
-                                />
+                                android:text="@string/card_snacks_title" />
 
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_8dp_small"
                             android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:layout_margin="@dimen/margin_8dp_small">
+                            android:orientation="vertical">
 
                             <com.example.cookbook.view.customviews.SquareMaterialCardView
                                 android:id="@+id/card_dessert"
+                                style="@style/HomeFragmentDishCardStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
-                                style="@style/HomeFragmentDishCardStyle"
-                                app:cardCornerRadius="@dimen/material_card_corner_radius_20dp"
-                                >
+                                app:cardCornerRadius="@dimen/material_card_corner_radius_20dp">
 
                                 <ImageView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:src="@drawable/background_desserts"
                                     android:scaleType="centerCrop"
-                                    tools:ignore="ContentDescription"
-                                    />
+                                    android:src="@drawable/background_desserts"
+                                    tools:ignore="ContentDescription" />
 
                             </com.example.cookbook.view.customviews.SquareMaterialCardView>
 
                             <TextView
+                                style="@style/HomeFragmentDishCardTitleStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@string/card_desserts_title"
-                                style="@style/HomeFragmentDishCardTitleStyle"
-                                />
+                                android:text="@string/card_desserts_title" />
 
                         </LinearLayout>
 
@@ -540,8 +504,7 @@
                     android:layout_marginTop="@dimen/margin_16dp_medium"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/various_dishes_table_container"
-                    />
+                    app:layout_constraintTop_toBottomOf="@id/various_dishes_table_container" />
 
                 <FrameLayout
                     android:id="@+id/recently_viewed_recipes_container"
@@ -550,8 +513,7 @@
                     android:layout_marginTop="@dimen/margin_16dp_medium"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/healthy_random_recipes_container"
-                    />
+                    app:layout_constraintTop_toBottomOf="@id/healthy_random_recipes_container" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
