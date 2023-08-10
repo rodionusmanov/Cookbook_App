@@ -3,20 +3,22 @@ package com.example.cookbook.view.home.randomRecipe
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.cookbook.stacklayoutmanager.StackLayoutManager
 import com.example.cookbook.R
 import com.example.cookbook.databinding.FragmentRandomRecipeListBinding
 import com.example.cookbook.model.AppState
-import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.RandomRecipeData
 import com.example.cookbook.utils.ID
-import com.example.cookbook.utils.parcelableArrayList
 import com.example.cookbook.view.base.BaseFragment
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RandomRecipesListFragment :
-    BaseFragment<AppState, List<BaseRecipeData>, FragmentRandomRecipeListBinding>(
+    BaseFragment<AppState, List<RandomRecipeData>, FragmentRandomRecipeListBinding>(
         FragmentRandomRecipeListBinding::inflate
     ) {
 
@@ -25,22 +27,12 @@ class RandomRecipesListFragment :
     private val adapter: RandomRecipeListAdapter by lazy { RandomRecipeListAdapter() }
 
     companion object {
-        private const val RANDOM_RECIPE_LIST_KEY = "RandomRecipesListsKey"
-
-        fun newInstance(randomData: List<BaseRecipeData>): RandomRecipesListFragment {
-            return RandomRecipesListFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelableArrayList(RANDOM_RECIPE_LIST_KEY, ArrayList(randomData))
-                }
-            }
+        fun newInstance(): RandomRecipesListFragment {
+            return RandomRecipesListFragment()
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        arguments?.parcelableArrayList<RandomRecipeData>(RANDOM_RECIPE_LIST_KEY)
-            ?.let { randomData ->
-                setupData(randomData)
-            }
         initViewModel()
         super.onViewCreated(view, savedInstanceState)
     }
@@ -48,9 +40,15 @@ class RandomRecipesListFragment :
     private fun initViewModel() {
         val viewModel by viewModel<RandomRecipeListViewModel>()
         model = viewModel
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                model.stateFlow.collect { renderData(it) }
+            }
+        }
+        model.getRandomRecipes()
     }
 
-    override fun setupData(data: List<BaseRecipeData>) {
+    override fun setupData(data: List<RandomRecipeData>) {
         adapter.setData(data)
         val layoutManager = StackLayoutManager()
         binding.randomRecipesRecyclerView.adapter = adapter

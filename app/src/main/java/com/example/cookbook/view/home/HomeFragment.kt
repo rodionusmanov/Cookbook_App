@@ -11,7 +11,6 @@ import com.example.cookbook.R
 import com.example.cookbook.databinding.FragmentHomeBinding
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.BaseRecipeData
-import com.example.cookbook.model.domain.RandomRecipeData
 import com.example.cookbook.model.domain.SearchRecipeData
 import com.example.cookbook.view.base.BaseFragment
 import com.example.cookbook.view.home.randomRecipe.RandomRecipesListFragment
@@ -31,7 +30,16 @@ class HomeFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initViewModel()
         setupSearchView()
+        initRandomRecipeFragment()
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun initRandomRecipeFragment() {
+        val fragment = RandomRecipesListFragment.newInstance()
+        requireActivity().supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.random_recipe_container, fragment)
+            .commit()
     }
 
     private fun setupSearchView() {
@@ -60,7 +68,6 @@ class HomeFragment :
                 model.stateFlow.collect { renderData(it) }
             }
         }
-        model.getRandomRecipes()
     }
 
     override fun showErrorDialog(message: String?) {
@@ -70,19 +77,10 @@ class HomeFragment :
     override fun setupData(data: List<BaseRecipeData>) {
         when (val firstItem = data.firstOrNull()) {
             is SearchRecipeData -> setupSearchData(data.filterIsInstance<SearchRecipeData>())
-            is RandomRecipeData -> setupRandomData(data.filterIsInstance<RandomRecipeData>())
             else -> {
                 showErrorDialog("Incorrect data type: ${firstItem?.javaClass?.name}")
             }
         }
-    }
-
-    private fun setupRandomData(randomData: List<RandomRecipeData>) {
-        val fragment = RandomRecipesListFragment.newInstance(randomData)
-        requireActivity().supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.random_recipe_container, fragment)
-            .commit()
     }
 
     private fun setupSearchData(searchData: List<SearchRecipeData>) {
