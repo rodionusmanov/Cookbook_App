@@ -22,16 +22,19 @@ class CookbookApp : Application() {
         super.onCreate()
         startKoin {
             androidContext(this@CookbookApp)
-            modules(listOf(appModule,
-                remoteDataSource,
-                localDataBase,
-                network,
-                homeFragment,
-                searchFragment,
-                randomRecipeFragment,
-                recipeInfo,
-                favoritesFragment
-            ))
+            modules(
+                listOf(
+                    appModule,
+                    remoteDataSource,
+                    localDataBase,
+                    network,
+                    homeFragment,
+                    searchFragment,
+                    randomRecipeFragment,
+                    recipeInfo,
+                    favoritesFragment
+                )
+            )
         }
     }
 

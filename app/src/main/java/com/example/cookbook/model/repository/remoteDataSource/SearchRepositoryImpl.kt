@@ -25,7 +25,7 @@ class SearchRepositoryImpl(
 
         val response = searchRecipeDataSource.getSearchResult(request, ingredients)
         return parseResponse(response) { responseDto ->
-            responseDto.searchRecipeList.map {recipe ->
+            responseDto.searchRecipeList.map { recipe ->
                 mapper.mapRecipeData(recipe) as SearchRecipeData
             }
         }

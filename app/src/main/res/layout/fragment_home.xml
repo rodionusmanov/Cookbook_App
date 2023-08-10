@@ -509,13 +509,12 @@
                     android:id="@+id/recently_viewed_recipes_container"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/random_recipe_layout_height"
-                    android:layout_marginTop="@dimen/margin_16dp_medium"
                     android:layout_marginHorizontal="@dimen/margin_16dp_medium"
+                    android:layout_marginTop="@dimen/margin_16dp_medium"
+                    android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/healthy_random_recipes_container"
-                    android:orientation="vertical"
-                    >
+                    app:layout_constraintTop_toBottomOf="@id/healthy_random_recipes_container">
 
                     <TextView
                         android:id="@+id/recently_viewed_title"
@@ -530,8 +529,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:listitem="@layout/item_random_recipe_rv"
-                        />
+                        tools:listitem="@layout/item_random_recipe_rv" />
 
                 </LinearLayout>
 

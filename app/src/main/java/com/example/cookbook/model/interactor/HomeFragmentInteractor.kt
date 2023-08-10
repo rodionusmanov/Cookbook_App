@@ -18,7 +18,7 @@ class HomeFragmentInteractor(
         return AppState.Success(remoteRepository.getRandomRecipes())
     }
 
-    suspend fun insertRecipeToDataBase(recipeData: BaseRecipeData){
+    suspend fun insertRecipeToDataBase(recipeData: BaseRecipeData) {
         localRepository.insertNewRecipe(recipeData)
     }
 

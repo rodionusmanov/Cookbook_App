@@ -11,7 +11,6 @@ import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.RandomRecipeData
 import com.example.cookbook.model.domain.RecipeInformation
 import com.example.cookbook.model.domain.SearchRecipeData
-import java.lang.IllegalArgumentException
 
 class MappingUtils {
     private fun mapAnalyzedInstructions(
@@ -108,17 +107,17 @@ class MappingUtils {
 
     fun mapRecipeData(recipe: BaseRecipeData): BaseRecipeData {
         val newImage = mapImageUrl(recipe.image)
-        return when(recipe) {
+        return when (recipe) {
             is RandomRecipeData -> recipe.copy(image = newImage)
             is SearchRecipeData -> recipe.copy(image = newImage)
             else -> throw IllegalArgumentException("Unidentified recipe type")
         }
     }
 
-    private fun mapImageUrl(url:String): String {
+    private fun mapImageUrl(url: String): String {
         val newSize = "636x393"
         val patterns = listOf("90x90", "240x150", "312x150", "312x231", "480x360", "556x370")
-        return patterns.fold(url){currentUrl, pattern ->
+        return patterns.fold(url) { currentUrl, pattern ->
             currentUrl.replace(pattern, newSize)
         }
     }

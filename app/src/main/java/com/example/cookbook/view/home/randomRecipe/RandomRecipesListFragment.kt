@@ -65,7 +65,7 @@ class RandomRecipesListFragment :
 
     private fun openRecipeInfoFragment(recipeId: Int) {
         findNavController().navigate(
-            R.id.action_navigation_search_recipe_to_recipeInfoFragment,
+            R.id.action_navigation_home_to_recipeInfoFragment,
             Bundle().apply {
                 putInt(ID, recipeId)
             })
