@@ -282,7 +282,7 @@
                         android:id="@+id/dishes_table_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingStart="@dimen/margin_8dp_small"
+                        android:paddingHorizontal="@dimen/margin_8dp_small"
                         android:layout_marginVertical="@dimen/margin_16dp_medium"
                         android:text="@string/dishes_table_title"
                         style="@style/HomeFragmentTitleTextStyle"
@@ -294,20 +294,23 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:weightSum="3"
+                        android:baselineAligned="false"
                         >
 
-                        <com.example.cookbook.view.customviews.SquareMaterialCardView
-                            android:id="@+id/card_breakfast"
+                        <LinearLayout
                             android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_margin="@dimen/margin_8dp_small"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
                             android:layout_weight="1"
-                            style="@style/HomeFragmentDishCardStyle"
+                            android:layout_marginHorizontal="@dimen/margin_8dp_small"
                             >
 
-                            <androidx.constraintlayout.widget.ConstraintLayout
+                            <com.example.cookbook.view.customviews.SquareMaterialCardView
+                                android:id="@+id/card_breakfast"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_height="wrap_content"
+                                style="@style/HomeFragmentDishCardStyle"
+                                app:cardCornerRadius="20dp"
                                 >
 
                                 <ImageView
@@ -316,40 +319,33 @@
                                     android:src="@drawable/background_breakfast"
                                     tools:ignore="ContentDescription"
                                     android:scaleType="centerCrop"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintBottom_toBottomOf="parent"
                                     />
 
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="start|center_vertical"
-                                    android:padding="@dimen/margin_6dp_small"
-                                    android:text="@string/card_breakfast_title"
-                                    style="@style/HomeFragmentDishCardTitleStyle"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    />
+                            </com.example.cookbook.view.customviews.SquareMaterialCardView>
 
-
-                            </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        </com.example.cookbook.view.customviews.SquareMaterialCardView>
-
-                        <com.example.cookbook.view.customviews.SquareMaterialCardView
-                            android:id="@+id/side_dish"
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_margin="@dimen/margin_8dp_small"
-                            android:layout_weight="1"
-                            style="@style/HomeFragmentDishCardStyle"
-                            >
-
-                            <androidx.constraintlayout.widget.ConstraintLayout
+                            <TextView
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent">
+                                android:layout_height="wrap_content"
+                                android:text="@string/card_breakfast_title"
+                                style="@style/HomeFragmentDishCardTitleStyle"
+                                />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginHorizontal="@dimen/margin_8dp_small">
+
+                            <com.example.cookbook.view.customviews.SquareMaterialCardView
+                                android:id="@+id/side_dish"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                style="@style/HomeFragmentDishCardStyle"
+                                app:cardCornerRadius="@dimen/material_card_corner_radius_20dp"
+                                >
 
                                 <ImageView
                                     android:layout_width="match_parent"
@@ -357,39 +353,32 @@
                                     android:src="@drawable/background_side_dish"
                                     tools:ignore="ContentDescription"
                                     android:scaleType="centerCrop"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintBottom_toBottomOf="parent"
                                     />
 
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="start|center_vertical"
-                                    android:padding="@dimen/margin_6dp_small"
-                                    android:text="@string/card_side_dish_title"
-                                    style="@style/HomeFragmentDishCardTitleStyle"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    />
+                            </com.example.cookbook.view.customviews.SquareMaterialCardView>
 
-                            </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        </com.example.cookbook.view.customviews.SquareMaterialCardView>
-
-                        <com.example.cookbook.view.customviews.SquareMaterialCardView
-                            android:id="@+id/card_main_course"
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_margin="@dimen/margin_8dp_small"
-                            android:layout_weight="1"
-                            style="@style/HomeFragmentDishCardStyle"
-                            >
-
-                            <androidx.constraintlayout.widget.ConstraintLayout
+                            <TextView
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/card_side_dish_title"
+                                style="@style/HomeFragmentDishCardTitleStyle"
+                                />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginHorizontal="@dimen/margin_8dp_small">
+
+                            <com.example.cookbook.view.customviews.SquareMaterialCardView
+                                android:id="@+id/card_main_course"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                style="@style/HomeFragmentDishCardStyle"
+                                app:cardCornerRadius="@dimen/material_card_corner_radius_20dp"
                                 >
 
                                 <ImageView
@@ -398,26 +387,18 @@
                                     android:src="@drawable/background_main_course"
                                     tools:ignore="ContentDescription"
                                     android:scaleType="centerCrop"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintBottom_toBottomOf="parent"
                                     />
 
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="start|center_vertical"
-                                    android:padding="@dimen/margin_6dp_small"
-                                    android:text="@string/card_main_course_title"
-                                    style="@style/HomeFragmentDishCardTitleStyle"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    />
+                            </com.example.cookbook.view.customviews.SquareMaterialCardView>
 
-                            </androidx.constraintlayout.widget.ConstraintLayout>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/card_main_course_title"
+                                style="@style/HomeFragmentDishCardTitleStyle"
+                                />
 
-                        </com.example.cookbook.view.customviews.SquareMaterialCardView>
+                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -427,20 +408,22 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:weightSum="3"
+                        android:baselineAligned="false"
                         >
 
-                        <com.example.cookbook.view.customviews.SquareMaterialCardView
-                            android:id="@+id/card_salads"
+                        <LinearLayout
                             android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_margin="@dimen/margin_8dp_small"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            style="@style/HomeFragmentDishCardStyle"
-                            >
+                            android:orientation="vertical"
+                            android:layout_margin="@dimen/margin_8dp_small">
 
-                            <androidx.constraintlayout.widget.ConstraintLayout
+                            <com.example.cookbook.view.customviews.SquareMaterialCardView
+                                android:id="@+id/card_salads"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_height="0dp"
+                                style="@style/HomeFragmentDishCardStyle"
+                                app:cardCornerRadius="@dimen/material_card_corner_radius_20dp"
                                 >
 
                                 <ImageView
@@ -449,39 +432,32 @@
                                     android:src="@drawable/background_salads"
                                     tools:ignore="ContentDescription"
                                     android:scaleType="centerCrop"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintBottom_toBottomOf="parent"
                                     />
 
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="start|center_vertical"
-                                    android:padding="@dimen/margin_6dp_small"
-                                    android:text="@string/card_salads_title"
-                                    style="@style/HomeFragmentDishCardTitleStyle"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    />
+                            </com.example.cookbook.view.customviews.SquareMaterialCardView>
 
-                            </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        </com.example.cookbook.view.customviews.SquareMaterialCardView>
-
-                        <com.example.cookbook.view.customviews.SquareMaterialCardView
-                            android:id="@+id/card_snack"
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_margin="@dimen/margin_8dp_small"
-                            android:layout_weight="1"
-                            style="@style/HomeFragmentDishCardStyle"
-                            >
-
-                            <androidx.constraintlayout.widget.ConstraintLayout
+                            <TextView
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/card_salads_title"
+                                style="@style/HomeFragmentDishCardTitleStyle"
+                                />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_margin="@dimen/margin_8dp_small">
+
+                            <com.example.cookbook.view.customviews.SquareMaterialCardView
+                                android:id="@+id/card_snack"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                style="@style/HomeFragmentDishCardStyle"
+                                app:cardCornerRadius="@dimen/material_card_corner_radius_20dp"
                                 >
 
                                 <ImageView
@@ -490,39 +466,32 @@
                                     android:src="@drawable/background_snacks"
                                     tools:ignore="ContentDescription"
                                     android:scaleType="centerCrop"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintBottom_toBottomOf="parent"
                                     />
 
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="start|center_vertical"
-                                    android:padding="@dimen/margin_6dp_small"
-                                    android:text="@string/card_snacks_title"
-                                    style="@style/HomeFragmentDishCardTitleStyle"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    />
+                            </com.example.cookbook.view.customviews.SquareMaterialCardView>
 
-                            </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        </com.example.cookbook.view.customviews.SquareMaterialCardView>
-
-                        <com.example.cookbook.view.customviews.SquareMaterialCardView
-                            android:id="@+id/card_dessert"
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_margin="@dimen/margin_8dp_small"
-                            android:layout_weight="1"
-                            style="@style/HomeFragmentDishCardStyle"
-                            >
-
-                            <androidx.constraintlayout.widget.ConstraintLayout
+                            <TextView
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/card_snacks_title"
+                                style="@style/HomeFragmentDishCardTitleStyle"
+                                />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_margin="@dimen/margin_8dp_small">
+
+                            <com.example.cookbook.view.customviews.SquareMaterialCardView
+                                android:id="@+id/card_dessert"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                style="@style/HomeFragmentDishCardStyle"
+                                app:cardCornerRadius="@dimen/material_card_corner_radius_20dp"
                                 >
 
                                 <ImageView
@@ -531,26 +500,18 @@
                                     android:src="@drawable/background_desserts"
                                     android:scaleType="centerCrop"
                                     tools:ignore="ContentDescription"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintBottom_toBottomOf="parent"
                                     />
 
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="start|center_vertical"
-                                    android:padding="@dimen/margin_6dp_small"
-                                    android:text="@string/card_desserts_title"
-                                    style="@style/HomeFragmentDishCardTitleStyle"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    />
+                            </com.example.cookbook.view.customviews.SquareMaterialCardView>
 
-                            </androidx.constraintlayout.widget.ConstraintLayout>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/card_desserts_title"
+                                style="@style/HomeFragmentDishCardTitleStyle"
+                                />
 
-                        </com.example.cookbook.view.customviews.SquareMaterialCardView>
+                        </LinearLayout>
 
                     </LinearLayout>
 
