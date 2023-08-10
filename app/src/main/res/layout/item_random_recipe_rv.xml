@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_20dp_medium"
             android:layout_marginBottom="@dimen/margin_10dp_small"
-            android:background="@drawable/background_rectangle"
+            android:background="@drawable/background_cardview_rectangle"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingHorizontal="@dimen/margin_8dp_small"

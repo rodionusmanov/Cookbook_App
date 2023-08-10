@@ -2,7 +2,7 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
 
-    <solid android:color="@color/time_text_background" />
+    <solid android:color="@color/service_cardview_background" />
     <corners android:radius="@dimen/material_card_corner_radius_20dp" />
 
 </shape>
