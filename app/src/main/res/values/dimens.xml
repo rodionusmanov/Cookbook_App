@@ -55,5 +55,8 @@
 
     //Search Result Layout
     <dimen name="search_result_item_recipe_title_height">70dp</dimen>
+    <dimen name="marfin_horizontal_8dp">8dp</dimen>
+    <dimen name="top_badge_padding_2dp">2dp</dimen>
+    <dimen name="top_badge_padding_4dp">4dp</dimen>
 
 </resources>
