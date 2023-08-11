@@ -10,7 +10,6 @@ import com.example.cookbook.model.datasource.SearchRecipeDataSource
 import com.example.cookbook.model.datasource.retrofit.RetrofitImplementation
 import com.example.cookbook.model.interactor.RecipeInfoFragmentInteractor
 import com.example.cookbook.model.interactor.HomeFragmentInteractor
-import com.example.cookbook.model.interactor.RandomRecipeListInteractor
 import com.example.cookbook.model.interactor.SearchFragmentInteractor
 import com.example.cookbook.model.repository.local.ILocalRecipesRepository
 import com.example.cookbook.model.repository.local.LocalRepositoryImpl
@@ -82,8 +81,7 @@ val searchFragment = module {
 }
 
 val randomRecipeFragment = module {
-    viewModel { RandomRecipeListViewModel(get()) }
-    factory { RandomRecipeListInteractor(get(), LocalRepositoryImpl(get<IRecipesDAO>())) }
+    viewModel { RandomRecipeListViewModel(LocalRepositoryImpl(get<IRecipesDAO>())) }
 }
 
 val recipeInfo = module {
