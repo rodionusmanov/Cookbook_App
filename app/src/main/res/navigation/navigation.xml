@@ -2,7 +2,8 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/navigation">
+    android:id="@+id/navigation"
+    app:startDestination="@id/navigation_home">
 
     <fragment
         android:id="@+id/navigation_search_recipe"
@@ -11,11 +12,7 @@
         <action
             android:id="@+id/action_navigation_search_recipe_to_recipeInfoFragment"
             app:destination="@id/recipeInfoFragment" />
-        <argument
-            android:name="search_query"
-            app:argType="string" />
     </fragment>
-
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.example.cookbook.view.home.HomeFragment"
@@ -23,13 +20,7 @@
         <action
             android:id="@+id/action_navigation_home_to_recipeInfoFragment"
             app:destination="@id/recipeInfoFragment" />
-
-        <action
-            android:id="@+id/action_navigation_home_to_searchFragment"
-            app:destination="@id/navigation_search_recipe" />
-
     </fragment>
-
     <fragment
         android:id="@+id/navigation_favorite"
         android:name="com.example.cookbook.view.favorite.FavoriteFragment"
@@ -38,12 +29,10 @@
             android:id="@+id/action_navigation_favorite_to_recipeInfoFragment"
             app:destination="@id/recipeInfoFragment" />
     </fragment>
-
     <fragment
         android:id="@+id/navigation_my_experience"
         android:name="com.example.cookbook.view.myProfile.MyProfileFragment"
         android:label="MyExperienceFragment" />
-
     <fragment
         android:id="@+id/recipeInfoFragment"
         android:name="com.example.cookbook.view.recipeInfo.RecipeInfoFragment"
@@ -53,5 +42,4 @@
             android:name="id"
             app:argType="integer" />
     </fragment>
-
 </navigation>

@@ -37,17 +37,13 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
         }
     }
 
-    private fun setSearchQuery(query: String) {
-        model.searchRecipeRequest(query, "")
-    }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initViewModel()
         setupSearchView()
+
+
         super.onViewCreated(view, savedInstanceState)
-        //val query = arguments?.getString("search_query")
-        //query?.let {setSearchQuery(it)}
     }
 
     private fun initViewModel() {
@@ -78,11 +74,6 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
         )
     }
 
-    override fun onResume() {
-        super.onResume()
-        (activity as MainActivity).printBackStack()
-    }
-
     override fun setupData(data: List<BaseRecipeData>) {
         when (val firstItem = data.firstOrNull()) {
             is SearchRecipeData -> setupSearchData(data.filterIsInstance<SearchRecipeData>())
@@ -94,7 +85,7 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
 
     private fun setupSearchData(searchData: List<SearchRecipeData>) {
         val fragment = SearchResultFragment.newInstance(searchData)
-        childFragmentManager
+        requireActivity().supportFragmentManager
             .beginTransaction()
             .replace(R.id.search_fragment_container, fragment)
             .commit()

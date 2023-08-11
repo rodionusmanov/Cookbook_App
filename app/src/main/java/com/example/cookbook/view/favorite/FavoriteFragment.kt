@@ -48,11 +48,6 @@ class FavoriteFragment : Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        (activity as MainActivity).printBackStack()
-    }
-
     private fun setupData(favoriteRecipes: List<BaseRecipeData>) {
         adapter.setData(favoriteRecipes)
         binding.favoriteRecipesRecyclerView.layoutManager = LinearLayoutManager(context)
