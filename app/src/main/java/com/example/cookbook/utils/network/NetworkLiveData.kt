@@ -34,8 +34,8 @@ class NetworkLiveData(
         connectivityManager.unregisterNetworkCallback(callback)
     }
 
-    private fun update(online: Boolean){
-        if(online != value)
+    private fun update(online: Boolean) {
+        if (online != value)
             postValue(online)
     }
 }

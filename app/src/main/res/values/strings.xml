@@ -3,18 +3,55 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-    <string name="title_search_recipe">Search</string>
-    <string name="title_favorite">Favorite</string>
-    <string name="title_my_experience">My experience</string>
-    <string name="search_recipe">search recipe</string>
-    <string name="favorite">favorite</string>
-    <string name="my_experience">my experience</string>
+
+    //NavigationMenu
+    <string name="nav_home">Home</string>
+    <string name="nav_search_recipe">Search recipe</string>
+    <string name="nav_favorite">Favorite</string>
+    <string name="nav_my_profile">My profile</string>
 
     //NetworkStatus
-    <string name="dialog_message_device_is_offline">Отсутствует подключение к сети Интернет</string>
+    <string name="dialog_message_device_is_offline">Internet connection unavailable</string>
 
-    //IngredientChips
-    <string name="chip_chicken">Курица</string>
-    <string name="chip_tomato">Помидор</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="protein">protein</string>
+    <string name="fat">fat</string>
+    <string name="carb">carb</string>
+
+    //HomeFragment
+    <string name="card_searching_by_ingredient_title">Search a recipe by the available ingredients</string>
+    <string name="card_favorite_list_title">Your list of favorite recipes</string>
+    <string name="card_shopping_list_title">Your shopping list for ingredients</string>
+    <string name="joke_of_the_day_title">Joke of the day</string>
+    <string name="recently_viewed_title">Recently viewed</string>
+    <string name="joke_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </string>
+    <string name="dishes_table_title">What do you want to cook?</string>
+    <string name="card_breakfast_title">Breakfast</string>
+    <string name="card_side_dish_title">Side Dish</string>
+    <string name="card_main_course_title">Main Course</string>
+    <string name="card_salads_title">Salads</string>
+    <string name="card_snacks_title">Snacks</string>
+    <string name="card_desserts_title">Desserts</string>
+
+
+    //SearchDialog
+    <string name="search_recipe">Search recipe</string>
+
+    //SearchFragment
+    <string name="search_view_hint">Search recipe</string>
+
+    //RandomRecipeFragment
+    <string name="random_recipe_list_title">What you want to try</string>
+    <string name="random_recipe_list_title_second_line">today?</string>
+
+    //RecipeInfoFragment
+    <string name="very_healthy">Very Healthy</string>
+    <string name="vegetarian">Vegetarian</string>
+    <string name="vegan">Vegan</string>
+    <string name="gluten_free">Gluten Free</string>
+    <string name="dairy_free">Dairy Free</string>
+    <string name="equipment">Equipment</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="steps">Steps</string>
 
 </resources>

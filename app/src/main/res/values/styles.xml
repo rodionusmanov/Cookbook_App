@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <style name="FavoriteCheckBoxStyle">
+        <item name="android:button">@drawable/selector_favorite_checkbox</item>
+    </style>
+
+    <style name="HomeFragmentDishCardTitleStyle">
+        <item name="android:textSize">@dimen/home_dishes_card_title</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:padding">@dimen/margin_6dp_small</item>
+    </style>
+
+    <style name="HomeFragmentServiceCardTitleStyle">
+        <item name="android:textSize">@dimen/home_service_card_title</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:padding">@dimen/margin_6dp_small</item>
+        <item name="android:layout_marginStart">@dimen/margin_8dp_small</item>
+    </style>
+
+    <style name="HomeFragmentDishCardStyle">
+        <item name="android:elevation">@dimen/elevation_10dp_small</item>
+    </style>
+
+    <style name="HomeFragmentTitleTextStyle">
+        <item name="android:textSize">@dimen/home_joke_of_the_day_title</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+
+</resources>
