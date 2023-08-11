@@ -1,5 +1,6 @@
 package com.example.cookbook.view.favorite
 
+import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,12 +11,12 @@ import com.example.cookbook.R
 import com.example.cookbook.databinding.ItemSearchResultBinding
 import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.view.search.searchResult.ISaveRecipe
+import com.google.android.material.snackbar.Snackbar
 
-class FavoriteRecipesAdapter(val callbackSaveRecipe: ISaveRecipe) :
+class FavoriteRecipesAdapter(val callbackDeleteRecipe: IDeleteRecipe) :
     RecyclerView.Adapter<FavoriteRecipesAdapter.RecyclerItemViewHolder>() {
 
     private var data: List<BaseRecipeData> = arrayListOf()
-
     fun setData(data: List<BaseRecipeData>) {
         this.data = data
         notifyDataSetChanged()
@@ -25,6 +26,7 @@ class FavoriteRecipesAdapter(val callbackSaveRecipe: ISaveRecipe) :
         fun bind(data: BaseRecipeData) {
             if (layoutPosition != RecyclerView.NO_POSITION) {
                 ItemSearchResultBinding.bind(itemView).apply {
+                    ivAddFavorite.isChecked = true
                     tvSearchRecipe.text = data.title
                     ivSearchRecipe.load(data.image) {
                         crossfade(500)
@@ -32,9 +34,8 @@ class FavoriteRecipesAdapter(val callbackSaveRecipe: ISaveRecipe) :
                         placeholder(R.drawable.icon_search)
                     }
                     ivAddFavorite.setOnClickListener {
-                        callbackSaveRecipe.saveRecipe(data)
-                        //ivAddFavorite.setImageResource(R.drawable.icon_favorite_solid)
-                        //ivAddFavorite.setBackgroundResource(R.color.orange_dark)
+                        callbackDeleteRecipe.deleteRecipe(data.id)
+                        notifyItemRemoved(position)
                     }
                 }
             }
