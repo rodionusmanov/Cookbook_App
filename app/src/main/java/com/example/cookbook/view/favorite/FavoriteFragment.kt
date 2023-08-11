@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cookbook.databinding.FragmentFavoriteBinding
 import com.example.cookbook.model.domain.BaseRecipeData
+import com.example.cookbook.view.mainActivity.MainActivity
 import com.example.cookbook.view.search.searchResult.ISaveRecipe
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -39,6 +40,11 @@ class FavoriteFragment : Fragment() {
             favoriteRecipes = it
             setupData(favoriteRecipes)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).printBackStack()
     }
 
     private fun setupData(favoriteRecipes: List<BaseRecipeData>) {
