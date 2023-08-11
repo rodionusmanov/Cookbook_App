@@ -29,7 +29,7 @@
             android:id="@+id/title_background_view"
             android:layout_width="match_parent"
             android:layout_height="@dimen/random_recipe_bottom_view_height"
-            android:background="@color/title_text_background"
+            android:background="@color/orange_light"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -68,7 +68,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:src="@drawable/icon_timer"
-                app:tint="@color/white"
+                app:tint="@color/orange_dark"
                 tools:ignore="ContentDescription" />
 
             <TextView
@@ -77,17 +77,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_2dp_small"
                 android:text="15 min"
-                android:textColor="@color/white"
+                android:textColor="@color/orange_dark"
                 android:textSize="@dimen/random_recipe_layout_cooking_time_text" />
 
         </LinearLayout>
 
         <FrameLayout
             android:layout_width="35dp"
-            android:layout_height="30dp"
+            android:layout_height="35dp"
             android:layout_marginTop="@dimen/margin_20dp_medium"
             android:layout_marginEnd="@dimen/margin_20dp_medium"
-            android:background="@drawable/background_circle"
+            android:background="@drawable/background_cardview_rectangle"
             android:gravity="center_vertical"
             android:paddingHorizontal="@dimen/margin_8dp_small"
             android:paddingVertical="@dimen/margin_2dp_small"

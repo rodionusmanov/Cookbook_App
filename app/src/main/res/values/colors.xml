@@ -8,7 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-
+    //Main Theme Colors
     <color name="orange_dark">#ff4400</color>
     <color name="orange_middle">#ff855b</color>
     <color name="orange_light">#ffcbb8</color>

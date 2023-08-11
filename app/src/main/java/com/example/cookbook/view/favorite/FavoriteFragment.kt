@@ -1,5 +1,6 @@
 package com.example.cookbook.view.favorite
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cookbook.databinding.FragmentFavoriteBinding
 import com.example.cookbook.model.domain.BaseRecipeData
+import com.example.cookbook.view.mainActivity.MainActivity
 import com.example.cookbook.view.search.searchResult.ISaveRecipe
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -20,7 +22,11 @@ class FavoriteFragment : Fragment() {
         }
 
     private lateinit var model: FavoriteRecipesViewModel
-    private val adapter: FavoriteRecipesAdapter by lazy { FavoriteRecipesAdapter(callbackSaveItem) }
+    private val adapter: FavoriteRecipesAdapter by lazy {
+        FavoriteRecipesAdapter(
+            callbackDeleteRecipe
+        )
+    }
 
     private lateinit var favoriteRecipes: List<BaseRecipeData>
     override fun onCreateView(
@@ -29,7 +35,7 @@ class FavoriteFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
-        
+        initViewModel()
         return binding.root
     }
 
@@ -48,9 +54,18 @@ class FavoriteFragment : Fragment() {
         binding.favoriteRecipesRecyclerView.adapter = adapter
     }
 
-    private val callbackSaveItem = object : ISaveRecipe {
-        override fun saveRecipe(recipe: BaseRecipeData) {
-            model.insertNewRecipeToDataBase(recipe)
+    private val callbackDeleteRecipe = object : IDeleteRecipe {
+        override fun deleteRecipe(id: Int) {
+            AlertDialog.Builder(context)
+                .setTitle("Deleting recipe")
+                .setMessage("Do you really want to delete this recipe from your favorites?")
+                .setPositiveButton("Yes") { dialog, _ ->
+                    model.deleteRecipeFromData(id)
+                    dialog.dismiss()
+                }
+                .setNegativeButton("No") { dialog, _ -> dialog.dismiss() }
+                .create()
+                .show()
         }
     }
 }
