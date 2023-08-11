@@ -34,13 +34,60 @@ class HomeFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initViewModel()
         setupSearchView()
-        initRandomRecipeFragment()
+        //initRandomRecipeFragment()
+        initDishTypeCards()
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun initDishTypeCards() {
+        binding.cardBreakfast.setOnClickListener { view ->
+            Log.d("Navigation", "Card clicked, navigating to SearchFragment")
+            val navController = findNavController()
+            val action = R.id.action_navigation_home_to_searchFragment
+            val bundle = bundleOf("search_query" to "breakfast")
+            navController.navigate(action, bundle)
+            (activity as MainActivity).setSelectedNavigationItem(R.id.navigation_search_recipe)
+            }
+        }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("@@@", "HomeFragment resumed")
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.d("@@@", "HomeFragment onCreate")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("@@@", "HomeFragment onStart")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("@@@", "HomeFragment onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("@@@", "HomeFragment onStop")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.d("@@@", "HomeFragment onDestroyView")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("@@@", "HomeFragment onDestroy")
     }
 
     private fun initRandomRecipeFragment() {
         val fragment = RandomRecipesListFragment.newInstance()
-        parentFragmentManager
+        childFragmentManager
             .beginTransaction()
             .replace(R.id.random_recipe_container, fragment)
             .commit()
@@ -89,7 +136,7 @@ class HomeFragment :
 
     private fun setupSearchData(searchData: List<SearchRecipeData>) {
         val searchFragment = SearchFragment.newInstance(searchData)
-        requireActivity().supportFragmentManager
+        childFragmentManager
             .beginTransaction()
             .replace(R.id.main_container, searchFragment)
             .commit()
