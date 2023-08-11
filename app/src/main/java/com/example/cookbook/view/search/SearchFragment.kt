@@ -13,6 +13,7 @@ import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.SearchRecipeData
 import com.example.cookbook.view.base.BaseFragment
+import com.example.cookbook.view.mainActivity.MainActivity
 import com.example.cookbook.view.search.searchResult.SearchResultFragment
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -45,8 +46,8 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
         initViewModel()
         setupSearchView()
         super.onViewCreated(view, savedInstanceState)
-        val query = arguments?.getString("search_query")
-        query?.let {setSearchQuery(it)}
+        //val query = arguments?.getString("search_query")
+        //query?.let {setSearchQuery(it)}
     }
 
     private fun initViewModel() {
@@ -75,6 +76,11 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
                 }
             }
         )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).printBackStack()
     }
 
     override fun setupData(data: List<BaseRecipeData>) {
