@@ -1,7 +1,6 @@
 package com.example.cookbook.view.mainActivity
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cookbook.R
 import com.example.cookbook.databinding.ActivityMainBinding
@@ -34,30 +33,35 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupBottomNavigationMenu() {
         binding.navView.setOnItemSelectedListener { item ->
-            val selectedFragment = when(item.itemId) {
+            val selectedFragment = when (item.itemId) {
                 R.id.navigation_home -> "home"
                 R.id.navigation_search_recipe -> "search_recipe"
                 R.id.navigation_favorite -> "favorite"
                 R.id.navigation_my_experience -> "my_experience"
                 else -> throw IllegalStateException("Unexpected navigation item: ${item.itemId}")
             }
-            switchFragment(selectedFragment)
+            if (currentFragmentTag != selectedFragment) {
+                switchFragment(selectedFragment, true)
+            } else {
+                switchFragment(selectedFragment)
+            }
             true
         }
         supportFragmentManager.addOnBackStackChangedListener {
-            when(supportFragmentManager.findFragmentById(R.id.main_container)){
+            when (supportFragmentManager.findFragmentById(R.id.main_container)) {
                 is HomeFragment -> binding.navView.selectedItemId = R.id.navigation_home
                 is SearchFragment -> binding.navView.selectedItemId = R.id.navigation_search_recipe
                 is FavoriteFragment -> binding.navView.selectedItemId = R.id.navigation_favorite
-                is MyProfileFragment -> binding.navView.selectedItemId = R.id.navigation_my_experience
+                is MyProfileFragment -> binding.navView.selectedItemId =
+                    R.id.navigation_my_experience
             }
         }
     }
 
-    private fun switchFragment(tag: String) {
+    private fun switchFragment(tag: String, addToBackStack: Boolean = false) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
 
-        for (fragment in supportFragmentManager.fragments){
+        for (fragment in supportFragmentManager.fragments) {
             fragmentTransaction.hide(fragment)
         }
 
@@ -65,18 +69,22 @@ class MainActivity : AppCompatActivity() {
         if (newFragment != null) {
             fragmentTransaction.show(newFragment)
         } else {
-            fragments[tag]?.let {fragment ->
+            fragments[tag]?.let { fragment ->
                 fragmentTransaction.add(R.id.main_container, fragment, tag)
             }
+        }
+        if(addToBackStack) {
+            fragmentTransaction.addToBackStack(null)
         }
         fragmentTransaction.commit()
         currentFragmentTag = tag
     }
 
-    fun printBackStack() {
-        val fragments = supportFragmentManager.fragments
-        for (fragment in fragments) {
-            Log.d("Navigation", "Fragment: ${fragment::class.java.simpleName}")
+    override fun onBackPressed() {
+        if(supportFragmentManager.backStackEntryCount > 0) {
+            supportFragmentManager.popBackStack()
+        } else {
+            super.onBackPressed()
         }
     }
 }
