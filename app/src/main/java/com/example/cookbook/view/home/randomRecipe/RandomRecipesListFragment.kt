@@ -1,12 +1,10 @@
 package com.example.cookbook.view.home.randomRecipe
 
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
 import com.cookbook.stacklayoutmanager.StackLayoutManager
 import com.example.cookbook.R
 import com.example.cookbook.databinding.FragmentRandomRecipeListBinding
@@ -14,6 +12,7 @@ import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.RandomRecipeData
 import com.example.cookbook.utils.ID
 import com.example.cookbook.view.base.BaseFragment
+import com.example.cookbook.view.recipeInfo.RecipeInfoFragment
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -32,10 +31,12 @@ class RandomRecipesListFragment :
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         initViewModel()
-        super.onViewCreated(view, savedInstanceState)
+        model.getRandomRecipes()
     }
+
 
     private fun initViewModel() {
         val viewModel by viewModel<RandomRecipeListViewModel>()
@@ -45,7 +46,6 @@ class RandomRecipesListFragment :
                 model.stateFlow.collect { renderData(it) }
             }
         }
-        model.getRandomRecipes()
     }
 
     override fun setupData(data: List<RandomRecipeData>) {
@@ -62,11 +62,17 @@ class RandomRecipesListFragment :
     }
 
     private fun openRecipeInfoFragment(recipeId: Int) {
-        findNavController().navigate(
-            R.id.action_navigation_home_to_recipeInfoFragment,
-            Bundle().apply {
-                putInt(ID, recipeId)
-            })
+        val recipeInfoFragment = RecipeInfoFragment.newInstance()
+
+        val bundle = Bundle().apply {
+            putInt(ID, recipeId)
+        }
+        recipeInfoFragment.arguments = bundle
+        requireActivity().supportFragmentManager.beginTransaction().apply {
+            replace(R.id.main_container, recipeInfoFragment)
+            addToBackStack(null)
+            commit()
+        }
     }
 
     private fun initFavoritesListeners() {

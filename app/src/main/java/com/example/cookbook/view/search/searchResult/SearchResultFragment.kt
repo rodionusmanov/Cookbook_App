@@ -6,7 +6,6 @@ import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cookbook.R
 import com.example.cookbook.databinding.FragmentSearchResultBinding
@@ -16,6 +15,7 @@ import com.example.cookbook.model.domain.SearchRecipeData
 import com.example.cookbook.utils.ID
 import com.example.cookbook.utils.parcelableArrayList
 import com.example.cookbook.view.base.BaseFragment
+import com.example.cookbook.view.recipeInfo.RecipeInfoFragment
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -79,11 +79,17 @@ class SearchResultFragment :
     }
 
     private fun openRecipeInfoFragment(recipeId: Int) {
-        findNavController().navigate(
-            R.id.action_navigation_search_recipe_to_recipeInfoFragment,
-            Bundle().apply {
-                putInt(ID, recipeId)
-            })
+        val recipeInfoFragment = RecipeInfoFragment.newInstance()
+
+        val bundle = Bundle().apply {
+            putInt(ID, recipeId)
+        }
+        recipeInfoFragment.arguments = bundle
+        parentFragmentManager.beginTransaction().apply {
+            replace(R.id.main_container, recipeInfoFragment)
+            addToBackStack(null)
+            commit()
+        }
     }
 
     private fun initViewModel() {

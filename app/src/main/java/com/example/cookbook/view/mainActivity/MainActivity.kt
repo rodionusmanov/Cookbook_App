@@ -3,23 +3,16 @@ package com.example.cookbook.view.mainActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupWithNavController
 import com.example.cookbook.R
 import com.example.cookbook.databinding.ActivityMainBinding
 import com.example.cookbook.view.favorite.FavoriteFragment
 import com.example.cookbook.view.home.HomeFragment
 import com.example.cookbook.view.myProfile.MyProfileFragment
 import com.example.cookbook.view.search.SearchFragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var navController: NavController
 
     private var currentFragmentTag: String? = null
     private val fragments = mapOf(
@@ -55,10 +48,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun switchFragment(tag: String) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        currentFragmentTag?.let { currentTag ->
-            val currentFragment = supportFragmentManager.findFragmentByTag(currentTag)
-            if (currentFragment != null) {
-                fragmentTransaction.hide(currentFragment) }
+
+        for (fragment in supportFragmentManager.fragments){
+            fragmentTransaction.hide(fragment)
         }
 
         val newFragment = supportFragmentManager.findFragmentByTag(tag)
@@ -85,7 +77,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp() || super.onSupportNavigateUp()
+    override fun onBackPressed() {
+        if(supportFragmentManager.backStackEntryCount > 0) {
+            supportFragmentManager.popBackStack()
+        } else {
+            super.onBackPressed()
+        }
     }
 }

@@ -35,6 +35,10 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
                 }
             }
         }
+
+        fun newInstance(): SearchFragment {
+            return SearchFragment()
+        }
     }
 
     private fun setSearchQuery(query: String) {
@@ -94,7 +98,7 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
 
     private fun setupSearchData(searchData: List<SearchRecipeData>) {
         val fragment = SearchResultFragment.newInstance(searchData)
-        childFragmentManager
+        parentFragmentManager
             .beginTransaction()
             .replace(R.id.search_fragment_container, fragment)
             .commit()
