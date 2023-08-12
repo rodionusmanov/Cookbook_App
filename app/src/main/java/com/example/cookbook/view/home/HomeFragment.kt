@@ -1,7 +1,6 @@
 package com.example.cookbook.view.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
@@ -39,7 +38,6 @@ class HomeFragment :
 
     private fun initDishTypeCards() {
         binding.cardBreakfast.setOnClickListener {
-            Log.d("Navigation", "Card clicked, navigating to SearchFragment")
             val existingFragment = childFragmentManager
                 .findFragmentByTag(SearchFragment::class.java.simpleName)
 

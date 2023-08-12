@@ -6,13 +6,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.cookbook.stacklayoutmanager.StackLayoutManager
-import com.example.cookbook.R
 import com.example.cookbook.databinding.FragmentRandomRecipeListBinding
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.RandomRecipeData
-import com.example.cookbook.utils.ID
+import com.example.cookbook.utils.NavigationUtils
 import com.example.cookbook.view.base.BaseFragment
-import com.example.cookbook.view.recipeInfo.RecipeInfoFragment
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -62,17 +60,10 @@ class RandomRecipesListFragment :
     }
 
     private fun openRecipeInfoFragment(recipeId: Int) {
-        val recipeInfoFragment = RecipeInfoFragment.newInstance()
-
-        val bundle = Bundle().apply {
-            putInt(ID, recipeId)
-        }
-        recipeInfoFragment.arguments = bundle
-        requireActivity().supportFragmentManager.beginTransaction().apply {
-            replace(R.id.main_container, recipeInfoFragment)
-            addToBackStack(null)
-            commit()
-        }
+        NavigationUtils.openRecipeInfoFragment(
+            requireActivity().supportFragmentManager,
+            recipeId
+        )
     }
 
     private fun initFavoritesListeners() {
