@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
-import androidx.core.os.bundleOf
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -13,6 +12,8 @@ import com.example.cookbook.databinding.FragmentHomeBinding
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.SearchRecipeData
+import com.example.cookbook.utils.FragmentUtils
+import com.example.cookbook.utils.NavigationUtils
 import com.example.cookbook.view.base.BaseFragment
 import com.example.cookbook.view.home.randomRecipe.RandomRecipesListFragment
 import com.example.cookbook.view.mainActivity.MainActivity
@@ -38,22 +39,21 @@ class HomeFragment :
 
     private fun initDishTypeCards() {
         binding.cardBreakfast.setOnClickListener {
-            val existingFragment = childFragmentManager
-                .findFragmentByTag(SearchFragment::class.java.simpleName)
 
-            val searchFragment = existingFragment as? SearchFragment ?: SearchFragment.newInstance()
+            val searchFragment = FragmentUtils.obtainFragment(
+                fragmentManager = parentFragmentManager,
+                fragmentClass = SearchFragment::class.java,
+                newInstance = {SearchFragment.newInstance()}
+            )
 
-            val bundle = bundleOf("search_query" to "breakfast")
-            searchFragment.arguments = bundle
-
-            parentFragmentManager.beginTransaction().apply {
-                if (existingFragment != null) {
-                    replace(R.id.main_container, searchFragment, SearchFragment::class.java.simpleName)
-                } else {
-                    add(R.id.main_container, searchFragment, SearchFragment::class.java.simpleName)
-                }
-                commit()
-            }
+            NavigationUtils.navigateToSearchFragmentWithQuery(
+                fragmentManager = parentFragmentManager,
+                containerId = R.id.main_container,
+                fragment = searchFragment,
+                queryKey = "search_query",
+                queryValue = "breakfast",
+                tag = SearchFragment::class.java.simpleName
+            )
 
             (activity as MainActivity).setSelectedNavigationItem(R.id.navigation_search_recipe)
             }
