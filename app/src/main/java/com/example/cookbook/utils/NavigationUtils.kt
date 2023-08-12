@@ -28,20 +28,25 @@ object NavigationUtils {
     fun navigateToSearchFragmentWithQuery(
         fragmentManager: FragmentManager,
         containerId: Int,
-        fragment: Fragment,
+        destinedFragment: Fragment,
         queryKey: String,
         queryValue: String,
         tag: String? = null
         ) {
         val bundle = bundleOf(queryKey to queryValue)
-        fragment.arguments = bundle
+        destinedFragment.arguments = bundle
+
+        for (fragment in fragmentManager.fragments){
+            fragmentManager.beginTransaction().hide(fragment).commit()
+        }
 
         fragmentManager.beginTransaction().apply {
             if (tag != null && fragmentManager.findFragmentByTag(tag) != null){
-                replace(containerId, fragment, tag)
+                replace(containerId, destinedFragment, tag)
             } else {
-                add(containerId, fragment, tag)
+                add(containerId, destinedFragment, tag)
             }
+            addToBackStack(tag)
             commit()
         }
     }

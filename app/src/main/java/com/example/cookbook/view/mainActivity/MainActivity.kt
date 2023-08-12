@@ -44,6 +44,14 @@ class MainActivity : AppCompatActivity() {
             switchFragment(selectedFragment)
             true
         }
+        supportFragmentManager.addOnBackStackChangedListener {
+            when(supportFragmentManager.findFragmentById(R.id.main_container)){
+                is HomeFragment -> binding.navView.selectedItemId = R.id.navigation_home
+                is SearchFragment -> binding.navView.selectedItemId = R.id.navigation_search_recipe
+                is FavoriteFragment -> binding.navView.selectedItemId = R.id.navigation_favorite
+                is MyProfileFragment -> binding.navView.selectedItemId = R.id.navigation_my_experience
+            }
+        }
     }
 
     private fun switchFragment(tag: String) {
@@ -61,27 +69,14 @@ class MainActivity : AppCompatActivity() {
                 fragmentTransaction.add(R.id.main_container, fragment, tag)
             }
         }
-
         fragmentTransaction.commit()
         currentFragmentTag = tag
-    }
-
-    fun setSelectedNavigationItem(itemId: Int) {
-        binding.navView.selectedItemId = itemId
     }
 
     fun printBackStack() {
         val fragments = supportFragmentManager.fragments
         for (fragment in fragments) {
             Log.d("Navigation", "Fragment: ${fragment::class.java.simpleName}")
-        }
-    }
-
-    override fun onBackPressed() {
-        if(supportFragmentManager.backStackEntryCount > 0) {
-            supportFragmentManager.popBackStack()
-        } else {
-            super.onBackPressed()
         }
     }
 }

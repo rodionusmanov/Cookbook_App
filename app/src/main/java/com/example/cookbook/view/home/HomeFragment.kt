@@ -16,7 +16,6 @@ import com.example.cookbook.utils.FragmentUtils
 import com.example.cookbook.utils.NavigationUtils
 import com.example.cookbook.view.base.BaseFragment
 import com.example.cookbook.view.home.randomRecipe.RandomRecipesListFragment
-import com.example.cookbook.view.mainActivity.MainActivity
 import com.example.cookbook.view.search.SearchFragment
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -39,23 +38,7 @@ class HomeFragment :
 
     private fun initDishTypeCards() {
         binding.cardBreakfast.setOnClickListener {
-
-            val searchFragment = FragmentUtils.obtainFragment(
-                fragmentManager = parentFragmentManager,
-                fragmentClass = SearchFragment::class.java,
-                newInstance = {SearchFragment.newInstance()}
-            )
-
-            NavigationUtils.navigateToSearchFragmentWithQuery(
-                fragmentManager = parentFragmentManager,
-                containerId = R.id.main_container,
-                fragment = searchFragment,
-                queryKey = "search_query",
-                queryValue = "breakfast",
-                tag = SearchFragment::class.java.simpleName
-            )
-
-            (activity as MainActivity).setSelectedNavigationItem(R.id.navigation_search_recipe)
+            openSearchFragmentWithQuery("search_query","breakfast")
             }
         }
 
@@ -76,7 +59,7 @@ class HomeFragment :
             object : OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     query?.let {
-                        model.searchRecipeRequest(it, selectedIngredients.joinToString(","))
+                        openSearchFragmentWithQuery("search_query", it)
                     }
                     return true
                 }
@@ -85,6 +68,22 @@ class HomeFragment :
                     return true
                 }
             }
+        )
+    }
+
+    private fun openSearchFragmentWithQuery(queryKey: String, query: String) {
+        val searchFragment = FragmentUtils.obtainFragment(
+            fragmentManager = parentFragmentManager,
+            fragmentClass = SearchFragment::class.java,
+            newInstance = {SearchFragment.newInstance()}
+        )
+        NavigationUtils.navigateToSearchFragmentWithQuery(
+            fragmentManager = parentFragmentManager,
+            containerId = R.id.main_container,
+            destinedFragment = searchFragment,
+            queryKey = queryKey,
+            queryValue = query,
+            tag = SearchFragment::class.java.simpleName
         )
     }
 
