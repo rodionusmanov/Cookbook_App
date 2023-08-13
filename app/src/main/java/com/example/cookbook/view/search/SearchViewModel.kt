@@ -5,6 +5,7 @@ import com.example.cookbook.model.interactor.SearchFragmentInteractor
 import com.example.cookbook.view.base.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class SearchViewModel(
@@ -12,7 +13,7 @@ class SearchViewModel(
 ) : BaseViewModel<AppState>() {
 
     private val _stateFlow = MutableStateFlow<AppState>(AppState.Loading)
-    val stateFlow: StateFlow<AppState> get() = _stateFlow
+    val stateFlow: StateFlow<AppState> get() = _stateFlow.asStateFlow()
 
     fun searchRecipeRequest(request: String, ingredients: String) {
         viewModelCoroutineScope.launch {

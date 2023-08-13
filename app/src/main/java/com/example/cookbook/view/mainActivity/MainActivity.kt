@@ -2,40 +2,53 @@ package com.example.cookbook.view.mainActivity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupWithNavController
+import androidx.fragment.app.Fragment
 import com.example.cookbook.R
 import com.example.cookbook.databinding.ActivityMainBinding
+import com.example.cookbook.view.favorite.FavoriteFragment
+import com.example.cookbook.view.home.HomeFragment
+import com.example.cookbook.view.search.SearchFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val navView: BottomNavigationView = binding.navView
-        val navHost =
-            supportFragmentManager.findFragmentById(R.id.main_container) as NavHostFragment
-        navController = navHost.navController
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home,
-                R.id.navigation_search_recipe,
-                R.id.navigation_favorite
-            )
-        )
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+
+        if (savedInstanceState == null) {
+            supportFragmentManager
+                .beginTransaction()
+                .add(R.id.main_container, HomeFragment.newInstance())
+                .commit()
+        }
+
+
+        navView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_home -> {
+                    openFragment(HomeFragment())
+                }
+
+                R.id.navigation_search_recipe -> {
+                    openFragment(SearchFragment())
+                }
+
+                R.id.navigation_favorite -> {
+                    openFragment(FavoriteFragment())
+                }
+            }
+            true
+        }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp() || super.onSupportNavigateUp()
+    private fun openFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.main_container, fragment, fragment.javaClass.simpleName)
+            .commit()
     }
 }

@@ -64,9 +64,9 @@ abstract class BaseFragment<T : AppState, I, VB : ViewBinding>(
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         _binding = null
         _bindingLoading = null
+        super.onDestroyView()
     }
 
     protected fun renderData(appState: AppState) {

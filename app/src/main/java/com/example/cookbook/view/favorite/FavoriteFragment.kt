@@ -9,8 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cookbook.databinding.FragmentFavoriteBinding
 import com.example.cookbook.model.domain.BaseRecipeData
-import com.example.cookbook.view.mainActivity.MainActivity
-import com.example.cookbook.view.search.searchResult.ISaveRecipe
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoriteFragment : Fragment() {
@@ -67,5 +65,9 @@ class FavoriteFragment : Fragment() {
                 .create()
                 .show()
         }
+    }
+
+    companion object {
+        fun newInstance() = FavoriteFragment()
     }
 }

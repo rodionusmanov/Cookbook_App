@@ -1,23 +1,18 @@
 package com.example.cookbook.view.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
-import androidx.core.os.bundleOf
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
 import com.example.cookbook.R
 import com.example.cookbook.databinding.FragmentHomeBinding
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.BaseRecipeData
-import com.example.cookbook.model.domain.SearchRecipeData
 import com.example.cookbook.view.base.BaseFragment
 import com.example.cookbook.view.home.randomRecipe.RandomRecipesListFragment
-import com.example.cookbook.view.mainActivity.MainActivity
 import com.example.cookbook.view.search.SearchFragment
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -38,6 +33,10 @@ class HomeFragment :
         super.onViewCreated(view, savedInstanceState)
     }
 
+    override fun setupData(data: List<BaseRecipeData>) {
+
+    }
+
     private fun initRandomRecipeFragment() {
         val fragment = RandomRecipesListFragment.newInstance()
         parentFragmentManager
@@ -52,7 +51,14 @@ class HomeFragment :
             object : OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     query?.let {
-                        model.searchRecipeRequest(it, selectedIngredients.joinToString(","))
+                        parentFragmentManager.beginTransaction()
+                            .replace(
+                                R.id.main_container,
+                                SearchFragment.newInstance(Bundle().apply {
+                                    putString("search", it)
+                                })
+                            )
+                            .commit()
                     }
                     return true
                 }
@@ -78,20 +84,7 @@ class HomeFragment :
         Toast.makeText(context, "Error {$message}", Toast.LENGTH_LONG).show()
     }
 
-    override fun setupData(data: List<BaseRecipeData>) {
-        when (val firstItem = data.firstOrNull()) {
-            is SearchRecipeData -> setupSearchData(data.filterIsInstance<SearchRecipeData>())
-            else -> {
-                showErrorDialog("Incorrect data type: ${firstItem?.javaClass?.name}")
-            }
-        }
-    }
-
-    private fun setupSearchData(searchData: List<SearchRecipeData>) {
-        val searchFragment = SearchFragment.newInstance(searchData)
-        requireActivity().supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.main_container, searchFragment)
-            .commit()
+    companion object {
+        fun newInstance() = HomeFragment()
     }
 }

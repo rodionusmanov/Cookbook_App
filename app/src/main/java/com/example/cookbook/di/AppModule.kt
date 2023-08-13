@@ -25,10 +25,8 @@ import com.example.cookbook.view.home.HomeViewModel
 import com.example.cookbook.view.home.randomRecipe.RandomRecipeListViewModel
 import com.example.cookbook.view.recipeInfo.RecipeInfoViewModel
 import com.example.cookbook.view.search.SearchViewModel
-import com.example.cookbook.view.search.searchResult.SearchResultViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
-import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val appModule = module {
@@ -71,18 +69,17 @@ val network = module {
 }
 
 val homeFragment = module {
-    viewModel { HomeViewModel(get()) }
+    single { HomeViewModel(get()) }
     factory { HomeFragmentInteractor(get(), LocalRepositoryImpl(get<IRecipesDAO>())) }
 }
 
 val searchFragment = module {
-    viewModel { SearchViewModel(get()) }
-    viewModel { SearchResultViewModel(LocalRepositoryImpl(get<IRecipesDAO>())) }
+    single { SearchViewModel(get()) }
     factory { SearchFragmentInteractor(get()) }
 }
 
 val randomRecipeFragment = module {
-    viewModel { RandomRecipeListViewModel(get()) }
+    single { RandomRecipeListViewModel(get()) }
     factory { RandomRecipeListInteractor(get(), LocalRepositoryImpl(get<IRecipesDAO>())) }
 }
 
@@ -92,5 +89,5 @@ val recipeInfo = module {
 }
 
 val favoritesFragment = module {
-    viewModel { FavoriteRecipesViewModel(LocalRepositoryImpl(get<IRecipesDAO>())) }
+    single { FavoriteRecipesViewModel(LocalRepositoryImpl(get<IRecipesDAO>())) }
 }

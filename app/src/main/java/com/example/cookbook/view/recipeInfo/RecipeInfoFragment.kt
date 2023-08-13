@@ -2,7 +2,9 @@ package com.example.cookbook.view.recipeInfo
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.example.cookbook.R
@@ -29,8 +31,10 @@ class RecipeInfoFragment :
 
         id?.let { viewModel.recipeInfoRequest(it) }
         lifecycleScope.launch {
-            viewModel.stateFlow.collect {
-                renderData(it)
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.stateFlow.collect {
+                    renderData(it)
+                }
             }
         }
     }
@@ -105,5 +109,11 @@ class RecipeInfoFragment :
 
     override fun showErrorDialog(message: String?) {
 
+    }
+
+    companion object {
+        fun newInstance(bundle: Bundle? = null) = RecipeInfoFragment().apply {
+            arguments = bundle
+        }
     }
 }

@@ -1,6 +1,5 @@
 package com.example.cookbook.view.favorite
 
-import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +9,6 @@ import coil.size.Scale
 import com.example.cookbook.R
 import com.example.cookbook.databinding.ItemSearchResultBinding
 import com.example.cookbook.model.domain.BaseRecipeData
-import com.example.cookbook.view.search.searchResult.ISaveRecipe
-import com.google.android.material.snackbar.Snackbar
 
 class FavoriteRecipesAdapter(val callbackDeleteRecipe: IDeleteRecipe) :
     RecyclerView.Adapter<FavoriteRecipesAdapter.RecyclerItemViewHolder>() {

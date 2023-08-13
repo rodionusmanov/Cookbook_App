@@ -6,7 +6,6 @@ import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
 import com.cookbook.stacklayoutmanager.StackLayoutManager
 import com.example.cookbook.R
 import com.example.cookbook.databinding.FragmentRandomRecipeListBinding
@@ -14,6 +13,7 @@ import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.RandomRecipeData
 import com.example.cookbook.utils.ID
 import com.example.cookbook.view.base.BaseFragment
+import com.example.cookbook.view.recipeInfo.RecipeInfoFragment
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -27,14 +27,12 @@ class RandomRecipesListFragment :
     private val adapter: RandomRecipeListAdapter by lazy { RandomRecipeListAdapter() }
 
     companion object {
-        fun newInstance(): RandomRecipesListFragment {
-            return RandomRecipesListFragment()
-        }
+        fun newInstance() = RandomRecipesListFragment()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initViewModel()
         super.onViewCreated(view, savedInstanceState)
+        initViewModel()
     }
 
     private fun initViewModel() {
@@ -62,14 +60,15 @@ class RandomRecipesListFragment :
     }
 
     private fun openRecipeInfoFragment(recipeId: Int) {
-        findNavController().navigate(
-            R.id.action_navigation_home_to_recipeInfoFragment,
-            Bundle().apply {
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.main_container, RecipeInfoFragment.newInstance(Bundle().apply {
                 putInt(ID, recipeId)
-            })
+            }))
+            .addToBackStack("info")
+            .commit()
     }
 
-    private fun initFavoritesListeners() {
+        private fun initFavoritesListeners() {
         adapter.listenerOnSaveRecipe = { recipe ->
             model.insertNewRecipeToDataBase(recipe)
         }

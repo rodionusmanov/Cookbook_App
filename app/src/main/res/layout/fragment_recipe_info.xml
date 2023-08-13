@@ -218,8 +218,8 @@
                         android:textAlignment="center"
                         android:textAllCaps="true"
                         android:textColor="@color/white"
-                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/ch_fat"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/ch_calories" />
 
                     <com.google.android.material.chip.Chip
@@ -248,8 +248,8 @@
                         android:textAlignment="center"
                         android:textAllCaps="true"
                         android:textColor="@color/white"
-                        app:layout_constraintStart_toEndOf="@id/ch_fat"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/ch_fat"
                         app:layout_constraintTop_toBottomOf="@id/ch_calories" />
 
                     <com.google.android.material.chip.Chip
@@ -261,9 +261,9 @@
                         android:text="@string/dairy_free"
                         android:textAlignment="center"
                         android:textAllCaps="true"
+                        app:layout_constraintEnd_toStartOf="@id/ch_gluten_free"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/ch_protein"
-                        app:layout_constraintEnd_toStartOf="@id/ch_gluten_free"/>
+                        app:layout_constraintTop_toBottomOf="@id/ch_protein" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/ch_gluten_free"
@@ -274,9 +274,9 @@
                         android:text="@string/gluten_free"
                         android:textAlignment="center"
                         android:textAllCaps="true"
+                        app:layout_constraintEnd_toStartOf="@id/ch_vegan"
                         app:layout_constraintStart_toEndOf="@id/ch_dairy_free"
-                        app:layout_constraintTop_toBottomOf="@id/ch_protein"
-                        app:layout_constraintEnd_toStartOf="@id/ch_vegan"/>
+                        app:layout_constraintTop_toBottomOf="@id/ch_protein" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/ch_vegan"
@@ -287,9 +287,9 @@
                         android:text="@string/vegan"
                         android:textAlignment="center"
                         android:textAllCaps="true"
-                        app:layout_constraintStart_toEndOf="@id/ch_gluten_free"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/ch_protein"/>
+                        app:layout_constraintStart_toEndOf="@id/ch_gluten_free"
+                        app:layout_constraintTop_toBottomOf="@id/ch_protein" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/ch_vegetarian"
@@ -301,9 +301,9 @@
                         android:text="@string/vegetarian"
                         android:textAlignment="center"
                         android:textAllCaps="true"
+                        app:layout_constraintEnd_toStartOf="@id/ch_very_healthy"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/ch_dairy_free"
-                        app:layout_constraintEnd_toStartOf="@id/ch_very_healthy"/>
+                        app:layout_constraintTop_toBottomOf="@id/ch_dairy_free" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/ch_very_healthy"
@@ -314,9 +314,9 @@
                         android:text="@string/very_healthy"
                         android:textAlignment="center"
                         android:textAllCaps="true"
-                        app:layout_constraintStart_toEndOf="@id/ch_vegetarian"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/ch_dairy_free"/>
+                        app:layout_constraintStart_toEndOf="@id/ch_vegetarian"
+                        app:layout_constraintTop_toBottomOf="@id/ch_dairy_free" />
 
                     <!-- <TextView
                          android:layout_width="wrap_content"
