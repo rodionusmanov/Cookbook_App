@@ -36,25 +36,26 @@ object NavigationUtils {
         destinedFragment: Fragment,
         queryKey: String,
         queryValue: String,
-        tag: String? = null
-        ) {
+        tag: String? = "search_recipe"
+    ) {
         val bundle = bundleOf(queryKey to queryValue)
         destinedFragment.arguments = bundle
 
-        for (fragment in fragmentManager.fragments){
-            fragmentManager.beginTransaction().hide(fragment).commit()
-        }
-
         fragmentManager.beginTransaction().apply {
-            if (tag != null && fragmentManager.findFragmentByTag(tag) != null){
-                replace(containerId, destinedFragment, tag)
+            for (fragment in fragmentManager.fragments) {
+                if (fragment.tag != tag) {
+                    hide(fragment)
+                }
+            }
+
+            if (tag != null && fragmentManager.findFragmentByTag(tag) != null) {
+                show(fragmentManager.findFragmentByTag(tag)!!)
             } else {
                 add(containerId, destinedFragment, tag)
             }
-            addToBackStack("search_recipe")
+            addToBackStack(tag)
             commit()
+            listener.onFragmentSwitched(tag)
         }
-
-        listener.onFragmentSwitched("search_recipe")
     }
 }

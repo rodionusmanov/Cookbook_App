@@ -104,7 +104,7 @@ class HomeFragment :
             destinedFragment = searchFragment,
             queryKey = queryKey,
             queryValue = query,
-            tag = SearchFragment::class.java.simpleName
+            tag = "search_recipe"
         )
     }
 
