@@ -1,6 +1,7 @@
 package com.example.cookbook.view.search
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
@@ -50,6 +51,16 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
         super.onViewCreated(view, savedInstanceState)
         //val query = arguments?.getString("search_query")
         //query?.let {setSearchQuery(it)}
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("@@@", "SearchFragment is now resumed")
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        Log.d("@@@", "SearchFragment is now hidden: $hidden")
     }
 
     private fun initViewModel() {

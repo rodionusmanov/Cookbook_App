@@ -2,6 +2,7 @@ package com.example.cookbook.view.home
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
@@ -13,6 +14,7 @@ import com.example.cookbook.databinding.FragmentHomeBinding
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.SearchRecipeData
+import com.example.cookbook.utils.FRAGMENT_SEARCH
 import com.example.cookbook.utils.FragmentUtils
 import com.example.cookbook.utils.navigation.NavigationUtils
 import com.example.cookbook.utils.navigation.OnFragmentSwitchListener
@@ -48,7 +50,7 @@ class HomeFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initViewModel()
         setupSearchView()
-        //initRandomRecipeFragment()
+        initRandomRecipeFragment()
         initDishTypeCards()
         super.onViewCreated(view, savedInstanceState)
     }
@@ -68,6 +70,16 @@ class HomeFragment :
                 .replace(R.id.random_recipe_container, fragment)
                 .commit()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("@@@", "HomeFragment is now resumed")
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        Log.d("@@@", "HomeFragment is now hidden: $hidden")
     }
 
     private fun setupSearchView() {
@@ -104,7 +116,7 @@ class HomeFragment :
             destinedFragment = searchFragment,
             queryKey = queryKey,
             queryValue = query,
-            tag = "search_recipe"
+            tag = FRAGMENT_SEARCH
         )
     }
 

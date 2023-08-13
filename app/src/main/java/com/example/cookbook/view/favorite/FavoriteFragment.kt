@@ -1,6 +1,7 @@
 package com.example.cookbook.view.favorite
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,5 +52,15 @@ class FavoriteFragment : Fragment() {
         override fun saveRecipe(recipe: BaseRecipeData) {
             model.insertNewRecipeToDataBase(recipe)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("@@@", "FavoriteFragment is now resumed")
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        Log.d("@@@", "FavoriteFragment is now hidden: $hidden")
     }
 }

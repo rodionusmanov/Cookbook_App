@@ -1,6 +1,7 @@
 package com.example.cookbook.view.myProfile
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,5 +23,15 @@ class MyProfileFragment : Fragment() {
     ): View {
         _binding = FragmentMyExperienceBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("@@@", "MyProfile is now resumed")
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        Log.d("@@@", "MyProfile is now hidden: $hidden")
     }
 }

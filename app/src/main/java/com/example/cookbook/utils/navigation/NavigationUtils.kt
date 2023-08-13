@@ -5,6 +5,8 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.cookbook.R
+import com.example.cookbook.utils.FRAGMENT_RECIPE_INFO
+import com.example.cookbook.utils.FRAGMENT_SEARCH
 import com.example.cookbook.utils.ID
 import com.example.cookbook.view.recipeInfo.RecipeInfoFragment
 
@@ -21,12 +23,17 @@ object NavigationUtils {
         }
         recipeInfoFragment.arguments = bundle
         fragmentManager.beginTransaction().apply {
-            replace(R.id.main_container, recipeInfoFragment)
-            addToBackStack(null)
+
+            for (fragment in fragmentManager.fragments) {
+                hide(fragment)
+            }
+
+            add(R.id.main_container, recipeInfoFragment, FRAGMENT_RECIPE_INFO)
+            addToBackStack(FRAGMENT_RECIPE_INFO)
             commit()
         }
 
-        listener.onFragmentSwitched("recipeInfo")
+        listener.onFragmentSwitched(FRAGMENT_RECIPE_INFO)
     }
 
     fun navigateToSearchFragmentWithQuery(
@@ -36,7 +43,7 @@ object NavigationUtils {
         destinedFragment: Fragment,
         queryKey: String,
         queryValue: String,
-        tag: String? = "search_recipe"
+        tag: String? = FRAGMENT_SEARCH
     ) {
         val bundle = bundleOf(queryKey to queryValue)
         destinedFragment.arguments = bundle
