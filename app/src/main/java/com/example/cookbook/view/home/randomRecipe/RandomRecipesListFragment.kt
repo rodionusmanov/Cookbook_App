@@ -1,5 +1,6 @@
 package com.example.cookbook.view.home.randomRecipe
 
+import android.content.Context
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.Lifecycle
@@ -9,7 +10,8 @@ import com.cookbook.stacklayoutmanager.StackLayoutManager
 import com.example.cookbook.databinding.FragmentRandomRecipeListBinding
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.RandomRecipeData
-import com.example.cookbook.utils.NavigationUtils
+import com.example.cookbook.utils.navigation.NavigationUtils
+import com.example.cookbook.utils.navigation.OnFragmentSwitchListener
 import com.example.cookbook.view.base.BaseFragment
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -22,6 +24,22 @@ class RandomRecipesListFragment :
     private lateinit var model: RandomRecipeListViewModel
 
     private val adapter: RandomRecipeListAdapter by lazy { RandomRecipeListAdapter() }
+
+    private var listener: OnFragmentSwitchListener? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if(context is OnFragmentSwitchListener){
+            listener = context
+        } else {
+            throw RuntimeException("$context don't implement OnFragmentSwitchedListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
+    }
 
     companion object {
         fun newInstance(): RandomRecipesListFragment {
@@ -60,8 +78,11 @@ class RandomRecipesListFragment :
     }
 
     private fun openRecipeInfoFragment(recipeId: Int) {
+        val listener = activity as? OnFragmentSwitchListener
+            ?: throw RuntimeException("Activity don't implement OnFragmentSwitchedListener")
         NavigationUtils.openRecipeInfoFragment(
             requireActivity().supportFragmentManager,
+            listener = listener,
             recipeId
         )
     }

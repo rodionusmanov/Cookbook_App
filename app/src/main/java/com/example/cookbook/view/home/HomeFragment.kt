@@ -1,5 +1,6 @@
 package com.example.cookbook.view.home
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -13,7 +14,8 @@ import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.SearchRecipeData
 import com.example.cookbook.utils.FragmentUtils
-import com.example.cookbook.utils.NavigationUtils
+import com.example.cookbook.utils.navigation.NavigationUtils
+import com.example.cookbook.utils.navigation.OnFragmentSwitchListener
 import com.example.cookbook.view.base.BaseFragment
 import com.example.cookbook.view.home.randomRecipe.RandomRecipesListFragment
 import com.example.cookbook.view.search.SearchFragment
@@ -27,6 +29,21 @@ class HomeFragment :
 
     private lateinit var model: HomeViewModel
     private val selectedIngredients = mutableSetOf<String>()
+    private var listener: OnFragmentSwitchListener? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if(context is OnFragmentSwitchListener){
+            listener = context
+        } else {
+            throw RuntimeException("$context don't implement OnFragmentSwitchedListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initViewModel()
@@ -77,8 +94,12 @@ class HomeFragment :
             fragmentClass = SearchFragment::class.java,
             newInstance = {SearchFragment.newInstance()}
         )
+        val listener = activity as? OnFragmentSwitchListener
+            ?: throw RuntimeException("Activity don't implement OnFragmentSwitchedListener")
+
         NavigationUtils.navigateToSearchFragmentWithQuery(
             fragmentManager = parentFragmentManager,
+            listener = listener,
             containerId = R.id.main_container,
             destinedFragment = searchFragment,
             queryKey = queryKey,

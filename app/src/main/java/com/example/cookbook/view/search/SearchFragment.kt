@@ -44,7 +44,6 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
         model.searchRecipeRequest(query, "")
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initViewModel()
         setupSearchView()

@@ -4,18 +4,17 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cookbook.R
 import com.example.cookbook.databinding.ActivityMainBinding
+import com.example.cookbook.utils.navigation.OnFragmentSwitchListener
 import com.example.cookbook.view.favorite.FavoriteFragment
 import com.example.cookbook.view.home.HomeFragment
 import com.example.cookbook.view.myProfile.MyProfileFragment
 import com.example.cookbook.view.search.SearchFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnFragmentSwitchListener {
 
     private lateinit var binding: ActivityMainBinding
 
     private var currentFragmentTag: String? = null
-    private var isProgrammaticNavigation = false
-
     private val fragments = mapOf(
         "home" to HomeFragment(),
         "search_recipe" to SearchFragment(),
@@ -35,10 +34,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupBottomNavigationMenu() {
         binding.navView.setOnItemSelectedListener { item ->
-            if (isProgrammaticNavigation) {
-                isProgrammaticNavigation = false
-                return@setOnItemSelectedListener true
-            }
 
             val selectedFragment = when (item.itemId) {
                 R.id.navigation_home -> "home"
@@ -53,29 +48,6 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-
-        supportFragmentManager.addOnBackStackChangedListener {
-            if(supportFragmentManager.backStackEntryCount == 0) return@addOnBackStackChangedListener
-
-            val newFragmentTag = when (supportFragmentManager.findFragmentById(R.id.main_container)) {
-                is HomeFragment -> "home"
-                is SearchFragment -> "search_recipe"
-                is FavoriteFragment -> "favorite"
-                is MyProfileFragment -> "my_experience"
-                else -> null
-            }
-            if(newFragmentTag != currentFragmentTag) {
-                isProgrammaticNavigation = true
-                binding.navView.selectedItemId = when (currentFragmentTag) {
-                    "home" -> R.id.navigation_home
-                    "search_recipe" -> R.id.navigation_search_recipe
-                    "favorite" -> R.id.navigation_favorite
-                    "my_experience" -> R.id.navigation_my_experience
-                    else -> R.id.navigation_home
-                }
-                currentFragmentTag = newFragmentTag
-            }
-        }
     }
 
     private fun switchFragment(tag: String, addToBackStack: Boolean = false) {
@@ -86,7 +58,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         var newFragment = supportFragmentManager.findFragmentByTag(tag)
-
         if (newFragment == null) {
             newFragment = fragments[tag]
             if(newFragment != null){
@@ -109,5 +80,22 @@ class MainActivity : AppCompatActivity() {
         } else {
             super.onBackPressed()
         }
+    }
+
+    override fun onFragmentSwitched(tag: String?) {
+        val selectedItemId = when (tag) {
+            "home" -> R.id.navigation_home
+            "search_recipe" -> R.id.navigation_search_recipe
+            "favorite" -> R.id.navigation_favorite
+            "my_experience" -> R.id.navigation_my_experience
+            "recipeInfo" -> return
+            else -> return
+        }
+
+        if (binding.navView.selectedItemId != selectedItemId) {
+            binding.navView.selectedItemId = selectedItemId
+        }
+
+        currentFragmentTag = tag
     }
 }

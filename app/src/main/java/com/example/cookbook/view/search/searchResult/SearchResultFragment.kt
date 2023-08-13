@@ -1,5 +1,6 @@
 package com.example.cookbook.view.search.searchResult
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -11,7 +12,8 @@ import com.example.cookbook.databinding.FragmentSearchResultBinding
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.SearchRecipeData
-import com.example.cookbook.utils.NavigationUtils
+import com.example.cookbook.utils.navigation.NavigationUtils
+import com.example.cookbook.utils.navigation.OnFragmentSwitchListener
 import com.example.cookbook.utils.parcelableArrayList
 import com.example.cookbook.view.base.BaseFragment
 import kotlinx.coroutines.launch
@@ -27,6 +29,22 @@ class SearchResultFragment :
     private val adapter: SearchResultAdapter by lazy { SearchResultAdapter() }
 
     private lateinit var favoriteRecipes: List<BaseRecipeData>
+
+    private var listener: OnFragmentSwitchListener? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if(context is OnFragmentSwitchListener){
+            listener = context
+        } else {
+            throw RuntimeException("$context don't implement OnFragmentSwitchedListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
+    }
 
     companion object {
         private const val SEARCH_DATA_KEY = "SEARCH_DATA_KEY"
@@ -77,8 +95,11 @@ class SearchResultFragment :
     }
 
     private fun openRecipeInfoFragment(recipeId: Int) {
+        val listener = activity as? OnFragmentSwitchListener
+            ?: throw RuntimeException("Activity don't implement OnFragmentSwitchedListener")
         NavigationUtils.openRecipeInfoFragment(
             requireActivity().supportFragmentManager,
+            listener = listener,
             recipeId
         )
     }
