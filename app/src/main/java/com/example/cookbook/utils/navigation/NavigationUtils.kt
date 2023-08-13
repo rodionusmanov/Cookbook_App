@@ -51,7 +51,7 @@ object NavigationUtils {
             } else {
                 add(containerId, destinedFragment, tag)
             }
-            addToBackStack(tag)
+            addToBackStack("search_recipe")
             commit()
         }
 

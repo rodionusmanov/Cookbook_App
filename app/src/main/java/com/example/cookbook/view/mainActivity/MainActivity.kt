@@ -77,6 +77,10 @@ class MainActivity : AppCompatActivity(), OnFragmentSwitchListener {
     override fun onBackPressed() {
         if(supportFragmentManager.backStackEntryCount > 0) {
             supportFragmentManager.popBackStack()
+            val fragmentTag = supportFragmentManager
+                .getBackStackEntryAt(supportFragmentManager.backStackEntryCount-2).name
+            onFragmentSwitched(fragmentTag)
+            switchFragment(fragmentTag ?: return, false)
         } else {
             super.onBackPressed()
         }
