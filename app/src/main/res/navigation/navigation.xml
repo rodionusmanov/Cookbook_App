@@ -30,10 +30,6 @@
             app:destination="@id/recipeInfoFragment" />
     </fragment>
     <fragment
-        android:id="@+id/navigation_my_experience"
-        android:name="com.example.cookbook.view.myProfile.MyProfileFragment"
-        android:label="MyExperienceFragment" />
-    <fragment
         android:id="@+id/recipeInfoFragment"
         android:name="com.example.cookbook.view.recipeInfo.RecipeInfoFragment"
         android:label="fragment_recipe_info"
