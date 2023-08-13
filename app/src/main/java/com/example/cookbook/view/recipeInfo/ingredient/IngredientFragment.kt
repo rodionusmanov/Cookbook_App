@@ -5,16 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.cookbook.databinding.FragmentIngredientBinding
-import com.example.cookbook.model.datasource.DTO.recipeInformation.ExtendedIngredient
-import com.example.cookbook.utils.INGREDIENTS
+import com.example.cookbook.view.recipeInfo.RecipeInfoViewModel
 import com.example.cookbook.view.recipeInfo.adapters.IngredientsAdapter
+import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 
 class IngredientFragment : Fragment() {
 
     private var _binding: FragmentIngredientBinding? = null
     private val binding get() = _binding!!
     private val adapter = IngredientsAdapter()
+    private val viewModel: RecipeInfoViewModel by inject()
 
 
     override fun onCreateView(
@@ -28,18 +33,14 @@ class IngredientFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initView()
-    }
-
-    @Suppress("DEPRECATION")
-    private fun initView() {
-        val ingredients =
-            arguments?.getParcelableArrayList<ExtendedIngredient>(INGREDIENTS)
-        ingredients?.let { adapter.setData(it) }
-        with(binding) {
-            rvIngredients.adapter = adapter
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.ingredients.collect {
+                    adapter.setData(it)
+                }
+            }
         }
-
+        binding.rvIngredients.adapter = adapter
     }
 
     override fun onDestroyView() {
