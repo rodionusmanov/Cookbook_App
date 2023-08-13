@@ -1,10 +1,13 @@
 package com.example.cookbook.view.recipeInfo
 
 import com.example.cookbook.model.AppState
+import com.example.cookbook.model.datasource.DTO.recipeInformation.AnalyzedInstruction
+import com.example.cookbook.model.datasource.DTO.recipeInformation.ExtendedIngredient
 import com.example.cookbook.model.interactor.RecipeInfoFragmentInteractor
 import com.example.cookbook.view.base.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class RecipeInfoViewModel(
@@ -12,7 +15,13 @@ class RecipeInfoViewModel(
 ) : BaseViewModel<AppState>() {
 
     private val _stateFlow = MutableStateFlow<AppState>(AppState.Loading)
-    val stateFlow: StateFlow<AppState> get() = _stateFlow
+    val stateFlow: StateFlow<AppState> get() = _stateFlow.asStateFlow()
+
+    private val _ingredients = MutableStateFlow<List<ExtendedIngredient>>(listOf())
+    val ingredients: StateFlow<List<ExtendedIngredient>> get() = _ingredients.asStateFlow()
+
+    private val _instructions = MutableStateFlow<List<AnalyzedInstruction>>(listOf())
+    val instructions: StateFlow<List<AnalyzedInstruction>> get() = _instructions.asStateFlow()
 
     fun recipeInfoRequest(id: Int) {
         viewModelCoroutineScope.launch {
@@ -22,6 +31,18 @@ class RecipeInfoViewModel(
             } catch (e: Throwable) {
                 _stateFlow.emit(AppState.Error(e))
             }
+        }
+    }
+
+    fun setIngredients(list: List<ExtendedIngredient>) {
+        viewModelCoroutineScope.launch {
+            _ingredients.value = list
+        }
+    }
+
+    fun setInstructions(list: List<AnalyzedInstruction>) {
+        viewModelCoroutineScope.launch {
+            _instructions.value = list
         }
     }
 }

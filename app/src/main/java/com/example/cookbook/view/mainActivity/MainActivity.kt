@@ -28,8 +28,7 @@ class MainActivity : AppCompatActivity() {
             setOf(
                 R.id.navigation_home,
                 R.id.navigation_search_recipe,
-                R.id.navigation_favorite,
-                R.id.navigation_my_experience
+                R.id.navigation_favorite
             )
         )
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
