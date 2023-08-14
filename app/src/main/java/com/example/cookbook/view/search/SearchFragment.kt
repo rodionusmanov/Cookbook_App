@@ -23,6 +23,7 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
 ) {
 
     private lateinit var model: SearchViewModel
+    private var lastSearchData: List<SearchRecipeData>? = null
 
     companion object {
 
@@ -55,7 +56,7 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
 
     override fun onResume() {
         super.onResume()
-        Log.d("@@@", "SearchFragment is now resumed")
+        lastSearchData?.let { setupSearchData(it) }
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
@@ -68,7 +69,9 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
         model = viewModel
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                model.stateFlow.collect { renderData(it) }
+                model.stateFlow.collect {
+                    renderData(it)
+                    lastSearchData = it as? List<SearchRecipeData>}
             }
         }
     }

@@ -4,9 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cookbook.databinding.FragmentSearchResultBinding
 import com.example.cookbook.model.AppState
@@ -16,7 +13,6 @@ import com.example.cookbook.utils.navigation.NavigationManager
 import com.example.cookbook.utils.parcelableArrayList
 import com.example.cookbook.view.base.BaseFragment
 import com.example.cookbook.view.mainActivity.MainActivity
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchResultFragment :
@@ -91,11 +87,6 @@ class SearchResultFragment :
     private fun initViewModel() {
         val viewModel by viewModel<SearchResultViewModel>()
         model = viewModel
-        lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                model.stateFlow.collect { renderData(it) }
-            }
-        }
     }
 
     private fun initFavoriteRecipes() {
