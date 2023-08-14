@@ -14,10 +14,12 @@ import com.example.cookbook.model.interactor.RandomRecipeListInteractor
 import com.example.cookbook.model.interactor.SearchFragmentInteractor
 import com.example.cookbook.model.repository.local.ILocalRecipesRepository
 import com.example.cookbook.model.repository.local.LocalRepositoryImpl
+import com.example.cookbook.model.repository.local.LocalRepositoryInfoImpl
 import com.example.cookbook.model.repository.network.NetworkRepository
 import com.example.cookbook.model.repository.remoteDataSource.IRepositorySearchRequest
 import com.example.cookbook.model.repository.remoteDataSource.SearchRepositoryImpl
 import com.example.cookbook.model.room.IRecipesDAO
+import com.example.cookbook.model.room.IRecipesInfoDAO
 import com.example.cookbook.model.room.RecipesDatabase
 import com.example.cookbook.utils.network.NetworkLiveData
 import com.example.cookbook.view.favorite.FavoriteRecipesViewModel

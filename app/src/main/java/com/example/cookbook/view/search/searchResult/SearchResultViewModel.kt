@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.BaseRecipeData
+import com.example.cookbook.model.domain.RecipeInformation
 import com.example.cookbook.model.repository.local.LocalRepositoryImpl
+import com.example.cookbook.model.repository.local.LocalRepositoryInfoImpl
 import com.example.cookbook.view.base.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

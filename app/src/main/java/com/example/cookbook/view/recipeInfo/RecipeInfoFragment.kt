@@ -55,16 +55,10 @@ class RecipeInfoFragment :
                 crossfade(true)
                 transformations(RoundedCornersTransformation(16f))
             }
-//            tvRecipeInfoCalories.text = "${data.calories?.amount} ${data.calories?.unit}"
             chCalories.text = "${data.calories?.amount} ${data.calories?.unit}"
             chProtein.text = "${resources.getString(R.string.protein)} - ${data.protein?.amount}${data.protein?.unit}"
             chFat.text = "${resources.getString(R.string.fat)} - ${data.fat?.amount}${data.fat?.unit}"
             chCarb.text = "${resources.getString(R.string.carb)} - ${data.carbohydrates?.amount}${data.carbohydrates?.unit}"
-            /*tvRecipeInfoProtein.text =
-                "${data.protein?.amount}${data.protein?.unit}"
-            tvRecipeInfoFat.text = "${data.fat?.amount}${data.fat?.unit}"
-            tvRecipeInfoCarbohydrates.text =
-                "${data.carbohydrates?.amount}${data.carbohydrates?.unit}"*/
 
             viewPager.adapter = RecipeInformationPageAdapter(data, requireActivity())
             viewPager.isUserInputEnabled = false

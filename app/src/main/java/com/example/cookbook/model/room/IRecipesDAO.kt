@@ -3,11 +3,12 @@ package com.example.cookbook.model.room
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Upsert
 
 @Dao
 interface IRecipesDAO {
 
-    @Insert(entity = RecipesEntity::class)
+    @Upsert(entity = RecipesEntity::class)
     suspend fun insertNewRecipe(recipeData: RecipesEntity)
 
     @Query("SELECT * FROM recipes_table")
