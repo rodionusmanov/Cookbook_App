@@ -58,6 +58,7 @@ class HomeFragment :
                                     putString("search", it)
                                 })
                             )
+                            .addToBackStack(it)
                             .commit()
                     }
                     return true
