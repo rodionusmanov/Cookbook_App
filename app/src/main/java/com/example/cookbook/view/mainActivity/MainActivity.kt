@@ -16,6 +16,7 @@ import com.example.cookbook.view.home.HomeFragment
 import com.example.cookbook.view.myProfile.MyProfileFragment
 import com.example.cookbook.view.recipeInfo.RecipeInfoFragment
 import com.example.cookbook.view.search.SearchFragment
+import java.util.Stack
 
 class MainActivity : AppCompatActivity(), OnFragmentSwitchListener {
 
@@ -29,6 +30,8 @@ class MainActivity : AppCompatActivity(), OnFragmentSwitchListener {
         FRAGMENT_PROFILE to MyProfileFragment(),
         FRAGMENT_RECIPE_INFO to RecipeInfoFragment()
     )
+    private val fragmentBackStack = Stack<String>()
+    private var isSwitchingFragment: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +45,11 @@ class MainActivity : AppCompatActivity(), OnFragmentSwitchListener {
 
     private fun setupBottomNavigationMenu() {
         binding.navView.setOnItemSelectedListener { item ->
+
+            if(isSwitchingFragment) {
+                isSwitchingFragment = false
+                return@setOnItemSelectedListener true
+            }
 
             val selectedFragment = when (item.itemId) {
                 R.id.navigation_home -> FRAGMENT_HOME
@@ -77,38 +85,32 @@ class MainActivity : AppCompatActivity(), OnFragmentSwitchListener {
             Log.d("@@@", "Fragment to show: ${newFragment.tag} - isVisible: ${newFragment.isVisible}")
         }
 
-        if(addToBackStack) {
-            fragmentTransaction.addToBackStack(tag)
-        }
         fragmentTransaction.commit()
         currentFragmentTag = tag
-        Log.d("@@@", "Current fragment tag: ${currentFragmentTag}")
+        Log.d("@@@", "Current fragment tag: $currentFragmentTag")
 
-        for (i in 0 until supportFragmentManager.backStackEntryCount) {
-            val entry = supportFragmentManager.getBackStackEntryAt(i)
-            Log.d("@@@", "BackStack entry $i: ${entry.name}")
+        if(addToBackStack) {
+            fragmentBackStack.push(tag)
+        }
+
+        for (i in fragmentBackStack.indices) {
+            val entry = fragmentBackStack[i]
+            Log.d("@@@", "BackStack entry $i: $entry")
         }
     }
 
     override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount > 1) {
-            val currentFragmentTag = currentFragmentTag
-            supportFragmentManager.popBackStack()
-            Log.d("@@@", "Current fragment tag on BackStack: ${currentFragmentTag}")
-            val previousFragmentTag = supportFragmentManager
-                .getBackStackEntryAt(supportFragmentManager.backStackEntryCount - 2).name
-            Log.d("@@@", "Previous fragment tag on BackStack: ${previousFragmentTag}")
-            if (previousFragmentTag != currentFragmentTag) {
-                onFragmentSwitched(previousFragmentTag)
-            }
+        if (fragmentBackStack.size > 1) {
+            fragmentBackStack.pop()
+            val previousFragmentTag = fragmentBackStack.peek()
+            onFragmentSwitched(previousFragmentTag)
+            switchFragment(previousFragmentTag)
         } else {
             super.onBackPressed()
         }
     }
 
     override fun onFragmentSwitched(tag: String?) {
-        binding.navView.setOnItemSelectedListener(null)
-
         val selectedItemId = when (tag) {
             FRAGMENT_HOME -> R.id.navigation_home
             FRAGMENT_SEARCH -> R.id.navigation_search_recipe
@@ -119,12 +121,13 @@ class MainActivity : AppCompatActivity(), OnFragmentSwitchListener {
         }
 
         if (binding.navView.selectedItemId != selectedItemId) {
+            isSwitchingFragment = true
             binding.navView.selectedItemId = selectedItemId
         }
 
         currentFragmentTag = tag
 
         setupBottomNavigationMenu()
-        Log.d("@@@", "Current fragment tag: ${currentFragmentTag}")
+        Log.d("@@@", "Current fragment tag: $currentFragmentTag")
     }
 }
