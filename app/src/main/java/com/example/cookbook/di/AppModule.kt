@@ -8,9 +8,9 @@ import com.example.cookbook.model.datasource.RandomRecipeDataSource
 import com.example.cookbook.model.datasource.RecipeInformationDataSource
 import com.example.cookbook.model.datasource.SearchRecipeDataSource
 import com.example.cookbook.model.datasource.retrofit.RetrofitImplementation
-import com.example.cookbook.model.interactor.RecipeInfoFragmentInteractor
 import com.example.cookbook.model.interactor.HomeFragmentInteractor
 import com.example.cookbook.model.interactor.RandomRecipeListInteractor
+import com.example.cookbook.model.interactor.RecipeInfoFragmentInteractor
 import com.example.cookbook.model.interactor.SearchFragmentInteractor
 import com.example.cookbook.model.repository.local.ILocalRecipesRepository
 import com.example.cookbook.model.repository.local.LocalRepositoryImpl
@@ -23,9 +23,9 @@ import com.example.cookbook.model.room.IRecipesInfoDAO
 import com.example.cookbook.model.room.RecipesDatabase
 import com.example.cookbook.utils.network.NetworkLiveData
 import com.example.cookbook.view.favorite.FavoriteRecipesViewModel
+import com.example.cookbook.view.home.HomeViewModel
 import com.example.cookbook.view.home.randomRecipe.RandomRecipeListViewModel
 import com.example.cookbook.view.recipeInfo.RecipeInfoViewModel
-import com.example.cookbook.view.home.HomeViewModel
 import com.example.cookbook.view.search.SearchViewModel
 import com.example.cookbook.view.search.searchResult.SearchResultViewModel
 import org.koin.android.ext.koin.androidApplication
@@ -89,7 +89,7 @@ val randomRecipeFragment = module {
 }
 
 val recipeInfo = module {
-    viewModel { RecipeInfoViewModel(get()) }
+    single { RecipeInfoViewModel(get()) }
     factory { RecipeInfoFragmentInteractor(get()) }
 }
 
