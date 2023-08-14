@@ -15,11 +15,10 @@ import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.SearchRecipeData
 import com.example.cookbook.utils.FRAGMENT_SEARCH
-import com.example.cookbook.utils.FragmentUtils
-import com.example.cookbook.utils.navigation.NavigationUtils
-import com.example.cookbook.utils.navigation.OnFragmentSwitchListener
+import com.example.cookbook.utils.navigation.NavigationManager
 import com.example.cookbook.view.base.BaseFragment
 import com.example.cookbook.view.home.randomRecipe.RandomRecipesListFragment
+import com.example.cookbook.view.mainActivity.MainActivity
 import com.example.cookbook.view.search.SearchFragment
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -31,20 +30,11 @@ class HomeFragment :
 
     private lateinit var model: HomeViewModel
     private val selectedIngredients = mutableSetOf<String>()
-    private var listener: OnFragmentSwitchListener? = null
+    private var navigationManager: NavigationManager? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if(context is OnFragmentSwitchListener){
-            listener = context
-        } else {
-            throw RuntimeException("$context don't implement OnFragmentSwitchedListener")
-        }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
+        navigationManager = (context as MainActivity).provideNavigationManager()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -101,23 +91,15 @@ class HomeFragment :
     }
 
     private fun openSearchFragmentWithQuery(queryKey: String, query: String) {
-        val searchFragment = FragmentUtils.obtainFragment(
-            fragmentManager = parentFragmentManager,
-            fragmentClass = SearchFragment::class.java,
-            newInstance = {SearchFragment.newInstance()}
-        )
-        val listener = activity as? OnFragmentSwitchListener
-            ?: throw RuntimeException("Activity don't implement OnFragmentSwitchedListener")
 
-        NavigationUtils.navigateToSearchFragmentWithQuery(
-            fragmentManager = parentFragmentManager,
-            listener = listener,
-            containerId = R.id.main_container,
-            destinedFragment = searchFragment,
-            queryKey = queryKey,
-            queryValue = query,
-            tag = FRAGMENT_SEARCH
-        )
+        val args = Bundle().apply {
+            putString(queryKey, query)
+        }
+        val searchFragment = SearchFragment.newInstance().apply{
+            arguments = args
+        }
+
+        navigationManager?.switchFragment(FRAGMENT_SEARCH, searchFragment, addToBackStack = true)
     }
 
     private fun initViewModel() {

@@ -10,7 +10,7 @@ import com.cookbook.stacklayoutmanager.StackLayoutManager
 import com.example.cookbook.databinding.FragmentRandomRecipeListBinding
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.RandomRecipeData
-import com.example.cookbook.utils.navigation.OnFragmentSwitchListener
+import com.example.cookbook.utils.navigation.NavigationManager
 import com.example.cookbook.view.base.BaseFragment
 import com.example.cookbook.view.mainActivity.MainActivity
 import kotlinx.coroutines.launch
@@ -24,21 +24,11 @@ class RandomRecipesListFragment :
     private lateinit var model: RandomRecipeListViewModel
 
     private val adapter: RandomRecipeListAdapter by lazy { RandomRecipeListAdapter() }
-
-    private var listener: OnFragmentSwitchListener? = null
+    private var navigationManager: NavigationManager? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if(context is OnFragmentSwitchListener){
-            listener = context
-        } else {
-            throw RuntimeException("$context don't implement OnFragmentSwitchedListener")
-        }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
+        navigationManager = (context as MainActivity).provideNavigationManager()
     }
 
     companion object {
@@ -78,7 +68,7 @@ class RandomRecipesListFragment :
     }
 
     private fun openRecipeInfoFragment(recipeId: Int) {
-        (activity as? MainActivity)?.openRecipeInfoFragment(recipeId)
+        navigationManager?.openRecipeInfoFragment(recipeId)
     }
 
     private fun initFavoritesListeners() {
