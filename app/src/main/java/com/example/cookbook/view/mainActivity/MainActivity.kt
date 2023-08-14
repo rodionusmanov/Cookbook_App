@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity(), OnFragmentSwitchListener {
         Log.d("@@@", "Current fragment tag: $currentFragmentTag")
 
         if(addToBackStack) {
-            fragmentBackStack.push(tag)
+            pushFragmentToStack(tag)
         }
 
         for (i in fragmentBackStack.indices) {
@@ -100,11 +100,10 @@ class MainActivity : AppCompatActivity(), OnFragmentSwitchListener {
     }
 
     override fun onBackPressed() {
-        if (fragmentBackStack.size > 1) {
-            fragmentBackStack.pop()
-            val previousFragmentTag = fragmentBackStack.peek()
-            onFragmentSwitched(previousFragmentTag)
+        val previousFragmentTag = popFragmentFromStack()
+        if(previousFragmentTag != null) {
             switchFragment(previousFragmentTag)
+            onFragmentSwitched(previousFragmentTag)
         } else {
             super.onBackPressed()
         }
@@ -129,5 +128,16 @@ class MainActivity : AppCompatActivity(), OnFragmentSwitchListener {
 
         setupBottomNavigationMenu()
         Log.d("@@@", "Current fragment tag: $currentFragmentTag")
+    }
+
+    override fun pushFragmentToStack(tag: String) {
+        fragmentBackStack.push(tag)
+    }
+
+    override fun popFragmentFromStack(): String? {
+        return if (fragmentBackStack.size > 1) {
+            fragmentBackStack.pop()
+            fragmentBackStack.peek()
+        } else null
     }
 }

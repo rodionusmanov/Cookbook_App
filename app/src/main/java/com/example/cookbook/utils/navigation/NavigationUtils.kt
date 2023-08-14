@@ -34,6 +34,7 @@ object NavigationUtils {
         }
 
         listener.onFragmentSwitched(FRAGMENT_RECIPE_INFO)
+        listener.pushFragmentToStack(FRAGMENT_RECIPE_INFO)
     }
 
     fun navigateToSearchFragmentWithQuery(
@@ -43,7 +44,7 @@ object NavigationUtils {
         destinedFragment: Fragment,
         queryKey: String,
         queryValue: String,
-        tag: String? = FRAGMENT_SEARCH
+        tag: String = FRAGMENT_SEARCH
     ) {
         val bundle = bundleOf(queryKey to queryValue)
         destinedFragment.arguments = bundle
@@ -55,14 +56,14 @@ object NavigationUtils {
                 }
             }
 
-            if (tag != null && fragmentManager.findFragmentByTag(tag) != null) {
+            if (fragmentManager.findFragmentByTag(tag) != null) {
                 show(fragmentManager.findFragmentByTag(tag)!!)
             } else {
                 add(containerId, destinedFragment, tag)
             }
-            addToBackStack(tag)
             commit()
             listener.onFragmentSwitched(tag)
+            listener.pushFragmentToStack(tag)
         }
     }
 }
