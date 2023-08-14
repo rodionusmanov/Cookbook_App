@@ -2,6 +2,7 @@ package com.example.cookbook.view.favorite
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cookbook.databinding.FragmentFavoriteBinding
 import com.example.cookbook.model.domain.BaseRecipeData
-import com.example.cookbook.view.mainActivity.MainActivity
 import com.example.cookbook.view.search.searchResult.ISaveRecipe
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -48,11 +48,6 @@ class FavoriteFragment : Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        (activity as MainActivity).printBackStack()
-    }
-
     private fun setupData(favoriteRecipes: List<BaseRecipeData>) {
         adapter.setData(favoriteRecipes)
         binding.favoriteRecipesRecyclerView.layoutManager = LinearLayoutManager(context)
@@ -72,5 +67,15 @@ class FavoriteFragment : Fragment() {
                 .create()
                 .show()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("@@@", "FavoriteFragment is now resumed")
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        Log.d("@@@", "FavoriteFragment is now hidden: $hidden")
     }
 }
