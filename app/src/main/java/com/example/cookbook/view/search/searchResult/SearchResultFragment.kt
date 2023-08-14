@@ -12,10 +12,10 @@ import com.example.cookbook.databinding.FragmentSearchResultBinding
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.SearchRecipeData
-import com.example.cookbook.utils.navigation.NavigationUtils
-import com.example.cookbook.utils.navigation.OnFragmentSwitchListener
+import com.example.cookbook.utils.navigation.NavigationManager
 import com.example.cookbook.utils.parcelableArrayList
 import com.example.cookbook.view.base.BaseFragment
+import com.example.cookbook.view.mainActivity.MainActivity
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -29,21 +29,11 @@ class SearchResultFragment :
     private val adapter: SearchResultAdapter by lazy { SearchResultAdapter() }
 
     private lateinit var favoriteRecipes: List<BaseRecipeData>
-
-    private var listener: OnFragmentSwitchListener? = null
+    private var navigationManager: NavigationManager? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if(context is OnFragmentSwitchListener){
-            listener = context
-        } else {
-            throw RuntimeException("$context don't implement OnFragmentSwitchedListener")
-        }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
+        navigationManager = (context as MainActivity).provideNavigationManager()
     }
 
     companion object {
@@ -95,13 +85,7 @@ class SearchResultFragment :
     }
 
     private fun openRecipeInfoFragment(recipeId: Int) {
-        val listener = activity as? OnFragmentSwitchListener
-            ?: throw RuntimeException("Activity don't implement OnFragmentSwitchedListener")
-        NavigationUtils.openRecipeInfoFragment(
-            requireActivity().supportFragmentManager,
-            listener = listener,
-            recipeId
-        )
+        navigationManager?.openRecipeInfoFragment(recipeId)
     }
 
     private fun initViewModel() {

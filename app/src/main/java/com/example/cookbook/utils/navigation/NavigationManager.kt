@@ -23,7 +23,7 @@ class NavigationManager(
     private val activity: AppCompatActivity,
     private val navView: BottomNavigationView
 ) : OnFragmentSwitchListener {
-    private var currentFragmentTag : String? = null
+    private var currentFragmentTag: String? = null
     private val fragments = mapOf(
         FRAGMENT_HOME to HomeFragment(),
         FRAGMENT_SEARCH to SearchFragment(),
@@ -37,7 +37,7 @@ class NavigationManager(
     fun setupBottomNavigationMenu() {
         navView.setOnItemSelectedListener { item ->
 
-            if(isSwitchingFragment) {
+            if (isSwitchingFragment) {
                 isSwitchingFragment = false
                 return@setOnItemSelectedListener true
             }
@@ -50,16 +50,18 @@ class NavigationManager(
                 else -> throw IllegalStateException("Unexpected navigation item: ${item.itemId}")
             }
 
-            if(currentFragmentTag != selectedFragment) {
+            if (currentFragmentTag != selectedFragment) {
                 switchFragment(selectedFragment, addToBackStack = true)
             }
             true
         }
     }
 
-   fun switchFragment(tag: String,
-                               recipeInfoFragment: Fragment? = null,
-                               addToBackStack: Boolean = false) {
+    fun switchFragment(
+        tag: String,
+        recipeInfoFragment: Fragment? = null,
+        addToBackStack: Boolean = false
+    ) {
         Log.d("@@@", "Switching to fragment: $tag")
         val fragmentTransaction = activity.supportFragmentManager.beginTransaction()
 
@@ -68,21 +70,26 @@ class NavigationManager(
         }
 
         var newFragment = activity.supportFragmentManager.findFragmentByTag(tag)
-        if (newFragment == null) {
+        if (newFragment == null || tag == FRAGMENT_RECIPE_INFO) {
             newFragment = recipeInfoFragment ?: fragments[tag]
-            if(newFragment != null){
+            if (newFragment != null) {
                 fragmentTransaction.add(R.id.main_container, newFragment, tag)
             }
         } else {
             fragmentTransaction.show(newFragment)
-            Log.d("@@@", "Fragment to show: ${newFragment.tag} - isVisible: ${newFragment.isVisible}")
+            Log.d(
+                "@@@",
+                "Fragment to show: ${newFragment.tag} - isVisible: ${newFragment.isVisible}"
+            )
         }
 
         fragmentTransaction.commit()
         currentFragmentTag = tag
         Log.d("@@@", "Current fragment tag: $currentFragmentTag")
 
-        if(addToBackStack) {
+        onFragmentSwitched(tag)
+
+        if (addToBackStack) {
             pushFragmentToStack(tag)
         }
 
@@ -120,7 +127,7 @@ class NavigationManager(
         val previousFragmentTag = popFragmentFromStack()
         return if (previousFragmentTag != null) {
             switchFragment(previousFragmentTag)
-            onFragmentSwitched(previousFragmentTag)
+            //onFragmentSwitched(previousFragmentTag)
             true
         } else {
             null
@@ -134,14 +141,16 @@ class NavigationManager(
         } else null
     }
 
-    fun openRecipeInfoFragment(recipeId: Int){
+    fun openRecipeInfoFragment(recipeId: Int) {
         val recipeInfoFragment = RecipeInfoFragment.newInstance()
         val bundle = Bundle().apply {
             putInt(ID, recipeId)
         }
         recipeInfoFragment.arguments = bundle
-        switchFragment(FRAGMENT_RECIPE_INFO,
+        switchFragment(
+            FRAGMENT_RECIPE_INFO,
             recipeInfoFragment = recipeInfoFragment,
-            addToBackStack = true)
+            addToBackStack = true
+        )
     }
 }
