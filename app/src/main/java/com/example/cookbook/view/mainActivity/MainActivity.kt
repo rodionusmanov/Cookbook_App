@@ -3,6 +3,7 @@ package com.example.cookbook.view.mainActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.example.cookbook.R
 import com.example.cookbook.databinding.ActivityMainBinding
 import com.example.cookbook.utils.FRAGMENT_FAVORITE
@@ -10,6 +11,7 @@ import com.example.cookbook.utils.FRAGMENT_HOME
 import com.example.cookbook.utils.FRAGMENT_PROFILE
 import com.example.cookbook.utils.FRAGMENT_RECIPE_INFO
 import com.example.cookbook.utils.FRAGMENT_SEARCH
+import com.example.cookbook.utils.ID
 import com.example.cookbook.utils.navigation.OnFragmentSwitchListener
 import com.example.cookbook.view.favorite.FavoriteFragment
 import com.example.cookbook.view.home.HomeFragment
@@ -39,7 +41,7 @@ class MainActivity : AppCompatActivity(), OnFragmentSwitchListener {
         setContentView(binding.root)
         setupBottomNavigationMenu()
         if (savedInstanceState == null) {
-            switchFragment(FRAGMENT_HOME, true)
+            switchFragment(FRAGMENT_HOME, addToBackStack = true)
         }
     }
 
@@ -60,13 +62,15 @@ class MainActivity : AppCompatActivity(), OnFragmentSwitchListener {
             }
 
             if(currentFragmentTag != selectedFragment) {
-                switchFragment(selectedFragment, true)
+                switchFragment(selectedFragment, addToBackStack = true)
             }
             true
         }
     }
 
-    private fun switchFragment(tag: String, addToBackStack: Boolean = false) {
+    private fun switchFragment(tag: String,
+                               recipeInfoFragment: Fragment? = null,
+                               addToBackStack: Boolean = false) {
         Log.d("@@@", "Switching to fragment: $tag")
         val fragmentTransaction = supportFragmentManager.beginTransaction()
 
@@ -76,7 +80,7 @@ class MainActivity : AppCompatActivity(), OnFragmentSwitchListener {
 
         var newFragment = supportFragmentManager.findFragmentByTag(tag)
         if (newFragment == null) {
-            newFragment = fragments[tag]
+            newFragment = recipeInfoFragment ?: fragments[tag]
             if(newFragment != null){
                 fragmentTransaction.add(R.id.main_container, newFragment, tag)
             }
@@ -139,5 +143,16 @@ class MainActivity : AppCompatActivity(), OnFragmentSwitchListener {
             fragmentBackStack.pop()
             fragmentBackStack.peek()
         } else null
+    }
+
+    fun openRecipeInfoFragment(recipeId: Int){
+        val recipeInfoFragment = RecipeInfoFragment.newInstance()
+        val bundle = Bundle().apply {
+            putInt(ID, recipeId)
+        }
+        recipeInfoFragment.arguments = bundle
+        switchFragment(FRAGMENT_RECIPE_INFO,
+            recipeInfoFragment = recipeInfoFragment,
+            addToBackStack = true)
     }
 }
