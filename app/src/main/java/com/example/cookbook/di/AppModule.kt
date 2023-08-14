@@ -24,6 +24,7 @@ import com.example.cookbook.view.favorite.FavoriteRecipesViewModel
 import com.example.cookbook.view.home.HomeViewModel
 import com.example.cookbook.view.home.randomRecipe.RandomRecipeListViewModel
 import com.example.cookbook.view.recipeInfo.RecipeInfoViewModel
+import com.example.cookbook.view.recipeInfo.adapters.UniversalAdapter
 import com.example.cookbook.view.search.SearchViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
@@ -35,6 +36,7 @@ val appModule = module {
         androidApplication().applicationContext as CookbookApp
     }
     factory { MutableLiveData<AppState>() }
+    factory { UniversalAdapter() }
 }
 
 val remoteDataSource = module {

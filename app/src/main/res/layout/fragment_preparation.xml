@@ -21,8 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:nestedScrollingEnabled="true"
-        tools:listitem="@layout/item_ingredients_and_equipments" />
+        android:nestedScrollingEnabled="true" />
 
     <TextView
         android:id="@+id/tv_ingredient"
@@ -38,8 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:nestedScrollingEnabled="true"
-        tools:listitem="@layout/item_ingredients_and_equipments" />
+        android:nestedScrollingEnabled="true" />
 
     <TextView
         android:id="@+id/tv_steps"
@@ -55,7 +53,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_analyzed_instructions" />
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
 </LinearLayout>
