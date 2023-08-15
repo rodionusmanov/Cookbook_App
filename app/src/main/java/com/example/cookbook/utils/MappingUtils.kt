@@ -114,16 +114,6 @@ class MappingUtils {
         }
     }
 
-    fun mapRandomToSearchRecipeData(randomRecipeData: RandomRecipeData): SearchRecipeData{
-        val newImage = mapImageUrl(randomRecipeData.image)
-        return SearchRecipeData(
-            id = randomRecipeData.id,
-            title = randomRecipeData.title,
-            image = newImage,
-            readyInMinutes = randomRecipeData.readyInMinutes
-        )
-    }
-
     private fun mapImageUrl(url: String): String {
         val newSize = "636x393"
         val patterns = listOf("90x90", "240x150", "312x150", "312x231", "480x360", "556x370")

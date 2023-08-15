@@ -5,5 +5,5 @@ import retrofit2.Response
 
 interface RandomRecipeDataSource {
     suspend fun getRandomRecipes(): Response<RandomRecipeListDTO>
-    suspend fun getRandomRecipesByType(dishType: String): Response<RandomRecipeListDTO>
+
 }

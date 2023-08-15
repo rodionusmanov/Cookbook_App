@@ -5,9 +5,7 @@ import android.util.Log
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.interactor.SearchFragmentInteractor
 import com.example.cookbook.view.base.BaseViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
@@ -18,8 +16,8 @@ class SearchViewModel(
     private val _stateFlow = MutableStateFlow<AppState>(AppState.Loading)
     val stateFlow: StateFlow<AppState> get() = _stateFlow
 
-    private val _argumentsFlow = MutableSharedFlow<Bundle>()
-    val argumentsFlow: SharedFlow<Bundle> get() = _argumentsFlow
+    private val _argumentsFlow = MutableStateFlow<Bundle?>(null)
+    val argumentsFlow: StateFlow<Bundle?> get() = _argumentsFlow
     fun searchRecipeRequest(request: String, ingredients: String) {
         viewModelCoroutineScope.launch {
             _stateFlow.value = AppState.Loading
@@ -36,7 +34,7 @@ class SearchViewModel(
         viewModelCoroutineScope.launch {
             _stateFlow.value = AppState.Loading
             try {
-                _stateFlow.emit(interactor.searchRandomRecipesByDishTypes(query, true))
+                _stateFlow.emit(interactor.searchRecipesByDishTypes(query, true))
             } catch (e: Throwable) {
                 _stateFlow.emit(AppState.Error(e))
             }

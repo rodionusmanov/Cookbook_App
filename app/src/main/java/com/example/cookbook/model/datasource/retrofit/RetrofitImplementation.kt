@@ -25,7 +25,7 @@ class RetrofitImplementation : SearchRecipeDataSource, RandomRecipeDataSource,
         request: String, ingredients: String
     ): Response<SearchRecipeListDTO> {
         return getService(baseInterceptor).searchRecipesAsync(
-            request, ingredients, DEFAULT_USER_DIET, DEFAULT_USER_INTOLERANCE
+            request, ingredients, DEFAULT_USER_DIET, DEFAULT_USER_INTOLERANCE, ""
         ).await()
     }
 
@@ -35,10 +35,10 @@ class RetrofitImplementation : SearchRecipeDataSource, RandomRecipeDataSource,
         ).await()
     }
 
-    override suspend fun getRandomRecipesByType(dishType: String): Response<RandomRecipeListDTO> {
+    override suspend fun getRecipesByType(dishType: String): Response<SearchRecipeListDTO> {
         Log.d("@@@","Sending request for random recipes by type: $dishType")
-        val response = getService(baseInterceptor).getRandomRecipesByTypeAsync(
-            DEFAULT_RECIPE_NUMBER, DEFAULT_USER_DIET, DEFAULT_USER_INTOLERANCE, dishType
+        val response = getService(baseInterceptor).searchRecipesAsync(
+            "", "", DEFAULT_USER_DIET, DEFAULT_USER_INTOLERANCE, dishType
         ).await()
         Log.d("@@@", "Received response for random recipes by type: ${response.body()?.toString()}")
         return response

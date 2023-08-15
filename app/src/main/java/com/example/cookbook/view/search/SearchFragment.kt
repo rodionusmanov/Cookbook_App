@@ -47,6 +47,10 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
     private fun initArgumentsFlow() {
         viewLifecycleOwner.lifecycleScope.launch {
             Log.d("@@@", "Start collecting arguments")
+            val initialArgs = model.argumentsFlow.value
+            if (initialArgs != null) {
+                handleBundle(initialArgs)
+            }
             model.argumentsFlow.collect{args ->
                 Log.d("@@@", "Collect arguments $args")
                 handleBundle(args)
@@ -70,6 +74,7 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
 
     private fun setDishTypeQuery(dishType: String) {
         model.searchRandomRecipesByDishTypes(dishType)
+        binding.searchView.setQuery("", false)
     }
 
     private fun initViewModel() {

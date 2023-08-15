@@ -17,6 +17,7 @@ interface ISearchRecipeApi {
         @Query("includeIngredients") includeIngredients: String,
         @Query("diet") diet: String,
         @Query("intolerances") intolerances: String,
+        @Query("type") dishType: String,
         @Query("apiKey") apiKey: String = SPOONACULAR_API_KEY
     ): Deferred<Response<SearchRecipeListDTO>>
 
@@ -25,15 +26,6 @@ interface ISearchRecipeApi {
         @Query("number") number: Int,
         @Query("diet") diet: String,
         @Query("intolerances") intolerances: String,
-        @Query("apiKey") apiKey: String = SPOONACULAR_API_KEY
-    ): Deferred<Response<RandomRecipeListDTO>>
-
-    @GET("recipes/random")
-    fun getRandomRecipesByTypeAsync(
-        @Query("number") number: Int,
-        @Query("diet") diet: String,
-        @Query("intolerances") intolerances: String,
-        @Query("type") type: String,
         @Query("apiKey") apiKey: String = SPOONACULAR_API_KEY
     ): Deferred<Response<RandomRecipeListDTO>>
 

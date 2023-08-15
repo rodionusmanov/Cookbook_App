@@ -47,7 +47,7 @@ val remoteDataSource = module {
             recipeInformationDataSource = get()
         )
     }
-    single<RetrofitImplementation> { RetrofitImplementation() }
+    single { RetrofitImplementation() }
     single<SearchRecipeDataSource> { get<RetrofitImplementation>() }
     single<RandomRecipeDataSource> { get<RetrofitImplementation>() }
     single<RecipeInformationDataSource> { get<RetrofitImplementation>() }
