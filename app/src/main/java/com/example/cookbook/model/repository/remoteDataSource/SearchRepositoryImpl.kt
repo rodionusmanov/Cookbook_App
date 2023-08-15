@@ -1,5 +1,6 @@
 package com.example.cookbook.model.repository.remoteDataSource
 
+import android.util.Log
 import com.example.cookbook.model.datasource.RandomRecipeDataSource
 import com.example.cookbook.model.datasource.RecipeInformationDataSource
 import com.example.cookbook.model.datasource.SearchRecipeDataSource
@@ -42,10 +43,11 @@ class SearchRepositoryImpl(
     }
 
     override suspend fun getRandomRecipesByType(dishType: String): List<SearchRecipeData> {
+        Log.d("@@@","SearchRepository working get query: $dishType")
         val response = randomRecipeDataSource.getRandomRecipesByType(dishType)
         return parseResponse(response) { responseDTO ->
-            responseDTO.searchRecipeList.map { recipe ->
-                mapper.mapRecipeData(recipe) as SearchRecipeData
+            responseDTO.recipes.map { recipe ->
+                mapper.mapRandomToSearchRecipeData(recipe)
             }
         }
     }
@@ -59,6 +61,9 @@ class SearchRepositoryImpl(
     }
 
     private fun <T, R> parseResponse(response: Response<T>, dataSelector: (T) -> R): R {
+
+        Log.d("@@@", "ParseResponse Response status code: ${response.code()}")
+        Log.d("@@@", "ParseResponse Response body: ${response.body()?.toString()}")
 
         val responseStatusCode = BaseInterceptor.interceptor.getResponseCode()
 

@@ -35,7 +35,7 @@ interface ISearchRecipeApi {
         @Query("intolerances") intolerances: String,
         @Query("type") type: String,
         @Query("apiKey") apiKey: String = SPOONACULAR_API_KEY
-    ): Deferred<Response<SearchRecipeListDTO>>
+    ): Deferred<Response<RandomRecipeListDTO>>
 
     @GET("recipes/{id}/information")
     fun getRecipeFullInformationAsync(

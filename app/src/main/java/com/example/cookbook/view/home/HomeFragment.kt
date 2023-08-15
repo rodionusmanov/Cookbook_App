@@ -2,6 +2,7 @@ package com.example.cookbook.view.home
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
@@ -26,7 +27,9 @@ import com.example.cookbook.view.base.BaseFragment
 import com.example.cookbook.view.home.randomRecipe.RandomRecipesListFragment
 import com.example.cookbook.view.mainActivity.MainActivity
 import com.example.cookbook.view.search.SearchFragment
+import com.example.cookbook.view.search.SearchViewModel
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment :
@@ -45,7 +48,7 @@ class HomeFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initViewModel()
         setupSearchView()
-        initRandomRecipeFragment()
+        //initRandomRecipeFragment()
         initDishTypeCards()
         super.onViewCreated(view, savedInstanceState)
     }
@@ -105,10 +108,10 @@ class HomeFragment :
         val args = Bundle().apply {
             putString(queryKey, query)
         }
-        val searchFragment = SearchFragment.newInstance().apply{
-            arguments = args
-        }
-
+        val searchViewModel: SearchViewModel by inject()
+        Log.d("@@@", "ViewModel hash: ${searchViewModel.hashCode()}")
+        searchViewModel.updateArguments(args)
+        val searchFragment = SearchFragment.newInstance()
         navigationManager?.switchFragment(FRAGMENT_SEARCH, searchFragment, addToBackStack = true)
     }
 

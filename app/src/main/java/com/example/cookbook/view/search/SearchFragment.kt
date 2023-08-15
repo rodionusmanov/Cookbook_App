@@ -1,6 +1,7 @@
 package com.example.cookbook.view.search
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
@@ -17,7 +18,7 @@ import com.example.cookbook.utils.BUNDLE_SEARCH_QUERY
 import com.example.cookbook.view.base.BaseFragment
 import com.example.cookbook.view.search.searchResult.SearchResultFragment
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.android.ext.android.inject
 
 class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSearchBinding>(
     FragmentSearchBinding::inflate
@@ -39,8 +40,18 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewModel()
+        initArgumentsFlow()
         setupSearchView()
-        handleBundle(arguments)
+    }
+
+    private fun initArgumentsFlow() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            Log.d("@@@", "Start collecting arguments")
+            model.argumentsFlow.collect{args ->
+                Log.d("@@@", "Collect arguments $args")
+                handleBundle(args)
+            }
+        }
     }
 
     private fun handleBundle(arguments: Bundle?) {
@@ -48,11 +59,13 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
             val searchQuery = it.getString(BUNDLE_SEARCH_QUERY)
             val dishType = it.getString(BUNDLE_DISH_TYPE)
 
+            Log.d("@@@", "Handling arguments: searchQuery = $searchQuery, dishType = $dishType")
+
             when {
                 searchQuery != null -> setSearchQuery(searchQuery)
                 dishType != null -> setDishTypeQuery(dishType)
             }
-        }
+        } ?: Log.d("@@@", "No arguments to handle")
     }
 
     private fun setDishTypeQuery(dishType: String) {
@@ -60,8 +73,9 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
     }
 
     private fun initViewModel() {
-        val viewModel by viewModel<SearchViewModel>()
+        val viewModel: SearchViewModel by inject()
         model = viewModel
+        Log.d("@@@", "ViewModel hash: ${model.hashCode()}")
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 model.stateFlow.collect {

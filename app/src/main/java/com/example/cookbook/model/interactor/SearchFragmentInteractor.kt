@@ -1,5 +1,6 @@
 package com.example.cookbook.model.interactor
 
+import android.util.Log
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.repository.remoteDataSource.IRepositorySearchRequest
 
@@ -11,6 +12,7 @@ class SearchFragmentInteractor(
     }
 
     suspend fun searchRandomRecipesByDishTypes(dishType: String, isOnline: Boolean): AppState {
+        Log.d("@@@","Interactor working, get query: $dishType")
         return AppState.Success(remoteRepository.getRandomRecipesByType(dishType))
     }
 }

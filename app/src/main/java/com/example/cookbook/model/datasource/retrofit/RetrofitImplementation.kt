@@ -1,5 +1,6 @@
 package com.example.cookbook.model.datasource.retrofit
 
+import android.util.Log
 import com.example.cookbook.model.datasource.DTO.randomRecipe.RandomRecipeListDTO
 import com.example.cookbook.model.datasource.DTO.recipeInformation.RecipeInformationDTO
 import com.example.cookbook.model.datasource.DTO.searchRecipe.SearchRecipeListDTO
@@ -34,10 +35,13 @@ class RetrofitImplementation : SearchRecipeDataSource, RandomRecipeDataSource,
         ).await()
     }
 
-    override suspend fun getRandomRecipesByType(dishType: String): Response<SearchRecipeListDTO> {
-        return getService(baseInterceptor).getRandomRecipesByTypeAsync(
+    override suspend fun getRandomRecipesByType(dishType: String): Response<RandomRecipeListDTO> {
+        Log.d("@@@","Sending request for random recipes by type: $dishType")
+        val response = getService(baseInterceptor).getRandomRecipesByTypeAsync(
             DEFAULT_RECIPE_NUMBER, DEFAULT_USER_DIET, DEFAULT_USER_INTOLERANCE, dishType
         ).await()
+        Log.d("@@@", "Received response for random recipes by type: ${response.body()?.toString()}")
+        return response
     }
 
     override suspend fun getRecipeFullInformation(id: Int): Response<RecipeInformationDTO> {

@@ -76,7 +76,7 @@ val homeFragment = module {
 }
 
 val searchFragment = module {
-    viewModel { SearchViewModel(get()) }
+    single { SearchViewModel(get()) }
     viewModel { SearchResultViewModel(LocalRepositoryImpl(get<IRecipesDAO>())) }
     factory { SearchFragmentInteractor(get()) }
 }
