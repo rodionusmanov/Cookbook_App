@@ -228,7 +228,7 @@
                             style="@style/HomeFragmentTitleTextStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingStart="@dimen/margin_8dp_small"
+                            android:paddingHorizontal="@dimen/margin_8dp_small"
                             android:text="@string/joke_of_the_day_title"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -337,7 +337,7 @@
                             android:orientation="vertical">
 
                             <com.example.cookbook.view.customviews.SquareMaterialCardView
-                                android:id="@+id/side_dish"
+                                android:id="@+id/card_side_dish"
                                 style="@style/HomeFragmentDishCardStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"

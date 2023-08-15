@@ -12,23 +12,25 @@ import retrofit2.http.Query
 
 interface ISearchRecipeApi {
     @GET("recipes/complexSearch")
-    fun searchRecipes(
+    fun searchRecipesAsync(
         @Query("query") query: String,
         @Query("includeIngredients") includeIngredients: String,
         @Query("diet") diet: String,
         @Query("intolerances") intolerances: String,
+        @Query("type") dishType: String,
         @Query("apiKey") apiKey: String = SPOONACULAR_API_KEY
     ): Deferred<Response<SearchRecipeListDTO>>
 
     @GET("recipes/random")
-    fun getRandomRecipes(
+    fun getRandomRecipesAsync(
         @Query("number") number: Int,
-        @Query("tags") tags: String,
+        @Query("diet") diet: String,
+        @Query("intolerances") intolerances: String,
         @Query("apiKey") apiKey: String = SPOONACULAR_API_KEY
     ): Deferred<Response<RandomRecipeListDTO>>
 
     @GET("recipes/{id}/information")
-    fun getRecipeFullInformation(
+    fun getRecipeFullInformationAsync(
         @Path("id") recipeId: Int,
         @Query("includeNutrition") includeNutrition: Boolean,
         @Query("apiKey") apiKey: String = SPOONACULAR_API_KEY

@@ -47,7 +47,7 @@ val remoteDataSource = module {
             recipeInformationDataSource = get()
         )
     }
-    single<RetrofitImplementation> { RetrofitImplementation() }
+    single { RetrofitImplementation() }
     single<SearchRecipeDataSource> { get<RetrofitImplementation>() }
     single<RandomRecipeDataSource> { get<RetrofitImplementation>() }
     single<RecipeInformationDataSource> { get<RetrofitImplementation>() }
@@ -76,7 +76,7 @@ val homeFragment = module {
 }
 
 val searchFragment = module {
-    viewModel { SearchViewModel(get()) }
+    single { SearchViewModel(get()) }
     viewModel { SearchResultViewModel(LocalRepositoryImpl(get<IRecipesDAO>())) }
     factory { SearchFragmentInteractor(get()) }
 }

@@ -5,4 +5,5 @@ import retrofit2.Response
 
 interface SearchRecipeDataSource {
     suspend fun getSearchResult(request: String, ingredients: String): Response<SearchRecipeListDTO>
+    suspend fun getRecipesByType(dishType: String): Response<SearchRecipeListDTO>
 }

@@ -14,13 +14,22 @@ import com.example.cookbook.databinding.FragmentHomeBinding
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.SearchRecipeData
+import com.example.cookbook.utils.BUNDLE_DISH_TYPE
+import com.example.cookbook.utils.DISH_TYPE_BREAKFAST
+import com.example.cookbook.utils.DISH_TYPE_DESSERT
+import com.example.cookbook.utils.DISH_TYPE_MAIN_COURSE
+import com.example.cookbook.utils.DISH_TYPE_SALAD
+import com.example.cookbook.utils.DISH_TYPE_SIDE_DISH
+import com.example.cookbook.utils.DISH_TYPE_SNACK
 import com.example.cookbook.utils.FRAGMENT_SEARCH
 import com.example.cookbook.utils.navigation.NavigationManager
 import com.example.cookbook.view.base.BaseFragment
 import com.example.cookbook.view.home.randomRecipe.RandomRecipesListFragment
 import com.example.cookbook.view.mainActivity.MainActivity
 import com.example.cookbook.view.search.SearchFragment
+import com.example.cookbook.view.search.SearchViewModel
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment :
@@ -29,7 +38,6 @@ class HomeFragment :
     ) {
 
     private lateinit var model: HomeViewModel
-    private val selectedIngredients = mutableSetOf<String>()
     private var navigationManager: NavigationManager? = null
 
     override fun onAttach(context: Context) {
@@ -40,16 +48,31 @@ class HomeFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initViewModel()
         setupSearchView()
-        initRandomRecipeFragment()
+        //initRandomRecipeFragment()
         initDishTypeCards()
         super.onViewCreated(view, savedInstanceState)
     }
 
     private fun initDishTypeCards() {
         binding.cardBreakfast.setOnClickListener {
-            openSearchFragmentWithQuery("search_query","breakfast")
+            openSearchFragmentWithQuery(BUNDLE_DISH_TYPE, DISH_TYPE_BREAKFAST)
             }
+        binding.cardSideDish.setOnClickListener {
+            openSearchFragmentWithQuery(BUNDLE_DISH_TYPE, DISH_TYPE_SIDE_DISH)
         }
+        binding.cardMainCourse.setOnClickListener {
+            openSearchFragmentWithQuery(BUNDLE_DISH_TYPE, DISH_TYPE_MAIN_COURSE)
+        }
+        binding.cardSalads.setOnClickListener {
+            openSearchFragmentWithQuery(BUNDLE_DISH_TYPE, DISH_TYPE_SALAD)
+        }
+        binding.cardSnack.setOnClickListener {
+            openSearchFragmentWithQuery(BUNDLE_DISH_TYPE, DISH_TYPE_SNACK)
+        }
+        binding.cardDessert.setOnClickListener {
+            openSearchFragmentWithQuery(BUNDLE_DISH_TYPE, DISH_TYPE_DESSERT)
+        }
+    }
 
     private fun initRandomRecipeFragment() {
         val existingFragment = childFragmentManager.findFragmentById(R.id.random_recipe_container)
@@ -60,16 +83,6 @@ class HomeFragment :
                 .replace(R.id.random_recipe_container, fragment)
                 .commit()
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d("@@@", "HomeFragment is now resumed")
-    }
-
-    override fun onHiddenChanged(hidden: Boolean) {
-        super.onHiddenChanged(hidden)
-        Log.d("@@@", "HomeFragment is now hidden: $hidden")
     }
 
     private fun setupSearchView() {
@@ -95,10 +108,10 @@ class HomeFragment :
         val args = Bundle().apply {
             putString(queryKey, query)
         }
-        val searchFragment = SearchFragment.newInstance().apply{
-            arguments = args
-        }
-
+        val searchViewModel: SearchViewModel by inject()
+        Log.d("@@@", "ViewModel hash: ${searchViewModel.hashCode()}")
+        searchViewModel.updateArguments(args)
+        val searchFragment = SearchFragment.newInstance()
         navigationManager?.switchFragment(FRAGMENT_SEARCH, searchFragment, addToBackStack = true)
     }
 
@@ -126,7 +139,7 @@ class HomeFragment :
     }
 
     private fun setupSearchData(searchData: List<SearchRecipeData>) {
-        val searchFragment = SearchFragment.newInstance(searchData)
+        val searchFragment = SearchFragment.newInstance()
         childFragmentManager
             .beginTransaction()
             .replace(R.id.main_container, searchFragment)
