@@ -2,7 +2,6 @@ package com.example.cookbook.view.home
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
@@ -14,6 +13,13 @@ import com.example.cookbook.databinding.FragmentHomeBinding
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.SearchRecipeData
+import com.example.cookbook.utils.BUNDLE_DISH_TYPE
+import com.example.cookbook.utils.DISH_TYPE_BREAKFAST
+import com.example.cookbook.utils.DISH_TYPE_DESSERT
+import com.example.cookbook.utils.DISH_TYPE_MAIN_COURSE
+import com.example.cookbook.utils.DISH_TYPE_SALAD
+import com.example.cookbook.utils.DISH_TYPE_SIDE_DISH
+import com.example.cookbook.utils.DISH_TYPE_SNACK
 import com.example.cookbook.utils.FRAGMENT_SEARCH
 import com.example.cookbook.utils.navigation.NavigationManager
 import com.example.cookbook.view.base.BaseFragment
@@ -29,7 +35,6 @@ class HomeFragment :
     ) {
 
     private lateinit var model: HomeViewModel
-    private val selectedIngredients = mutableSetOf<String>()
     private var navigationManager: NavigationManager? = null
 
     override fun onAttach(context: Context) {
@@ -47,9 +52,24 @@ class HomeFragment :
 
     private fun initDishTypeCards() {
         binding.cardBreakfast.setOnClickListener {
-            openSearchFragmentWithQuery("search_query","breakfast")
+            openSearchFragmentWithQuery(BUNDLE_DISH_TYPE, DISH_TYPE_BREAKFAST)
             }
+        binding.cardSideDish.setOnClickListener {
+            openSearchFragmentWithQuery(BUNDLE_DISH_TYPE, DISH_TYPE_SIDE_DISH)
         }
+        binding.cardMainCourse.setOnClickListener {
+            openSearchFragmentWithQuery(BUNDLE_DISH_TYPE, DISH_TYPE_MAIN_COURSE)
+        }
+        binding.cardSalads.setOnClickListener {
+            openSearchFragmentWithQuery(BUNDLE_DISH_TYPE, DISH_TYPE_SALAD)
+        }
+        binding.cardSnack.setOnClickListener {
+            openSearchFragmentWithQuery(BUNDLE_DISH_TYPE, DISH_TYPE_SNACK)
+        }
+        binding.cardDessert.setOnClickListener {
+            openSearchFragmentWithQuery(BUNDLE_DISH_TYPE, DISH_TYPE_DESSERT)
+        }
+    }
 
     private fun initRandomRecipeFragment() {
         val existingFragment = childFragmentManager.findFragmentById(R.id.random_recipe_container)
@@ -60,16 +80,6 @@ class HomeFragment :
                 .replace(R.id.random_recipe_container, fragment)
                 .commit()
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d("@@@", "HomeFragment is now resumed")
-    }
-
-    override fun onHiddenChanged(hidden: Boolean) {
-        super.onHiddenChanged(hidden)
-        Log.d("@@@", "HomeFragment is now hidden: $hidden")
     }
 
     private fun setupSearchView() {
@@ -126,7 +136,7 @@ class HomeFragment :
     }
 
     private fun setupSearchData(searchData: List<SearchRecipeData>) {
-        val searchFragment = SearchFragment.newInstance(searchData)
+        val searchFragment = SearchFragment.newInstance()
         childFragmentManager
             .beginTransaction()
             .replace(R.id.main_container, searchFragment)

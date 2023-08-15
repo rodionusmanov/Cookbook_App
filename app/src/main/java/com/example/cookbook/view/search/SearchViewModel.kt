@@ -25,5 +25,14 @@ class SearchViewModel(
         }
     }
 
-
+    fun searchRandomRecipesByDishTypes(query: String){
+        viewModelCoroutineScope.launch {
+            _stateFlow.value = AppState.Loading
+            try {
+                _stateFlow.emit(interactor.searchRandomRecipesByDishTypes(query, true))
+            } catch (e: Throwable) {
+                _stateFlow.emit(AppState.Error(e))
+            }
+        }
+    }
 }

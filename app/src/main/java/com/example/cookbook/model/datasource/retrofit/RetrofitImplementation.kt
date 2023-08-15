@@ -21,24 +21,29 @@ class RetrofitImplementation : SearchRecipeDataSource, RandomRecipeDataSource,
 
     private val baseInterceptor = BaseInterceptor.interceptor
     override suspend fun getSearchResult(
-        request: String,
-        ingredients: String
+        request: String, ingredients: String
     ): Response<SearchRecipeListDTO> {
-        return getService(baseInterceptor).searchRecipes(
+        return getService(baseInterceptor).searchRecipesAsync(
             request, ingredients, DEFAULT_USER_DIET, DEFAULT_USER_INTOLERANCE
         ).await()
     }
 
     override suspend fun getRandomRecipes(): Response<RandomRecipeListDTO> {
-        val userDietAndIntolerance = arrayOf(DEFAULT_USER_DIET, DEFAULT_USER_INTOLERANCE)
-            .joinToString(",")
-        return getService(baseInterceptor).getRandomRecipes(
-            DEFAULT_RECIPE_NUMBER, userDietAndIntolerance
+        return getService(baseInterceptor).getRandomRecipesAsync(
+            DEFAULT_RECIPE_NUMBER, DEFAULT_USER_DIET, DEFAULT_USER_INTOLERANCE
+        ).await()
+    }
+
+    override suspend fun getRandomRecipesByType(dishType: String): Response<SearchRecipeListDTO> {
+        return getService(baseInterceptor).getRandomRecipesByTypeAsync(
+            DEFAULT_RECIPE_NUMBER, DEFAULT_USER_DIET, DEFAULT_USER_INTOLERANCE, dishType
         ).await()
     }
 
     override suspend fun getRecipeFullInformation(id: Int): Response<RecipeInformationDTO> {
-        return getService(baseInterceptor).getRecipeFullInformation(id, true).await()
+        return getService(baseInterceptor).getRecipeFullInformationAsync(
+            id, true
+        ).await()
     }
 
     private fun getService(interceptor: Interceptor): ISearchRecipeApi {
@@ -46,16 +51,12 @@ class RetrofitImplementation : SearchRecipeDataSource, RandomRecipeDataSource,
     }
 
     private fun createRetrofit(interceptor: Interceptor): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(COMPLEX_SEARCH_RECIPE_API)
-            .addConverterFactory(
+        return Retrofit.Builder().baseUrl(COMPLEX_SEARCH_RECIPE_API).addConverterFactory(
                 GsonConverterFactory.create(
                     GsonBuilder().setLenient().create()
                 )
-            )
-            .addCallAdapterFactory(CoroutineCallAdapterFactory())
-            .client(createOkHttpClient(interceptor))
-            .build()
+            ).addCallAdapterFactory(CoroutineCallAdapterFactory())
+            .client(createOkHttpClient(interceptor)).build()
     }
 
     private fun createOkHttpClient(interceptor: Interceptor): OkHttpClient {
@@ -63,9 +64,8 @@ class RetrofitImplementation : SearchRecipeDataSource, RandomRecipeDataSource,
 
         httpClient.addInterceptor { chain ->
             var request = chain.request()
-            val url = request.url.newBuilder()
-                .addQueryParameter("apiKey", SPOONACULAR_API_KEY)
-                .build()
+            val url =
+                request.url.newBuilder().addQueryParameter("apiKey", SPOONACULAR_API_KEY).build()
 
             request = request.newBuilder().url(url).build()
             chain.proceed(request)

@@ -1,7 +1,6 @@
 package com.example.cookbook.view.search
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
@@ -13,6 +12,8 @@ import com.example.cookbook.databinding.FragmentSearchBinding
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.SearchRecipeData
+import com.example.cookbook.utils.BUNDLE_DISH_TYPE
+import com.example.cookbook.utils.BUNDLE_SEARCH_QUERY
 import com.example.cookbook.view.base.BaseFragment
 import com.example.cookbook.view.search.searchResult.SearchResultFragment
 import kotlinx.coroutines.launch
@@ -23,20 +24,8 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
 ) {
 
     private lateinit var model: SearchViewModel
-    private var lastSearchData: List<SearchRecipeData>? = null
 
     companion object {
-
-        private const val SEARCH_RECIPE_LIST_KEY = "SEARCH_DATA_KEY"
-
-        fun newInstance(searchData: List<SearchRecipeData>): SearchFragment {
-            return SearchFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelableArrayList(SEARCH_RECIPE_LIST_KEY, ArrayList(searchData))
-                }
-            }
-        }
-
         fun newInstance(): SearchFragment {
             return SearchFragment()
         }
@@ -44,24 +33,30 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
 
     private fun setSearchQuery(query: String) {
         model.searchRecipeRequest(query, "")
+        binding.searchView.setQuery(query, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initViewModel()
         setupSearchView()
-        super.onViewCreated(view, savedInstanceState)
-        //val query = arguments?.getString("search_query")
-        //query?.let {setSearchQuery(it)}
+        handleBundle(arguments)
     }
 
-    override fun onResume() {
-        super.onResume()
-        lastSearchData?.let { setupSearchData(it) }
+    private fun handleBundle(arguments: Bundle?) {
+        arguments?.let {
+            val searchQuery = it.getString(BUNDLE_SEARCH_QUERY)
+            val dishType = it.getString(BUNDLE_DISH_TYPE)
+
+            when {
+                searchQuery != null -> setSearchQuery(searchQuery)
+                dishType != null -> setDishTypeQuery(dishType)
+            }
+        }
     }
 
-    override fun onHiddenChanged(hidden: Boolean) {
-        super.onHiddenChanged(hidden)
-        Log.d("@@@", "SearchFragment is now hidden: $hidden")
+    private fun setDishTypeQuery(dishType: String) {
+        model.searchRandomRecipesByDishTypes(dishType)
     }
 
     private fun initViewModel() {
@@ -71,7 +66,7 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 model.stateFlow.collect {
                     renderData(it)
-                    lastSearchData = it as? List<SearchRecipeData>}
+                }
             }
         }
     }
