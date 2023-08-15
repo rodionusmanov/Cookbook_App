@@ -1,21 +1,18 @@
 package com.example.cookbook.view.search.searchResult
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.cookbook.R
 import com.example.cookbook.databinding.FragmentSearchResultBinding
 import com.example.cookbook.model.AppState
+import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.SearchRecipeData
-import com.example.cookbook.utils.ID
+import com.example.cookbook.utils.navigation.NavigationManager
 import com.example.cookbook.utils.parcelableArrayList
 import com.example.cookbook.view.base.BaseFragment
-import kotlinx.coroutines.launch
+import com.example.cookbook.view.mainActivity.MainActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchResultFragment :
@@ -26,6 +23,14 @@ class SearchResultFragment :
     private lateinit var model: SearchResultViewModel
 
     private val adapter: SearchResultAdapter by lazy { SearchResultAdapter() }
+
+    private lateinit var favoriteRecipes: List<BaseRecipeData>
+    private var navigationManager: NavigationManager? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        navigationManager = (context as MainActivity).provideNavigationManager()
+    }
 
     companion object {
         private const val SEARCH_DATA_KEY = "SEARCH_DATA_KEY"
@@ -44,6 +49,7 @@ class SearchResultFragment :
             setupData(searchData)
         }
         initViewModel()
+        initFavoriteRecipes()
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -66,29 +72,26 @@ class SearchResultFragment :
 
     private fun initFavoriteListeners() {
         adapter.listenerOnSaveRecipe = { recipe ->
-//            model.insertNewRecipeToDataBase(recipe)
+            model.insertNewRecipeToDataBase(recipe)
         }
 
         adapter.listenerOnRemoveRecipe = { recipe ->
-//            model.deleteRecipeFromData(recipe.id)
+            model.deleteRecipeFromData(recipe.id)
         }
     }
 
     private fun openRecipeInfoFragment(recipeId: Int) {
-        findNavController().navigate(
-            R.id.action_navigation_search_recipe_to_recipeInfoFragment,
-            Bundle().apply {
-                putInt(ID, recipeId)
-            })
+        navigationManager?.openRecipeInfoFragment(recipeId)
     }
 
     private fun initViewModel() {
         val viewModel by viewModel<SearchResultViewModel>()
         model = viewModel
-        lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                model.stateFlow.collect { renderData(it) }
-            }
+    }
+
+    private fun initFavoriteRecipes() {
+        model.getAllLocalRecipes().observe(viewLifecycleOwner) {
+            favoriteRecipes = it
         }
     }
 }

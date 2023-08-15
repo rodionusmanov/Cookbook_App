@@ -1,6 +1,7 @@
 package com.example.cookbook.view.search
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
@@ -13,7 +14,6 @@ import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.SearchRecipeData
 import com.example.cookbook.view.base.BaseFragment
-import com.example.cookbook.view.mainActivity.MainActivity
 import com.example.cookbook.view.search.searchResult.SearchResultFragment
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -23,6 +23,7 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
 ) {
 
     private lateinit var model: SearchViewModel
+    private var lastSearchData: List<SearchRecipeData>? = null
 
     companion object {
 
@@ -35,15 +36,32 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
                 }
             }
         }
+
+        fun newInstance(): SearchFragment {
+            return SearchFragment()
+        }
     }
 
+    private fun setSearchQuery(query: String) {
+        model.searchRecipeRequest(query, "")
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initViewModel()
         setupSearchView()
-
-
         super.onViewCreated(view, savedInstanceState)
+        //val query = arguments?.getString("search_query")
+        //query?.let {setSearchQuery(it)}
+    }
+
+    override fun onResume() {
+        super.onResume()
+        lastSearchData?.let { setupSearchData(it) }
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        Log.d("@@@", "SearchFragment is now hidden: $hidden")
     }
 
     private fun initViewModel() {
@@ -51,7 +69,9 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
         model = viewModel
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                model.stateFlow.collect { renderData(it) }
+                model.stateFlow.collect {
+                    renderData(it)
+                    lastSearchData = it as? List<SearchRecipeData>}
             }
         }
     }
@@ -85,7 +105,7 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
 
     private fun setupSearchData(searchData: List<SearchRecipeData>) {
         val fragment = SearchResultFragment.newInstance(searchData)
-        requireActivity().supportFragmentManager
+        parentFragmentManager
             .beginTransaction()
             .replace(R.id.search_fragment_container, fragment)
             .commit()

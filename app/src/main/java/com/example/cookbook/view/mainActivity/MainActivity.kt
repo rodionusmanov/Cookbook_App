@@ -2,40 +2,34 @@ package com.example.cookbook.view.mainActivity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupWithNavController
-import com.example.cookbook.R
 import com.example.cookbook.databinding.ActivityMainBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.example.cookbook.utils.FRAGMENT_HOME
+import com.example.cookbook.utils.navigation.NavigationManager
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var navController: NavController
+    private lateinit var navigationManager: NavigationManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val navView: BottomNavigationView = binding.navView
-        val navHost =
-            supportFragmentManager.findFragmentById(R.id.main_container) as NavHostFragment
-        navController = navHost.navController
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home,
-                R.id.navigation_search_recipe,
-                R.id.navigation_favorite
-            )
-        )
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+
+        navigationManager = NavigationManager(this, binding.navView)
+        navigationManager.setupBottomNavigationMenu()
+
+        if (savedInstanceState == null) {
+            navigationManager.switchFragment(FRAGMENT_HOME, addToBackStack = true)
+        }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp() || super.onSupportNavigateUp()
+    override fun onBackPressed() {
+        if(navigationManager.handleBackPressed() == null) {
+            super.onBackPressed()
+        }
     }
+
+    fun provideNavigationManager(): NavigationManager = navigationManager
+
 }

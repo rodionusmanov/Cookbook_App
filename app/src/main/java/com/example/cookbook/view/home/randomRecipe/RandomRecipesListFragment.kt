@@ -1,19 +1,18 @@
 package com.example.cookbook.view.home.randomRecipe
 
+import android.content.Context
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
 import com.cookbook.stacklayoutmanager.StackLayoutManager
-import com.example.cookbook.R
 import com.example.cookbook.databinding.FragmentRandomRecipeListBinding
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.RandomRecipeData
-import com.example.cookbook.utils.ID
+import com.example.cookbook.utils.navigation.NavigationManager
 import com.example.cookbook.view.base.BaseFragment
+import com.example.cookbook.view.mainActivity.MainActivity
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -25,6 +24,12 @@ class RandomRecipesListFragment :
     private lateinit var model: RandomRecipeListViewModel
 
     private val adapter: RandomRecipeListAdapter by lazy { RandomRecipeListAdapter() }
+    private var navigationManager: NavigationManager? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        navigationManager = (context as MainActivity).provideNavigationManager()
+    }
 
     companion object {
         fun newInstance(): RandomRecipesListFragment {
@@ -32,10 +37,12 @@ class RandomRecipesListFragment :
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         initViewModel()
-        super.onViewCreated(view, savedInstanceState)
+        model.getRandomRecipes()
     }
+
 
     private fun initViewModel() {
         val viewModel by viewModel<RandomRecipeListViewModel>()
@@ -45,7 +52,6 @@ class RandomRecipesListFragment :
                 model.stateFlow.collect { renderData(it) }
             }
         }
-        model.getRandomRecipes()
     }
 
     override fun setupData(data: List<RandomRecipeData>) {
@@ -62,11 +68,7 @@ class RandomRecipesListFragment :
     }
 
     private fun openRecipeInfoFragment(recipeId: Int) {
-        findNavController().navigate(
-            R.id.action_navigation_home_to_recipeInfoFragment,
-            Bundle().apply {
-                putInt(ID, recipeId)
-            })
+        navigationManager?.openRecipeInfoFragment(recipeId)
     }
 
     private fun initFavoritesListeners() {

@@ -21,6 +21,12 @@ class RecipeInfoFragment :
         FragmentRecipeInfoBinding::inflate
     ) {
 
+    companion object {
+        fun newInstance(): RecipeInfoFragment {
+            return RecipeInfoFragment()
+        }
+    }
+
     private val viewModel: RecipeInfoViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
