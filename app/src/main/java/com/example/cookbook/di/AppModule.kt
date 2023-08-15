@@ -10,8 +10,10 @@ import com.example.cookbook.model.datasource.SearchRecipeDataSource
 import com.example.cookbook.model.datasource.retrofit.RetrofitImplementation
 import com.example.cookbook.model.interactor.HomeFragmentInteractor
 import com.example.cookbook.model.interactor.RandomRecipeListInteractor
+import com.example.cookbook.model.interactor.RecipeFromDatabaseFragmentInteractor
 import com.example.cookbook.model.interactor.RecipeInfoFragmentInteractor
 import com.example.cookbook.model.interactor.SearchFragmentInteractor
+import com.example.cookbook.model.repository.local.ILocalRecipesInfoRepository
 import com.example.cookbook.model.repository.local.ILocalRecipesRepository
 import com.example.cookbook.model.repository.local.LocalRepositoryImpl
 import com.example.cookbook.model.repository.local.LocalRepositoryInfoImpl
@@ -19,13 +21,14 @@ import com.example.cookbook.model.repository.network.NetworkRepository
 import com.example.cookbook.model.repository.remoteDataSource.IRepositorySearchRequest
 import com.example.cookbook.model.repository.remoteDataSource.SearchRepositoryImpl
 import com.example.cookbook.model.room.IRecipesDAO
-import com.example.cookbook.model.room.IRecipesInfoDAO
 import com.example.cookbook.model.room.RecipesDatabase
+import com.example.cookbook.model.room.fullRecipe.IRecipesInfoDAO
 import com.example.cookbook.utils.network.NetworkLiveData
 import com.example.cookbook.view.favorite.FavoriteRecipesViewModel
 import com.example.cookbook.view.home.HomeViewModel
 import com.example.cookbook.view.home.randomRecipe.RandomRecipeListViewModel
 import com.example.cookbook.view.recipeInfo.RecipeInfoViewModel
+import com.example.cookbook.view.recipeInfoFromDatabase.RecipeInfoFromDatabaseViewModel
 import com.example.cookbook.view.search.SearchViewModel
 import com.example.cookbook.view.search.searchResult.SearchResultViewModel
 import org.koin.android.ext.koin.androidApplication
@@ -57,7 +60,8 @@ val remoteDataSource = module {
 
 val localDataBase = module {
     single<ILocalRecipesRepository> { get<LocalRepositoryImpl>() }
-    single<IRecipesDAO> { get<RecipesDatabase>().getRecipesDAO() }
+    single<ILocalRecipesInfoRepository> { get<LocalRepositoryInfoImpl>() }
+    single<IRecipesInfoDAO> { get<RecipesDatabase>().getRecipesDAO() }
     single<RecipesDatabase> {
         Room.databaseBuilder(
             androidApplication(),
@@ -74,25 +78,30 @@ val network = module {
 
 val homeFragment = module {
     viewModel { HomeViewModel(get()) }
-    factory { HomeFragmentInteractor(get(), LocalRepositoryImpl(get<IRecipesDAO>())) }
+    factory { HomeFragmentInteractor(get(), LocalRepositoryInfoImpl(get<IRecipesInfoDAO>())) }
 }
 
 val searchFragment = module {
     viewModel { SearchViewModel(get()) }
-    viewModel { SearchResultViewModel(LocalRepositoryImpl(get<IRecipesDAO>())) }
+    viewModel { SearchResultViewModel(LocalRepositoryInfoImpl(get<IRecipesInfoDAO>())) }
     factory { SearchFragmentInteractor(get()) }
 }
 
 val randomRecipeFragment = module {
     viewModel { RandomRecipeListViewModel(get()) }
-    factory { RandomRecipeListInteractor(get(), LocalRepositoryImpl(get<IRecipesDAO>())) }
+    factory { RandomRecipeListInteractor(get(), LocalRepositoryInfoImpl(get<IRecipesInfoDAO>())) }
 }
 
 val recipeInfo = module {
-    single { RecipeInfoViewModel(get()) }
+    viewModel { RecipeInfoViewModel(get(), LocalRepositoryInfoImpl(get<IRecipesInfoDAO>())) }
     factory { RecipeInfoFragmentInteractor(get()) }
 }
 
+val recipeInfoFromDatabase = module {
+    viewModel { RecipeInfoFromDatabaseViewModel(get(), LocalRepositoryInfoImpl(get<IRecipesInfoDAO>())) }
+    factory { RecipeFromDatabaseFragmentInteractor(LocalRepositoryInfoImpl(get<IRecipesInfoDAO>())) }
+}
+
 val favoritesFragment = module {
-    viewModel { FavoriteRecipesViewModel(LocalRepositoryImpl(get<IRecipesDAO>())) }
+    viewModel { FavoriteRecipesViewModel(LocalRepositoryInfoImpl(get<IRecipesInfoDAO>())) }
 }

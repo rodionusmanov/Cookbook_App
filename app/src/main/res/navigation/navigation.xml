@@ -26,8 +26,8 @@
         android:name="com.example.cookbook.view.favorite.FavoriteFragment"
         android:label="FavoriteFragment">
         <action
-            android:id="@+id/action_navigation_favorite_to_recipeInfoFragment"
-            app:destination="@id/recipeInfoFragment" />
+            android:id="@+id/action_navigation_favorite_to_recipeInfoFromDatabaseFragment"
+            app:destination="@id/recipeInfoFromDatabaseFragment" />
     </fragment>
     <fragment
         android:id="@+id/recipeInfoFragment"
@@ -38,4 +38,9 @@
             android:name="id"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/recipeInfoFromDatabaseFragment"
+        android:name="com.example.cookbook.view.recipeInfoFromDatabase.RecipeInfoFromDatabaseFragment"
+        android:label="fragment_recipe_info_from_database"
+        tools:layout="@layout/fragment_recipe_info_from_database" />
 </navigation>

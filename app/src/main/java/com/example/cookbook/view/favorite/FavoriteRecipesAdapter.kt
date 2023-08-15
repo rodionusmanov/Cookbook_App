@@ -1,6 +1,5 @@
 package com.example.cookbook.view.favorite
 
-import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,20 +9,20 @@ import coil.size.Scale
 import com.example.cookbook.R
 import com.example.cookbook.databinding.ItemSearchResultBinding
 import com.example.cookbook.model.domain.BaseRecipeData
-import com.example.cookbook.view.search.searchResult.ISaveRecipe
-import com.google.android.material.snackbar.Snackbar
+import com.example.cookbook.model.domain.RecipeInformation
 
-class FavoriteRecipesAdapter(val callbackDeleteRecipe: IDeleteRecipe) :
+class FavoriteRecipesAdapter() :
     RecyclerView.Adapter<FavoriteRecipesAdapter.RecyclerItemViewHolder>() {
 
-    private var data: List<BaseRecipeData> = arrayListOf()
-    fun setData(data: List<BaseRecipeData>) {
+    private var data: List<RecipeInformation> = arrayListOf()
+    var listener: ((RecipeInformation) -> Unit)? = null
+    fun setData(data: List<RecipeInformation>) {
         this.data = data
         notifyDataSetChanged()
     }
 
     inner class RecyclerItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(data: BaseRecipeData) {
+        fun bind(data: RecipeInformation) {
             if (layoutPosition != RecyclerView.NO_POSITION) {
                 ItemSearchResultBinding.bind(itemView).apply {
                     ivAddFavorite.isChecked = true
@@ -34,11 +33,16 @@ class FavoriteRecipesAdapter(val callbackDeleteRecipe: IDeleteRecipe) :
                         placeholder(R.drawable.icon_search)
                     }
                     ivAddFavorite.setOnClickListener {
-                        callbackDeleteRecipe.deleteRecipe(data.id)
+//                        callbackDeleteRecipe.deleteRecipe(data.id)
                         notifyItemRemoved(position)
                     }
+                    setOnClickListener(data)
                 }
             }
+        }
+
+        private fun ItemSearchResultBinding.setOnClickListener(data: RecipeInformation) {
+            root.setOnClickListener { listener?.invoke(data) }
         }
     }
 

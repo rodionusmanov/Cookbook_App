@@ -1,4 +1,4 @@
-package com.example.cookbook.view.recipeInfo
+package com.example.cookbook.view.recipeInfoFromDatabase
 
 import android.os.Bundle
 import android.view.View
@@ -6,7 +6,7 @@ import androidx.lifecycle.lifecycleScope
 import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.example.cookbook.R
-import com.example.cookbook.databinding.FragmentRecipeInfoBinding
+import com.example.cookbook.databinding.FragmentRecipeInfoFromDatabaseBinding
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.RecipeInformation
 import com.example.cookbook.utils.ID
@@ -16,18 +16,17 @@ import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class RecipeInfoFragment :
-    BaseFragment<AppState, RecipeInformation, FragmentRecipeInfoBinding>(
-        FragmentRecipeInfoBinding::inflate
+class RecipeInfoFromDatabaseFragment :
+    BaseFragment<AppState, RecipeInformation, FragmentRecipeInfoFromDatabaseBinding>(
+        FragmentRecipeInfoFromDatabaseBinding::inflate
     ) {
-
-    private val viewModel: RecipeInfoViewModel by viewModel()
+    private val viewModel: RecipeInfoFromDatabaseViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val id = arguments?.getInt(ID)
+        val id = requireArguments().getInt(ID)
 
-        id?.let { viewModel.recipeInfoRequest(it) }
+        id?.let{viewModel.getRecipeInfoFromDatabase(it)}
         lifecycleScope.launch {
             viewModel.stateFlow.collect {
                 renderData(it)
@@ -35,10 +34,11 @@ class RecipeInfoFragment :
         }
     }
 
-    override fun setupData(data: RecipeInformation) {
+    override fun showErrorDialog(message: String?) {
+//        TODO("Not yet implemented")
+    }
 
-        viewModel.setIngredients(data.extendedIngredients)
-        viewModel.setInstructions(data.analyzedInstructions)
+    override fun setupData(data: RecipeInformation) {
 
         with(binding) {
             chDairyFree.isChecked = data.dairyFree
@@ -99,9 +99,5 @@ class RecipeInfoFragment :
                 viewModel.upsertRecipeToFavorite(data)
             }
         }
-    }
-
-    override fun showErrorDialog(message: String?) {
-
     }
 }

@@ -6,14 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.cookbook.R
 import com.example.cookbook.databinding.FragmentFavoriteBinding
-import com.example.cookbook.model.domain.BaseRecipeData
-import com.example.cookbook.view.mainActivity.MainActivity
-import com.example.cookbook.view.search.searchResult.ISaveRecipe
+import com.example.cookbook.model.domain.RecipeInformation
+import com.example.cookbook.utils.ID
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoriteFragment : Fragment() {
+    final val RECIPE_KEY = "recipe key"
 
     private var _binding: FragmentFavoriteBinding? = null
     private val binding: FragmentFavoriteBinding
@@ -24,11 +30,11 @@ class FavoriteFragment : Fragment() {
     private lateinit var model: FavoriteRecipesViewModel
     private val adapter: FavoriteRecipesAdapter by lazy {
         FavoriteRecipesAdapter(
-            callbackDeleteRecipe
+//            callbackDeleteRecipe
         )
     }
 
-    private lateinit var favoriteRecipes: List<BaseRecipeData>
+    private lateinit var favoriteRecipes: List<RecipeInformation>
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,14 +48,23 @@ class FavoriteFragment : Fragment() {
     private fun initViewModel() {
         val viewModel by viewModel<FavoriteRecipesViewModel>()
         model = viewModel
-        model.getAllLocalRecipes().observe(viewLifecycleOwner) {
-            favoriteRecipes = it
-            setupData(favoriteRecipes)
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                model.getAllLocalRecipes().observe(viewLifecycleOwner) {
+                    favoriteRecipes = it
+                    setupData(favoriteRecipes)
+                }
+            }
         }
     }
 
-    private fun setupData(favoriteRecipes: List<BaseRecipeData>) {
+    private fun setupData(favoriteRecipes: List<RecipeInformation>) {
         adapter.setData(favoriteRecipes)
+
+        adapter.listener = { recipe ->
+            openRecipeInfoFromDatabaseFragment(recipe.id)
+        }
+
         binding.favoriteRecipesRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.favoriteRecipesRecyclerView.adapter = adapter
     }
@@ -60,12 +75,21 @@ class FavoriteFragment : Fragment() {
                 .setTitle("Deleting recipe")
                 .setMessage("Do you really want to delete this recipe from your favorites?")
                 .setPositiveButton("Yes") { dialog, _ ->
-                    model.deleteRecipeFromData(id)
+//                    model.deleteRecipeFromData(id)
                     dialog.dismiss()
                 }
                 .setNegativeButton("No") { dialog, _ -> dialog.dismiss() }
                 .create()
                 .show()
         }
+    }
+
+    private fun openRecipeInfoFromDatabaseFragment(recipeId: Int) {
+        findNavController().navigate(
+            R.id.action_navigation_favorite_to_recipeInfoFromDatabaseFragment,
+            Bundle().apply {
+                putInt(ID, recipeId)
+            }
+        )
     }
 }

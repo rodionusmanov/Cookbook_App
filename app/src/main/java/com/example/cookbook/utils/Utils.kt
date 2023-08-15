@@ -10,9 +10,12 @@ import com.example.cookbook.model.datasource.DTO.recipeInformation.WeightPerServ
 import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.RecipeInformation
 import com.example.cookbook.model.domain.SearchRecipeData
-import com.example.cookbook.model.room.RecipeInfoEntity
 import com.example.cookbook.model.room.RecipesEntity
-import java.lang.StringBuilder
+import com.example.cookbook.model.room.fullRecipe.CaloriesNutrient
+import com.example.cookbook.model.room.fullRecipe.CarbohydratesNutrient
+import com.example.cookbook.model.room.fullRecipe.FatNutrient
+import com.example.cookbook.model.room.fullRecipe.ProteinNutrient
+import com.example.cookbook.model.room.fullRecipe.RecipeInfoEntity
 
 fun convertRecipeEntityToList(entityList: List<RecipesEntity>): List<SearchRecipeData> {
     return entityList.map {
@@ -58,13 +61,33 @@ fun convertRecipeInfoToEntity(recipe: RecipeInformation): RecipeInfoEntity {
         } else {
             0
         },
-        convertDishTypesListToString(recipe.dishTypes),
+        recipe.dishTypes,
         recipe.instructions,
-        convertNutrientToString(recipe.calories!!),
-        convertNutrientToString(recipe.fat!!),
-        convertNutrientToString(recipe.carbohydrates!!),
-        convertNutrientToString(recipe.protein!!),
-        convertWeightPerServingToString(recipe.weightPerServing),
+        CaloriesNutrient(
+            recipe.calories!!.amount,
+            recipe.calories.name,
+            recipe.calories.percentOfDailyNeeds,
+            recipe.calories.unit
+        ),
+        FatNutrient(
+            recipe.fat!!.amount,
+            recipe.fat.name,
+            recipe.fat.percentOfDailyNeeds,
+            recipe.fat.unit
+        ),
+        CarbohydratesNutrient(
+            recipe.carbohydrates!!.amount,
+            recipe.carbohydrates.name,
+            recipe.carbohydrates.percentOfDailyNeeds,
+            recipe.carbohydrates.unit
+        ),
+        ProteinNutrient(
+            recipe.protein!!.amount,
+            recipe.protein.name,
+            recipe.protein.percentOfDailyNeeds,
+            recipe.protein.unit
+        ),
+        recipe.weightPerServing,
         recipe.readyInMinutes,
         recipe.servings,
         recipe.sourceUrl,
@@ -77,17 +100,37 @@ fun convertRecipeInfoEntityToList(entityList: List<RecipeInfoEntity>): List<Reci
         RecipeInformation(
             emptyList<AnalyzedInstruction>(),
             (it.dairyFree == 1),
-            convertStringToDishTypes(it.dishTypes),
+            it.dishTypes,
             emptyList<ExtendedIngredient>(),
             (it.glutenFree == 1),
             it.id,
             it.image,
             it.instructions,
-            convertStringToNutrient(it.calories),
-            convertStringToNutrient(it.fat),
-            convertStringToNutrient(it.carbohydrates),
-            convertStringToNutrient(it.protein),
-            convertStringToWeightPerServing(it.weightPerServing),
+            Nutrient(
+                it.calories.caloriesAmount,
+                it.calories.caloriesName,
+                it.calories.caloriesPercentOfDailyNeeds,
+                it.calories.caloriesUnit,
+            ),
+            Nutrient(
+                it.fat.fatAmount,
+                it.fat.fatName,
+                it.fat.fatPercentOfDailyNeeds,
+                it.fat.fatUnit,
+            ),
+            Nutrient(
+                it.carbohydrates.carbohydratesAmount,
+                it.carbohydrates.carbohydratesName,
+                it.carbohydrates.carbohydratesPercentOfDailyNeeds,
+                it.carbohydrates.carbohydratesUnit,
+            ),
+            Nutrient(
+                it.protein.proteinAmount,
+                it.protein.proteinName,
+                it.protein.proteinPercentOfDailyNeeds,
+                it.protein.proteinUnit,
+            ),
+            it.weightPerServing,
             it.readyInMinutes,
             it.servings,
             it.sourceUrl,
@@ -100,8 +143,55 @@ fun convertRecipeInfoEntityToList(entityList: List<RecipeInfoEntity>): List<Reci
     }
 }
 
+fun convertRecipeInfoEntityToRecipeInformation(entity: RecipeInfoEntity): RecipeInformation {
+    return RecipeInformation(
+        emptyList<AnalyzedInstruction>(),
+        (entity.dairyFree == 1),
+        entity.dishTypes,
+        emptyList<ExtendedIngredient>(),
+        (entity.glutenFree == 1),
+        entity.id,
+        entity.image,
+        entity.instructions,
+        Nutrient(
+            entity.calories.caloriesAmount,
+            entity.calories.caloriesName,
+            entity.calories.caloriesPercentOfDailyNeeds,
+            entity.calories.caloriesUnit,
+        ),
+        Nutrient(
+            entity.fat.fatAmount,
+            entity.fat.fatName,
+            entity.fat.fatPercentOfDailyNeeds,
+            entity.fat.fatUnit,
+        ),
+        Nutrient(
+            entity.carbohydrates.carbohydratesAmount,
+            entity.carbohydrates.carbohydratesName,
+            entity.carbohydrates.carbohydratesPercentOfDailyNeeds,
+            entity.carbohydrates.carbohydratesUnit,
+        ),
+        Nutrient(
+            entity.protein.proteinAmount,
+            entity.protein.proteinName,
+            entity.protein.proteinPercentOfDailyNeeds,
+            entity.protein.proteinUnit,
+        ),
+        entity.weightPerServing,
+        entity.readyInMinutes,
+        entity.servings,
+        entity.sourceUrl,
+        entity.summary,
+        entity.title,
+        (entity.vegan == 1),
+        (entity.vegetarian == 1),
+        (entity.veryHealthy == 1)
+    )
+
+}
+
 fun convertDishTypesListToString(dishTypes: List<String>): String {
-    var resultString: StringBuilder = java.lang.StringBuilder()
+    val resultString: StringBuilder = java.lang.StringBuilder()
     var firstInList = true
     for (s in dishTypes) {
         if (!firstInList) resultString.append("~~")
@@ -119,7 +209,7 @@ fun convertStringToDishTypes(string: String): List<String> {
 }
 
 fun convertNutrientToString(nutrient: Nutrient): String {
-    var resultString: StringBuilder = java.lang.StringBuilder()
+    val resultString: StringBuilder = java.lang.StringBuilder()
     resultString.append(nutrient.amount.toString()).append("~~")
         .append(nutrient.name).append("~~")
         .append(nutrient.percentOfDailyNeeds.toString()).append("~~")
@@ -140,7 +230,7 @@ fun convertStringToNutrient(string: String): Nutrient {
 }
 
 fun convertWeightPerServingToString(wps: WeightPerServing): String {
-    var resultString: StringBuilder = java.lang.StringBuilder()
+    val resultString: StringBuilder = java.lang.StringBuilder()
     resultString.append(wps.amount.toString()).append("~~")
         .append(wps.unit)
     return resultString.toString()

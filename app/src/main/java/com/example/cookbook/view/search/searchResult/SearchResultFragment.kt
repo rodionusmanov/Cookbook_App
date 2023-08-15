@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cookbook.R
 import com.example.cookbook.databinding.FragmentSearchResultBinding
 import com.example.cookbook.model.AppState
-import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.SearchRecipeData
 import com.example.cookbook.utils.ID
 import com.example.cookbook.utils.parcelableArrayList
@@ -27,8 +26,6 @@ class SearchResultFragment :
     private lateinit var model: SearchResultViewModel
 
     private val adapter: SearchResultAdapter by lazy { SearchResultAdapter() }
-
-    private lateinit var favoriteRecipes: List<BaseRecipeData>
 
     companion object {
         private const val SEARCH_DATA_KEY = "SEARCH_DATA_KEY"
@@ -47,7 +44,6 @@ class SearchResultFragment :
             setupData(searchData)
         }
         initViewModel()
-        initFavoriteRecipes()
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -70,11 +66,11 @@ class SearchResultFragment :
 
     private fun initFavoriteListeners() {
         adapter.listenerOnSaveRecipe = { recipe ->
-            model.insertNewRecipeToDataBase(recipe)
+//            model.insertNewRecipeToDataBase(recipe)
         }
 
         adapter.listenerOnRemoveRecipe = { recipe ->
-            model.deleteRecipeFromData(recipe.id)
+//            model.deleteRecipeFromData(recipe.id)
         }
     }
 
@@ -93,12 +89,6 @@ class SearchResultFragment :
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 model.stateFlow.collect { renderData(it) }
             }
-        }
-    }
-
-    private fun initFavoriteRecipes() {
-        model.getAllLocalRecipes().observe(viewLifecycleOwner) {
-            favoriteRecipes = it
         }
     }
 }
