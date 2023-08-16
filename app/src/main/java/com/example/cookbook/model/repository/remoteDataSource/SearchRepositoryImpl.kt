@@ -33,7 +33,6 @@ class SearchRepositoryImpl(
     }
 
     override suspend fun getRandomRecipes(): List<RandomRecipeData> {
-
         val response = randomRecipeDataSource.getRandomRecipes()
         return parseResponse(response) { responseDto ->
             responseDto.recipes.map { recipe ->
@@ -43,11 +42,20 @@ class SearchRepositoryImpl(
     }
 
     override suspend fun getRecipesByType(dishType: String): List<SearchRecipeData> {
-        Log.d("@@@","SearchRepository working get query: $dishType")
+        Log.d("@@@", "SearchRepository working get query: $dishType")
         val response = searchRecipeDataSource.getRecipesByType(dishType)
         return parseResponse(response) { responseDTO ->
             responseDTO.searchRecipeList.map { recipe ->
                 mapper.mapRecipeData(recipe) as SearchRecipeData
+            }
+        }
+    }
+
+    override suspend fun getHealthyRandomRecipes(): List<RandomRecipeData> {
+        val response = randomRecipeDataSource.getHealthyRandomRecipes()
+        return parseResponse(response) { responseDto ->
+            responseDto.recipes.map { recipe ->
+                mapper.mapRecipeData(recipe) as RandomRecipeData
             }
         }
     }

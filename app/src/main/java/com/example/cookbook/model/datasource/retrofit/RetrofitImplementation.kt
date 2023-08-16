@@ -9,6 +9,7 @@ import com.example.cookbook.model.datasource.RecipeInformationDataSource
 import com.example.cookbook.model.datasource.SearchRecipeDataSource
 import com.example.cookbook.utils.COMPLEX_SEARCH_RECIPE_API
 import com.example.cookbook.utils.SPOONACULAR_API_KEY
+import com.example.cookbook.utils.SPOONACULAR_HEALTHY_DIET_TAG
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.Interceptor
@@ -30,9 +31,16 @@ class RetrofitImplementation : SearchRecipeDataSource, RandomRecipeDataSource,
     }
 
     override suspend fun getRandomRecipes(): Response<RandomRecipeListDTO> {
+        val tags = arrayOf(DEFAULT_USER_DIET, DEFAULT_USER_INTOLERANCE)
+            .joinToString(",")
         return getService(baseInterceptor).getRandomRecipesAsync(
-            DEFAULT_RECIPE_NUMBER, DEFAULT_USER_DIET, DEFAULT_USER_INTOLERANCE
+            DEFAULT_RECIPE_NUMBER, tags
         ).await()
+    }
+
+    override suspend fun getHealthyRandomRecipes(): Response<RandomRecipeListDTO> {
+        return getService(baseInterceptor).getRandomRecipesAsync(
+            DEFAULT_RECIPE_NUMBER, SPOONACULAR_HEALTHY_DIET_TAG).await()
     }
 
     override suspend fun getRecipesByType(dishType: String): Response<SearchRecipeListDTO> {
