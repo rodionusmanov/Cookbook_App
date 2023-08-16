@@ -503,6 +503,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/random_recipe_layout_height"
                     android:layout_marginTop="@dimen/margin_16dp_medium"
+                    android:layout_marginHorizontal="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/various_dishes_table_container" />

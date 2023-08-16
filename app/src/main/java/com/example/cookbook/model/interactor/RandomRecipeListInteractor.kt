@@ -14,6 +14,10 @@ class RandomRecipeListInteractor(
         return AppState.Success(remoteRepository.getRandomRecipes())
     }
 
+    suspend fun getHealthyRandomRecipes(): AppState {
+        return AppState.Success(remoteRepository.getHealthyRandomRecipes())
+    }
+
     suspend fun insertRecipeToDataBase(recipeData: BaseRecipeData){
         localRepository.insertNewRecipe(recipeData)
     }

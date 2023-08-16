@@ -25,3 +25,5 @@ const val DISH_TYPE_SALAD = "salad"
 const val DISH_TYPE_SNACK = "snack"
 const val DISH_TYPE_DESSERT = "dessert"
 
+const val SPOONACULAR_HEALTHY_DIET_TAG = "whole30"
+

@@ -25,6 +25,7 @@ import com.example.cookbook.view.favorite.FavoriteRecipesViewModel
 import com.example.cookbook.view.home.randomRecipe.RandomRecipeListViewModel
 import com.example.cookbook.view.recipeInfo.RecipeInfoViewModel
 import com.example.cookbook.view.home.HomeViewModel
+import com.example.cookbook.view.home.healthyRandomRecipe.HealthyRandomRecipeListViewModel
 import com.example.cookbook.view.search.SearchViewModel
 import com.example.cookbook.view.search.searchResult.SearchResultViewModel
 import org.koin.android.ext.koin.androidApplication
@@ -86,6 +87,7 @@ val searchFragment = module {
 
 val randomRecipeFragment = module {
     viewModel { RandomRecipeListViewModel(get()) }
+    viewModel { HealthyRandomRecipeListViewModel(get()) }
     factory {
         RandomRecipeListInteractor(get(), LocalRepositoryImpl(get<IRecipesDAO>()))
     }

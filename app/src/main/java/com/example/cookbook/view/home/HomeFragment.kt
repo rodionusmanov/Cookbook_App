@@ -22,6 +22,7 @@ import com.example.cookbook.utils.DISH_TYPE_SNACK
 import com.example.cookbook.utils.FRAGMENT_SEARCH
 import com.example.cookbook.utils.navigation.NavigationManager
 import com.example.cookbook.view.base.BaseFragment
+import com.example.cookbook.view.home.healthyRandomRecipe.HealthyRandomRecipeListFragment
 import com.example.cookbook.view.home.randomRecipe.RandomRecipesListFragment
 import com.example.cookbook.view.mainActivity.MainActivity
 import com.example.cookbook.view.search.SearchFragment
@@ -47,8 +48,20 @@ class HomeFragment :
         initViewModel()
         setupSearchView()
         //initRandomRecipeFragment()
+        initHealthyRandomRecipeFragment()
         initDishTypeCards()
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun initHealthyRandomRecipeFragment() {
+        val existingFragment = childFragmentManager.findFragmentById(R.id.healthy_random_recipes_container)
+        if (existingFragment == null) {
+            val fragment = HealthyRandomRecipeListFragment.newInstance()
+            childFragmentManager
+                .beginTransaction()
+                .replace(R.id.healthy_random_recipes_container, fragment)
+                .commit()
+        }
     }
 
     private fun initDishTypeCards() {
