@@ -46,7 +46,7 @@ class RetrofitImplementation : SearchRecipeDataSource, RandomRecipeDataSource,
     }
 
     override suspend fun getRandomCuisineRecipes(cuisine: String): Response<RandomRecipeListDTO> {
-        val tags = arrayOf(DEFAULT_USER_DIET, DEFAULT_USER_INTOLERANCE, cuisine)
+        val tags = arrayOf(DEFAULT_USER_INTOLERANCE, cuisine)
             .joinToString(",")
         return getService(baseInterceptor).getRandomRecipesAsync(
             DEFAULT_RECIPE_NUMBER, tags
@@ -101,7 +101,7 @@ class RetrofitImplementation : SearchRecipeDataSource, RandomRecipeDataSource,
     companion object {
         const val DEFAULT_RECIPE_NUMBER = 10
         const val DEFAULT_USER_DIET = "vegetarian"
-        const val DEFAULT_USER_INTOLERANCE = "peanut"
+        const val DEFAULT_USER_INTOLERANCE = "gluten"
     }
 
     override suspend fun getJokeText(): Response<JokeDTO> {

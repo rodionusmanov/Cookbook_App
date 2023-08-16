@@ -6,9 +6,10 @@
     android:layout_height="wrap_content">
 
     <ImageView
+        android:id="@+id/background_image"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:scaleType="centerCrop"
+        android:scaleType="matrix"
         android:src="@drawable/background_asia"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,21 +31,23 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
+            android:id="@+id/first_line_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_8dp_small"
             android:paddingHorizontal="@dimen/margin_8dp_small"
             android:text="@string/random_recipe_list_title"
             android:textColor="#212121"
-            android:textSize="@dimen/random_recipe_layout_title"
+            android:textSize="@dimen/random_cuisine_recipe_layout_title"
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/second_line_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingHorizontal="@dimen/margin_8dp_small"
             android:text="@string/random_recipe_list_title_second_line"
-            android:textSize="@dimen/random_recipe_layout_title_second_line"
+            android:textSize="@dimen/random_cuisine_recipe_layout_title_second_line"
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView

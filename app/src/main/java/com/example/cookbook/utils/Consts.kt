@@ -27,3 +27,8 @@ const val DISH_TYPE_DESSERT = "dessert"
 
 const val SPOONACULAR_HEALTHY_DIET_TAG = "whole30"
 
+const val CUISINE_ASIA = "asian"
+const val CUISINE_INDIA = "indian"
+const val CUISINE_NORDIC = "nordic"
+const val CUISINE_MDTRN = "mediterranean"
+

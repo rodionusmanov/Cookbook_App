@@ -32,7 +32,14 @@
     <string name="card_salads_title">Salads</string>
     <string name="card_snacks_title">Snacks</string>
     <string name="card_desserts_title">Desserts</string>
-
+    <string name="asia_title_first_line">Explore exquisite Asia:</string>
+    <string name="asia_title_second_line">dive into culinary delights!</string>
+    <string name="india_title_first_line">Embark on a flavorful journey:</string>
+    <string name="india_title_second_line">experience authentic Indian cuisine</string>
+    <string name="nordic_title_first_line">Indulge in nordic delights:</string>
+    <string name="nordic_title_second_line">experience the taste of Scandinavia</string>
+    <string name="mdtrn_title_first_line">Savor the sun-kissed flavors</string>
+    <string name="mdtrn_title_second_line">delight in Mediterranean cuisine</string>
 
     //SearchDialog
     <string name="search_recipe">Search recipe</string>

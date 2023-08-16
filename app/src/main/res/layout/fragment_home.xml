@@ -201,7 +201,7 @@
                 <FrameLayout
                     android:id="@+id/random_cuisine_recipes_container"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/random_recipe_layout_height"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="60dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
