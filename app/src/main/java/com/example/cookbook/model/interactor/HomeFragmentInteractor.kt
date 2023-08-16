@@ -10,14 +10,6 @@ class HomeFragmentInteractor(
     private val localRepository: LocalRepositoryImpl
 ) {
 
-    suspend fun searchRecipe(request: String, ingredients: String, isOnline: Boolean): AppState {
-        return AppState.Success(remoteRepository.getSearchResult(request, ingredients))
-    }
-
-    suspend fun getRandomRecipes(): AppState {
-        return AppState.Success(remoteRepository.getRandomRecipes())
-    }
-
     suspend fun insertRecipeToDataBase(recipeData: BaseRecipeData) {
         localRepository.insertNewRecipe(recipeData)
     }
@@ -28,5 +20,9 @@ class HomeFragmentInteractor(
 
     suspend fun getAllRecipesFromDataBase(): List<BaseRecipeData> {
         return localRepository.getAllRecipesData()
+    }
+
+    suspend fun getJokeText(): AppState {
+        return AppState.Success(remoteRepository.getJokeText())
     }
 }

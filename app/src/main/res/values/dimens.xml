@@ -28,7 +28,7 @@
     <dimen name="random_recipe_layout_cooking_time_text">15sp</dimen>
     <dimen name="search_result_item_layout_recipe_title">18sp</dimen>
     <dimen name="home_joke_of_the_day_title">30sp</dimen>
-    <dimen name="home_joke_text">20sp</dimen>
+    <dimen name="home_joke_text">18sp</dimen>
     <dimen name="home_dishes_card_title">16sp</dimen>
     <dimen name="home_service_card_title">12sp</dimen>
 
