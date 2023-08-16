@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.room.Room
 import com.example.cookbook.app.CookbookApp
 import com.example.cookbook.model.AppState
+import com.example.cookbook.model.datasource.JokeDataSource
 import com.example.cookbook.model.datasource.RandomRecipeDataSource
 import com.example.cookbook.model.datasource.RecipeInformationDataSource
 import com.example.cookbook.model.datasource.SearchRecipeDataSource
@@ -44,13 +45,15 @@ val remoteDataSource = module {
         SearchRepositoryImpl(
             searchRecipeDataSource = get(),
             randomRecipeDataSource = get(),
-            recipeInformationDataSource = get()
+            recipeInformationDataSource = get(),
+            jokeDataSource = get()
         )
     }
     single { RetrofitImplementation() }
     single<SearchRecipeDataSource> { get<RetrofitImplementation>() }
     single<RandomRecipeDataSource> { get<RetrofitImplementation>() }
     single<RecipeInformationDataSource> { get<RetrofitImplementation>() }
+    single<JokeDataSource> { get<RetrofitImplementation>()  }
 }
 
 val localDataBase = module {
