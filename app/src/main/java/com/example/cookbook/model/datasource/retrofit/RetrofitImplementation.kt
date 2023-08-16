@@ -45,6 +45,14 @@ class RetrofitImplementation : SearchRecipeDataSource, RandomRecipeDataSource,
             DEFAULT_RECIPE_NUMBER, SPOONACULAR_HEALTHY_DIET_TAG).await()
     }
 
+    override suspend fun getRandomCuisineRecipes(cuisine: String): Response<RandomRecipeListDTO> {
+        val tags = arrayOf(DEFAULT_USER_DIET, DEFAULT_USER_INTOLERANCE, cuisine)
+            .joinToString(",")
+        return getService(baseInterceptor).getRandomRecipesAsync(
+            DEFAULT_RECIPE_NUMBER, tags
+        ).await()
+    }
+
     override suspend fun getRecipesByType(dishType: String): Response<SearchRecipeListDTO> {
         Log.d("@@@", "Sending request for random recipes by type: $dishType")
         val response = getService(baseInterceptor).searchRecipesAsync(

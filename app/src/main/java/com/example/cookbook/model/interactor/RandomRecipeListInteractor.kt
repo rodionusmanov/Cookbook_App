@@ -14,6 +14,10 @@ class RandomRecipeListInteractor(
         return AppState.Success(remoteRepository.getRandomRecipes())
     }
 
+    suspend fun getRandomRecipesByCuisine(cuisine: String): AppState {
+        return AppState.Success(remoteRepository.getRandomCuisineRecipes(cuisine))
+    }
+
     suspend fun getHealthyRandomRecipes(): AppState {
         return AppState.Success(remoteRepository.getHealthyRandomRecipes())
     }

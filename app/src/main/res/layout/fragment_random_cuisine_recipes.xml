@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background_asia"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:ignore="ContentDescription"
+        />
+
+    <LinearLayout
+        android:id="@+id/random_recipe_list"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/random_recipe_layout_height"
+        android:orientation="vertical"
+        android:layout_marginVertical="@dimen/margin_30dp_large"
+        android:layout_marginHorizontal="@dimen/margin_16dp_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_8dp_small"
+            android:paddingHorizontal="@dimen/margin_8dp_small"
+            android:text="@string/random_recipe_list_title"
+            android:textColor="#212121"
+            android:textSize="@dimen/random_recipe_layout_title"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/margin_8dp_small"
+            android:text="@string/random_recipe_list_title_second_line"
+            android:textSize="@dimen/random_recipe_layout_title_second_line"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/random_recipes_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/margin_30dp_large"
+            tools:listitem="@layout/item_random_recipe_rv" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
