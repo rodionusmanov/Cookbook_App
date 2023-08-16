@@ -72,11 +72,11 @@ class SearchResultFragment :
 
     private fun initFavoriteListeners() {
         adapter.listenerOnSaveRecipe = { recipe ->
-            model.insertNewRecipeToDataBase(recipe)
+//            model.insertNewRecipeToDataBase(recipe)
         }
 
         adapter.listenerOnRemoveRecipe = { recipe ->
-            model.deleteRecipeFromData(recipe.id)
+//            model.deleteRecipeFromData(recipe.id)
         }
     }
 
@@ -90,8 +90,8 @@ class SearchResultFragment :
     }
 
     private fun initFavoriteRecipes() {
-        model.getAllLocalRecipes().observe(viewLifecycleOwner) {
+        /*model.getAllLocalRecipes().observe(viewLifecycleOwner) {
             favoriteRecipes = it
-        }
+        }*/
     }
 }

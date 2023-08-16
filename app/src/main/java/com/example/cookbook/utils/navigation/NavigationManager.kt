@@ -9,12 +9,14 @@ import com.example.cookbook.utils.FRAGMENT_FAVORITE
 import com.example.cookbook.utils.FRAGMENT_HOME
 import com.example.cookbook.utils.FRAGMENT_PROFILE
 import com.example.cookbook.utils.FRAGMENT_RECIPE_INFO
+import com.example.cookbook.utils.FRAGMENT_RECIPE_INFO_FROM_DATABASE
 import com.example.cookbook.utils.FRAGMENT_SEARCH
 import com.example.cookbook.utils.ID
 import com.example.cookbook.view.favorite.FavoriteFragment
 import com.example.cookbook.view.home.HomeFragment
 import com.example.cookbook.view.myProfile.MyProfileFragment
 import com.example.cookbook.view.recipeInfo.RecipeInfoFragment
+import com.example.cookbook.view.recipeInfoFromDatabase.RecipeInfoFromDatabaseFragment
 import com.example.cookbook.view.search.SearchFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.Stack
@@ -29,7 +31,8 @@ class NavigationManager(
         FRAGMENT_SEARCH to SearchFragment(),
         FRAGMENT_FAVORITE to FavoriteFragment(),
         FRAGMENT_PROFILE to MyProfileFragment(),
-        FRAGMENT_RECIPE_INFO to RecipeInfoFragment()
+        FRAGMENT_RECIPE_INFO to RecipeInfoFragment(),
+        FRAGMENT_RECIPE_INFO_FROM_DATABASE to RecipeInfoFromDatabaseFragment()
     )
     private val fragmentBackStack = Stack<String>()
     private var isSwitchingFragment: Boolean = false
@@ -46,7 +49,7 @@ class NavigationManager(
                 R.id.navigation_home -> FRAGMENT_HOME
                 R.id.navigation_search_recipe -> FRAGMENT_SEARCH
                 R.id.navigation_favorite -> FRAGMENT_FAVORITE
-                R.id.navigation_my_experience -> FRAGMENT_PROFILE
+//                R.id.navigation_my_experience -> FRAGMENT_PROFILE
                 else -> throw IllegalStateException("Unexpected navigation item: ${item.itemId}")
             }
 
@@ -71,6 +74,11 @@ class NavigationManager(
 
         var newFragment = activity.supportFragmentManager.findFragmentByTag(tag)
         if (newFragment == null || tag == FRAGMENT_RECIPE_INFO) {
+            newFragment = recipeInfoFragment ?: fragments[tag]
+            if (newFragment != null) {
+                fragmentTransaction.add(R.id.main_container, newFragment, tag)
+            }
+        } else if (newFragment == null || tag == FRAGMENT_RECIPE_INFO_FROM_DATABASE) {
             newFragment = recipeInfoFragment ?: fragments[tag]
             if (newFragment != null) {
                 fragmentTransaction.add(R.id.main_container, newFragment, tag)
@@ -104,7 +112,7 @@ class NavigationManager(
             FRAGMENT_HOME -> R.id.navigation_home
             FRAGMENT_SEARCH -> R.id.navigation_search_recipe
             FRAGMENT_FAVORITE -> R.id.navigation_favorite
-            FRAGMENT_PROFILE -> R.id.navigation_my_experience
+//            FRAGMENT_PROFILE -> R.id.navigation_my_experience
             FRAGMENT_RECIPE_INFO -> return
             else -> return
         }
@@ -150,6 +158,19 @@ class NavigationManager(
         switchFragment(
             FRAGMENT_RECIPE_INFO,
             recipeInfoFragment = recipeInfoFragment,
+            addToBackStack = true
+        )
+    }
+
+    fun openRecipeInfoFromDatabaseFragment(recipeId: Int) {
+        val recipeInfoFromDatabaseFragment = RecipeInfoFromDatabaseFragment.newInstance()
+        val bundle = Bundle().apply {
+            putInt(ID, recipeId)
+        }
+        recipeInfoFromDatabaseFragment.arguments = bundle
+        switchFragment(
+            FRAGMENT_RECIPE_INFO_FROM_DATABASE,
+            recipeInfoFragment = recipeInfoFromDatabaseFragment,
             addToBackStack = true
         )
     }

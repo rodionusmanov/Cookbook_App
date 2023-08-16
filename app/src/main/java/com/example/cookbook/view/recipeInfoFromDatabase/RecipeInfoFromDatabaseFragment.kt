@@ -11,6 +11,7 @@ import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.RecipeInformation
 import com.example.cookbook.utils.ID
 import com.example.cookbook.view.base.BaseFragment
+import com.example.cookbook.view.recipeInfo.RecipeInfoFragment
 import com.example.cookbook.view.recipeInfo.adapters.RecipeInformationPageAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.launch
@@ -20,6 +21,13 @@ class RecipeInfoFromDatabaseFragment :
     BaseFragment<AppState, RecipeInformation, FragmentRecipeInfoFromDatabaseBinding>(
         FragmentRecipeInfoFromDatabaseBinding::inflate
     ) {
+
+    companion object {
+        fun newInstance(): RecipeInfoFromDatabaseFragment {
+            return RecipeInfoFromDatabaseFragment()
+        }
+    }
+
     private val viewModel: RecipeInfoFromDatabaseViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

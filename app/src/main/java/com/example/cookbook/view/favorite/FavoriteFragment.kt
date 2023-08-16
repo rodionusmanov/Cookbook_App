@@ -1,8 +1,8 @@
 package com.example.cookbook.view.favorite
 
 import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,12 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.cookbook.R
 import com.example.cookbook.databinding.FragmentFavoriteBinding
 import com.example.cookbook.model.domain.RecipeInformation
-import com.example.cookbook.utils.ID
+import com.example.cookbook.utils.navigation.NavigationManager
+import com.example.cookbook.view.mainActivity.MainActivity
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -34,6 +33,13 @@ class FavoriteFragment : Fragment() {
 //            callbackDeleteRecipe
         )
     }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        navigationManager = (context as MainActivity).provideNavigationManager()
+    }
+
+    private var navigationManager: NavigationManager? = null
 
     private lateinit var favoriteRecipes: List<RecipeInformation>
     override fun onCreateView(
@@ -86,11 +92,6 @@ class FavoriteFragment : Fragment() {
     }
 
     private fun openRecipeInfoFromDatabaseFragment(recipeId: Int) {
-        findNavController().navigate(
-            R.id.action_navigation_favorite_to_recipeInfoFromDatabaseFragment,
-            Bundle().apply {
-                putInt(ID, recipeId)
-            }
-        )
+        navigationManager?.openRecipeInfoFromDatabaseFragment(recipeId)
     }
 }
