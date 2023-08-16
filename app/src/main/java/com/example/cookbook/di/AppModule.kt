@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.room.Room
 import com.example.cookbook.app.CookbookApp
 import com.example.cookbook.model.AppState
+import com.example.cookbook.model.datasource.JokeDataSource
 import com.example.cookbook.model.datasource.RandomRecipeDataSource
 import com.example.cookbook.model.datasource.RecipeInformationDataSource
 import com.example.cookbook.model.datasource.SearchRecipeDataSource
@@ -29,6 +30,8 @@ import com.example.cookbook.view.home.HomeViewModel
 import com.example.cookbook.view.home.randomRecipe.RandomRecipeListViewModel
 import com.example.cookbook.view.recipeInfo.RecipeInfoViewModel
 import com.example.cookbook.view.recipeInfoFromDatabase.RecipeInfoFromDatabaseViewModel
+import com.example.cookbook.view.home.HomeViewModel
+import com.example.cookbook.view.home.healthyRandomRecipe.HealthyRandomRecipeListViewModel
 import com.example.cookbook.view.search.SearchViewModel
 import com.example.cookbook.view.search.searchResult.SearchResultViewModel
 import org.koin.android.ext.koin.androidApplication
@@ -49,13 +52,15 @@ val remoteDataSource = module {
         SearchRepositoryImpl(
             searchRecipeDataSource = get(),
             randomRecipeDataSource = get(),
-            recipeInformationDataSource = get()
+            recipeInformationDataSource = get(),
+            jokeDataSource = get()
         )
     }
-    single<RetrofitImplementation> { RetrofitImplementation() }
+    single { RetrofitImplementation() }
     single<SearchRecipeDataSource> { get<RetrofitImplementation>() }
     single<RandomRecipeDataSource> { get<RetrofitImplementation>() }
     single<RecipeInformationDataSource> { get<RetrofitImplementation>() }
+    single<JokeDataSource> { get<RetrofitImplementation>()  }
 }
 
 val localDataBase = module {
@@ -82,14 +87,17 @@ val homeFragment = module {
 }
 
 val searchFragment = module {
-    viewModel { SearchViewModel(get()) }
+    single { SearchViewModel(get()) }
     viewModel { SearchResultViewModel(LocalRepositoryInfoImpl(get<IRecipesInfoDAO>())) }
     factory { SearchFragmentInteractor(get()) }
 }
 
 val randomRecipeFragment = module {
     viewModel { RandomRecipeListViewModel(get()) }
-    factory { RandomRecipeListInteractor(get(), LocalRepositoryInfoImpl(get<IRecipesInfoDAO>())) }
+    viewModel { HealthyRandomRecipeListViewModel(get()) }
+    factory {
+        RandomRecipeListInteractor(get(), LocalRepositoryInfoImpl(get<IRecipesInfoDAO>()))
+    }
 }
 
 val recipeInfo = module {

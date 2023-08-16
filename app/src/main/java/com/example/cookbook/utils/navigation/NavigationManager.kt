@@ -135,7 +135,6 @@ class NavigationManager(
         val previousFragmentTag = popFragmentFromStack()
         return if (previousFragmentTag != null) {
             switchFragment(previousFragmentTag)
-            //onFragmentSwitched(previousFragmentTag)
             true
         } else {
             null

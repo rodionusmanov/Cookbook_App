@@ -1,5 +1,7 @@
 package com.example.cookbook.model.repository.remoteDataSource
 
+import android.util.Log
+import com.example.cookbook.model.datasource.JokeDataSource
 import com.example.cookbook.model.datasource.RandomRecipeDataSource
 import com.example.cookbook.model.datasource.RecipeInformationDataSource
 import com.example.cookbook.model.datasource.SearchRecipeDataSource
@@ -13,7 +15,8 @@ import retrofit2.Response
 class SearchRepositoryImpl(
     private val searchRecipeDataSource: SearchRecipeDataSource,
     private val randomRecipeDataSource: RandomRecipeDataSource,
-    private val recipeInformationDataSource: RecipeInformationDataSource
+    private val recipeInformationDataSource: RecipeInformationDataSource,
+    private val jokeDataSource: JokeDataSource
 ) : IRepositorySearchRequest {
 
     private val mapper = MappingUtils()
@@ -32,12 +35,37 @@ class SearchRepositoryImpl(
     }
 
     override suspend fun getRandomRecipes(): List<RandomRecipeData> {
-
         val response = randomRecipeDataSource.getRandomRecipes()
         return parseResponse(response) { responseDto ->
             responseDto.recipes.map { recipe ->
                 mapper.mapRecipeData(recipe) as RandomRecipeData
             }
+        }
+    }
+
+    override suspend fun getRecipesByType(dishType: String): List<SearchRecipeData> {
+        Log.d("@@@", "SearchRepository working get query: $dishType")
+        val response = searchRecipeDataSource.getRecipesByType(dishType)
+        return parseResponse(response) { responseDTO ->
+            responseDTO.searchRecipeList.map { recipe ->
+                mapper.mapRecipeData(recipe) as SearchRecipeData
+            }
+        }
+    }
+
+    override suspend fun getHealthyRandomRecipes(): List<RandomRecipeData> {
+        val response = randomRecipeDataSource.getHealthyRandomRecipes()
+        return parseResponse(response) { responseDto ->
+            responseDto.recipes.map { recipe ->
+                mapper.mapRecipeData(recipe) as RandomRecipeData
+            }
+        }
+    }
+
+    override suspend fun getJokeText(): String {
+        val response = jokeDataSource.getJokeText()
+        return parseResponse(response) { jokeDTO ->
+            jokeDTO.text
         }
     }
 
@@ -50,6 +78,9 @@ class SearchRepositoryImpl(
     }
 
     private fun <T, R> parseResponse(response: Response<T>, dataSelector: (T) -> R): R {
+
+        Log.d("@@@", "ParseResponse Response status code: ${response.code()}")
+        Log.d("@@@", "ParseResponse Response body: ${response.body()?.toString()}")
 
         val responseStatusCode = BaseInterceptor.interceptor.getResponseCode()
 

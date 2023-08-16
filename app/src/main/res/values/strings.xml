@@ -44,6 +44,10 @@
     <string name="random_recipe_list_title">What you want to try</string>
     <string name="random_recipe_list_title_second_line">today?</string>
 
+    //HealthyRandomRecipeFragment
+    <string name="healthy_random_recipe_list_title">Good day to start</string>
+    <string name="healthy_random_recipe_list_title_second_line">healthy diet</string>
+
     //RecipeInfoFragment
     <string name="very_healthy">Very Healthy</string>
     <string name="vegetarian">Vegetarian</string>
