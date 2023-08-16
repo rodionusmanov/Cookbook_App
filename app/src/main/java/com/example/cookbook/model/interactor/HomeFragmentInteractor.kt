@@ -12,7 +12,7 @@ class HomeFragmentInteractor(
     private val localRepository: LocalRepositoryInfoImpl
 ) {
 
-    suspend fun insertRecipeToDataBase(recipeData: BaseRecipeData) {
+    /*suspend fun insertRecipeToDataBase(recipeData: BaseRecipeData) {
         localRepository.insertNewRecipe(recipeData)
     }
 
@@ -22,7 +22,7 @@ class HomeFragmentInteractor(
 
     suspend fun getAllRecipesFromDataBase(): List<BaseRecipeData> {
         return localRepository.getAllRecipesData()
-    }
+    }*/
 
     suspend fun getJokeText(): AppState {
         return AppState.Success(remoteRepository.getJokeText())

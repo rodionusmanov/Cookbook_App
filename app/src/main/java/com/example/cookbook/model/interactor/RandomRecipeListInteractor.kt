@@ -1,6 +1,7 @@
 package com.example.cookbook.model.interactor
 
 import com.example.cookbook.model.AppState
+import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.repository.local.LocalRepositoryInfoImpl
 import com.example.cookbook.model.repository.remoteDataSource.IRepositorySearchRequest
 
@@ -17,7 +18,7 @@ class RandomRecipeListInteractor(
         return AppState.Success(remoteRepository.getHealthyRandomRecipes())
     }
 
-    suspend fun insertRecipeToDataBase(recipeData: BaseRecipeData){
+    /*suspend fun insertRecipeToDataBase(recipeData: BaseRecipeData){
         localRepository.insertNewRecipe(recipeData)
     }
 
