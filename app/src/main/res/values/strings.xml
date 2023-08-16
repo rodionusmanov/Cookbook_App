@@ -58,5 +58,6 @@
     <string name="ingredients">Ingredients</string>
     <string name="steps">Steps</string>
     <string name="calories">calories</string>
+    <string name="add_to_favorite">add to favorite</string>
 
 </resources>

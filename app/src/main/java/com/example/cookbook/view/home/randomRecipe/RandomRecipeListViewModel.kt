@@ -17,13 +17,13 @@ class RandomRecipeListViewModel(
 
     fun insertNewRecipeToDataBase(recipeData: BaseRecipeData) {
         viewModelCoroutineScope.launch {
-            interactor.insertRecipeToDataBase(recipeData)
+//            interactor.insertRecipeToDataBase(recipeData)
         }
     }
 
     fun deleteRecipeFromData(id: Int) {
         viewModelCoroutineScope.launch {
-            interactor.deleteRecipeFromDataBase(id)
+//            interactor.deleteRecipeFromDataBase(id)
         }
     }
 

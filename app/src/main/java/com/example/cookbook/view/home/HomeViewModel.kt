@@ -28,7 +28,7 @@ class HomeViewModel(
         }
     }
 
-    fun getAllLocalRecipes(): LiveData<List<BaseRecipeData>> {
+    /*fun getAllLocalRecipes(): LiveData<List<BaseRecipeData>> {
         val result = MutableLiveData<List<BaseRecipeData>>()
         viewModelCoroutineScope.launch {
             val returnedData = interactor.getAllRecipesFromDataBase()
@@ -47,5 +47,5 @@ class HomeViewModel(
         viewModelCoroutineScope.launch {
             interactor.deleteRecipeFromDataBase(id)
         }
-    }
+    }*/
 }

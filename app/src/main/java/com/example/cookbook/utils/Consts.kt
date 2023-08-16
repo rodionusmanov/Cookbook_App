@@ -15,6 +15,7 @@ const val FRAGMENT_SEARCH = "search_recipe"
 const val FRAGMENT_FAVORITE = "favorite"
 const val FRAGMENT_PROFILE = "my_experience"
 const val FRAGMENT_RECIPE_INFO = "recipe_info"
+const val FRAGMENT_RECIPE_INFO_FROM_DATABASE = "recipe_info_from_database"
 
 const val BUNDLE_SEARCH_QUERY = "search_query"
 const val BUNDLE_DISH_TYPE = "dish_type_query"
@@ -26,4 +27,3 @@ const val DISH_TYPE_SNACK = "snack"
 const val DISH_TYPE_DESSERT = "dessert"
 
 const val SPOONACULAR_HEALTHY_DIET_TAG = "whole30"
-

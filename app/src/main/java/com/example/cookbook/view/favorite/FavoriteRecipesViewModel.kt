@@ -4,16 +4,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.BaseRecipeData
-import com.example.cookbook.model.repository.local.LocalRepositoryImpl
+import com.example.cookbook.model.domain.RecipeInformation
+import com.example.cookbook.model.repository.local.LocalRepositoryInfoImpl
 import com.example.cookbook.view.base.BaseViewModel
 import kotlinx.coroutines.launch
 
 class FavoriteRecipesViewModel(
-    private val localRepository: LocalRepositoryImpl
+    private val localRepository: LocalRepositoryInfoImpl
 ) : BaseViewModel<AppState>() {
 
-    fun getAllLocalRecipes(): LiveData<List<BaseRecipeData>> {
-        val result = MutableLiveData<List<BaseRecipeData>>()
+    fun getAllLocalRecipes(): LiveData<List<RecipeInformation>> {
+        val result = MutableLiveData<List<RecipeInformation>>()
         viewModelCoroutineScope.launch {
             val returnedData = localRepository.getAllRecipesData()
             result.postValue(returnedData)
@@ -21,7 +22,7 @@ class FavoriteRecipesViewModel(
         return result
     }
 
-    fun insertNewRecipeToDataBase(recipeData: BaseRecipeData) {
+    /*fun insertNewRecipeToDataBase(recipeData: BaseRecipeData) {
         viewModelCoroutineScope.launch {
             localRepository.insertNewRecipe(recipeData)
         }
@@ -31,5 +32,5 @@ class FavoriteRecipesViewModel(
         viewModelCoroutineScope.launch {
             localRepository.removeRecipeFromData(id)
         }
-    }
+    }*/
 }
