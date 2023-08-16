@@ -59,10 +59,12 @@ class SearchRepositoryImpl(
             responseDto.recipes.map { recipe ->
                 mapper.mapRecipeData(recipe) as RandomRecipeData
             }
+        }
+    }
 
     override suspend fun getJokeText(): String {
         val response = jokeDataSource.getJokeText()
-        return parseResponse(response){ jokeDTO ->
+        return parseResponse(response) { jokeDTO ->
             jokeDTO.text
         }
     }

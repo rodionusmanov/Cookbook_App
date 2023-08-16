@@ -47,7 +47,7 @@ class HomeFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initViewModel()
         setupSearchView()
-        //initRandomRecipeFragment()
+        initRandomRecipeFragment()
         initHealthyRandomRecipeFragment()
         initDishTypeCards()
         super.onViewCreated(view, savedInstanceState)
