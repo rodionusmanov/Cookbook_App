@@ -1,6 +1,7 @@
 package com.example.cookbook.model.repository.remoteDataSource
 
 import android.util.Log
+import com.example.cookbook.model.datasource.JokeDataSource
 import com.example.cookbook.model.datasource.RandomRecipeDataSource
 import com.example.cookbook.model.datasource.RecipeInformationDataSource
 import com.example.cookbook.model.datasource.SearchRecipeDataSource
@@ -14,7 +15,8 @@ import retrofit2.Response
 class SearchRepositoryImpl(
     private val searchRecipeDataSource: SearchRecipeDataSource,
     private val randomRecipeDataSource: RandomRecipeDataSource,
-    private val recipeInformationDataSource: RecipeInformationDataSource
+    private val recipeInformationDataSource: RecipeInformationDataSource,
+    private val jokeDataSource: JokeDataSource
 ) : IRepositorySearchRequest {
 
     private val mapper = MappingUtils()
@@ -57,6 +59,11 @@ class SearchRepositoryImpl(
             responseDto.recipes.map { recipe ->
                 mapper.mapRecipeData(recipe) as RandomRecipeData
             }
+
+    override suspend fun getJokeText(): String {
+        val response = jokeDataSource.getJokeText()
+        return parseResponse(response){ jokeDTO ->
+            jokeDTO.text
         }
     }
 

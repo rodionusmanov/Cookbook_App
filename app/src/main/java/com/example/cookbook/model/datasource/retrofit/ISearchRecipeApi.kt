@@ -1,5 +1,6 @@
 package com.example.cookbook.model.datasource.retrofit
 
+import com.example.cookbook.model.datasource.DTO.joke.JokeDTO
 import com.example.cookbook.model.datasource.DTO.randomRecipe.RandomRecipeListDTO
 import com.example.cookbook.model.datasource.DTO.recipeInformation.RecipeInformationDTO
 import com.example.cookbook.model.datasource.DTO.searchRecipe.SearchRecipeListDTO
@@ -30,4 +31,9 @@ interface ISearchRecipeApi {
         @Path("id") recipeId: Int,
         @Query("includeNutrition") includeNutrition: Boolean
     ): Deferred<Response<RecipeInformationDTO>>
+
+    @GET("food/jokes/random")
+    fun getJokeOfTheDayAsync(
+    ): Deferred<Response<JokeDTO>>
+
 }

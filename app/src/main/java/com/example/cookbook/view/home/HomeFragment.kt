@@ -12,8 +12,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.example.cookbook.R
 import com.example.cookbook.databinding.FragmentHomeBinding
 import com.example.cookbook.model.AppState
-import com.example.cookbook.model.domain.BaseRecipeData
-import com.example.cookbook.model.domain.SearchRecipeData
 import com.example.cookbook.utils.BUNDLE_DISH_TYPE
 import com.example.cookbook.utils.DISH_TYPE_BREAKFAST
 import com.example.cookbook.utils.DISH_TYPE_DESSERT
@@ -34,7 +32,7 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment :
-    BaseFragment<AppState, List<BaseRecipeData>, FragmentHomeBinding>(
+    BaseFragment<AppState, String, FragmentHomeBinding>(
         FragmentHomeBinding::inflate
     ) {
 
@@ -136,26 +134,18 @@ class HomeFragment :
                 model.stateFlow.collect { renderData(it) }
             }
         }
+        requestJokeText()
+    }
+
+    private fun requestJokeText() {
+        model.getJokeText()
     }
 
     override fun showErrorDialog(message: String?) {
         Toast.makeText(context, "Error {$message}", Toast.LENGTH_LONG).show()
     }
 
-    override fun setupData(data: List<BaseRecipeData>) {
-        when (val firstItem = data.firstOrNull()) {
-            is SearchRecipeData -> setupSearchData(data.filterIsInstance<SearchRecipeData>())
-            else -> {
-                showErrorDialog("Incorrect data type: ${firstItem?.javaClass?.name}")
-            }
-        }
-    }
-
-    private fun setupSearchData(searchData: List<SearchRecipeData>) {
-        val searchFragment = SearchFragment.newInstance()
-        childFragmentManager
-            .beginTransaction()
-            .replace(R.id.main_container, searchFragment)
-            .commit()
+    override fun setupData(data: String) {
+        binding.jokeText.text = data
     }
 }

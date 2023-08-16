@@ -11,5 +11,6 @@ interface IRepositorySearchRequest {
     suspend fun getRandomRecipes(): List<RandomRecipeData>
     suspend fun getRecipesByType(dishType: String): List<SearchRecipeData>
     suspend fun getHealthyRandomRecipes(): List<RandomRecipeData>
+    suspend fun getJokeText(): String
 }
 

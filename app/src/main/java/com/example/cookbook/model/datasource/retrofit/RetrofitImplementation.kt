@@ -1,9 +1,11 @@
 package com.example.cookbook.model.datasource.retrofit
 
 import android.util.Log
+import com.example.cookbook.model.datasource.DTO.joke.JokeDTO
 import com.example.cookbook.model.datasource.DTO.randomRecipe.RandomRecipeListDTO
 import com.example.cookbook.model.datasource.DTO.recipeInformation.RecipeInformationDTO
 import com.example.cookbook.model.datasource.DTO.searchRecipe.SearchRecipeListDTO
+import com.example.cookbook.model.datasource.JokeDataSource
 import com.example.cookbook.model.datasource.RandomRecipeDataSource
 import com.example.cookbook.model.datasource.RecipeInformationDataSource
 import com.example.cookbook.model.datasource.SearchRecipeDataSource
@@ -19,7 +21,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitImplementation : SearchRecipeDataSource, RandomRecipeDataSource,
-    RecipeInformationDataSource {
+    RecipeInformationDataSource, JokeDataSource {
 
     private val baseInterceptor = BaseInterceptor.interceptor
     override suspend fun getSearchResult(
@@ -44,7 +46,7 @@ class RetrofitImplementation : SearchRecipeDataSource, RandomRecipeDataSource,
     }
 
     override suspend fun getRecipesByType(dishType: String): Response<SearchRecipeListDTO> {
-        Log.d("@@@","Sending request for random recipes by type: $dishType")
+        Log.d("@@@", "Sending request for random recipes by type: $dishType")
         val response = getService(baseInterceptor).searchRecipesAsync(
             "", "", DEFAULT_USER_DIET, DEFAULT_USER_INTOLERANCE, dishType
         ).await()
@@ -64,10 +66,10 @@ class RetrofitImplementation : SearchRecipeDataSource, RandomRecipeDataSource,
 
     private fun createRetrofit(interceptor: Interceptor): Retrofit {
         return Retrofit.Builder().baseUrl(COMPLEX_SEARCH_RECIPE_API).addConverterFactory(
-                GsonConverterFactory.create(
-                    GsonBuilder().setLenient().create()
-                )
-            ).addCallAdapterFactory(CoroutineCallAdapterFactory())
+            GsonConverterFactory.create(
+                GsonBuilder().setLenient().create()
+            )
+        ).addCallAdapterFactory(CoroutineCallAdapterFactory())
             .client(createOkHttpClient(interceptor)).build()
     }
 
@@ -92,5 +94,9 @@ class RetrofitImplementation : SearchRecipeDataSource, RandomRecipeDataSource,
         const val DEFAULT_RECIPE_NUMBER = 10
         const val DEFAULT_USER_DIET = "vegetarian"
         const val DEFAULT_USER_INTOLERANCE = "peanut"
+    }
+
+    override suspend fun getJokeText(): Response<JokeDTO> {
+        return getService(baseInterceptor).getJokeOfTheDayAsync().await()
     }
 }
