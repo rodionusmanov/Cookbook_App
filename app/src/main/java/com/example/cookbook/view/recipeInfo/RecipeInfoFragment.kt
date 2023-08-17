@@ -2,7 +2,10 @@ package com.example.cookbook.view.recipeInfo
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.example.cookbook.R
@@ -14,20 +17,14 @@ import com.example.cookbook.view.base.BaseFragment
 import com.example.cookbook.view.recipeInfo.adapters.RecipeInformationPageAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class RecipeInfoFragment :
     BaseFragment<AppState, RecipeInformation, FragmentRecipeInfoBinding>(
         FragmentRecipeInfoBinding::inflate
     ) {
 
-    companion object {
-        fun newInstance(): RecipeInfoFragment {
-            return RecipeInfoFragment()
-        }
-    }
-
-    private val viewModel: RecipeInfoViewModel by viewModel()
+    private val viewModel: RecipeInfoViewModel by activityViewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,8 +32,10 @@ class RecipeInfoFragment :
 
         id?.let { viewModel.recipeInfoRequest(it) }
         lifecycleScope.launch {
-            viewModel.stateFlow.collect {
-                renderData(it)
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
+                viewModel.stateFlow.collect {
+                    renderData(it)
+                }
             }
         }
     }
@@ -108,6 +107,12 @@ class RecipeInfoFragment :
     }
 
     override fun showErrorDialog(message: String?) {
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+    }
 
+    companion object {
+        fun newInstance(bundle: Bundle? = null) = RecipeInfoFragment().apply {
+            arguments = bundle
+        }
     }
 }

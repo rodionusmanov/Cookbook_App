@@ -19,13 +19,13 @@ import com.example.cookbook.view.recipeInfo.adapters.EquipmentsPreparationAdapte
 import com.example.cookbook.view.recipeInfo.adapters.IngredientsPreparationAdapter
 import com.example.cookbook.view.recipeInfo.adapters.InstructionsAdapter
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class PreparationFragment : Fragment() {
 
     private var _binding: FragmentPreparationBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: RecipeInfoViewModel by inject()
+    private val viewModel: RecipeInfoViewModel by activityViewModel()
 
     private val stepsAdapter = InstructionsAdapter()
     private val equipmentsAdapter = EquipmentsPreparationAdapter()

@@ -29,7 +29,7 @@ import com.example.cookbook.view.mainActivity.MainActivity
 import com.example.cookbook.view.search.SearchFragment
 import com.example.cookbook.view.search.SearchViewModel
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment :
@@ -132,7 +132,7 @@ class HomeFragment :
         val args = Bundle().apply {
             putString(queryKey, query)
         }
-        val searchViewModel: SearchViewModel by inject()
+        val searchViewModel: SearchViewModel by activityViewModel()
         Log.d("@@@", "ViewModel hash: ${searchViewModel.hashCode()}")
         searchViewModel.updateArguments(args)
         val searchFragment = SearchFragment.newInstance()

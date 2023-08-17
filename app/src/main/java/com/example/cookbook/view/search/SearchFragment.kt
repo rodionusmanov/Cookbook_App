@@ -1,5 +1,6 @@
 package com.example.cookbook.view.search
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -8,28 +9,37 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.example.cookbook.R
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cookbook.databinding.FragmentSearchBinding
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.BaseRecipeData
-import com.example.cookbook.model.domain.SearchRecipeData
 import com.example.cookbook.utils.BUNDLE_DISH_TYPE
 import com.example.cookbook.utils.BUNDLE_SEARCH_QUERY
+import com.example.cookbook.utils.navigation.NavigationManager
 import com.example.cookbook.view.base.BaseFragment
-import com.example.cookbook.view.search.searchResult.SearchResultFragment
+import com.example.cookbook.view.mainActivity.MainActivity
+import com.example.cookbook.view.search.searchResult.SearchResultAdapter
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSearchBinding>(
     FragmentSearchBinding::inflate
 ) {
 
-    private lateinit var model: SearchViewModel
+    private val model: SearchViewModel by activityViewModel()
+    private val adapter: SearchResultAdapter by lazy { SearchResultAdapter() }
+    private var navigationManager: NavigationManager? = null
 
     companion object {
-        fun newInstance(): SearchFragment {
-            return SearchFragment()
+        @JvmStatic
+        fun newInstance(bundle: Bundle? = null) = SearchFragment().apply {
+            arguments = bundle
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        navigationManager = (context as MainActivity).provideNavigationManager()
     }
 
     private fun setSearchQuery(query: String) {
@@ -39,6 +49,10 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.resultRecyclerView.layoutManager = LinearLayoutManager(context)
+        binding.resultRecyclerView.adapter = adapter
+
         initViewModel()
         initArgumentsFlow()
         setupSearchView()
@@ -51,7 +65,7 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
             if (initialArgs != null) {
                 handleBundle(initialArgs)
             }
-            model.argumentsFlow.collect{args ->
+            model.argumentsFlow.collect { args ->
                 Log.d("@@@", "Collect arguments $args")
                 handleBundle(args)
             }
@@ -78,14 +92,16 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
     }
 
     private fun initViewModel() {
-        val viewModel: SearchViewModel by inject()
-        model = viewModel
-        Log.d("@@@", "ViewModel hash: ${model.hashCode()}")
+        arguments?.getString("search_query")?.let {
+            binding.searchView.setQuery(it, false)
+            model.searchRecipeRequest(
+                it,
+                ""
+            )
+        }
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                model.stateFlow.collect {
-                    renderData(it)
-                }
+                model.stateFlow.collect { renderData(it) }
             }
         }
     }
@@ -109,23 +125,31 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
     }
 
     override fun setupData(data: List<BaseRecipeData>) {
-        when (val firstItem = data.firstOrNull()) {
-            is SearchRecipeData -> setupSearchData(data.filterIsInstance<SearchRecipeData>())
-            else -> {
-                showErrorDialog("Incorrect data type: ${firstItem?.javaClass?.name}")
-            }
+        adapter.submitList(data)
+
+
+        initFavoriteListeners()
+
+        adapter.listener = { recipe ->
+            openRecipeInfoFragment(recipe.id)
         }
     }
 
-    private fun setupSearchData(searchData: List<SearchRecipeData>) {
-        val fragment = SearchResultFragment.newInstance(searchData)
-        parentFragmentManager
-            .beginTransaction()
-            .replace(R.id.search_fragment_container, fragment)
-            .commit()
+    private fun initFavoriteListeners() {
+        adapter.listenerOnSaveRecipe = { recipe ->
+//            model.insertNewRecipeToDataBase(recipe)
+        }
+
+        adapter.listenerOnRemoveRecipe = { recipe ->
+//            model.deleteRecipeFromData(recipe.id)
+        }
+    }
+
+    private fun openRecipeInfoFragment(recipeId: Int) {
+        navigationManager?.openRecipeInfoFragment(recipeId)
     }
 
     override fun showErrorDialog(message: String?) {
-        Toast.makeText(context, "Error {$message}", Toast.LENGTH_LONG).show()
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 }

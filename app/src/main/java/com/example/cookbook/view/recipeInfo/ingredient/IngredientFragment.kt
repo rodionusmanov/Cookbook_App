@@ -12,14 +12,14 @@ import com.example.cookbook.databinding.FragmentIngredientBinding
 import com.example.cookbook.view.recipeInfo.RecipeInfoViewModel
 import com.example.cookbook.view.recipeInfo.adapters.IngredientsAdapter
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class IngredientFragment : Fragment() {
 
     private var _binding: FragmentIngredientBinding? = null
     private val binding get() = _binding!!
     private val adapter = IngredientsAdapter()
-    private val viewModel: RecipeInfoViewModel by inject()
+    private val viewModel: RecipeInfoViewModel by activityViewModel()
 
 
     override fun onCreateView(
