@@ -53,7 +53,7 @@
     <dimen name="random_recipe_layout_height">400dp</dimen>
     <dimen name="various_dishes_table_height">400dp</dimen>
     <dimen name="home_joke_of_the_day_layout_quote_size">40dp</dimen>
-    <dimen name="home_service_card_logo_size">40dp</dimen>
+    <dimen name="home_search_toolbar_height">62dp</dimen>
 
     //Search Result Layout
     <dimen name="search_result_item_recipe_title_height">70dp</dimen>

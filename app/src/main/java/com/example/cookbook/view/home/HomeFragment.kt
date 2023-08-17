@@ -19,9 +19,11 @@ import com.example.cookbook.utils.DISH_TYPE_MAIN_COURSE
 import com.example.cookbook.utils.DISH_TYPE_SALAD
 import com.example.cookbook.utils.DISH_TYPE_SIDE_DISH
 import com.example.cookbook.utils.DISH_TYPE_SNACK
+import com.example.cookbook.utils.FRAGMENT_FAVORITE
 import com.example.cookbook.utils.FRAGMENT_SEARCH
 import com.example.cookbook.utils.navigation.NavigationManager
 import com.example.cookbook.view.base.BaseFragment
+import com.example.cookbook.view.favorite.FavoriteFragment
 import com.example.cookbook.view.home.healthyRandomRecipe.HealthyRandomRecipeListFragment
 import com.example.cookbook.view.home.randomCuisineRecipes.RandomCuisineRecipeListFragment
 import com.example.cookbook.view.home.randomRecipe.RandomRecipesListFragment
@@ -37,7 +39,7 @@ class HomeFragment :
         FragmentHomeBinding::inflate
     ) {
 
-    private lateinit var model: HomeViewModel
+    private val model: HomeViewModel by viewModel()
     private var navigationManager: NavigationManager? = null
 
     override fun onAttach(context: Context) {
@@ -52,7 +54,15 @@ class HomeFragment :
         initHealthyRandomRecipeFragment()
         initDishTypeCards()
         initRandomCuisineFragment()
+        initServiceButtons()
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun initServiceButtons() {
+        binding.favoritesService.setOnClickListener {
+            val favoriteFragment = FavoriteFragment.newInstance()
+            navigationManager?.switchFragment(FRAGMENT_FAVORITE, favoriteFragment, addToBackStack = true)
+        }
     }
 
     private fun initRandomCuisineFragment() {
@@ -125,6 +135,9 @@ class HomeFragment :
                 }
             }
         )
+        binding.homeFragmentContainer.setOnScrollChangeListener { _, _, _, _, _ ->
+            binding.toolbar.isSelected = binding.homeFragmentContainer.canScrollVertically(-1)
+        }
     }
 
     private fun openSearchFragmentWithQuery(queryKey: String, query: String) {
@@ -140,8 +153,6 @@ class HomeFragment :
     }
 
     private fun initViewModel() {
-        val viewModel by viewModel<HomeViewModel>()
-        model = viewModel
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 model.stateFlow.collect { renderData(it) }
