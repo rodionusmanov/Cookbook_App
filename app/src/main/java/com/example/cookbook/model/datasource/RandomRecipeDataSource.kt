@@ -7,4 +7,6 @@ interface RandomRecipeDataSource {
     suspend fun getRandomRecipes(): Response<RandomRecipeListDTO>
     suspend fun getHealthyRandomRecipes(): Response<RandomRecipeListDTO>
 
+    suspend fun getRandomCuisineRecipes(cuisine: String): Response<RandomRecipeListDTO>
+
 }

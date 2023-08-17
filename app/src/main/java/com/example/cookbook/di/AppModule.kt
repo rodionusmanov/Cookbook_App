@@ -27,6 +27,7 @@ import com.example.cookbook.utils.network.NetworkLiveData
 import com.example.cookbook.view.favorite.FavoriteRecipesViewModel
 import com.example.cookbook.view.home.HomeViewModel
 import com.example.cookbook.view.home.healthyRandomRecipe.HealthyRandomRecipeListViewModel
+import com.example.cookbook.view.home.randomCuisineRecipes.RandomCuisineRecipeListViewModel
 import com.example.cookbook.view.home.randomRecipe.RandomRecipeListViewModel
 import com.example.cookbook.view.recipeInfo.RecipeInfoViewModel
 import com.example.cookbook.view.recipeInfoFromDatabase.RecipeInfoFromDatabaseViewModel
@@ -93,6 +94,7 @@ val searchFragment = module {
 val randomRecipeFragment = module {
     viewModel { RandomRecipeListViewModel(get()) }
     viewModel { HealthyRandomRecipeListViewModel(get()) }
+    viewModel { RandomCuisineRecipeListViewModel(get()) }
     factory {
         RandomRecipeListInteractor(get(), LocalRepositoryInfoImpl(get<IRecipesInfoDAO>()))
     }
