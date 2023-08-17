@@ -1,7 +1,9 @@
 package com.example.cookbook.view.recipeInfo
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -16,22 +18,23 @@ import com.example.cookbook.view.base.BaseFragment
 import com.example.cookbook.view.recipeInfo.adapters.RecipeInformationPageAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class RecipeInfoFragment :
     BaseFragment<AppState, RecipeInformation, FragmentRecipeInfoBinding>(
         FragmentRecipeInfoBinding::inflate
     ) {
 
-    private val viewModel: RecipeInfoViewModel by viewModel()
+    private val viewModel: RecipeInfoViewModel by activityViewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d("RIF", "$this onViewCreated")
         val id = arguments?.getInt(ID)
 
         id?.let { viewModel.recipeInfoRequest(it) }
         lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
                 viewModel.stateFlow.collect {
                     renderData(it)
                 }
@@ -82,7 +85,6 @@ class RecipeInfoFragment :
                 crossfade(true)
                 transformations(RoundedCornersTransformation(16f))
             }
-//            tvRecipeInfoCalories.text = "${data.calories?.amount} ${data.calories?.unit}"
             chCalories.text = "${data.calories?.amount} ${data.calories?.unit}"
             chProtein.text =
                 "${resources.getString(R.string.protein)} - ${data.protein?.amount}${data.protein?.unit}"
@@ -90,11 +92,6 @@ class RecipeInfoFragment :
                 "${resources.getString(R.string.fat)} - ${data.fat?.amount}${data.fat?.unit}"
             chCarb.text =
                 "${resources.getString(R.string.carb)} - ${data.carbohydrates?.amount}${data.carbohydrates?.unit}"
-            /*tvRecipeInfoProtein.text =
-                "${data.protein?.amount}${data.protein?.unit}"
-            tvRecipeInfoFat.text = "${data.fat?.amount}${data.fat?.unit}"
-            tvRecipeInfoCarbohydrates.text =
-                "${data.carbohydrates?.amount}${data.carbohydrates?.unit}"*/
 
             viewPager.adapter = RecipeInformationPageAdapter(requireActivity())
             viewPager.isUserInputEnabled = false
@@ -108,7 +105,7 @@ class RecipeInfoFragment :
     }
 
     override fun showErrorDialog(message: String?) {
-
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
     companion object {

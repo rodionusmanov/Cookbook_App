@@ -27,6 +27,7 @@ import com.example.cookbook.view.recipeInfo.RecipeInfoViewModel
 import com.example.cookbook.view.search.SearchViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val appModule = module {
@@ -74,7 +75,7 @@ val homeFragment = module {
 }
 
 val searchFragment = module {
-    single { SearchViewModel(get()) }
+    viewModel { SearchViewModel(get()) }
     factory { SearchFragmentInteractor(get()) }
 }
 
@@ -84,7 +85,7 @@ val randomRecipeFragment = module {
 }
 
 val recipeInfo = module {
-    single { RecipeInfoViewModel(get()) }
+    viewModel { RecipeInfoViewModel(get()) }
     factory { RecipeInfoFragmentInteractor(get()) }
 }
 

@@ -1,5 +1,6 @@
 package com.example.cookbook.view.recipeInfo
 
+import android.util.Log
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.datasource.DTO.recipeInformation.AnalyzedInstruction
 import com.example.cookbook.model.datasource.DTO.recipeInformation.ExtendedIngredient
@@ -13,6 +14,9 @@ import kotlinx.coroutines.launch
 class RecipeInfoViewModel(
     private val interactor: RecipeInfoFragmentInteractor
 ) : BaseViewModel<AppState>() {
+    init {
+        Log.d("RIF", "init")
+    }
 
     private val _stateFlow = MutableStateFlow<AppState>(AppState.Loading)
     val stateFlow: StateFlow<AppState> get() = _stateFlow.asStateFlow()

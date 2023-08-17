@@ -17,13 +17,13 @@ import com.example.cookbook.view.base.BaseFragment
 import com.example.cookbook.view.recipeInfo.RecipeInfoFragment
 import com.example.cookbook.view.search.searchResult.SearchResultAdapter
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSearchBinding>(
     FragmentSearchBinding::inflate
 ) {
 
-    private lateinit var model: SearchViewModel
+    private val model: SearchViewModel by activityViewModel()
 
     private val adapter: SearchResultAdapter by lazy { SearchResultAdapter() }
 
@@ -36,17 +36,20 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.resultRecyclerView.layoutManager = LinearLayoutManager(context)
+        binding.resultRecyclerView.adapter = adapter
+
         initViewModel()
         setupSearchView()
 
 
-        super.onViewCreated(view, savedInstanceState)
     }
 
     private fun initViewModel() {
-        val viewModel by viewModel<SearchViewModel>()
-        model = viewModel
         arguments?.getString("search")?.let {
+            binding.searchView.setQuery(it, false)
             model.searchRecipeRequest(
                 it,
                 ""
@@ -78,14 +81,11 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
     }
 
     override fun setupData(data: List<BaseRecipeData>) {
-        adapter.setData(data)
+        adapter.submitList(data)
 
         adapter.listener = { recipe ->
             openRecipeInfoFragment(recipe.id)
         }
-
-        binding.resultRecyclerView.layoutManager = LinearLayoutManager(context)
-        binding.resultRecyclerView.adapter = adapter
     }
 
     private fun openRecipeInfoFragment(recipeId: Int) {
@@ -98,6 +98,6 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
     }
 
     override fun showErrorDialog(message: String?) {
-        Toast.makeText(context, "Error {$message}", Toast.LENGTH_LONG).show()
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 }
