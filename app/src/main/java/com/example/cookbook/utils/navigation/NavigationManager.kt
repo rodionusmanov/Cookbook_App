@@ -68,17 +68,21 @@ class NavigationManager(
         Log.d("@@@", "Switching to fragment: $tag")
         val fragmentTransaction = activity.supportFragmentManager.beginTransaction()
 
+        if(tag == FRAGMENT_RECIPE_INFO || tag == FRAGMENT_RECIPE_INFO_FROM_DATABASE) {
+            val oldFragment = activity.supportFragmentManager.findFragmentByTag(FRAGMENT_RECIPE_INFO)
+            if (oldFragment != null) {
+                fragmentTransaction.remove(oldFragment)
+            }
+        }
+
+        fragmentBackStack.removeAll{it == FRAGMENT_RECIPE_INFO}
+
         for (fragment in activity.supportFragmentManager.fragments) {
             fragmentTransaction.hide(fragment)
         }
 
         var newFragment = activity.supportFragmentManager.findFragmentByTag(tag)
-        if (newFragment == null || tag == FRAGMENT_RECIPE_INFO) {
-            newFragment = recipeInfoFragment ?: fragments[tag]
-            if (newFragment != null) {
-                fragmentTransaction.add(R.id.main_container, newFragment, tag)
-            }
-        } else if (newFragment == null || tag == FRAGMENT_RECIPE_INFO_FROM_DATABASE) {
+        if (newFragment == null || tag == FRAGMENT_RECIPE_INFO || tag == FRAGMENT_RECIPE_INFO_FROM_DATABASE) {
             newFragment = recipeInfoFragment ?: fragments[tag]
             if (newFragment != null) {
                 fragmentTransaction.add(R.id.main_container, newFragment, tag)
@@ -112,7 +116,7 @@ class NavigationManager(
             FRAGMENT_HOME -> R.id.navigation_home
             FRAGMENT_SEARCH -> R.id.navigation_search_recipe
             FRAGMENT_FAVORITE -> R.id.navigation_favorite
-//            FRAGMENT_PROFILE -> R.id.navigation_my_experience
+//          FRAGMENT_PROFILE -> R.id.navigation_my_experience
             FRAGMENT_RECIPE_INFO -> return
             else -> return
         }
