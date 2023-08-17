@@ -2,12 +2,12 @@ package com.example.cookbook.model.interactor
 
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.BaseRecipeData
-import com.example.cookbook.model.repository.local.LocalRepositoryImpl
+import com.example.cookbook.model.repository.local.LocalRepositoryInfoImpl
 import com.example.cookbook.model.repository.remoteDataSource.IRepositorySearchRequest
 
 class RandomRecipeListInteractor(
     private val remoteRepository: IRepositorySearchRequest,
-    private val localRepository: LocalRepositoryImpl
+    private val localRepository: LocalRepositoryInfoImpl
 ) {
 
     suspend fun getRandomRecipes(): AppState {
@@ -22,7 +22,7 @@ class RandomRecipeListInteractor(
         return AppState.Success(remoteRepository.getHealthyRandomRecipes())
     }
 
-    suspend fun insertRecipeToDataBase(recipeData: BaseRecipeData){
+    /*suspend fun insertRecipeToDataBase(recipeData: BaseRecipeData){
         localRepository.insertNewRecipe(recipeData)
     }
 
@@ -32,5 +32,5 @@ class RandomRecipeListInteractor(
 
     suspend fun getAllRecipesFromDataBase(): List<BaseRecipeData> {
         return localRepository.getAllRecipesData()
-    }
+    }*/
 }

@@ -73,11 +73,11 @@ class RandomRecipesListFragment :
 
     private fun initFavoritesListeners() {
         adapter.listenerOnSaveRecipe = { recipe ->
-            model.insertNewRecipeToDataBase(recipe)
+//            model.insertNewRecipeToDataBase(recipe)
         }
 
         adapter.listenerOnRemoveRecipe = { recipe ->
-            model.deleteRecipeFromData(recipe.id)
+//            model.deleteRecipeFromData(recipe.id)
         }
     }
 

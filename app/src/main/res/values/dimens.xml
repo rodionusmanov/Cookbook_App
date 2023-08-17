@@ -60,5 +60,6 @@
     <dimen name="marfin_horizontal_8dp">8dp</dimen>
     <dimen name="top_badge_padding_2dp">2dp</dimen>
     <dimen name="top_badge_padding_4dp">4dp</dimen>
+    <dimen name="padding_8dp">8dp</dimen>
 
 </resources>

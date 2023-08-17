@@ -2,6 +2,7 @@ package com.example.cookbook.view.home.randomRecipe
 
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.BaseRecipeData
+import com.example.cookbook.model.domain.RecipeInformation
 import com.example.cookbook.model.interactor.RandomRecipeListInteractor
 import com.example.cookbook.view.base.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,17 +16,17 @@ class RandomRecipeListViewModel(
     private val _stateFlow = MutableStateFlow<AppState>(AppState.Loading)
     val stateFlow: StateFlow<AppState> get() = _stateFlow
 
-    fun insertNewRecipeToDataBase(recipeData: BaseRecipeData) {
+    /*fun insertNewRecipeToDataBase(recipeData: RecipeInformation) {
         viewModelCoroutineScope.launch {
-            interactor.insertRecipeToDataBase(recipeData)
+//            interactor.insertRecipeToDataBase(recipeData)
         }
     }
 
     fun deleteRecipeFromData(id: Int) {
         viewModelCoroutineScope.launch {
-            interactor.deleteRecipeFromDataBase(id)
+//            interactor.deleteRecipeFromDataBase(id)
         }
-    }
+    }*/
 
     fun getRandomRecipes() {
         viewModelCoroutineScope.launch {
