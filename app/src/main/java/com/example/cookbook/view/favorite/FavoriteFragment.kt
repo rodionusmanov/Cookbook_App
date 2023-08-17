@@ -94,4 +94,10 @@ class FavoriteFragment : Fragment() {
     private fun openRecipeInfoFromDatabaseFragment(recipeId: Int) {
         navigationManager?.openRecipeInfoFromDatabaseFragment(recipeId)
     }
+
+    companion object {
+        fun newInstance(): FavoriteFragment {
+            return FavoriteFragment()
+        }
+    }
 }
