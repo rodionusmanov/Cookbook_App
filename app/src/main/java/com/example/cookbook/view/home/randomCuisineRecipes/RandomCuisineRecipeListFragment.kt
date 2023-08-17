@@ -1,17 +1,21 @@
 package com.example.cookbook.view.home.randomCuisineRecipes
 
-import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Matrix
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
-import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import coil.load
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.cookbook.stacklayoutmanager.StackLayoutManager
 import com.example.cookbook.R
 import com.example.cookbook.databinding.FragmentRandomCuisineRecipesBinding
@@ -73,29 +77,47 @@ class RandomCuisineRecipeListFragment :
                 CUISINE_NORDIC -> R.drawable.background_nordic
                 else -> return
             }
-            backgroundImage.load(imageResource) {
-                listener(
-                    onSuccess = {_,_ ->
-                        backgroundImage.viewTreeObserver.addOnPreDrawListener(
-                            object : ViewTreeObserver.OnPreDrawListener{
-                                override fun onPreDraw(): Boolean {
-                                    backgroundImage.viewTreeObserver.removeOnPreDrawListener(this)
-                                    val imageWidth = backgroundImage.drawable.intrinsicWidth
-                                    val imageViewWith = backgroundImage.width
-                                    val translationX = (imageWidth - imageViewWith).toFloat()
-                                    val animation = ObjectAnimator.ofFloat(
-                                        backgroundImage, "translationX", 0f, -translationX)
-                                    animation.duration = 10000
-                                    animation.repeatCount = ValueAnimator.INFINITE
-                                    animation.repeatMode = ValueAnimator.REVERSE
-                                    animation.start()
-                                    return true
-                                }
-                            }
-                        )
+
+            Glide.with(this@RandomCuisineRecipeListFragment)
+                .asBitmap()
+                .load(imageResource)
+                .into(object : CustomTarget<Bitmap>(){
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: Transition<in Bitmap>?
+                    ) {
+                        val drawable = BitmapDrawable(resources, resource)
+                        backgroundImage.setImageDrawable(drawable)
+
+                        val imageWidth = resource.width
+                        val imageViewWith = backgroundImage.width
+
+                        val scaleFactor = backgroundImage.height.toFloat() / resource.height.toFloat()
+                        val translatedWidth = imageWidth * scaleFactor
+
+                        val matrix = Matrix()
+                        matrix.postScale(scaleFactor, scaleFactor)
+                        backgroundImage.imageMatrix = matrix
+
+                        val animation = ValueAnimator.ofFloat(0f, translatedWidth - imageViewWith)
+                        animation.duration = 30000
+                        animation.repeatCount = ValueAnimator.INFINITE
+                        animation.repeatMode = ValueAnimator.REVERSE
+                        animation.addUpdateListener { anim ->
+                            val xTranslation = anim.animatedValue as Float
+                            matrix.reset()
+                            matrix.postScale(scaleFactor, scaleFactor)
+                            matrix.postTranslate(-xTranslation, 0f)
+                            backgroundImage.imageMatrix = matrix
+                        }
+                        animation.start()
                     }
-                )
-            }
+
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                    }
+
+                })
+
         }
     }
 
