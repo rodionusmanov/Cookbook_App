@@ -15,9 +15,6 @@
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="@dimen/material_card_corner_radius_15dp"
         app:cardElevation="@dimen/elevation_10dp_small"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@color/orange_dark"
         app:strokeWidth="1dp">
 

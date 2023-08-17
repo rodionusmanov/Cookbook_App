@@ -10,15 +10,16 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.cookbook.databinding.FragmentIngredientBinding
 import com.example.cookbook.view.recipeInfo.RecipeInfoViewModel
-import com.example.cookbook.view.recipeInfo.adapters.IngredientsAdapter
+import com.example.cookbook.view.recipeInfo.adapters.UniversalAdapter
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class IngredientFragment : Fragment() {
 
     private var _binding: FragmentIngredientBinding? = null
     private val binding get() = _binding!!
-    private val adapter = IngredientsAdapter()
+    private val adapter: UniversalAdapter by inject()
     private val viewModel: RecipeInfoViewModel by activityViewModel()
 
 
@@ -36,7 +37,7 @@ class IngredientFragment : Fragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.ingredients.collect {
-                    adapter.setData(it)
+                    adapter.submitList(it)
                 }
             }
         }

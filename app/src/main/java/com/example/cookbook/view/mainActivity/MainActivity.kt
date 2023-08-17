@@ -31,17 +31,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    @Deprecated("Deprecated in Java")
-    @Suppress("DEPRECATION")
     override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount == 0) {
+        if (navigationManager.handleBackPressed() == null) {
             AlertDialog.Builder(this).setTitle("Exit").setMessage("Are you sure?")
                 .setNegativeButton("No") { dialog, _ -> dialog.dismiss() }
                 .setPositiveButton("Yes") { _, _ -> super.onBackPressed() }
                 .show()
-
-        } else {
-            supportFragmentManager.popBackStack()
         }
     }
 
