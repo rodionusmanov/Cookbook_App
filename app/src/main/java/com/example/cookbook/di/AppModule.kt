@@ -30,9 +30,9 @@ import com.example.cookbook.view.home.healthyRandomRecipe.HealthyRandomRecipeLis
 import com.example.cookbook.view.home.randomCuisineRecipes.RandomCuisineRecipeListViewModel
 import com.example.cookbook.view.home.randomRecipe.RandomRecipeListViewModel
 import com.example.cookbook.view.recipeInfo.RecipeInfoViewModel
+import com.example.cookbook.view.recipeInfo.adapters.UniversalAdapter
 import com.example.cookbook.view.recipeInfoFromDatabase.RecipeInfoFromDatabaseViewModel
 import com.example.cookbook.view.search.SearchViewModel
-import com.example.cookbook.view.search.searchResult.SearchResultViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -86,8 +86,7 @@ val homeFragment = module {
 }
 
 val searchFragment = module {
-    single { SearchViewModel(get()) }
-    viewModel { SearchResultViewModel(LocalRepositoryInfoImpl(get<IRecipesInfoDAO>())) }
+    viewModel { SearchViewModel(get()) }
     factory { SearchFragmentInteractor(get()) }
 }
 
@@ -101,6 +100,7 @@ val randomRecipeFragment = module {
 }
 
 val recipeInfo = module {
+    factory { UniversalAdapter() }
     viewModel { RecipeInfoViewModel(get(), LocalRepositoryInfoImpl(get<IRecipesInfoDAO>())) }
     factory { RecipeInfoFragmentInteractor(get()) }
 }
