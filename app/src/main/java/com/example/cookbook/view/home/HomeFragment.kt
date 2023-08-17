@@ -135,6 +135,9 @@ class HomeFragment :
                 }
             }
         )
+        binding.homeFragmentContainer.setOnScrollChangeListener { _, _, _, _, _ ->
+            binding.toolbar.isSelected = binding.homeFragmentContainer.canScrollVertically(-1)
+        }
     }
 
     private fun openSearchFragmentWithQuery(queryKey: String, query: String) {
