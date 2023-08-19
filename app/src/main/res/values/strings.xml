@@ -67,4 +67,8 @@
     <string name="calories">calories</string>
     <string name="add_to_favorite">add to favorite</string>
 
+    //MyProfile
+    <string name="user_name">User Name</string>
+    <string name="user_second_name">User Surname</string>
+
 </resources>

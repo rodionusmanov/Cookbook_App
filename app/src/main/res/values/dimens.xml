@@ -33,6 +33,7 @@
     <dimen name="home_joke_text">18sp</dimen>
     <dimen name="home_dishes_card_title">16sp</dimen>
     <dimen name="home_service_card_title">12sp</dimen>
+    <dimen name="profile_user_name_title">20sp</dimen>
 
     //Elevation
     <dimen name="elevation_5dp_small">5dp</dimen>
