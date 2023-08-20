@@ -39,6 +39,7 @@
                     android:layout_height="@dimen/search_view_height"
                     android:hint="@string/search_view_hint"
                     app:iconifiedByDefault="false"
+                    android:focusable="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
