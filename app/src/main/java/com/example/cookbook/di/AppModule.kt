@@ -92,7 +92,7 @@ val homeFragment = module {
 
 val searchFragment = module {
     viewModel { SearchViewModel(get()) }
-    factory { SearchFragmentInteractor(get()) }
+    factory { SearchFragmentInteractor(get(), get()) }
 }
 
 val randomRecipeFragment = module {
@@ -100,7 +100,7 @@ val randomRecipeFragment = module {
     viewModel { HealthyRandomRecipeListViewModel(get()) }
     viewModel { RandomCuisineRecipeListViewModel(get()) }
     factory {
-        RandomRecipeListInteractor(get(), LocalRepositoryInfoImpl(get<IRecipesInfoDAO>()))
+        RandomRecipeListInteractor(get(), LocalRepositoryInfoImpl(get<IRecipesInfoDAO>()), get())
     }
 }
 
