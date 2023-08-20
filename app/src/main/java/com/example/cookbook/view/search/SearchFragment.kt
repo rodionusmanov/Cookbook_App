@@ -7,6 +7,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -109,22 +110,48 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
 
     private fun setupSearchView() {
 
-        binding.searchView.setOnQueryTextListener(
-            object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    query?.let {
-                        model.searchRecipeRequest(it, "")
-                        hideKeyboard(binding.searchView)
+        with(binding) {
+            searchView.setOnQueryTextListener(
+                object : SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(query: String?): Boolean {
+                        query?.let {
+                            model.searchRecipeRequest(it, "")
+                            hideKeyboard(binding.searchView)
 
+                        }
+                        return true
                     }
-                    return true
-                }
 
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    return true
+                    override fun onQueryTextChange(newText: String?): Boolean {
+                        when (newText?.length) {
+                            0 -> {
+                                with(binding) {
+                                    resultRecyclerView.isVisible = false
+                                    variousDishesTable.isVisible = true
+                                }
+                            }
+
+                            else -> {
+                                with(binding) {
+                                    resultRecyclerView.isVisible = true
+                                    variousDishesTable.isVisible = false
+                                }
+                            }
+                        }
+                        return true
+                    }
                 }
+            )
+
+            btnAllFilters.setOnClickListener {
+                openAllFiltersFragment()
             }
-        )
+
+            cardBreakfast.setOnClickListener {
+                model.searchRandomRecipesByDishTypes("breakfast")
+                binding.searchView.setQuery("breakfast", false)
+            }
+        }
     }
 
     override fun setupData(data: List<BaseRecipeData>) {
@@ -150,6 +177,10 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
 
     private fun openRecipeInfoFragment(recipeId: Int) {
         navigationManager?.openRecipeInfoFragment(recipeId)
+    }
+
+    private fun openAllFiltersFragment(){
+        navigationManager?.openAllFiltersFragment()
     }
 
     override fun showErrorDialog(message: String?) {
