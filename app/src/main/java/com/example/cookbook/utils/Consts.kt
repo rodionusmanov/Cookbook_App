@@ -33,3 +33,7 @@ const val CUISINE_INDIA = "indian"
 const val CUISINE_NORDIC = "nordic"
 const val CUISINE_MDTRN = "mediterranean"
 
+const val SELECTED_DIET_KEY = "diets_preferences"
+const val SELECTED_INTOLERANCES_KEY = "user_intolerances"
+const val SHARED_PREFERENCES_DIETARY_NAME = "dietary_restrictions"
+
