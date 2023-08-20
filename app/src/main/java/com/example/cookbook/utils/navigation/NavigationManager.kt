@@ -49,7 +49,7 @@ class NavigationManager(
                 R.id.navigation_home -> FRAGMENT_HOME
                 R.id.navigation_search_recipe -> FRAGMENT_SEARCH
                 R.id.navigation_favorite -> FRAGMENT_FAVORITE
-//                R.id.navigation_my_experience -> FRAGMENT_PROFILE
+                R.id.navigation_my_profile -> FRAGMENT_PROFILE
                 else -> throw IllegalStateException("Unexpected navigation item: ${item.itemId}")
             }
 
@@ -116,7 +116,7 @@ class NavigationManager(
             FRAGMENT_HOME -> R.id.navigation_home
             FRAGMENT_SEARCH -> R.id.navigation_search_recipe
             FRAGMENT_FAVORITE -> R.id.navigation_favorite
-//          FRAGMENT_PROFILE -> R.id.navigation_my_experience
+            FRAGMENT_PROFILE -> R.id.navigation_my_profile
             FRAGMENT_RECIPE_INFO -> return
             else -> return
         }

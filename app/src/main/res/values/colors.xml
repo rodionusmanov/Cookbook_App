@@ -30,4 +30,8 @@
     //SearchResult
     <color name="search_result_recipe_title_text_color">#D6000000</color>
 
+    //MyProfileFragment
+    <color name="my_profile_background">#C1B7B7</color>
+    <color name="text_pressed_color">#838080</color>
+
 </resources>
