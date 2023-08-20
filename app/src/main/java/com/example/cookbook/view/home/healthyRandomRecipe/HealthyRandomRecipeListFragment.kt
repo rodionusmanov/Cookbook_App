@@ -22,7 +22,7 @@ class HealthyRandomRecipeListFragment :
         FragmentHealthyRandomRecipeListBinding::inflate
     ) {
 
-    private lateinit var model: HealthyRandomRecipeListViewModel
+    private val model: HealthyRandomRecipeListViewModel by viewModel()
 
     private val adapter: RandomRecipeListAdapter by lazy { RandomRecipeListAdapter() }
     private var navigationManager: NavigationManager? = null
@@ -46,8 +46,6 @@ class HealthyRandomRecipeListFragment :
 
 
     private fun initViewModel() {
-        val viewModel by viewModel<HealthyRandomRecipeListViewModel>()
-        model = viewModel
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 model.stateFlow.collect { renderData(it) }

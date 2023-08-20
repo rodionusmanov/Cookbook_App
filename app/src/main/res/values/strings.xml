@@ -67,4 +67,31 @@
     <string name="calories">calories</string>
     <string name="add_to_favorite">add to favorite</string>
 
+    //MyProfile
+    <string name="user_name">User Name</string>
+    <string name="user_second_name">User Surname</string>
+    <string name="edit_prfile_button">Edit Profile</string>
+    <string name="dietary_restrictions_title">Dietary restrictions</string>
+    <string name="intolerances_block_title">Intolerances</string>
+    <string name="intolerances_dairy">Dairy</string>
+    <string name="intolerances_egg">Egg</string>
+    <string name="intolerances_gluten">Gluten</string>
+    <string name="intolerances_grain">Grain</string>
+    <string name="intolerances_seafood">Seafood</string>
+    <string name="intolerances_sesame">Sesame</string>
+    <string name="intolerances_shellfish">Shellfish</string>
+    <string name="intolerances_soy">Soy</string>
+    <string name="intolerances_tree_nut">Tree Nut</string>
+    <string name="intolerances_wheat">Wheat</string>
+    <string name="diet_block_title">Diets</string>
+    <string name="diet_gluten_free">Gluten free</string>
+    <string name="diet_ketogenic">Ketogenic</string>
+    <string name="diet_vegetarian">Vegetarian</string>
+    <string name="diet_lacto_vegetarian">Lacto-vegetarian</string>
+    <string name="diet_ovo_vegetarian">Ovo-vegetarian</string>
+    <string name="diet_vegan">Vegan</string>
+    <string name="diet_pescetarian">Pescetarian</string>
+    <string name="diet_paleo">Paleo</string>
+    <string name="diet_primal">Primal</string>
+
 </resources>

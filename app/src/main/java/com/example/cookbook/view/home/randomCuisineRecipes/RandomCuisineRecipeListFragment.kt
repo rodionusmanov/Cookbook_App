@@ -37,7 +37,7 @@ class RandomCuisineRecipeListFragment :
         FragmentRandomCuisineRecipesBinding::inflate
     ) {
 
-    private lateinit var model: RandomCuisineRecipeListViewModel
+    private val model: RandomCuisineRecipeListViewModel by viewModel()
 
     private val adapter: RandomRecipeListAdapter by lazy { RandomRecipeListAdapter() }
     private var navigationManager: NavigationManager? = null
@@ -170,8 +170,6 @@ class RandomCuisineRecipeListFragment :
     }
 
     private fun initViewModel() {
-        val viewModel by viewModel<RandomCuisineRecipeListViewModel>()
-        model = viewModel
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 model.stateFlow.collect { renderData(it) }

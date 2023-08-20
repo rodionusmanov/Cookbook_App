@@ -4,18 +4,23 @@ import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.repository.local.LocalRepositoryInfoImpl
 import com.example.cookbook.model.repository.remoteDataSource.IRepositorySearchRequest
+import com.example.cookbook.model.repository.sharedPreferences.DietaryRestrictionsRepository
 
 class RandomRecipeListInteractor(
     private val remoteRepository: IRepositorySearchRequest,
-    private val localRepository: LocalRepositoryInfoImpl
+    private val localRepository: LocalRepositoryInfoImpl,
+    private val preferencesRepository: DietaryRestrictionsRepository
 ) {
 
     suspend fun getRandomRecipes(): AppState {
-        return AppState.Success(remoteRepository.getRandomRecipes())
+        val userDiets = preferencesRepository.getSelectedDiets()
+        val userIntolerances = preferencesRepository.getSelectedIntolerances()
+        return AppState.Success(remoteRepository.getRandomRecipes(userDiets, userIntolerances))
     }
 
     suspend fun getRandomRecipesByCuisine(cuisine: String): AppState {
-        return AppState.Success(remoteRepository.getRandomCuisineRecipes(cuisine))
+        val userIntolerances = preferencesRepository.getSelectedIntolerances()
+        return AppState.Success(remoteRepository.getRandomCuisineRecipes(cuisine, userIntolerances))
     }
 
     suspend fun getHealthyRandomRecipes(): AppState {
