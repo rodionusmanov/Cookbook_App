@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.cookbook.R
+import com.example.cookbook.utils.FRAGMENT_ALL_FILTERS
 import com.example.cookbook.utils.FRAGMENT_FAVORITE
 import com.example.cookbook.utils.FRAGMENT_HOME
 import com.example.cookbook.utils.FRAGMENT_PROFILE
@@ -12,6 +13,7 @@ import com.example.cookbook.utils.FRAGMENT_RECIPE_INFO
 import com.example.cookbook.utils.FRAGMENT_RECIPE_INFO_FROM_DATABASE
 import com.example.cookbook.utils.FRAGMENT_SEARCH
 import com.example.cookbook.utils.ID
+import com.example.cookbook.view.allFilters.AllFiltersFragment
 import com.example.cookbook.view.favorite.FavoriteFragment
 import com.example.cookbook.view.home.HomeFragment
 import com.example.cookbook.view.myProfile.MyProfileFragment
@@ -32,7 +34,8 @@ class NavigationManager(
         FRAGMENT_FAVORITE to FavoriteFragment(),
         FRAGMENT_PROFILE to MyProfileFragment(),
         FRAGMENT_RECIPE_INFO to RecipeInfoFragment(),
-        FRAGMENT_RECIPE_INFO_FROM_DATABASE to RecipeInfoFromDatabaseFragment()
+        FRAGMENT_RECIPE_INFO_FROM_DATABASE to RecipeInfoFromDatabaseFragment(),
+        FRAGMENT_ALL_FILTERS to AllFiltersFragment()
     )
     private val fragmentBackStack = Stack<String>()
     private var isSwitchingFragment: Boolean = false
@@ -62,7 +65,7 @@ class NavigationManager(
 
     fun switchFragment(
         tag: String,
-        recipeInfoFragment: Fragment? = null,
+        fragment: Fragment? = null,
         addToBackStack: Boolean = false
     ) {
         Log.d("@@@", "Switching to fragment: $tag")
@@ -83,7 +86,7 @@ class NavigationManager(
 
         var newFragment = activity.supportFragmentManager.findFragmentByTag(tag)
         if (newFragment == null || tag == FRAGMENT_RECIPE_INFO || tag == FRAGMENT_RECIPE_INFO_FROM_DATABASE) {
-            newFragment = recipeInfoFragment ?: fragments[tag]
+            newFragment = fragment ?: fragments[tag]
             if (newFragment != null) {
                 fragmentTransaction.add(R.id.main_container, newFragment, tag)
             }
@@ -160,9 +163,14 @@ class NavigationManager(
         recipeInfoFragment.arguments = bundle
         switchFragment(
             FRAGMENT_RECIPE_INFO,
-            recipeInfoFragment = recipeInfoFragment,
+            fragment = recipeInfoFragment,
             addToBackStack = true
         )
+    }
+
+    fun openAllFiltersFragment(){
+        val allFiltersFragment = AllFiltersFragment.newInstance()
+        switchFragment(FRAGMENT_ALL_FILTERS, allFiltersFragment,true)
     }
 
     fun openRecipeInfoFromDatabaseFragment(recipeId: Int) {
@@ -173,7 +181,7 @@ class NavigationManager(
         recipeInfoFromDatabaseFragment.arguments = bundle
         switchFragment(
             FRAGMENT_RECIPE_INFO_FROM_DATABASE,
-            recipeInfoFragment = recipeInfoFromDatabaseFragment,
+            fragment = recipeInfoFromDatabaseFragment,
             addToBackStack = true
         )
     }
