@@ -46,18 +46,26 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <ImageView
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/user_avatar"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginHorizontal="@dimen/margin_16dp_medium"
-                android:background="@drawable/background_circle_avatar"
-                android:src="@drawable/icon_user_avatar"
                 app:layout_constraintBottom_toBottomOf="@id/search_toolbar"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/search_toolbar"
-                tools:ignore="ContentDescription" />
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50"
+                >
+
+                <ImageView
+                    android:id="@+id/user_avatar_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/icon_user_avatar"
+                    tools:ignore="ContentDescription" />
+
+            </com.google.android.material.card.MaterialCardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
