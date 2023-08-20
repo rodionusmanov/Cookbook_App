@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.cookbook.view.allFilters.AllFiltersFragment
 import com.example.cookbook.R
+import com.example.cookbook.utils.FRAGMENT_ALL_FILTERS
 import com.example.cookbook.utils.FRAGMENT_FAVORITE
 import com.example.cookbook.utils.FRAGMENT_HOME
 import com.example.cookbook.utils.FRAGMENT_PROFILE
@@ -32,7 +34,8 @@ class NavigationManager(
         FRAGMENT_FAVORITE to FavoriteFragment(),
         FRAGMENT_PROFILE to MyProfileFragment(),
         FRAGMENT_RECIPE_INFO to RecipeInfoFragment(),
-        FRAGMENT_RECIPE_INFO_FROM_DATABASE to RecipeInfoFromDatabaseFragment()
+        FRAGMENT_RECIPE_INFO_FROM_DATABASE to RecipeInfoFromDatabaseFragment(),
+        FRAGMENT_ALL_FILTERS to AllFiltersFragment()
     )
     private val fragmentBackStack = Stack<String>()
     private var isSwitchingFragment: Boolean = false
@@ -163,6 +166,10 @@ class NavigationManager(
             recipeInfoFragment = recipeInfoFragment,
             addToBackStack = true
         )
+    }
+    fun openAllFiltersFragment(){
+        val allFiltersFragment = AllFiltersFragment.newInstance()
+        switchFragment(FRAGMENT_ALL_FILTERS, allFiltersFragment,true)
     }
 
     fun openRecipeInfoFromDatabaseFragment(recipeId: Int) {

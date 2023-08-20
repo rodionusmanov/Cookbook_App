@@ -93,5 +93,6 @@
     <string name="diet_pescetarian">Pescetarian</string>
     <string name="diet_paleo">Paleo</string>
     <string name="diet_primal">Primal</string>
+    <string name="all_filters">All filters</string>
 
 </resources>
