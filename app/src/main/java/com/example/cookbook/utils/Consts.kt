@@ -16,7 +16,6 @@ const val FRAGMENT_FAVORITE = "favorite"
 const val FRAGMENT_PROFILE = "my_experience"
 const val FRAGMENT_RECIPE_INFO = "recipe_info"
 const val FRAGMENT_RECIPE_INFO_FROM_DATABASE = "recipe_info_from_database"
-const val FRAGMENT_ALL_FILTERS = "recipe_all_filters"
 
 const val BUNDLE_SEARCH_QUERY = "search_query"
 const val BUNDLE_DISH_TYPE = "dish_type_query"
