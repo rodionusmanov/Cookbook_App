@@ -3,6 +3,7 @@ package com.example.cookbook.app
 import android.app.Application
 import androidx.room.Room
 import com.example.cookbook.di.appModule
+import com.example.cookbook.di.dietaryRestrictionsModule
 import com.example.cookbook.di.favoritesFragment
 import com.example.cookbook.di.homeFragment
 import com.example.cookbook.di.localDataBase
@@ -12,7 +13,6 @@ import com.example.cookbook.di.recipeInfo
 import com.example.cookbook.di.recipeInfoFromDatabase
 import com.example.cookbook.di.remoteDataSource
 import com.example.cookbook.di.searchFragment
-import com.example.cookbook.model.room.IRecipesDAO
 import com.example.cookbook.model.room.RecipesDatabase
 import com.example.cookbook.model.room.fullRecipe.IRecipesInfoDAO
 import org.koin.android.ext.koin.androidContext
@@ -35,7 +35,8 @@ class CookbookApp : Application() {
                     randomRecipeFragment,
                     recipeInfo,
                     favoritesFragment,
-                    recipeInfoFromDatabase
+                    recipeInfoFromDatabase,
+                    dietaryRestrictionsModule
                 )
             )
         }

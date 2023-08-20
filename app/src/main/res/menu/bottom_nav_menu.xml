@@ -15,10 +15,10 @@
         android:id="@+id/navigation_favorite"
         android:icon="@drawable/icon_favorite_checked"
         android:title="@string/nav_favorite" />
-<!--
+
     <item
-        android:id="@+id/navigation_my_experience"
+        android:id="@+id/navigation_my_profile"
         android:icon="@drawable/icon_profile"
-        android:title="@string/nav_my_profile" />-->
+        android:title="@string/nav_my_profile" />
 
 </menu>

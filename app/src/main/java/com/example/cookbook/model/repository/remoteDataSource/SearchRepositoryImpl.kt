@@ -1,6 +1,5 @@
 package com.example.cookbook.model.repository.remoteDataSource
 
-import android.util.Log
 import com.example.cookbook.model.datasource.JokeDataSource
 import com.example.cookbook.model.datasource.RandomRecipeDataSource
 import com.example.cookbook.model.datasource.RecipeInformationDataSource
@@ -23,10 +22,13 @@ class SearchRepositoryImpl(
 
     override suspend fun getSearchResult(
         request: String,
-        ingredients: String
+        ingredients: String,
+        userDiets: String,
+        userIntolerances: String
     ): List<SearchRecipeData> {
 
-        val response = searchRecipeDataSource.getSearchResult(request, ingredients)
+        val response = searchRecipeDataSource
+            .getSearchResult(request, ingredients, userDiets, userIntolerances)
         return parseResponse(response) { responseDto ->
             responseDto.searchRecipeList.map { recipe ->
                 mapper.mapRecipeData(recipe) as SearchRecipeData
@@ -34,8 +36,11 @@ class SearchRepositoryImpl(
         }
     }
 
-    override suspend fun getRandomRecipes(): List<RandomRecipeData> {
-        val response = randomRecipeDataSource.getRandomRecipes()
+    override suspend fun getRandomRecipes(
+        userDiets: String,
+        userIntolerances: String)
+    : List<RandomRecipeData> {
+        val response = randomRecipeDataSource.getRandomRecipes(userDiets, userIntolerances)
         return parseResponse(response) { responseDto ->
             responseDto.recipes.map { recipe ->
                 mapper.mapRecipeData(recipe) as RandomRecipeData
@@ -43,8 +48,11 @@ class SearchRepositoryImpl(
         }
     }
 
-    override suspend fun getRandomCuisineRecipes(cuisine: String): List<RandomRecipeData> {
-        val response = randomRecipeDataSource.getRandomCuisineRecipes(cuisine)
+    override suspend fun getRandomCuisineRecipes(
+        cuisine: String,
+        userIntolerances: String
+    ): List<RandomRecipeData> {
+        val response = randomRecipeDataSource.getRandomCuisineRecipes(cuisine, userIntolerances)
         return parseResponse(response) { responseDto ->
             responseDto.recipes.map { recipe ->
                 mapper.mapRecipeData(recipe) as RandomRecipeData
@@ -52,9 +60,12 @@ class SearchRepositoryImpl(
         }
     }
 
-    override suspend fun getRecipesByType(dishType: String): List<SearchRecipeData> {
-        Log.d("@@@", "SearchRepository working get query: $dishType")
-        val response = searchRecipeDataSource.getRecipesByType(dishType)
+    override suspend fun getRecipesByType(
+        dishType: String,
+        userDiets: String,
+        userIntolerances: String
+    ): List<SearchRecipeData> {
+        val response = searchRecipeDataSource.getRecipesByType(dishType, userDiets, userIntolerances)
         return parseResponse(response) { responseDTO ->
             responseDTO.searchRecipeList.map { recipe ->
                 mapper.mapRecipeData(recipe) as SearchRecipeData
@@ -87,9 +98,6 @@ class SearchRepositoryImpl(
     }
 
     private fun <T, R> parseResponse(response: Response<T>, dataSelector: (T) -> R): R {
-
-        Log.d("@@@", "ParseResponse Response status code: ${response.code()}")
-        Log.d("@@@", "ParseResponse Response body: ${response.body()?.toString()}")
 
         val responseStatusCode = BaseInterceptor.interceptor.getResponseCode()
 

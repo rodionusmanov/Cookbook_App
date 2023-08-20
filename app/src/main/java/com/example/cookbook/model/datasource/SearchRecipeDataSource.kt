@@ -4,6 +4,15 @@ import com.example.cookbook.model.datasource.DTO.searchRecipe.SearchRecipeListDT
 import retrofit2.Response
 
 interface SearchRecipeDataSource {
-    suspend fun getSearchResult(request: String, ingredients: String): Response<SearchRecipeListDTO>
-    suspend fun getRecipesByType(dishType: String): Response<SearchRecipeListDTO>
+    suspend fun getSearchResult(
+        request: String,
+        ingredients: String,
+        userDiets: String,
+        userIntolerances: String
+    ): Response<SearchRecipeListDTO>
+    suspend fun getRecipesByType(
+        dishType: String,
+        userDiets: String,
+        userIntolerances: String
+    ): Response<SearchRecipeListDTO>
 }
