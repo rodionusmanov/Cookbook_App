@@ -38,6 +38,11 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="MyProfileMenuLineTextStyle">
+        <item name="android:textSize">@dimen/profile_user_name_title</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
     <style name="ShapeAppearanceOverlay.App.CornerSize50" parent="">
         <item name="cornerSize">50%</item>
     </style>
