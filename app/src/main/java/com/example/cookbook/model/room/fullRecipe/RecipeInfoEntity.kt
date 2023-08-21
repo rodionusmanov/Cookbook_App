@@ -37,5 +37,7 @@ data class RecipeInfoEntity(
     val readyInMinutes: Int,
     val servings: Int,
     val sourceUrl: String,
-    val summary: String
+    val summary: String,
+    @TypeConverters(DataTypeConverters::class)
+    val extendedIngredient: List<String>
 )

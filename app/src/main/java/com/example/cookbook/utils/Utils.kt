@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.os.Parcelable
 import com.example.cookbook.model.datasource.DTO.recipeInformation.AnalyzedInstruction
 import com.example.cookbook.model.datasource.DTO.recipeInformation.ExtendedIngredient
+import com.example.cookbook.model.datasource.DTO.recipeInformation.Measures
+import com.example.cookbook.model.datasource.DTO.recipeInformation.Metric
 import com.example.cookbook.model.datasource.DTO.recipeInformation.Nutrient
 import com.example.cookbook.model.datasource.DTO.recipeInformation.WeightPerServing
 import com.example.cookbook.model.domain.BaseRecipeData
@@ -91,8 +93,25 @@ fun convertRecipeInfoToEntity(recipe: RecipeInformation): RecipeInfoEntity {
         recipe.readyInMinutes,
         recipe.servings,
         recipe.sourceUrl,
-        recipe.summary
+        recipe.summary,
+        convertExtendedIngredientToStringList(recipe.extendedIngredients)
     )
+}
+
+fun convertExtendedIngredientToStringList(extendedIngredients: List<ExtendedIngredient>): List<String> {
+    val resultList: MutableList<String> = mutableListOf()
+    extendedIngredients.forEach {
+        resultList.add(
+            listOf<String>(
+                it.originalName,
+                it.measures.metric.amount.toString(),
+                it.measures.metric.unitLong
+            ).joinToString(
+                separator = SEPARATOR
+            )
+        )
+    }
+    return resultList
 }
 
 fun convertRecipeInfoEntityToList(entityList: List<RecipeInfoEntity>): List<RecipeInformation> {
@@ -101,7 +120,7 @@ fun convertRecipeInfoEntityToList(entityList: List<RecipeInfoEntity>): List<Reci
             emptyList<AnalyzedInstruction>(),
             (it.dairyFree == 1),
             it.dishTypes,
-            emptyList<ExtendedIngredient>(),
+            convertStringListToExtendedIngredients(it.extendedIngredient),
             (it.glutenFree == 1),
             it.id,
             it.image,
@@ -143,12 +162,30 @@ fun convertRecipeInfoEntityToList(entityList: List<RecipeInfoEntity>): List<Reci
     }
 }
 
+fun convertStringListToExtendedIngredients(extendedIngredient: List<String>): List<ExtendedIngredient> {
+    val resultList: MutableList<ExtendedIngredient> = mutableListOf()
+    extendedIngredient.forEach {
+        val strings = it.split(SEPARATOR).toTypedArray()
+        resultList.add(
+            ExtendedIngredient(
+                "",
+                0,
+                "",
+                Measures(Metric(strings[1].toDouble(), strings[2], "")),
+                listOf(),
+                strings[0]
+            )
+        )
+    }
+    return resultList
+}
+
 fun convertRecipeInfoEntityToRecipeInformation(entity: RecipeInfoEntity): RecipeInformation {
     return RecipeInformation(
         emptyList<AnalyzedInstruction>(),
         (entity.dairyFree == 1),
         entity.dishTypes,
-        emptyList<ExtendedIngredient>(),
+        convertStringListToExtendedIngredients(entity.extendedIngredient),
         (entity.glutenFree == 1),
         entity.id,
         entity.image,

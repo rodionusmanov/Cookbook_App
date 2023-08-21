@@ -48,6 +48,8 @@ class RecipeInfoFromDatabaseFragment :
 
     override fun setupData(data: RecipeInformation) {
 
+        viewModel.setIngredients(data.extendedIngredients)
+
         with(binding) {
             chDairyFree.isChecked = data.dairyFree
             chGlutenFree.isChecked = data.glutenFree

@@ -24,6 +24,9 @@ class RecipeInfoFromDatabaseViewModel(
     private val _stateFlow = MutableStateFlow<AppState>(AppState.Loading)
     val stateFlow: StateFlow<AppState> get() = _stateFlow.asStateFlow()
 
+    private val _ingredients = MutableStateFlow<List<ExtendedIngredient>>(listOf())
+    val ingredients: StateFlow<List<ExtendedIngredient>> get() = _ingredients.asStateFlow()
+
     private val _instructions = MutableStateFlow<List<AnalyzedInstruction>>(listOf())
     val instructions: StateFlow<List<AnalyzedInstruction>> get() = _instructions.asStateFlow()
 
@@ -42,6 +45,12 @@ class RecipeInfoFromDatabaseViewModel(
     fun setInstructions(list: List<AnalyzedInstruction>) {
         viewModelCoroutineScope.launch {
             _instructions.value = list
+        }
+    }
+
+    fun setIngredients(list: List<ExtendedIngredient>) {
+        viewModelCoroutineScope.launch {
+            _ingredients.value = list
         }
     }
 

@@ -40,3 +40,5 @@ const val SHARED_PREFERENCES_DIETARY_NAME = "dietary_restrictions"
 
 const val DEFAULT_RECIPE_NUMBER = 10
 
+const val SEPARATOR = "~~"
+
