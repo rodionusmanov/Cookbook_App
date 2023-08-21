@@ -94,5 +94,7 @@
     <string name="diet_paleo">Paleo</string>
     <string name="diet_primal">Primal</string>
     <string name="all_filters">All filters</string>
+    <string name="profile_edit_name">Display name</string>
+    <string name="profile_edit_second_name">Display second name</string>
 
 </resources>
