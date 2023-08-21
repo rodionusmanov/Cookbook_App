@@ -30,6 +30,7 @@ import com.example.cookbook.view.home.HomeViewModel
 import com.example.cookbook.view.home.healthyRandomRecipe.HealthyRandomRecipeListViewModel
 import com.example.cookbook.view.home.randomCuisineRecipes.RandomCuisineRecipeListViewModel
 import com.example.cookbook.view.home.randomRecipe.RandomRecipeListViewModel
+import com.example.cookbook.view.myProfile.MyProfileViewModel
 import com.example.cookbook.view.recipeInfo.RecipeInfoViewModel
 import com.example.cookbook.view.recipeInfo.adapters.UniversalAdapter
 import com.example.cookbook.view.recipeInfoFromDatabase.RecipeInfoFromDatabaseViewModel
@@ -81,10 +82,6 @@ val network = module {
     single { NetworkRepository(get()) }
 }
 
-val dietaryRestrictionsModule = module {
-    single { DietaryRestrictionsRepository(androidContext()) }
-}
-
 val homeFragment = module {
     viewModel { HomeViewModel(get()) }
     factory { HomeFragmentInteractor(get(), LocalRepositoryInfoImpl(get<IRecipesInfoDAO>())) }
@@ -122,4 +119,9 @@ val recipeInfoFromDatabase = module {
 
 val favoritesFragment = module {
     viewModel { FavoriteRecipesViewModel(LocalRepositoryInfoImpl(get<IRecipesInfoDAO>())) }
+}
+
+val myProfileFragment = module {
+    viewModel { MyProfileViewModel(get()) }
+    single { DietaryRestrictionsRepository(androidContext()) }
 }

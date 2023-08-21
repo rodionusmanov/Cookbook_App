@@ -96,5 +96,6 @@
     <string name="all_filters">All filters</string>
     <string name="profile_edit_name">Display name</string>
     <string name="profile_edit_second_name">Display second name</string>
+    <string name="profile_save_and_exit">Save and exit</string>
 
 </resources>

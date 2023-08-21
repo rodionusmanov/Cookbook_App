@@ -89,4 +89,17 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <Button
+        android:id="@+id/exit_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/second_name_edit"
+        android:layout_marginTop="@dimen/margin_16dp_medium"
+        android:layout_marginHorizontal="@dimen/margin_16dp_medium"
+        android:text="@string/profile_save_and_exit"
+        android:backgroundTint="@color/black"
+        android:padding="@dimen/padding_8dp"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

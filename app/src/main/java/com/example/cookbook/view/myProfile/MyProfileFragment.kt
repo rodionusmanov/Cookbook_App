@@ -12,23 +12,25 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import android.widget.LinearLayout
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.cookbook.R
 import com.example.cookbook.databinding.FragmentMyProfileBinding
 import com.example.cookbook.utils.SELECTED_DIET_KEY
 import com.example.cookbook.utils.SELECTED_INTOLERANCES_KEY
-import com.example.cookbook.utils.SHARED_PREFERENCES_DIETARY_NAME
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MyProfileFragment : Fragment() {
+class MyProfileFragment : Fragment(), OnProfileUpdatedListener {
 
     private var _binding: FragmentMyProfileBinding? = null
     private val binding get() = _binding!!
 
     private var isDietBlockOpen = false
     private var isIntoleranceBlockOpen = false
+
+    private val model: MyProfileViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,7 +40,18 @@ class MyProfileFragment : Fragment() {
         _binding = FragmentMyProfileBinding.inflate(inflater, container, false)
         initTextViewBlockListener()
         initChipGroups()
+        initEditButton()
         return binding.root
+    }
+
+    private fun initEditButton() {
+        binding.editProfileButton.setOnClickListener {
+            childFragmentManager.beginTransaction()
+                .replace(R.id.my_profile_container, EditProfileFragment.newInstance())
+                .commit()
+
+            binding.myProfileContainer.visibility = View.VISIBLE
+        }
     }
 
     private fun initChipGroups() {
@@ -47,7 +60,7 @@ class MyProfileFragment : Fragment() {
     }
 
     private fun initChipGroup(chipGroup: ChipGroup, preferenceKey: String) {
-        val selectedItems = getSelectedRestrictions(preferenceKey)
+        val selectedItems = model.getSelectedRestrictions(preferenceKey)
         for (i in 0 until chipGroup.childCount) {
             val chip = chipGroup.getChildAt(i) as Chip
             if (selectedItems.contains(chip.text.toString())) {
@@ -63,28 +76,14 @@ class MyProfileFragment : Fragment() {
                     newSelectedItems.add(it.text.toString())
                 }
             }
-            saveSelectedRestrictions(newSelectedItems, preferenceKey)
+            model.saveSelectedRestrictions(newSelectedItems, preferenceKey)
         }
-    }
-
-    private fun saveSelectedRestrictions(restrictions: Set<String>, preferenceKey: String) {
-        val sharedPreferences = activity?.getSharedPreferences(
-            SHARED_PREFERENCES_DIETARY_NAME, AppCompatActivity.MODE_PRIVATE
-        )
-        sharedPreferences?.edit()?.putStringSet(preferenceKey, restrictions)?.apply()
-    }
-
-    private fun getSelectedRestrictions(preferenceKey: String): MutableSet<String> {
-        val sharedPreferences = activity?.getSharedPreferences(
-            SHARED_PREFERENCES_DIETARY_NAME, AppCompatActivity.MODE_PRIVATE
-        )
-        return sharedPreferences?.getStringSet(preferenceKey, mutableSetOf()) ?: mutableSetOf()
     }
 
     private fun initTextViewBlockListener() {
         with(binding) {
             dietsText.setOnClickListener {
-                isDietBlockOpen = if(isDietBlockOpen) {
+                isDietBlockOpen = if (isDietBlockOpen) {
                     closeChipGroup(dietsChipGroup, dietBlock)
                     animateBlockCloseMark(dietBlockMark)
                     false
@@ -96,7 +95,7 @@ class MyProfileFragment : Fragment() {
             }
 
             intolerancesText.setOnClickListener {
-                isIntoleranceBlockOpen = if(isIntoleranceBlockOpen) {
+                isIntoleranceBlockOpen = if (isIntoleranceBlockOpen) {
                     closeChipGroup(intolerancesChipGroup, intolerancesBlock)
                     animateBlockCloseMark(intoleranceBlockMark)
                     false
@@ -109,7 +108,7 @@ class MyProfileFragment : Fragment() {
         }
     }
 
-    private fun openChipGroup(chipGroup: ChipGroup, parentLayout: LinearLayout){
+    private fun openChipGroup(chipGroup: ChipGroup, parentLayout: LinearLayout) {
         chipGroup.measure(
             View.MeasureSpec.makeMeasureSpec(parentLayout.width, View.MeasureSpec.AT_MOST),
             View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
@@ -143,7 +142,7 @@ class MyProfileFragment : Fragment() {
         animatorSet.start()
     }
 
-    private fun closeChipGroup(chipGroup: ChipGroup, parentLayout: LinearLayout){
+    private fun closeChipGroup(chipGroup: ChipGroup, parentLayout: LinearLayout) {
 
         chipGroup.measure(
             View.MeasureSpec.makeMeasureSpec(parentLayout.width, View.MeasureSpec.EXACTLY),
@@ -168,7 +167,7 @@ class MyProfileFragment : Fragment() {
 
         val animatorSet = AnimatorSet()
         animatorSet.playTogether(chipSlideAnimator, parentLayoutAnimator)
-        animatorSet.addListener(object : AnimatorListenerAdapter(){
+        animatorSet.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
                 chipGroup.visibility = View.GONE
             }
@@ -207,5 +206,9 @@ class MyProfileFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onProfileUpdated(name: String, secondName: String) {
+        TODO("Not yet implemented")
     }
 }
