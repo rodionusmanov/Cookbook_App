@@ -163,6 +163,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
+                    android:alpha="0"
                     android:layout_marginHorizontal="@dimen/margin_16dp_medium">
 
                     <com.google.android.material.chip.Chip
@@ -298,6 +299,7 @@
                     android:layout_marginHorizontal="@dimen/margin_16dp_medium"
                     android:layout_marginBottom="@dimen/margin_8dp_small"
                     android:visibility="gone"
+                    android:alpha="0"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/intolerances_text">

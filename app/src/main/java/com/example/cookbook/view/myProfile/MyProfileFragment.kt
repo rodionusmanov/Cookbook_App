@@ -101,7 +101,7 @@ class MyProfileFragment : Fragment() {
                     animateBlockCloseMark(intoleranceBlockMark)
                     false
                 } else {
-                    closeChipGroup(intolerancesChipGroup, intolerancesBlock)
+                    openChipGroup(intolerancesChipGroup, intolerancesBlock)
                     animateBlockOpenMark(intoleranceBlockMark)
                     true
                 }
@@ -115,49 +115,66 @@ class MyProfileFragment : Fragment() {
             View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
         )
         val height = chipGroup.measuredHeight
-        val chipAnimator = ObjectAnimator
-            .ofFloat(chipGroup, "translationY", -height.toFloat(), 0F)
+        chipGroup.layoutParams.height = 0
+
+        val chipSlideAnimator = ObjectAnimator
+            .ofFloat(chipGroup, "translationY", -height.toFloat(), 0f)
+
+        val chipAlphaAnimator = ObjectAnimator
+            .ofFloat(chipGroup, "alpha", 0f, 1f)
+            .setDuration(150)
 
         val parentLayoutAnimator = ValueAnimator.ofInt(0, height)
         parentLayoutAnimator.addUpdateListener { animation ->
-                val layoutParams = parentLayout.layoutParams
-                layoutParams.height = animation.animatedValue as Int
-                parentLayout.layoutParams = layoutParams
-            }
+            val layoutParams = chipGroup.layoutParams
+            layoutParams.height = animation.animatedValue as Int
+            chipGroup.requestLayout()
+        }
 
         val animatorSet = AnimatorSet()
-        animatorSet.playTogether(chipAnimator, parentLayoutAnimator)
+        animatorSet.playTogether(chipSlideAnimator, parentLayoutAnimator)
         animatorSet.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationStart(animation: Animator) {
                 chipGroup.visibility = View.VISIBLE
             }
         })
         animatorSet.duration = 300
+        chipAlphaAnimator.start()
         animatorSet.start()
     }
 
     private fun closeChipGroup(chipGroup: ChipGroup, parentLayout: LinearLayout){
 
-        val height = chipGroup.height
+        chipGroup.measure(
+            View.MeasureSpec.makeMeasureSpec(parentLayout.width, View.MeasureSpec.EXACTLY),
+            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+        )
 
-        val chipAnimator = ObjectAnimator
-            .ofFloat(chipGroup, "translationY", 0F, -height.toFloat())
+        val height = chipGroup.measuredHeight
 
+        val chipSlideAnimator = ObjectAnimator
+            .ofFloat(chipGroup, "translationY", 0f, -height.toFloat())
+
+        val chipAlphaAnimator = ObjectAnimator
+            .ofFloat(chipGroup, "alpha", 1f, 0f)
+            .setDuration(150)
+
+        val layoutParams = chipGroup.layoutParams
         val parentLayoutAnimator = ValueAnimator.ofInt(height, 0)
         parentLayoutAnimator.addUpdateListener { animation ->
-            val layoutParams = parentLayout.layoutParams
             layoutParams.height = animation.animatedValue as Int
-            parentLayout.layoutParams = layoutParams
+            chipGroup.layoutParams = layoutParams
         }
 
         val animatorSet = AnimatorSet()
-        animatorSet.playTogether(chipAnimator, parentLayoutAnimator)
+        animatorSet.playTogether(chipSlideAnimator, parentLayoutAnimator)
         animatorSet.addListener(object : AnimatorListenerAdapter(){
             override fun onAnimationEnd(animation: Animator) {
                 chipGroup.visibility = View.GONE
             }
         })
         animatorSet.duration = 300
+        chipAlphaAnimator.start()
         animatorSet.start()
     }
 
@@ -165,9 +182,9 @@ class MyProfileFragment : Fragment() {
         val rotate = RotateAnimation(
             180f, 0f,
             Animation.RELATIVE_TO_SELF,
-            0.5F,
+            0.5f,
             Animation.RELATIVE_TO_SELF,
-            0.5F
+            0.5f
         )
         rotate.duration = 300
         rotate.fillAfter = true
@@ -178,9 +195,9 @@ class MyProfileFragment : Fragment() {
         val rotate = RotateAnimation(
             0f, 180f,
             Animation.RELATIVE_TO_SELF,
-            0.5F,
+            0.5f,
             Animation.RELATIVE_TO_SELF,
-            0.5F
+            0.5f
         )
         rotate.duration = 300
         rotate.fillAfter = true
