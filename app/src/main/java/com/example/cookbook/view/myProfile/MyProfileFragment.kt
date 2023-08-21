@@ -1,5 +1,10 @@
 package com.example.cookbook.view.myProfile
 
+import android.animation.Animator
+import android.animation.AnimatorInflater
+import android.animation.AnimatorListenerAdapter
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +13,7 @@ import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.cookbook.R
 import com.example.cookbook.databinding.FragmentMyProfileBinding
 import com.example.cookbook.utils.SELECTED_DIET_KEY
 import com.example.cookbook.utils.SELECTED_INTOLERANCES_KEY
@@ -79,11 +85,11 @@ class MyProfileFragment : Fragment() {
         with(binding) {
             dietsText.setOnClickListener {
                 if(isDietBlockOpen) {
-                    dietsChipGroup.visibility = View.GONE
+                    closeChipGroup(dietsChipGroup)
                     animateBlockCloseMark(binding.dietBlockMark)
                     isDietBlockOpen = false
                 } else {
-                    dietsChipGroup.visibility = View.VISIBLE
+                    openChipGroup(dietsChipGroup)
                     animateBlockOpenMark(binding.dietBlockMark)
                     isDietBlockOpen = true
                 }
@@ -91,16 +97,40 @@ class MyProfileFragment : Fragment() {
 
             intolerancesText.setOnClickListener {
                 if(isIntoleranceBlockOpen) {
-                    intolerancesChipGroup.visibility = View.GONE
+                    closeChipGroup(intolerancesChipGroup)
                     animateBlockCloseMark(binding.intoleranceBlockMark)
                     isIntoleranceBlockOpen = false
                 } else {
-                    intolerancesChipGroup.visibility = View.VISIBLE
+                    closeChipGroup(intolerancesChipGroup)
                     animateBlockOpenMark(binding.intoleranceBlockMark)
                     isIntoleranceBlockOpen = true
                 }
             }
         }
+    }
+
+    private fun openChipGroup(chipGroup: ChipGroup){
+        val animator = AnimatorInflater.loadAnimator(requireContext(), R.animator.open_chip_group) as AnimatorSet
+        (animator.childAnimations[0] as ObjectAnimator).setFloatValues(-chipGroup.height.toFloat(), 0F)
+        animator.setTarget(chipGroup)
+        animator.addListener(object: AnimatorListenerAdapter(){
+            override fun onAnimationStart(animation: Animator) {
+                chipGroup.visibility = View.VISIBLE
+            }
+        })
+        animator.start()
+    }
+
+    private fun closeChipGroup(chipGroup: ChipGroup){
+        val animator = AnimatorInflater.loadAnimator(requireContext(), R.animator.close_chip_group) as AnimatorSet
+        (animator.childAnimations[0] as ObjectAnimator).setFloatValues(0F, -chipGroup.height.toFloat())
+        animator.setTarget(chipGroup)
+        animator.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                chipGroup.visibility = View.GONE
+            }
+        })
+        animator.start()
     }
 
     private fun animateBlockCloseMark(cardView: MaterialCardView) {
