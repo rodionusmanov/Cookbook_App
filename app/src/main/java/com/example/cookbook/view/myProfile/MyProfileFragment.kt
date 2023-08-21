@@ -1,19 +1,19 @@
 package com.example.cookbook.view.myProfile
 
 import android.animation.Animator
-import android.animation.AnimatorInflater
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.cookbook.R
 import com.example.cookbook.databinding.FragmentMyProfileBinding
 import com.example.cookbook.utils.SELECTED_DIET_KEY
 import com.example.cookbook.utils.SELECTED_INTOLERANCES_KEY
@@ -84,53 +84,81 @@ class MyProfileFragment : Fragment() {
     private fun initTextViewBlockListener() {
         with(binding) {
             dietsText.setOnClickListener {
-                if(isDietBlockOpen) {
-                    closeChipGroup(dietsChipGroup)
-                    animateBlockCloseMark(binding.dietBlockMark)
-                    isDietBlockOpen = false
+                isDietBlockOpen = if(isDietBlockOpen) {
+                    closeChipGroup(dietsChipGroup, dietBlock)
+                    animateBlockCloseMark(dietBlockMark)
+                    false
                 } else {
-                    openChipGroup(dietsChipGroup)
-                    animateBlockOpenMark(binding.dietBlockMark)
-                    isDietBlockOpen = true
+                    openChipGroup(dietsChipGroup, dietBlock)
+                    animateBlockOpenMark(dietBlockMark)
+                    true
                 }
             }
 
             intolerancesText.setOnClickListener {
-                if(isIntoleranceBlockOpen) {
-                    closeChipGroup(intolerancesChipGroup)
-                    animateBlockCloseMark(binding.intoleranceBlockMark)
-                    isIntoleranceBlockOpen = false
+                isIntoleranceBlockOpen = if(isIntoleranceBlockOpen) {
+                    closeChipGroup(intolerancesChipGroup, intolerancesBlock)
+                    animateBlockCloseMark(intoleranceBlockMark)
+                    false
                 } else {
-                    closeChipGroup(intolerancesChipGroup)
-                    animateBlockOpenMark(binding.intoleranceBlockMark)
-                    isIntoleranceBlockOpen = true
+                    closeChipGroup(intolerancesChipGroup, intolerancesBlock)
+                    animateBlockOpenMark(intoleranceBlockMark)
+                    true
                 }
             }
         }
     }
 
-    private fun openChipGroup(chipGroup: ChipGroup){
-        val animator = AnimatorInflater.loadAnimator(requireContext(), R.animator.open_chip_group) as AnimatorSet
-        (animator.childAnimations[0] as ObjectAnimator).setFloatValues(-chipGroup.height.toFloat(), 0F)
-        animator.setTarget(chipGroup)
-        animator.addListener(object: AnimatorListenerAdapter(){
+    private fun openChipGroup(chipGroup: ChipGroup, parentLayout: LinearLayout){
+        chipGroup.measure(
+            View.MeasureSpec.makeMeasureSpec(parentLayout.width, View.MeasureSpec.AT_MOST),
+            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+        )
+        val height = chipGroup.measuredHeight
+        val chipAnimator = ObjectAnimator
+            .ofFloat(chipGroup, "translationY", -height.toFloat(), 0F)
+
+        val parentLayoutAnimator = ValueAnimator.ofInt(0, height)
+        parentLayoutAnimator.addUpdateListener { animation ->
+                val layoutParams = parentLayout.layoutParams
+                layoutParams.height = animation.animatedValue as Int
+                parentLayout.layoutParams = layoutParams
+            }
+
+        val animatorSet = AnimatorSet()
+        animatorSet.playTogether(chipAnimator, parentLayoutAnimator)
+        animatorSet.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationStart(animation: Animator) {
                 chipGroup.visibility = View.VISIBLE
             }
         })
-        animator.start()
+        animatorSet.duration = 300
+        animatorSet.start()
     }
 
-    private fun closeChipGroup(chipGroup: ChipGroup){
-        val animator = AnimatorInflater.loadAnimator(requireContext(), R.animator.close_chip_group) as AnimatorSet
-        (animator.childAnimations[0] as ObjectAnimator).setFloatValues(0F, -chipGroup.height.toFloat())
-        animator.setTarget(chipGroup)
-        animator.addListener(object : AnimatorListenerAdapter() {
+    private fun closeChipGroup(chipGroup: ChipGroup, parentLayout: LinearLayout){
+
+        val height = chipGroup.height
+
+        val chipAnimator = ObjectAnimator
+            .ofFloat(chipGroup, "translationY", 0F, -height.toFloat())
+
+        val parentLayoutAnimator = ValueAnimator.ofInt(height, 0)
+        parentLayoutAnimator.addUpdateListener { animation ->
+            val layoutParams = parentLayout.layoutParams
+            layoutParams.height = animation.animatedValue as Int
+            parentLayout.layoutParams = layoutParams
+        }
+
+        val animatorSet = AnimatorSet()
+        animatorSet.playTogether(chipAnimator, parentLayoutAnimator)
+        animatorSet.addListener(object : AnimatorListenerAdapter(){
             override fun onAnimationEnd(animation: Animator) {
                 chipGroup.visibility = View.GONE
             }
         })
-        animator.start()
+        animatorSet.duration = 300
+        animatorSet.start()
     }
 
     private fun animateBlockCloseMark(cardView: MaterialCardView) {
