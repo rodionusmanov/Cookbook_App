@@ -2,6 +2,8 @@ package com.example.cookbook.model.repository.sharedPreferences
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.cookbook.utils.PROFILE_NAME_KEY
+import com.example.cookbook.utils.PROFILE_SECOND_NAME_KEY
 import com.example.cookbook.utils.SELECTED_DIET_KEY
 import com.example.cookbook.utils.SELECTED_INTOLERANCES_KEY
 import com.example.cookbook.utils.SHARED_PREFERENCES_DIETARY_NAME
@@ -30,5 +32,21 @@ class DietaryRestrictionsRepository(context: Context) {
 
     fun getSelectedRestrictions(preferenceKey: String): MutableSet<String>{
         return sharedPreferences.getStringSet(preferenceKey, mutableSetOf()) ?: mutableSetOf()
+    }
+
+    fun saveProfileName(name:String) {
+        sharedPreferences.edit().putString(PROFILE_NAME_KEY, name).apply()
+    }
+
+    fun saveProfileSecondName(secondName: String) {
+        sharedPreferences.edit().putString(PROFILE_SECOND_NAME_KEY, secondName).apply()
+    }
+
+    fun getProfileName(): String {
+        return sharedPreferences.getString(PROFILE_NAME_KEY, "") ?: ""
+    }
+
+    fun getProfileSecondName(): String {
+        return sharedPreferences.getString(PROFILE_SECOND_NAME_KEY, "") ?: ""
     }
 }

@@ -20,7 +20,7 @@ import com.example.cookbook.utils.SELECTED_INTOLERANCES_KEY
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class MyProfileFragment : Fragment(), OnProfileUpdatedListener {
 
@@ -30,7 +30,7 @@ class MyProfileFragment : Fragment(), OnProfileUpdatedListener {
     private var isDietBlockOpen = false
     private var isIntoleranceBlockOpen = false
 
-    private val model: MyProfileViewModel by viewModel()
+    private val model: MyProfileViewModel by activityViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,

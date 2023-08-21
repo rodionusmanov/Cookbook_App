@@ -37,6 +37,8 @@ const val CUISINE_MDTRN = "mediterranean"
 const val SELECTED_DIET_KEY = "diets_preferences"
 const val SELECTED_INTOLERANCES_KEY = "user_intolerances"
 const val SHARED_PREFERENCES_DIETARY_NAME = "dietary_restrictions"
+const val PROFILE_NAME_KEY = "profile_name"
+const val PROFILE_SECOND_NAME_KEY = "profile_second_name"
 
 const val DEFAULT_RECIPE_NUMBER = 10
 

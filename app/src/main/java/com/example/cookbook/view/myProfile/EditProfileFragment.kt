@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.cookbook.databinding.FragmentProfileEditBinding
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class EditProfileFragment : Fragment() {
 
@@ -14,6 +15,8 @@ class EditProfileFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var profileUpdatedListener: OnProfileUpdatedListener? = null
+
+    private val model: MyProfileViewModel by activityViewModel()
 
     companion object {
         fun newInstance() : EditProfileFragment {
@@ -47,11 +50,10 @@ class EditProfileFragment : Fragment() {
                 profileUpdatedListener?.onProfileUpdated(name, secondName)
             }
         }
-
     }
 
     private fun saveProfile(name: String, secondName: String) {
-
+        model.saveProfile(name, secondName)
     }
 
     override fun onDestroyView() {

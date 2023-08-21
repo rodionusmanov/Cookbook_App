@@ -15,4 +15,10 @@ class MyProfileViewModel(
         dietaryRestrictionsRepository.saveSelectedRestrictions(restrictions, preferenceKey)
     }
 
+    fun saveProfile(name:String, secondName: String) {
+        dietaryRestrictionsRepository.apply {
+            saveProfileName(name)
+            saveProfileSecondName(secondName)
+        }
+    }
 }
