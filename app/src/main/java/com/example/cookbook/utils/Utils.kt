@@ -4,10 +4,13 @@ import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import android.os.Parcelable
 import com.example.cookbook.model.datasource.DTO.recipeInformation.AnalyzedInstruction
+import com.example.cookbook.model.datasource.DTO.recipeInformation.Equipment
 import com.example.cookbook.model.datasource.DTO.recipeInformation.ExtendedIngredient
+import com.example.cookbook.model.datasource.DTO.recipeInformation.Ingredient
 import com.example.cookbook.model.datasource.DTO.recipeInformation.Measures
 import com.example.cookbook.model.datasource.DTO.recipeInformation.Metric
 import com.example.cookbook.model.datasource.DTO.recipeInformation.Nutrient
+import com.example.cookbook.model.datasource.DTO.recipeInformation.Step
 import com.example.cookbook.model.datasource.DTO.recipeInformation.WeightPerServing
 import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.RecipeInformation
@@ -94,8 +97,59 @@ fun convertRecipeInfoToEntity(recipe: RecipeInformation): RecipeInfoEntity {
         recipe.servings,
         recipe.sourceUrl,
         recipe.summary,
-        convertExtendedIngredientToStringList(recipe.extendedIngredients)
+        convertExtendedIngredientToStringList(recipe.extendedIngredients),
+        convertAnalyzedInstructionToStringList(recipe.analyzedInstructions)
     )
+}
+
+fun convertAnalyzedInstructionToStringList(analyzedInstructions: List<AnalyzedInstruction>): List<String> {
+    val resultList: MutableList<String> = mutableListOf()
+    analyzedInstructions.forEach {
+        resultList.add(
+            convertStepsToString(it.steps)
+        )
+    }
+    return resultList
+}
+
+fun convertStepsToString(steps: List<Step>): String {
+    val resultList: MutableList<String> = mutableListOf()
+    steps.forEach {
+        resultList.add(
+            listOf<String>(
+                convertEquipmentListToString(it.equipment),
+                convertIngredientsListToString(it.ingredients),
+                it.step
+            ).joinToString(separator = SEPARATOR_STEPS)
+        )
+    }
+    return resultList.joinToString(separator = SEPARATOR_STEPS_LIST)
+}
+
+fun convertIngredientsListToString(ingredients: List<Ingredient>): String {
+    val resultList: MutableList<String> = mutableListOf()
+    ingredients.forEach {
+        resultList.add(
+            listOf<String>(
+                it.image,
+                it.name
+            ).joinToString(separator = SEPARATOR_INGREDIENT)
+        )
+    }
+    return resultList.joinToString(separator = SEPARATOR_INGREDIENT_LIST)
+}
+
+fun convertEquipmentListToString(equipment: List<Equipment>): String {
+    val resultList: MutableList<String> = mutableListOf()
+    equipment.forEach {
+        resultList.add(
+            listOf<String>(
+                it.image,
+                it.name
+            ).joinToString(separator = SEPARATOR_EQUIPMENT)
+        )
+    }
+    return resultList.joinToString(separator = SEPARATOR_EQUIPMENT_LIST)
 }
 
 fun convertExtendedIngredientToStringList(extendedIngredients: List<ExtendedIngredient>): List<String> {
@@ -162,27 +216,9 @@ fun convertRecipeInfoEntityToList(entityList: List<RecipeInfoEntity>): List<Reci
     }
 }
 
-fun convertStringListToExtendedIngredients(extendedIngredient: List<String>): List<ExtendedIngredient> {
-    val resultList: MutableList<ExtendedIngredient> = mutableListOf()
-    extendedIngredient.forEach {
-        val strings = it.split(SEPARATOR).toTypedArray()
-        resultList.add(
-            ExtendedIngredient(
-                "",
-                0,
-                "",
-                Measures(Metric(strings[1].toDouble(), strings[2], "")),
-                listOf(),
-                strings[0]
-            )
-        )
-    }
-    return resultList
-}
-
 fun convertRecipeInfoEntityToRecipeInformation(entity: RecipeInfoEntity): RecipeInformation {
     return RecipeInformation(
-        emptyList<AnalyzedInstruction>(),
+        convertStringListToAnalyzedInstruction(entity.analyzedInstruction),
         (entity.dairyFree == 1),
         entity.dishTypes,
         convertStringListToExtendedIngredients(entity.extendedIngredient),
@@ -225,6 +261,95 @@ fun convertRecipeInfoEntityToRecipeInformation(entity: RecipeInfoEntity): Recipe
         (entity.veryHealthy == 1)
     )
 
+}
+
+fun convertStringListToExtendedIngredients(extendedIngredient: List<String>): List<ExtendedIngredient> {
+    val resultList: MutableList<ExtendedIngredient> = mutableListOf()
+    extendedIngredient.forEach {
+        val strings = it.split(SEPARATOR).toTypedArray()
+        resultList.add(
+            ExtendedIngredient(
+                "",
+                0,
+                "",
+                Measures(Metric(strings[1].toDouble(), strings[2], "")),
+                listOf(),
+                strings[0]
+            )
+        )
+    }
+    return resultList
+}
+
+fun convertStringListToAnalyzedInstruction(analyzedInstruction: List<String>): List<AnalyzedInstruction> {
+    val resultList: MutableList<AnalyzedInstruction> = mutableListOf()
+    var equipmentList: MutableList<Equipment> = mutableListOf()
+    var ingredientList: MutableList<Ingredient> = mutableListOf()
+    var stepName = ""
+
+    analyzedInstruction.forEach { instruction ->
+        val stepsString = instruction.split(SEPARATOR_STEPS_LIST).toTypedArray()
+        val stepList: MutableList<Step> = mutableListOf()
+
+        stepsString.forEach { stepString ->
+            val stepElements = stepString.split(SEPARATOR_STEPS)
+
+            val equipmentInnerString =
+                stepElements[0].split(SEPARATOR_EQUIPMENT_LIST).toTypedArray()
+            val ingredientInnerString =
+                stepElements[1].split(SEPARATOR_INGREDIENT_LIST).toTypedArray()
+            stepName = stepElements[2]
+
+            equipmentInnerString.forEach { innerEquipment ->
+                val equipmentStrings = innerEquipment.split(SEPARATOR_EQUIPMENT).toTypedArray()
+                equipmentList.add(
+                    if (innerEquipment != "") {
+                        Equipment(
+                            0,
+                            equipmentStrings[0],
+                            equipmentStrings[1]
+                        )
+                    } else {
+                        Equipment(0, "", "")
+                    }
+
+                )
+            }
+
+            ingredientInnerString.forEach { innerIngredient ->
+                val ingredientStrings =
+                    innerIngredient.split(SEPARATOR_INGREDIENT).toTypedArray()
+                ingredientList.add(
+                    if (innerIngredient != "") {
+                        Ingredient(
+                            0,
+                            ingredientStrings[0],
+                            ingredientStrings[1]
+                        )
+                    } else {
+                        Ingredient(
+                            0, "", ""
+                        )
+                    }
+                )
+            }
+
+            stepList.add(
+                Step(
+                    equipmentList,
+                    ingredientList,
+                    null,
+                    0,
+                    stepName
+                )
+            )
+            stepName = ""
+        }
+        resultList.add(
+            AnalyzedInstruction(stepList)
+        )
+    }
+    return resultList
 }
 
 fun convertDishTypesListToString(dishTypes: List<String>): String {
