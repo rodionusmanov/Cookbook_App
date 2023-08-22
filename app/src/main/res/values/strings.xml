@@ -100,5 +100,6 @@
     <string name="avatar_source_camera">Take a photo</string>
     <string name="avatar_source_gallery">Choose from gallery</string>
     <string name="avatar_source_title">Add a photo</string>
+    <string name="profile_decline_camera_permission">Camera access is required to take a photo. Please enable it in settings.</string>
 
 </resources>

@@ -1,13 +1,16 @@
 package com.example.cookbook.view.myProfile
 
 import android.content.Context
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.example.cookbook.R
@@ -27,8 +30,19 @@ class EditProfileFragment : Fragment() {
 
     private val model: MyProfileViewModel by activityViewModel()
 
+    private val requestCameraPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                continueTakingPhotoFromCamera()
+            } else {
+                Toast.makeText(requireContext(),
+                    getString(R.string.profile_decline_camera_permission),
+                    Toast.LENGTH_LONG)
+            }
+        }
+
     companion object {
-        fun newInstance() : EditProfileFragment {
+        fun newInstance(): EditProfileFragment {
             return EditProfileFragment()
         }
     }
@@ -80,7 +94,7 @@ class EditProfileFragment : Fragment() {
 
     private val takePhotoFromCameraLauncher =
         registerForActivityResult(ActivityResultContracts.TakePicture()) { success: Boolean ->
-            if(success) {
+            if (success) {
 
             }
         }
@@ -90,10 +104,20 @@ class EditProfileFragment : Fragment() {
     }
 
     private fun takePhotoFromCamera() {
+        if (ContextCompat.checkSelfPermission(requireContext(),
+                android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            continueTakingPhotoFromCamera()
+        } else {
+            requestCameraPermission.launch(android.Manifest.permission.CAMERA)
+        }
+
+    }
+
+    private fun continueTakingPhotoFromCamera() {
         val photoFile = File(requireContext().externalCacheDir, "temp_image.jpg")
         imageUri = FileProvider.getUriForFile(
-            requireContext(), requireContext().applicationContext.packageName + ".provider",
-            photoFile)
+            requireContext(), "com.example.cookbook.provider", photoFile
+        )
         takePhotoFromCameraLauncher.launch(imageUri)
     }
 
