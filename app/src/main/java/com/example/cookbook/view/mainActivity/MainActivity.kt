@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.cookbook.databinding.ActivityMainBinding
 import com.example.cookbook.utils.FRAGMENT_HOME
 import com.example.cookbook.utils.navigation.NavigationManager
+import com.example.cookbook.view.myProfile.MyProfileViewModel
 import com.example.cookbook.view.recipeInfo.RecipeInfoViewModel
 import com.example.cookbook.view.search.SearchViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -17,6 +18,7 @@ class MainActivity : AppCompatActivity() {
 
     private val recipeInfoViewModel: RecipeInfoViewModel by viewModel()
     private val searchViewModel: SearchViewModel by viewModel()
+    private val myProfileViewModel: MyProfileViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

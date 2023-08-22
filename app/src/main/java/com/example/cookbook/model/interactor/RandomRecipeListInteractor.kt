@@ -1,15 +1,14 @@
 package com.example.cookbook.model.interactor
 
 import com.example.cookbook.model.AppState
-import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.repository.local.LocalRepositoryInfoImpl
 import com.example.cookbook.model.repository.remoteDataSource.IRepositorySearchRequest
-import com.example.cookbook.model.repository.sharedPreferences.DietaryRestrictionsRepository
+import com.example.cookbook.model.repository.sharedPreferences.SharedPreferencesRepository
 
 class RandomRecipeListInteractor(
     private val remoteRepository: IRepositorySearchRequest,
     private val localRepository: LocalRepositoryInfoImpl,
-    private val preferencesRepository: DietaryRestrictionsRepository
+    private val preferencesRepository: SharedPreferencesRepository
 ) {
 
     suspend fun getRandomRecipes(): AppState {

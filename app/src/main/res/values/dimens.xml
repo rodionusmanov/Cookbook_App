@@ -63,4 +63,8 @@
     <dimen name="top_badge_padding_4dp">4dp</dimen>
     <dimen name="padding_8dp">8dp</dimen>
 
+    //MyProfile Layout
+    <dimen name="my_profile_avatar_height">100dp</dimen>
+    <dimen name="edit_profile_avatar_height">150dp</dimen>
+
 </resources>
