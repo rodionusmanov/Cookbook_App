@@ -21,15 +21,6 @@ class FavoriteRecipesViewModel(
     private val _stateFlow = MutableStateFlow<AppState>(AppState.Loading)
     val stateFlow: StateFlow<AppState> get() = _stateFlow.asStateFlow()
 
-    /*fun getAllLocalRecipes(): LiveData<List<RecipeInformation>> {
-        val result = MutableLiveData<List<RecipeInformation>>()
-        viewModelCoroutineScope.launch {
-            val returnedData = localRepository.getAllRecipesData()
-            result.postValue(returnedData)
-        }
-        return result
-    }*/
-
     fun getRecipesFromDatabase() {
         viewModelCoroutineScope.launch {
             _stateFlow.value = AppState.Loading
@@ -40,16 +31,4 @@ class FavoriteRecipesViewModel(
             }
         }
     }
-
-    /*fun insertNewRecipeToDataBase(recipeData: BaseRecipeData) {
-        viewModelCoroutineScope.launch {
-            localRepository.insertNewRecipe(recipeData)
-        }
-    }
-
-    fun deleteRecipeFromData(id: Int) {
-        viewModelCoroutineScope.launch {
-            localRepository.removeRecipeFromData(id)
-        }
-    }*/
 }

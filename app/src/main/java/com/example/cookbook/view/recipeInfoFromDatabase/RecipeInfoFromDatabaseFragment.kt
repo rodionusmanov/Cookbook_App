@@ -56,6 +56,7 @@ class RecipeInfoFromDatabaseFragment :
 
         viewModel.setIngredients(data.extendedIngredients)
         viewModel.setInstructions(data.analyzedInstructions)
+        viewModel.checkRecipeExistenceInDatabase(data.id)
 
         with(binding) {
             chDairyFree.isChecked = data.dairyFree
@@ -112,8 +113,42 @@ class RecipeInfoFromDatabaseFragment :
                 }
             }.attach()
 
-            chAddToFavorite.setOnClickListener {
+            checkAndSetFavoriteChip(data)
+        }
+    }
+
+    private fun checkAndSetFavoriteChip(data: RecipeInformation) {
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
+                viewModel.recipeExistenceInDatabase.collect {
+                    if (it) {
+                        setChipAsDelete(data)
+                    } else {
+                        setChipAsAdd(data)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setChipAsAdd(data: RecipeInformation) {
+        with(binding.chAddToFavorite) {
+            isChecked = false
+            text = resources.getString(R.string.add_to_favorite)
+            setOnClickListener {
                 viewModel.upsertRecipeToFavorite(data)
+                setChipAsDelete(data)
+            }
+        }
+    }
+
+    private fun setChipAsDelete(data: RecipeInformation) {
+        with(binding.chAddToFavorite) {
+            isChecked = true
+            text = resources.getString(R.string.delete_from_favorite)
+            setOnClickListener {
+                viewModel.deleteRecipeFromFavorite(data.id)
+                setChipAsAdd(data)
             }
         }
     }
