@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.cookbook.databinding.FragmentProfileEditBinding
+import com.google.android.material.textfield.TextInputEditText
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class EditProfileFragment : Fragment() {
@@ -26,8 +27,9 @@ class EditProfileFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnProfileUpdatedListener) {
-            profileUpdatedListener = context
+        val parent = parentFragment
+        if (parent is OnProfileUpdatedListener) {
+            profileUpdatedListener = parent
         }
     }
 
@@ -38,7 +40,18 @@ class EditProfileFragment : Fragment() {
     ): View {
         _binding = FragmentProfileEditBinding.inflate(inflater, container, false)
         initExitButton()
+        initEditText()
         return binding.root
+    }
+
+    private fun initEditText() {
+        with(binding) {
+            val nameEdit = nameEdit.editText as TextInputEditText
+            nameEdit.setText(model.getProfileName())
+
+            val nameSecondName = secondNameEdit.editText as TextInputEditText
+            nameSecondName.setText(model.getProfileSecondName())
+        }
     }
 
     private fun initExitButton() {
@@ -48,6 +61,9 @@ class EditProfileFragment : Fragment() {
                 val secondName = secondNameEdit.editText?.text.toString()
                 saveProfile(name, secondName)
                 profileUpdatedListener?.onProfileUpdated(name, secondName)
+                parentFragmentManager.beginTransaction()
+                    .remove(this@EditProfileFragment)
+                    .commit()
             }
         }
     }

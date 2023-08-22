@@ -21,7 +21,7 @@ import com.example.cookbook.model.repository.local.LocalRepositoryInfoImpl
 import com.example.cookbook.model.repository.network.NetworkRepository
 import com.example.cookbook.model.repository.remoteDataSource.IRepositorySearchRequest
 import com.example.cookbook.model.repository.remoteDataSource.SearchRepositoryImpl
-import com.example.cookbook.model.repository.sharedPreferences.DietaryRestrictionsRepository
+import com.example.cookbook.model.repository.sharedPreferences.SharedPreferencesRepository
 import com.example.cookbook.model.room.RecipesDatabase
 import com.example.cookbook.model.room.fullRecipe.IRecipesInfoDAO
 import com.example.cookbook.utils.network.NetworkLiveData
@@ -123,5 +123,5 @@ val favoritesFragment = module {
 
 val myProfileFragment = module {
     viewModel { MyProfileViewModel(get()) }
-    single { DietaryRestrictionsRepository(androidContext()) }
+    single { SharedPreferencesRepository(androidContext()) }
 }

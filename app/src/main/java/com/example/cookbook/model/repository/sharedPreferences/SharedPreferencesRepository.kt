@@ -6,12 +6,12 @@ import com.example.cookbook.utils.PROFILE_NAME_KEY
 import com.example.cookbook.utils.PROFILE_SECOND_NAME_KEY
 import com.example.cookbook.utils.SELECTED_DIET_KEY
 import com.example.cookbook.utils.SELECTED_INTOLERANCES_KEY
-import com.example.cookbook.utils.SHARED_PREFERENCES_DIETARY_NAME
+import com.example.cookbook.utils.SHARED_PREFERENCES_NAME
 
-class DietaryRestrictionsRepository(context: Context) {
+class SharedPreferencesRepository(context: Context) {
 
     private val sharedPreferences: SharedPreferences =
-        context.getSharedPreferences(SHARED_PREFERENCES_DIETARY_NAME, Context.MODE_PRIVATE)
+        context.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
     
     fun getSelectedDiets(): String {
         return getStringFromPreferences(SELECTED_DIET_KEY)

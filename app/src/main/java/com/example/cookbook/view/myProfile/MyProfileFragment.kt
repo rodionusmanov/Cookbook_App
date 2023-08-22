@@ -39,9 +39,17 @@ class MyProfileFragment : Fragment(), OnProfileUpdatedListener {
     ): View {
         _binding = FragmentMyProfileBinding.inflate(inflater, container, false)
         initTextViewBlockListener()
+        initUserNameTextView()
         initChipGroups()
         initEditButton()
         return binding.root
+    }
+
+    private fun initUserNameTextView() {
+        with(binding) {
+            userName.text = model.getProfileName()
+            userSecondName.text = model.getProfileSecondName()
+        }
     }
 
     private fun initEditButton() {
@@ -209,6 +217,10 @@ class MyProfileFragment : Fragment(), OnProfileUpdatedListener {
     }
 
     override fun onProfileUpdated(name: String, secondName: String) {
-        TODO("Not yet implemented")
+        with(binding) {
+            userName.text = name
+            userSecondName.text = secondName
+            myProfileContainer.visibility = View.GONE
+        }
     }
 }
