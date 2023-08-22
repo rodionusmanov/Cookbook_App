@@ -13,12 +13,15 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
+import coil.load
 import com.example.cookbook.R
 import com.example.cookbook.databinding.FragmentProfileEditBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputEditText
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
 
 class EditProfileFragment : Fragment() {
 
@@ -64,12 +67,22 @@ class EditProfileFragment : Fragment() {
         initExitButton()
         initEditText()
         initFAB()
+        loadAvatar()
         return binding.root
+    }
+
+    private fun loadAvatar() {
+        val file = File(requireContext().filesDir, "avatar_image.jpg")
+        if (file.exists()) {
+            binding.avatarImage.load(file) { crossfade(true) }
+        }
     }
 
     private fun initFAB() {
         binding.editAvatar.setOnClickListener {
-            val view = layoutInflater.inflate(R.layout.bottom_sheet_dialog_avatar_edit, null)
+            val view = layoutInflater.inflate(R.layout.bottom_sheet_dialog_avatar_edit,
+                binding.editAvatar.parent as ViewGroup?,
+                false)
             val dialog = BottomSheetDialog(requireContext())
             dialog.setContentView(view)
 
@@ -89,13 +102,44 @@ class EditProfileFragment : Fragment() {
 
     private val choosePhotoFromGalleryLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-
+            binding.avatarImage.load(uri) { crossfade(true) }
+            saveImage(uri)
         }
+
+    private fun saveImage(uri: Uri?) {
+        val inputStream: InputStream? = uri?.let {
+            requireContext().contentResolver.openInputStream(it)
+        }
+        val file = File(requireContext().filesDir, "avatar_image.jpg")
+
+        inputStream?.use { input ->
+            FileOutputStream(file).use { output ->
+                val buffer = ByteArray(4 * 1024)
+                var read: Int
+                while (input.read(buffer).also { read = it } != -1) {
+                    output.write(buffer, 0, read)
+                }
+                output.flush()
+            }
+        }
+    }
 
     private val takePhotoFromCameraLauncher =
         registerForActivityResult(ActivityResultContracts.TakePicture()) { success: Boolean ->
             if (success) {
+                val file = File(requireContext().filesDir, "avatar_image.jpg")
+                val sourceFile = File(requireContext().externalCacheDir, "temp_image.jpg")
 
+                sourceFile.copyTo(file, true)
+
+                val uri = Uri.fromFile(file)
+
+                binding.avatarImage.load(uri) { crossfade(true) }
+
+            } else {
+                Toast.makeText(requireContext(), getString(R.string.avatar_source_error),
+                    Toast.LENGTH_SHORT)
+                    .show()
             }
         }
 

@@ -34,9 +34,11 @@
                 app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50">
 
                 <ImageView
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:src="@drawable/avatar"
+                    android:id="@+id/avatar_image"
+                    android:layout_width="@dimen/edit_profile_avatar_height"
+                    android:layout_height="@dimen/edit_profile_avatar_height"
+                    android:src="@drawable/icon_profile"
+                    android:scaleType="centerCrop"
                     tools:ignore="ContentDescription" />
 
             </com.google.android.material.card.MaterialCardView>

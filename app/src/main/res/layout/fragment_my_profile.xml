@@ -40,18 +40,20 @@
                 app:layout_constraintTop_toBottomOf="@id/user_name" />
 
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginTop="20dp"
+                android:layout_width="@dimen/my_profile_avatar_height"
+                android:layout_height="@dimen/my_profile_avatar_height"
+                android:layout_marginTop="@dimen/margin_20dp_medium"
                 android:layout_marginEnd="@dimen/margin_45dp_large"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50">
 
                 <ImageView
+                    android:id="@+id/user_avatar_image"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@drawable/avatar"
+                    android:src="@drawable/icon_profile"
+                    android:scaleType="centerCrop"
                     tools:ignore="ContentDescription" />
 
             </com.google.android.material.card.MaterialCardView>

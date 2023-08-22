@@ -13,6 +13,7 @@ import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import coil.load
 import com.example.cookbook.R
 import com.example.cookbook.databinding.FragmentMyProfileBinding
 import com.example.cookbook.utils.SELECTED_DIET_KEY
@@ -21,6 +22,7 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
+import java.io.File
 
 class MyProfileFragment : Fragment(), OnProfileUpdatedListener {
 
@@ -42,7 +44,15 @@ class MyProfileFragment : Fragment(), OnProfileUpdatedListener {
         initUserNameTextView()
         initChipGroups()
         initEditButton()
+        loadAvatar()
         return binding.root
+    }
+
+    private fun loadAvatar() {
+        val file = File(requireContext().filesDir, "avatar_image.jpg")
+        if (file.exists()) {
+            binding.userAvatarImage.load(file)
+        }
     }
 
     private fun initUserNameTextView() {
