@@ -1,14 +1,21 @@
 package com.example.cookbook.view.myProfile
 
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
+import com.example.cookbook.R
 import com.example.cookbook.databinding.FragmentProfileEditBinding
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputEditText
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
+import java.io.File
 
 class EditProfileFragment : Fragment() {
 
@@ -16,6 +23,7 @@ class EditProfileFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var profileUpdatedListener: OnProfileUpdatedListener? = null
+    private lateinit var imageUri: Uri
 
     private val model: MyProfileViewModel by activityViewModel()
 
@@ -41,7 +49,52 @@ class EditProfileFragment : Fragment() {
         _binding = FragmentProfileEditBinding.inflate(inflater, container, false)
         initExitButton()
         initEditText()
+        initFAB()
         return binding.root
+    }
+
+    private fun initFAB() {
+        binding.editAvatar.setOnClickListener {
+            val view = layoutInflater.inflate(R.layout.bottom_sheet_dialog_avatar_edit, null)
+            val dialog = BottomSheetDialog(requireContext())
+            dialog.setContentView(view)
+
+            view.findViewById<LinearLayout>(R.id.camera_button).setOnClickListener {
+                takePhotoFromCamera()
+                dialog.dismiss()
+            }
+
+            view.findViewById<LinearLayout>(R.id.gallery_button).setOnClickListener {
+                choosePhotoFromGallery()
+                dialog.dismiss()
+            }
+
+            dialog.show()
+        }
+    }
+
+    private val choosePhotoFromGalleryLauncher =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+
+        }
+
+    private val takePhotoFromCameraLauncher =
+        registerForActivityResult(ActivityResultContracts.TakePicture()) { success: Boolean ->
+            if(success) {
+
+            }
+        }
+
+    private fun choosePhotoFromGallery() {
+        choosePhotoFromGalleryLauncher.launch("image/*")
+    }
+
+    private fun takePhotoFromCamera() {
+        val photoFile = File(requireContext().externalCacheDir, "temp_image.jpg")
+        imageUri = FileProvider.getUriForFile(
+            requireContext(), requireContext().applicationContext.packageName + ".provider",
+            photoFile)
+        takePhotoFromCameraLauncher.launch(imageUri)
     }
 
     private fun initEditText() {

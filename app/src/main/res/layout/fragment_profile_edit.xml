@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:background="@color/my_profile_background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:gravity="center_horizontal"
@@ -48,9 +49,11 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:fabSize="mini"
+                android:clickable="true"
+                android:focusable="true"
                 android:src="@drawable/icon_add_a_photo"
                 app:tint="@color/white"
-                android:elevation="0dp"
+                android:elevation="12dp"
                 tools:ignore="ContentDescription"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
