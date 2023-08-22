@@ -18,4 +18,7 @@ interface IRecipesInfoDAO {
 
     @Query("DELETE FROM Recipes_info_table WHERE id = :recipeId")
     suspend fun deleteRecipeFromFavorite(recipeId: Int)
+
+    @Query("SELECT EXISTS(SELECT 1 FROM Recipes_info_table WHERE id = :recipeId)")
+    suspend fun exists(recipeId: Int): Boolean
 }

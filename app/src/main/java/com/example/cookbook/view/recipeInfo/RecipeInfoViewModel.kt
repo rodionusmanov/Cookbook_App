@@ -1,5 +1,7 @@
 package com.example.cookbook.view.recipeInfo
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.datasource.DTO.recipeInformation.AnalyzedInstruction
 import com.example.cookbook.model.datasource.DTO.recipeInformation.ExtendedIngredient
@@ -8,10 +10,12 @@ import com.example.cookbook.model.interactor.RecipeInfoFragmentInteractor
 import com.example.cookbook.model.repository.local.LocalRepositoryImpl
 import com.example.cookbook.model.repository.local.LocalRepositoryInfoImpl
 import com.example.cookbook.view.base.BaseViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class RecipeInfoViewModel(
     private val interactor: RecipeInfoFragmentInteractor,
@@ -26,6 +30,9 @@ class RecipeInfoViewModel(
 
     private val _instructions = MutableStateFlow<List<AnalyzedInstruction>>(listOf())
     val instructions: StateFlow<List<AnalyzedInstruction>> get() = _instructions.asStateFlow()
+
+    private val _recipeExistenceInDatabase = MutableStateFlow<Boolean>(false)
+    val recipeExistenceInDatabase: StateFlow<Boolean> get() = _recipeExistenceInDatabase.asStateFlow()
 
     fun recipeInfoRequest(id: Int) {
         viewModelCoroutineScope.launch {
@@ -59,6 +66,12 @@ class RecipeInfoViewModel(
     fun deleteRecipeFromFavorite(id: Int) {
         viewModelCoroutineScope.launch {
             localRepository.removeRecipeFromData(id)
+        }
+    }
+
+    fun checkRecipeExistenceInDatabase(id: Int){
+        viewModelCoroutineScope.launch {
+            _recipeExistenceInDatabase.value = localRepository.checkExistence(id)
         }
     }
 }

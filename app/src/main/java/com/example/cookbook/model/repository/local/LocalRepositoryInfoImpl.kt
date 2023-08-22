@@ -24,4 +24,8 @@ class LocalRepositoryInfoImpl(private val recipeInfoDAO: IRecipesInfoDAO) :
         recipeInfoDAO.deleteRecipeFromFavorite(id)
     }
 
+    override suspend fun checkExistence(id: Int): Boolean {
+        return recipeInfoDAO.exists(id)
+    }
+
 }

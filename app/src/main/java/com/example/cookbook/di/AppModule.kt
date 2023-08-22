@@ -9,6 +9,7 @@ import com.example.cookbook.model.datasource.RandomRecipeDataSource
 import com.example.cookbook.model.datasource.RecipeInformationDataSource
 import com.example.cookbook.model.datasource.SearchRecipeDataSource
 import com.example.cookbook.model.datasource.retrofit.RetrofitImplementation
+import com.example.cookbook.model.interactor.FavoriteFragmentInteractor
 import com.example.cookbook.model.interactor.HomeFragmentInteractor
 import com.example.cookbook.model.interactor.RandomRecipeListInteractor
 import com.example.cookbook.model.interactor.RecipeFromDatabaseFragmentInteractor
@@ -121,5 +122,11 @@ val recipeInfoFromDatabase = module {
 }
 
 val favoritesFragment = module {
-    viewModel { FavoriteRecipesViewModel(LocalRepositoryInfoImpl(get<IRecipesInfoDAO>())) }
+    viewModel {
+        FavoriteRecipesViewModel(
+            get(),
+            LocalRepositoryInfoImpl(get<IRecipesInfoDAO>())
+        )
+    }
+    factory { FavoriteFragmentInteractor(LocalRepositoryInfoImpl(get<IRecipesInfoDAO>())) }
 }

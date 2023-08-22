@@ -32,10 +32,6 @@ class FavoriteRecipesAdapter() :
                         scale(Scale.FILL)
                         placeholder(R.drawable.icon_search)
                     }
-                    ivAddFavorite.setOnClickListener {
-//                        callbackDeleteRecipe.deleteRecipe(data.id)
-                        notifyItemRemoved(position)
-                    }
                     setOnClickListener(data)
                 }
             }
