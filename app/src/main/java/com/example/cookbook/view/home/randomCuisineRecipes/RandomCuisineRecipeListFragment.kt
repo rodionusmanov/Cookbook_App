@@ -123,6 +123,9 @@ class RandomCuisineRecipeListFragment :
 
     private fun initTitleText() {
         with(binding) {
+            setAlphaForBackground(firstLineTitle, 170)
+            setAlphaForBackground(secondLineTitle, 170)
+
             when(cuisine) {
                 CUISINE_ASIA -> {
                     firstLineTitle.apply{
@@ -167,6 +170,12 @@ class RandomCuisineRecipeListFragment :
                 else -> return
             }
         }
+    }
+
+    private fun setAlphaForBackground(view: View, alphaValue: Int) {
+        val bgDrawable = view.background.mutate()
+        bgDrawable.alpha = alphaValue
+        view.background = bgDrawable
     }
 
     private fun initViewModel() {
