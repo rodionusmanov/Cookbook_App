@@ -29,7 +29,8 @@ class EditProfileFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var profileUpdatedListener: OnProfileUpdatedListener? = null
-    private lateinit var imageUri: Uri
+    private var imageUri: Uri? = null
+    private var avatarUri: Uri? = null
 
     private val model: MyProfileViewModel by activityViewModel()
 
@@ -102,8 +103,11 @@ class EditProfileFragment : Fragment() {
 
     private val choosePhotoFromGalleryLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-            binding.avatarImage.load(uri) { crossfade(true) }
-            saveImage(uri)
+            if (uri != null) {
+                avatarUri = uri
+            }
+            binding.avatarImage.load(avatarUri) { crossfade(true) }
+            saveImage(avatarUri)
         }
 
     private fun saveImage(uri: Uri?) {
@@ -132,9 +136,9 @@ class EditProfileFragment : Fragment() {
 
                 sourceFile.copyTo(file, true)
 
-                val uri = Uri.fromFile(file)
+                avatarUri = Uri.fromFile(file)
 
-                binding.avatarImage.load(uri) { crossfade(true) }
+                binding.avatarImage.load(avatarUri) { crossfade(true) }
 
             } else {
                 Toast.makeText(requireContext(), getString(R.string.avatar_source_error),
@@ -181,7 +185,7 @@ class EditProfileFragment : Fragment() {
                 val name = nameEdit.editText?.text.toString()
                 val secondName = secondNameEdit.editText?.text.toString()
                 saveProfile(name, secondName)
-                profileUpdatedListener?.onProfileUpdated(name, secondName)
+                profileUpdatedListener?.onProfileUpdated(name, secondName, avatarUri)
                 parentFragmentManager.beginTransaction()
                     .remove(this@EditProfileFragment)
                     .commit()

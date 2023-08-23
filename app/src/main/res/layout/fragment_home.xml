@@ -63,6 +63,7 @@
                     android:id="@+id/user_avatar_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/icon_user_avatar"
                     tools:ignore="ContentDescription" />
 

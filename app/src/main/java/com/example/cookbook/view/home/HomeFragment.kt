@@ -2,13 +2,13 @@ package com.example.cookbook.view.home
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import coil.load
 import com.example.cookbook.R
 import com.example.cookbook.databinding.FragmentHomeBinding
 import com.example.cookbook.model.AppState
@@ -20,6 +20,7 @@ import com.example.cookbook.utils.DISH_TYPE_SALAD
 import com.example.cookbook.utils.DISH_TYPE_SIDE_DISH
 import com.example.cookbook.utils.DISH_TYPE_SNACK
 import com.example.cookbook.utils.FRAGMENT_FAVORITE
+import com.example.cookbook.utils.FRAGMENT_PROFILE
 import com.example.cookbook.utils.FRAGMENT_SEARCH
 import com.example.cookbook.utils.navigation.NavigationManager
 import com.example.cookbook.view.base.BaseFragment
@@ -28,11 +29,13 @@ import com.example.cookbook.view.home.healthyRandomRecipe.HealthyRandomRecipeLis
 import com.example.cookbook.view.home.randomCuisineRecipes.RandomCuisineRecipeListFragment
 import com.example.cookbook.view.home.randomRecipe.RandomRecipesListFragment
 import com.example.cookbook.view.mainActivity.MainActivity
+import com.example.cookbook.view.myProfile.MyProfileFragment
 import com.example.cookbook.view.search.SearchFragment
 import com.example.cookbook.view.search.SearchViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.io.File
 
 class HomeFragment :
     BaseFragment<AppState, String, FragmentHomeBinding>(
@@ -55,7 +58,19 @@ class HomeFragment :
         initDishTypeCards()
         //initRandomCuisineFragment()
         initServiceButtons()
+        initUserAvatarImage()
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun initUserAvatarImage() {
+        val file = File(requireContext().filesDir, "avatar_image.jpg")
+        if (file.exists()) {
+            binding.userAvatarImage.load(file)
+        }
+        binding.userAvatarImage.setOnClickListener {
+            val profileFragment = MyProfileFragment()
+            navigationManager?.switchFragment(FRAGMENT_PROFILE, profileFragment, addToBackStack = true)
+        }
     }
 
     private fun initServiceButtons() {
@@ -146,7 +161,6 @@ class HomeFragment :
             putString(queryKey, query)
         }
         val searchViewModel: SearchViewModel by activityViewModel()
-        Log.d("@@@", "ViewModel hash: ${searchViewModel.hashCode()}")
         searchViewModel.updateArguments(args)
         val searchFragment = SearchFragment.newInstance()
         navigationManager?.switchFragment(FRAGMENT_SEARCH, searchFragment, addToBackStack = true)
