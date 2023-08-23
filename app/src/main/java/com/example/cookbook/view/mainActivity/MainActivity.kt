@@ -1,17 +1,22 @@
 package com.example.cookbook.view.mainActivity
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cookbook.databinding.ActivityMainBinding
 import com.example.cookbook.utils.FRAGMENT_HOME
+import com.example.cookbook.utils.FRAGMENT_PROFILE
 import com.example.cookbook.utils.navigation.NavigationManager
+import com.example.cookbook.view.home.HomeFragment
+import com.example.cookbook.view.myProfile.MyProfileFragment
 import com.example.cookbook.view.myProfile.MyProfileViewModel
+import com.example.cookbook.view.myProfile.OnProfileUpdatedListener
 import com.example.cookbook.view.recipeInfo.RecipeInfoViewModel
 import com.example.cookbook.view.search.SearchViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnProfileUpdatedListener {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navigationManager: NavigationManager
@@ -43,5 +48,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun provideNavigationManager(): NavigationManager = navigationManager
-
+    override fun onProfileUpdated(name: String, secondName: String, avatarUri: Uri?) {
+        val homeFragment = supportFragmentManager.findFragmentByTag(FRAGMENT_HOME) as HomeFragment
+        val profileFragment =
+            supportFragmentManager.findFragmentByTag(FRAGMENT_PROFILE) as MyProfileFragment
+        homeFragment.updateAvatar(avatarUri)
+        profileFragment.onProfileUpdated(name, secondName, avatarUri)
+    }
 }

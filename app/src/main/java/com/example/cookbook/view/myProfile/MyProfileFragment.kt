@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,7 +25,7 @@ import com.google.android.material.chip.ChipGroup
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import java.io.File
 
-class MyProfileFragment : Fragment(), OnProfileUpdatedListener {
+class MyProfileFragment : Fragment() {
 
     private var _binding: FragmentMyProfileBinding? = null
     private val binding get() = _binding!!
@@ -57,8 +58,13 @@ class MyProfileFragment : Fragment(), OnProfileUpdatedListener {
 
     private fun initUserNameTextView() {
         with(binding) {
-            userName.text = model.getProfileName()
-            userSecondName.text = model.getProfileSecondName()
+            userName.text = model.getProfileName().ifBlank {
+                "Add your name"
+            }
+
+            userSecondName.text = model.getProfileSecondName().ifBlank {
+                "Specify your surname"
+            }
         }
     }
 
@@ -226,11 +232,16 @@ class MyProfileFragment : Fragment(), OnProfileUpdatedListener {
         _binding = null
     }
 
-    override fun onProfileUpdated(name: String, secondName: String) {
+    fun onProfileUpdated(name: String, secondName: String, avatarUri: Uri?) {
         with(binding) {
-            userName.text = name
-            userSecondName.text = secondName
+            userName.text = name.ifBlank {
+                "Add your name"
+            }
+            userSecondName.text = secondName.ifBlank {
+                "Specify your surname"
+            }
             myProfileContainer.visibility = View.GONE
+            avatarUri?.let { binding.userAvatarImage.load(it) }
         }
     }
 }
