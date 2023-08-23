@@ -6,6 +6,7 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
+import com.example.cookbook.model.datasource.DTO.recipeInformation.AnalyzedInstruction
 import com.example.cookbook.model.datasource.DTO.recipeInformation.WeightPerServing
 import com.example.cookbook.model.room.DataTypeConverters
 
@@ -37,5 +38,9 @@ data class RecipeInfoEntity(
     val readyInMinutes: Int,
     val servings: Int,
     val sourceUrl: String,
-    val summary: String
+    val summary: String,
+    @TypeConverters(DataTypeConverters::class)
+    val extendedIngredient: List<String>,
+    @TypeConverters(DataTypeConverters::class)
+    val analyzedInstruction: List<String>
 )

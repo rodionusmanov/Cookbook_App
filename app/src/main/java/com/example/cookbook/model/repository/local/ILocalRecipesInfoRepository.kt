@@ -11,4 +11,6 @@ interface ILocalRecipesInfoRepository {
     suspend fun getRecipeDataById(id: Int): RecipeInformation
 
     suspend fun removeRecipeFromData(id: Int)
+
+    suspend fun checkExistence(id: Int): Boolean
 }

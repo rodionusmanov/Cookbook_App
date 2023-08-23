@@ -2,7 +2,9 @@ package com.example.cookbook.view.recipeInfoFromDatabase
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.example.cookbook.R
@@ -12,9 +14,11 @@ import com.example.cookbook.model.domain.RecipeInformation
 import com.example.cookbook.utils.ID
 import com.example.cookbook.view.base.BaseFragment
 import com.example.cookbook.view.recipeInfo.RecipeInfoFragment
+import com.example.cookbook.view.recipeInfo.adapters.RecipeInformationFromDatabasePageAdapter
 import com.example.cookbook.view.recipeInfo.adapters.RecipeInformationPageAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RecipeInfoFromDatabaseFragment :
@@ -23,21 +27,23 @@ class RecipeInfoFromDatabaseFragment :
     ) {
 
     companion object {
-        fun newInstance(): RecipeInfoFromDatabaseFragment {
-            return RecipeInfoFromDatabaseFragment()
+        fun newInstance(bundle: Bundle? = null) = RecipeInfoFromDatabaseFragment().apply {
+            arguments = bundle
         }
     }
 
-    private val viewModel: RecipeInfoFromDatabaseViewModel by viewModel()
+    private val viewModel: RecipeInfoFromDatabaseViewModel by activityViewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val id = requireArguments().getInt(ID)
+        val id = arguments?.getInt(ID)
 
-        id?.let{viewModel.getRecipeInfoFromDatabase(it)}
+        id?.let { viewModel.getRecipeInfoFromDatabase(it) }
         lifecycleScope.launch {
-            viewModel.stateFlow.collect {
-                renderData(it)
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
+                viewModel.stateFlow.collect {
+                    renderData(it)
+                }
             }
         }
     }
@@ -47,6 +53,10 @@ class RecipeInfoFromDatabaseFragment :
     }
 
     override fun setupData(data: RecipeInformation) {
+
+        viewModel.setIngredients(data.extendedIngredients)
+        viewModel.setInstructions(data.analyzedInstructions)
+        viewModel.checkRecipeExistenceInDatabase(data.id)
 
         with(binding) {
             chDairyFree.isChecked = data.dairyFree
@@ -94,7 +104,7 @@ class RecipeInfoFromDatabaseFragment :
             chCarb.text =
                 "${resources.getString(R.string.carb)} - ${data.carbohydrates?.amount}${data.carbohydrates?.unit}"
 
-            viewPager.adapter = RecipeInformationPageAdapter(requireActivity())
+            viewPager.adapter = RecipeInformationFromDatabasePageAdapter(requireActivity())
             viewPager.isUserInputEnabled = false
             TabLayoutMediator(tabLayout, viewPager) { tab, pos ->
                 when (pos) {
@@ -103,8 +113,42 @@ class RecipeInfoFromDatabaseFragment :
                 }
             }.attach()
 
-            chAddToFavorite.setOnClickListener {
+            checkAndSetFavoriteChip(data)
+        }
+    }
+
+    private fun checkAndSetFavoriteChip(data: RecipeInformation) {
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
+                viewModel.recipeExistenceInDatabase.collect {
+                    if (it) {
+                        setChipAsDelete(data)
+                    } else {
+                        setChipAsAdd(data)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setChipAsAdd(data: RecipeInformation) {
+        with(binding.chAddToFavorite) {
+            isChecked = false
+            text = resources.getString(R.string.add_to_favorite)
+            setOnClickListener {
                 viewModel.upsertRecipeToFavorite(data)
+                setChipAsDelete(data)
+            }
+        }
+    }
+
+    private fun setChipAsDelete(data: RecipeInformation) {
+        with(binding.chAddToFavorite) {
+            isChecked = true
+            text = resources.getString(R.string.delete_from_favorite)
+            setOnClickListener {
+                viewModel.deleteRecipeFromFavorite(data.id)
+                setChipAsAdd(data)
             }
         }
     }

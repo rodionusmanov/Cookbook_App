@@ -24,8 +24,14 @@ class RecipeInfoFromDatabaseViewModel(
     private val _stateFlow = MutableStateFlow<AppState>(AppState.Loading)
     val stateFlow: StateFlow<AppState> get() = _stateFlow.asStateFlow()
 
+    private val _ingredients = MutableStateFlow<List<ExtendedIngredient>>(listOf())
+    val ingredients: StateFlow<List<ExtendedIngredient>> get() = _ingredients.asStateFlow()
+
     private val _instructions = MutableStateFlow<List<AnalyzedInstruction>>(listOf())
     val instructions: StateFlow<List<AnalyzedInstruction>> get() = _instructions.asStateFlow()
+
+    private val _recipeExistenceInDatabase = MutableStateFlow<Boolean>(false)
+    val recipeExistenceInDatabase: StateFlow<Boolean> get() = _recipeExistenceInDatabase.asStateFlow()
 
 
     fun getRecipeInfoFromDatabase(id: Int) {
@@ -45,9 +51,27 @@ class RecipeInfoFromDatabaseViewModel(
         }
     }
 
+    fun setIngredients(list: List<ExtendedIngredient>) {
+        viewModelCoroutineScope.launch {
+            _ingredients.value = list
+        }
+    }
+
     fun upsertRecipeToFavorite(recipeInformation: RecipeInformation) {
         viewModelCoroutineScope.launch {
             localRepository.upsertNewRecipe(recipeInformation)
+        }
+    }
+
+    fun deleteRecipeFromFavorite(id: Int) {
+        viewModelCoroutineScope.launch {
+            localRepository.removeRecipeFromData(id)
+        }
+    }
+
+    fun checkRecipeExistenceInDatabase(id: Int){
+        viewModelCoroutineScope.launch {
+            _recipeExistenceInDatabase.value = localRepository.checkExistence(id)
         }
     }
 }
