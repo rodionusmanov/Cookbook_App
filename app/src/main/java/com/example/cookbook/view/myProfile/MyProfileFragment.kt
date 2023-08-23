@@ -25,7 +25,7 @@ import com.google.android.material.chip.ChipGroup
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import java.io.File
 
-class MyProfileFragment : Fragment(), OnProfileUpdatedListener {
+class MyProfileFragment : Fragment() {
 
     private var _binding: FragmentMyProfileBinding? = null
     private val binding get() = _binding!!
@@ -232,7 +232,7 @@ class MyProfileFragment : Fragment(), OnProfileUpdatedListener {
         _binding = null
     }
 
-    override fun onProfileUpdated(name: String, secondName: String, avatarUri: Uri?) {
+    fun onProfileUpdated(name: String, secondName: String, avatarUri: Uri?) {
         with(binding) {
             userName.text = name.ifBlank {
                 "Add your name"

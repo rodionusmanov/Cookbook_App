@@ -1,6 +1,7 @@
 package com.example.cookbook.view.home
 
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -185,5 +186,11 @@ class HomeFragment :
 
     override fun setupData(data: String) {
         binding.jokeText.text = data
+    }
+
+    fun updateAvatar(avatarUri: Uri?) {
+        avatarUri?.let {
+            binding.userAvatarImage.load(it)
+        }
     }
 }

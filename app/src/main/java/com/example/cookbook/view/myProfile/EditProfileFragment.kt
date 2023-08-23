@@ -53,9 +53,8 @@ class EditProfileFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        val parent = parentFragment
-        if (parent is OnProfileUpdatedListener) {
-            profileUpdatedListener = parent
+        if (context is OnProfileUpdatedListener) {
+            profileUpdatedListener = context
         }
     }
 
