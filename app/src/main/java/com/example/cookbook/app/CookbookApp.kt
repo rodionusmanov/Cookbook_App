@@ -3,10 +3,10 @@ package com.example.cookbook.app
 import android.app.Application
 import androidx.room.Room
 import com.example.cookbook.di.appModule
-import com.example.cookbook.di.dietaryRestrictionsModule
 import com.example.cookbook.di.favoritesFragment
 import com.example.cookbook.di.homeFragment
 import com.example.cookbook.di.localDataBase
+import com.example.cookbook.di.myProfileFragment
 import com.example.cookbook.di.network
 import com.example.cookbook.di.randomRecipeFragment
 import com.example.cookbook.di.recipeInfo
@@ -36,7 +36,7 @@ class CookbookApp : Application() {
                     recipeInfo,
                     favoritesFragment,
                     recipeInfoFromDatabase,
-                    dietaryRestrictionsModule
+                    myProfileFragment
                 )
             )
         }

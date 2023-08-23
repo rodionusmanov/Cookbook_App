@@ -22,7 +22,7 @@ import com.example.cookbook.model.repository.local.LocalRepositoryInfoImpl
 import com.example.cookbook.model.repository.network.NetworkRepository
 import com.example.cookbook.model.repository.remoteDataSource.IRepositorySearchRequest
 import com.example.cookbook.model.repository.remoteDataSource.SearchRepositoryImpl
-import com.example.cookbook.model.repository.sharedPreferences.DietaryRestrictionsRepository
+import com.example.cookbook.model.repository.sharedPreferences.SharedPreferencesRepository
 import com.example.cookbook.model.room.RecipesDatabase
 import com.example.cookbook.model.room.fullRecipe.IRecipesInfoDAO
 import com.example.cookbook.utils.network.NetworkLiveData
@@ -31,6 +31,7 @@ import com.example.cookbook.view.home.HomeViewModel
 import com.example.cookbook.view.home.healthyRandomRecipe.HealthyRandomRecipeListViewModel
 import com.example.cookbook.view.home.randomCuisineRecipes.RandomCuisineRecipeListViewModel
 import com.example.cookbook.view.home.randomRecipe.RandomRecipeListViewModel
+import com.example.cookbook.view.myProfile.MyProfileViewModel
 import com.example.cookbook.view.recipeInfo.RecipeInfoViewModel
 import com.example.cookbook.view.recipeInfo.adapters.UniversalAdapter
 import com.example.cookbook.view.recipeInfoFromDatabase.RecipeInfoFromDatabaseViewModel
@@ -82,10 +83,6 @@ val network = module {
     single { NetworkRepository(get()) }
 }
 
-val dietaryRestrictionsModule = module {
-    single { DietaryRestrictionsRepository(androidContext()) }
-}
-
 val homeFragment = module {
     viewModel { HomeViewModel(get()) }
     factory { HomeFragmentInteractor(get(), LocalRepositoryInfoImpl(get<IRecipesInfoDAO>())) }
@@ -129,4 +126,9 @@ val favoritesFragment = module {
         )
     }
     factory { FavoriteFragmentInteractor(LocalRepositoryInfoImpl(get<IRecipesInfoDAO>())) }
+}
+
+val myProfileFragment = module {
+    viewModel { MyProfileViewModel(get()) }
+    single { SharedPreferencesRepository(androidContext()) }
 }

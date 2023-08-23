@@ -40,24 +40,27 @@
                 app:layout_constraintTop_toBottomOf="@id/user_name" />
 
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginTop="20dp"
+                android:layout_width="@dimen/my_profile_avatar_height"
+                android:layout_height="@dimen/my_profile_avatar_height"
+                android:layout_marginTop="@dimen/margin_20dp_medium"
                 android:layout_marginEnd="@dimen/margin_45dp_large"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50">
 
                 <ImageView
+                    android:id="@+id/user_avatar_image"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@drawable/avatar"
+                    android:src="@drawable/icon_profile"
+                    android:scaleType="centerCrop"
                     tools:ignore="ContentDescription" />
 
             </com.google.android.material.card.MaterialCardView>
 
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/edit_profile_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_16dp_medium"
@@ -163,6 +166,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
+                    android:alpha="0"
                     android:layout_marginHorizontal="@dimen/margin_16dp_medium">
 
                     <com.google.android.material.chip.Chip
@@ -298,6 +302,7 @@
                     android:layout_marginHorizontal="@dimen/margin_16dp_medium"
                     android:layout_marginBottom="@dimen/margin_8dp_small"
                     android:visibility="gone"
+                    android:alpha="0"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/intolerances_text">
@@ -379,5 +384,15 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
+
+    <FrameLayout
+        android:id="@+id/my_profile_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true"
+        android:elevation="20dp"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

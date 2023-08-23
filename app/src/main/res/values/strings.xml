@@ -95,5 +95,13 @@
     <string name="diet_primal">Primal</string>
     <string name="all_filters">All filters</string>
     <string name="delete_from_favorite">Delete from favorite</string>
+    <string name="profile_edit_name">Display name</string>
+    <string name="profile_edit_second_name">Display second name</string>
+    <string name="profile_save_and_exit">Save and exit</string>
+    <string name="avatar_source_camera">Take a photo</string>
+    <string name="avatar_source_gallery">Choose from gallery</string>
+    <string name="avatar_source_title">Add a photo</string>
+    <string name="profile_decline_camera_permission">Camera access is required to take a photo. Please enable it in settings.</string>
+    <string name="avatar_source_error">Failed to capture image</string>
 
 </resources>
