@@ -1,11 +1,8 @@
 package com.example.cookbook.model.interactor
 
 import com.example.cookbook.model.AppState
-import com.example.cookbook.model.domain.BaseRecipeData
-import com.example.cookbook.model.domain.RecipeInformation
-import com.example.cookbook.model.repository.local.LocalRepositoryImpl
 import com.example.cookbook.model.repository.local.LocalRepositoryInfoImpl
-import com.example.cookbook.model.repository.remoteDataSource.IRepositorySearchRequest
+import com.example.cookbook.model.repository.remote.IRepositorySearchRequest
 
 class HomeFragmentInteractor(
     private val remoteRepository: IRepositorySearchRequest,
