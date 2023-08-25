@@ -98,6 +98,8 @@
     <string name="profile_edit_name">Display name</string>
     <string name="profile_edit_second_name">Display second name</string>
     <string name="profile_save_and_exit">Save and exit</string>
+    <string name="profile_empty_name_cell">Add your name</string>
+    <string name="profile_empty_second_name_cell">Specify your surname</string>
     <string name="avatar_source_camera">Take a photo</string>
     <string name="avatar_source_gallery">Choose from gallery</string>
     <string name="avatar_source_title">Add a photo</string>

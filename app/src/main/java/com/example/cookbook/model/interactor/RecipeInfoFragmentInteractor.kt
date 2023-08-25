@@ -1,7 +1,7 @@
 package com.example.cookbook.model.interactor
 
 import com.example.cookbook.model.AppState
-import com.example.cookbook.model.repository.remoteDataSource.IRepositorySearchRequest
+import com.example.cookbook.model.repository.remote.IRepositorySearchRequest
 
 class RecipeInfoFragmentInteractor(
     private val remoteRepository: IRepositorySearchRequest

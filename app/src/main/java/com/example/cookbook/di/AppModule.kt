@@ -20,8 +20,8 @@ import com.example.cookbook.model.repository.local.ILocalRecipesRepository
 import com.example.cookbook.model.repository.local.LocalRepositoryImpl
 import com.example.cookbook.model.repository.local.LocalRepositoryInfoImpl
 import com.example.cookbook.model.repository.network.NetworkRepository
-import com.example.cookbook.model.repository.remoteDataSource.IRepositorySearchRequest
-import com.example.cookbook.model.repository.remoteDataSource.SearchRepositoryImpl
+import com.example.cookbook.model.repository.remote.IRepositorySearchRequest
+import com.example.cookbook.model.repository.remote.SearchRepositoryImpl
 import com.example.cookbook.model.repository.sharedPreferences.SharedPreferencesRepository
 import com.example.cookbook.model.room.RecipesDatabase
 import com.example.cookbook.model.room.fullRecipe.IRecipesInfoDAO

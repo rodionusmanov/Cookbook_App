@@ -1,4 +1,4 @@
-package com.example.cookbook.model.repository.remoteDataSource
+package com.example.cookbook.model.repository.remote
 
 import com.example.cookbook.model.datasource.JokeDataSource
 import com.example.cookbook.model.datasource.RandomRecipeDataSource
