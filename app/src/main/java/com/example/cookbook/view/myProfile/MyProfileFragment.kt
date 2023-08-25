@@ -81,19 +81,17 @@ class MyProfileFragment : Fragment() {
     private fun initChipGroups() {
         initChipGroup(
             binding.dietsChipGroup,
-            SELECTED_DIET_KEY,
-            binding.dietBlock)
+            SELECTED_DIET_KEY
+            )
         initChipGroup(
             binding.intolerancesChipGroup,
-            SELECTED_INTOLERANCES_KEY,
-            binding.intolerancesBlock
+            SELECTED_INTOLERANCES_KEY
         )
     }
 
     private fun initChipGroup(
         chipGroup: ChipGroup,
         preferenceKey: String,
-        parentLayout: LinearLayout
     ) {
         val selectedItems = model.getSelectedRestrictions(preferenceKey)
         var isProgrammaticallyChecked = false
@@ -106,7 +104,6 @@ class MyProfileFragment : Fragment() {
                     val newSelectedItems = getSelectedChipsText(chipGroup)
                     model.saveSelectedRestrictions(newSelectedItems, preferenceKey)
                 }
-                updateChipGroupHeight(chipGroup, parentLayout)
             }
             if (selectedItems.contains(chip.text.toString())) {
                 isProgrammaticallyChecked = true
@@ -156,12 +153,8 @@ class MyProfileFragment : Fragment() {
     }
 
     private fun openChipGroup(chipGroup: ChipGroup, parentLayout: LinearLayout) {
-        chipGroup.measure(
-            View.MeasureSpec.makeMeasureSpec(parentLayout.width, View.MeasureSpec.AT_MOST),
-            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
-        )
 
-        val height = chipGroup.measuredHeight
+        val height = getMaxHeightForChips(chipGroup)
         val parentOriginalHeight = parentLayout.measuredHeight
 
         val chipSlideAnimator = ObjectAnimator
@@ -198,36 +191,16 @@ class MyProfileFragment : Fragment() {
         animatorSet.start()
     }
 
-    private fun updateChipGroupHeight(chipGroup: ChipGroup, parentLayout: LinearLayout) {
-        chipGroup.measure(
-            View.MeasureSpec.makeMeasureSpec(parentLayout.width, View.MeasureSpec.AT_MOST),
+    private fun getMaxHeightForChips(chipGroup: ChipGroup): Int {
+        if (chipGroup.childCount == 0) {
+            return 0
+        }
+        val chip = chipGroup.getChildAt(0) as Chip
+        chip.measure(
+            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
             View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
         )
-        val newHeight = chipGroup.measuredHeight
-
-        val heightAnimator = ValueAnimator.ofInt(chipGroup.height, newHeight)
-        heightAnimator.addUpdateListener { animation ->
-            val layoutParams = chipGroup.layoutParams
-            layoutParams.height = animation.animatedValue as Int
-            chipGroup.requestLayout()
-        }
-
-        parentLayout.measure(
-            View.MeasureSpec.makeMeasureSpec(parentLayout.width, View.MeasureSpec.AT_MOST),
-            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
-        )
-        val parentNewHeight = parentLayout.measuredHeight
-        val parentHeightAnimator = ValueAnimator.ofInt(parentLayout.height, parentNewHeight)
-        parentHeightAnimator.addUpdateListener { animation ->
-            val layoutParams = parentLayout.layoutParams
-            layoutParams.height = animation.animatedValue as Int
-            parentLayout.requestLayout()
-        }
-
-        AnimatorSet().also { set ->
-            set.playTogether(heightAnimator, parentHeightAnimator)
-            set.duration = 300
-        }.start()
+        return chip.measuredHeight * 5
     }
 
     private fun closeChipGroup(chipGroup: ChipGroup, parentLayout: LinearLayout) {
