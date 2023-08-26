@@ -9,18 +9,6 @@ class HomeFragmentInteractor(
     private val localRepository: LocalRepositoryInfoImpl
 ) {
 
-    /*suspend fun insertRecipeToDataBase(recipeData: BaseRecipeData) {
-        localRepository.insertNewRecipe(recipeData)
-    }
-
-    suspend fun deleteRecipeFromDataBase(id: Int) {
-        localRepository.removeRecipeFromData(id)
-    }
-
-    suspend fun getAllRecipesFromDataBase(): List<BaseRecipeData> {
-        return localRepository.getAllRecipesData()
-    }*/
-
     suspend fun getJokeText(): AppState {
         return AppState.Success(remoteRepository.getJokeText())
     }

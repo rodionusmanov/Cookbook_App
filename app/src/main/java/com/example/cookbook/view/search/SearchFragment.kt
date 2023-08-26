@@ -156,22 +156,8 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
 
     override fun setupData(data: List<BaseRecipeData>) {
         adapter.submitList(data)
-
-
-        initFavoriteListeners()
-
         adapter.listener = { recipe ->
             openRecipeInfoFragment(recipe.id)
-        }
-    }
-
-    private fun initFavoriteListeners() {
-        adapter.listenerOnSaveRecipe = { recipe ->
-//            model.insertNewRecipeToDataBase(recipe)
-        }
-
-        adapter.listenerOnRemoveRecipe = { recipe ->
-//            model.deleteRecipeFromData(recipe.id)
         }
     }
 

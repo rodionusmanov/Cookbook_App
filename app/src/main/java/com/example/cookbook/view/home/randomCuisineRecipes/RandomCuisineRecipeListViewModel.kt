@@ -14,18 +14,6 @@ class RandomCuisineRecipeListViewModel(
     private val _stateFlow = MutableStateFlow<AppState>(AppState.Loading)
     val stateFlow: StateFlow<AppState> get() = _stateFlow
 
-    /*fun insertNewRecipeToDataBase(recipeData: BaseRecipeData) {
-        viewModelCoroutineScope.launch {
-            interactor.insertRecipeToDataBase(recipeData)
-        }
-    }
-
-    fun deleteRecipeFromData(id: Int) {
-        viewModelCoroutineScope.launch {
-            interactor.deleteRecipeFromDataBase(id)
-        }
-    }*/
-
     fun getRandomRecipesByCuisine(cuisine: String) {
         viewModelCoroutineScope.launch {
             _stateFlow.value = AppState.Loading

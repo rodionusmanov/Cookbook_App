@@ -203,16 +203,6 @@ class RandomCuisineRecipeListFragment :
         navigationManager?.openRecipeInfoFragment(recipeId)
     }
 
-    /*private fun initFavoritesListeners() {
-        adapter.listenerOnSaveRecipe = { recipe ->
-            model.insertNewRecipeToDataBase(recipe)
-        }
-
-        adapter.listenerOnRemoveRecipe = { recipe ->
-            model.deleteRecipeFromData(recipe.id)
-        }
-    }*/
-
     override fun showErrorDialog(message: String?) {
         Toast.makeText(context, "Error {$message}", Toast.LENGTH_LONG).show()
     }

@@ -17,10 +17,9 @@ class LocalRepositoryInfoImpl(private val recipeInfoDAO: IRecipesInfoDAO) :
         recipeInfoDAO.upsertRecipeToFavorite(convertRecipeInfoToEntity(recipeData))
     }
 
-    override suspend fun getAllRecipesData(): List<RecipeInformation> {
-        return convertRecipeInfoEntityToList(recipeInfoDAO.getAllFavoriteRecipes())
+    override fun getAllRecipesData(): Flow<List<RecipeInfoEntity>> {
+        return recipeInfoDAO.getAllFavoriteRecipes()
     }
-
 
     override suspend fun getRecipeDataById(id: Int): RecipeInformation {
         return convertRecipeInfoEntityToRecipeInformation(recipeInfoDAO.getFavoriteRecipeById(id))

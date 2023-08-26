@@ -50,7 +50,6 @@ class PreparationFromDatabaseFragment : Fragment() {
         }
     }
 
-
     private fun initView(analyzedInstructions: List<AnalyzedInstruction>) {
 
         val ingredientHorizontalLayoutManager =
@@ -81,7 +80,6 @@ class PreparationFromDatabaseFragment : Fragment() {
             rvIngredientsPreparation.adapter = ingredientAdapter
             rvSteps.adapter = stepsAdapter
         }
-
     }
 
     override fun onDestroyView() {
