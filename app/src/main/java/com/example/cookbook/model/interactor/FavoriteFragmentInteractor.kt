@@ -2,11 +2,14 @@ package com.example.cookbook.model.interactor
 
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.repository.local.LocalRepositoryInfoImpl
+import com.example.cookbook.model.room.fullRecipe.RecipeInfoEntity
+import kotlinx.coroutines.flow.Flow
 
 class FavoriteFragmentInteractor(
     private val localRepositoryInfoImpl: LocalRepositoryInfoImpl
 ) {
-    suspend fun getRecipesFromDatabase():AppState{
-        return AppState.Success(localRepositoryInfoImpl.getAllRecipesData())
+
+    fun getRecipesFromDatabase(): Flow<List<RecipeInfoEntity>> {
+        return localRepositoryInfoImpl.getAllRecipesData()
     }
 }

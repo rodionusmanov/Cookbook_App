@@ -27,25 +27,4 @@ class HomeViewModel(
             }
         }
     }
-
-    /*fun getAllLocalRecipes(): LiveData<List<BaseRecipeData>> {
-        val result = MutableLiveData<List<BaseRecipeData>>()
-        viewModelCoroutineScope.launch {
-            val returnedData = interactor.getAllRecipesFromDataBase()
-            result.postValue(returnedData)
-        }
-        return result
-    }
-
-    fun insertNewRecipeToDataBase(recipeData: BaseRecipeData) {
-        viewModelCoroutineScope.launch {
-            interactor.insertRecipeToDataBase(recipeData)
-        }
-    }
-
-    fun deleteRecipeFromDataBase(id: Int) {
-        viewModelCoroutineScope.launch {
-            interactor.deleteRecipeFromDataBase(id)
-        }
-    }*/
 }

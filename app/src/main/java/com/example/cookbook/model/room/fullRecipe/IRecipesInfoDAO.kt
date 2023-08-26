@@ -12,7 +12,7 @@ interface IRecipesInfoDAO {
     suspend fun upsertRecipeToFavorite(recipeData: RecipeInfoEntity)
 
     @Query("SELECT * FROM Recipes_info_table")
-    suspend fun getAllFavoriteRecipes(): List<RecipeInfoEntity>
+    fun getAllFavoriteRecipes(): Flow<List<RecipeInfoEntity>>
 
     @Query("SELECT * FROM Recipes_info_table WHERE id = :recipeId")
     suspend fun getFavoriteRecipeById(recipeId: Int): RecipeInfoEntity

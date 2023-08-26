@@ -1,12 +1,13 @@
 package com.example.cookbook.model.repository.local
 
 import com.example.cookbook.model.domain.RecipeInformation
+import com.example.cookbook.model.room.fullRecipe.RecipeInfoEntity
+import kotlinx.coroutines.flow.Flow
 
 interface ILocalRecipesInfoRepository {
 
     suspend fun upsertNewRecipe(recipeData: RecipeInformation)
-
-    suspend fun getAllRecipesData(): List<RecipeInformation>
+    fun getAllRecipesData(): Flow<List<RecipeInfoEntity>>
 
     suspend fun getRecipeDataById(id: Int): RecipeInformation
 

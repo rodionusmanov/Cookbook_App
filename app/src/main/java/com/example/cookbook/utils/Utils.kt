@@ -352,61 +352,6 @@ fun convertStringListToAnalyzedInstruction(analyzedInstruction: List<String>): L
     return resultList
 }
 
-fun convertDishTypesListToString(dishTypes: List<String>): String {
-    val resultString: StringBuilder = java.lang.StringBuilder()
-    var firstInList = true
-    for (s in dishTypes) {
-        if (!firstInList) resultString.append("~~")
-        resultString.append(s)
-        firstInList = false
-    }
-    return resultString.toString()
-}
-
-
-fun convertStringToDishTypes(string: String): List<String> {
-    return string.trim().splitToSequence("~~")
-        .filter { it.isNotEmpty() }
-        .toList()
-}
-
-fun convertNutrientToString(nutrient: Nutrient): String {
-    val resultString: StringBuilder = java.lang.StringBuilder()
-    resultString.append(nutrient.amount.toString()).append("~~")
-        .append(nutrient.name).append("~~")
-        .append(nutrient.percentOfDailyNeeds.toString()).append("~~")
-        .append(nutrient.unit)
-    return resultString.toString()
-}
-
-fun convertStringToNutrient(string: String): Nutrient {
-    val stringList: List<String> = string.trim().splitToSequence("~~")
-        .filter { it.isNotEmpty() }
-        .toList()
-    return Nutrient(
-        stringList[0].toDouble(),
-        stringList[1],
-        stringList[2].toDouble(),
-        stringList[3]
-    )
-}
-
-fun convertWeightPerServingToString(wps: WeightPerServing): String {
-    val resultString: StringBuilder = java.lang.StringBuilder()
-    resultString.append(wps.amount.toString()).append("~~")
-        .append(wps.unit)
-    return resultString.toString()
-}
-
-fun convertStringToWeightPerServing(string: String): WeightPerServing {
-    val stringList: List<String> = string.trim().splitToSequence("~~")
-        .filter { it.isNotEmpty() }
-        .toList()
-    return WeightPerServing(
-        stringList[0].toInt(),
-        stringList[1]
-    )
-}
 
 inline fun <reified T : Parcelable> Bundle.parcelableArrayList(key: String): ArrayList<T>? =
     when {
