@@ -17,6 +17,12 @@ import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.utils.BUNDLE_DISH_TYPE
 import com.example.cookbook.utils.BUNDLE_SEARCH_QUERY
+import com.example.cookbook.utils.DISH_TYPE_BREAKFAST
+import com.example.cookbook.utils.DISH_TYPE_DESSERT
+import com.example.cookbook.utils.DISH_TYPE_MAIN_COURSE
+import com.example.cookbook.utils.DISH_TYPE_SALAD
+import com.example.cookbook.utils.DISH_TYPE_SIDE_DISH
+import com.example.cookbook.utils.DISH_TYPE_SNACK
 import com.example.cookbook.utils.navigation.NavigationManager
 import com.example.cookbook.view.base.BaseFragment
 import com.example.cookbook.view.mainActivity.MainActivity
@@ -57,7 +63,7 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
 
         initViewModel()
         initArgumentsFlow()
-        setupSearchView()
+        initView()
     }
 
     private fun initArgumentsFlow() {
@@ -90,7 +96,11 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
 
     private fun setDishTypeQuery(dishType: String) {
         model.searchRandomRecipesByDishTypes(dishType)
-        binding.searchView.setQuery("", false)
+        with(binding) {
+            searchView.setQuery(dishType, false)
+            variousDishes.variousDishesTableContainer.isVisible = false
+        }
+
     }
 
     private fun initViewModel() {
@@ -108,7 +118,7 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
         }
     }
 
-    private fun setupSearchView() {
+    private fun initView() {
 
         with(binding) {
             searchView.setOnQueryTextListener(
@@ -127,14 +137,14 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
                             0 -> {
                                 with(binding) {
                                     resultRecyclerView.isVisible = false
-                                    variousDishesTable.isVisible = true
+                                    variousDishes.variousDishesTableContainer.isVisible = true
                                 }
                             }
 
                             else -> {
                                 with(binding) {
                                     resultRecyclerView.isVisible = true
-                                    variousDishesTable.isVisible = false
+                                    variousDishes.variousDishesTableContainer.isVisible = false
                                 }
                             }
                         }
@@ -147,9 +157,45 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
                 openAllFiltersFragment()
             }
 
-            cardBreakfast.setOnClickListener {
-                model.searchRandomRecipesByDishTypes("breakfast")
-                binding.searchView.setQuery("breakfast", false)
+
+            variousDishes.dishesTableThirdLineContainer.isVisible = true
+            variousDishes.dishesTableFourthLineContainer.isVisible = true
+
+            variousDishes.cardBreakfast.setOnClickListener {
+                setDishTypeQuery(DISH_TYPE_BREAKFAST)
+            }
+            variousDishes.cardSideDish.setOnClickListener {
+                setDishTypeQuery(DISH_TYPE_SIDE_DISH)
+            }
+            variousDishes.cardMainCourse.setOnClickListener {
+                setDishTypeQuery(DISH_TYPE_MAIN_COURSE)
+            }
+            variousDishes.cardSalads.setOnClickListener {
+                setDishTypeQuery(DISH_TYPE_SALAD)
+            }
+            variousDishes.cardSnack.setOnClickListener {
+                setDishTypeQuery(DISH_TYPE_SNACK)
+            }
+            variousDishes.cardDessert.setOnClickListener {
+                setDishTypeQuery(DISH_TYPE_DESSERT)
+            }
+            variousDishes.cardSoup.setOnClickListener {
+                setDishTypeQuery("soup")
+            }
+            variousDishes.cardAppetizer.setOnClickListener {
+                setDishTypeQuery("appetizer")
+            }
+            variousDishes.cardBeverage.setOnClickListener {
+                setDishTypeQuery("beverage")
+            }
+            variousDishes.cardSauce.setOnClickListener {
+                setDishTypeQuery("sauce")
+            }
+            variousDishes.cardBread.setOnClickListener {
+                setDishTypeQuery("bread")
+            }
+            variousDishes.cardDrink.setOnClickListener {
+                setDishTypeQuery("drink")
             }
         }
     }

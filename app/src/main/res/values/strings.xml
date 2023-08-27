@@ -32,6 +32,12 @@
     <string name="card_salads_title">Salads</string>
     <string name="card_snacks_title">Snacks</string>
     <string name="card_desserts_title">Desserts</string>
+    <string name="card_soup_title">Soup</string>
+    <string name="card_appetizer_title">Appetizer</string>
+    <string name="card_beverage_title">Beverage</string>
+    <string name="card_sauce_title">Sauce</string>
+    <string name="card_drink_title">Drink</string>
+    <string name="card_bread_title">Bread</string>
     <string name="asia_title_first_line">Explore exquisite Asia:</string>
     <string name="asia_title_second_line">dive into culinary delights!</string>
     <string name="india_title_first_line">Embark on a flavorful journey:</string>
@@ -45,7 +51,7 @@
     <string name="search_recipe">Search recipe</string>
 
     //SearchFragment
-    <string name="search_view_hint">Search recipe</string>
+    <string name="search_view_hint">Search</string>
 
     //RandomRecipeFragment
     <string name="random_recipe_list_title">What you want to try</string>

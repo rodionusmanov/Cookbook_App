@@ -104,22 +104,22 @@ class HomeFragment :
     }
 
     private fun initDishTypeCards() {
-        binding.cardBreakfast.setOnClickListener {
+        binding.variousDishes.cardBreakfast.setOnClickListener {
             openSearchFragmentWithQuery(BUNDLE_DISH_TYPE, DISH_TYPE_BREAKFAST)
             }
-        binding.cardSideDish.setOnClickListener {
+        binding.variousDishes.cardSideDish.setOnClickListener {
             openSearchFragmentWithQuery(BUNDLE_DISH_TYPE, DISH_TYPE_SIDE_DISH)
         }
-        binding.cardMainCourse.setOnClickListener {
+        binding.variousDishes.cardMainCourse.setOnClickListener {
             openSearchFragmentWithQuery(BUNDLE_DISH_TYPE, DISH_TYPE_MAIN_COURSE)
         }
-        binding.cardSalads.setOnClickListener {
+        binding.variousDishes.cardSalads.setOnClickListener {
             openSearchFragmentWithQuery(BUNDLE_DISH_TYPE, DISH_TYPE_SALAD)
         }
-        binding.cardSnack.setOnClickListener {
+        binding.variousDishes.cardSnack.setOnClickListener {
             openSearchFragmentWithQuery(BUNDLE_DISH_TYPE, DISH_TYPE_SNACK)
         }
-        binding.cardDessert.setOnClickListener {
+        binding.variousDishes.cardDessert.setOnClickListener {
             openSearchFragmentWithQuery(BUNDLE_DISH_TYPE, DISH_TYPE_DESSERT)
         }
     }
