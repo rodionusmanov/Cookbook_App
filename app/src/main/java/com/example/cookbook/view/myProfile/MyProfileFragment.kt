@@ -94,21 +94,17 @@ class MyProfileFragment : Fragment() {
         preferenceKey: String,
     ) {
         val selectedItems = model.getSelectedRestrictions(preferenceKey)
-        var isProgrammaticallyChecked = false
 
         for (i in 0 until chipGroup.childCount) {
             val chip = chipGroup.getChildAt(i) as Chip
-            chip.setOnCheckedChangeListener { _, isChecked ->
-                if (isProgrammaticallyChecked) return@setOnCheckedChangeListener
-                if (isChecked) {
-                    val newSelectedItems = getSelectedChipsText(chipGroup)
-                    model.saveSelectedRestrictions(newSelectedItems, preferenceKey)
-                }
-            }
+
             if (selectedItems.contains(chip.text.toString())) {
-                isProgrammaticallyChecked = true
                 chip.isChecked = true
-                isProgrammaticallyChecked = false
+            }
+
+            chip.setOnCheckedChangeListener { _, _ ->
+                val newSelectedItems = getSelectedChipsText(chipGroup)
+                model.saveSelectedRestrictions(newSelectedItems, preferenceKey)
             }
         }
     }
