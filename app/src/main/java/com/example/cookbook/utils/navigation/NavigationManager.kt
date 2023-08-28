@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.cookbook.view.allFilters.AllFiltersFragment
 import com.example.cookbook.R
 import com.example.cookbook.utils.FRAGMENT_ALL_FILTERS
 import com.example.cookbook.utils.FRAGMENT_FAVORITE
@@ -14,6 +13,7 @@ import com.example.cookbook.utils.FRAGMENT_RECIPE_INFO
 import com.example.cookbook.utils.FRAGMENT_RECIPE_INFO_FROM_DATABASE
 import com.example.cookbook.utils.FRAGMENT_SEARCH
 import com.example.cookbook.utils.ID
+import com.example.cookbook.view.allFilters.AllFiltersFragment
 import com.example.cookbook.view.favorite.FavoriteFragment
 import com.example.cookbook.view.home.HomeFragment
 import com.example.cookbook.view.myProfile.MyProfileFragment
@@ -71,14 +71,15 @@ class NavigationManager(
         Log.d("@@@", "Switching to fragment: $tag")
         val fragmentTransaction = activity.supportFragmentManager.beginTransaction()
 
-        if(tag == FRAGMENT_RECIPE_INFO || tag == FRAGMENT_RECIPE_INFO_FROM_DATABASE) {
-            val oldFragment = activity.supportFragmentManager.findFragmentByTag(FRAGMENT_RECIPE_INFO)
+        if (tag == FRAGMENT_RECIPE_INFO || tag == FRAGMENT_RECIPE_INFO_FROM_DATABASE) {
+            val oldFragment =
+                activity.supportFragmentManager.findFragmentByTag(FRAGMENT_RECIPE_INFO)
             if (oldFragment != null) {
                 fragmentTransaction.remove(oldFragment)
             }
         }
 
-        fragmentBackStack.removeAll{it == FRAGMENT_RECIPE_INFO}
+        fragmentBackStack.removeAll { it == FRAGMENT_RECIPE_INFO }
 
         for (fragment in activity.supportFragmentManager.fragments) {
             fragmentTransaction.hide(fragment)
@@ -167,9 +168,10 @@ class NavigationManager(
             addToBackStack = true
         )
     }
-    fun openAllFiltersFragment(){
+
+    fun openAllFiltersFragment() {
         val allFiltersFragment = AllFiltersFragment.newInstance()
-        switchFragment(FRAGMENT_ALL_FILTERS, allFiltersFragment,true)
+        switchFragment(FRAGMENT_ALL_FILTERS, allFiltersFragment, true)
     }
 
     fun openRecipeInfoFromDatabaseFragment(recipeId: Int) {

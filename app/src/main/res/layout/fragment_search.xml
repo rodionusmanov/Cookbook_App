@@ -31,8 +31,9 @@
         android:id="@+id/btn_all_filters"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_16dp_medium"
         android:textSize="20sp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/margin_16dp_medium"
         android:text="@string/all_filters"/>
 
     <androidx.core.widget.NestedScrollView

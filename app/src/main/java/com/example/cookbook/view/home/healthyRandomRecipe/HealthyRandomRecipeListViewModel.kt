@@ -1,8 +1,6 @@
 package com.example.cookbook.view.home.healthyRandomRecipe
 
 import com.example.cookbook.model.AppState
-import com.example.cookbook.model.domain.BaseRecipeData
-import com.example.cookbook.model.domain.RecipeInformation
 import com.example.cookbook.model.interactor.RandomRecipeListInteractor
 import com.example.cookbook.view.base.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

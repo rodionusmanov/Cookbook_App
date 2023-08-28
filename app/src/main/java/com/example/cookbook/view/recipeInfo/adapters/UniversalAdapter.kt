@@ -67,7 +67,7 @@ class UniversalAdapter :
         }
     }
 
-    class UniversalCallback() : DiffUtil.ItemCallback<UniversalItem>() {
+    class UniversalCallback : DiffUtil.ItemCallback<UniversalItem>() {
         override fun areItemsTheSame(oldItem: UniversalItem, newItem: UniversalItem): Boolean {
             return oldItem == newItem
         }

@@ -8,11 +8,7 @@ interface SearchRecipeDataSource {
         request: String,
         ingredients: String,
         userDiets: String,
-        userIntolerances: String
-    ): Response<SearchRecipeListDTO>
-    suspend fun getRecipesByType(
-        dishType: String,
-        userDiets: String,
-        userIntolerances: String
+        userIntolerances: String,
+        dishType: String
     ): Response<SearchRecipeListDTO>
 }

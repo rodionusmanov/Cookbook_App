@@ -6,7 +6,7 @@
 
     //NavigationMenu
     <string name="nav_home">Home</string>
-    <string name="nav_search_recipe">Search recipe</string>
+    <string name="nav_search_recipe">Search</string>
     <string name="nav_favorite">Favorite</string>
     <string name="nav_my_profile">My profile</string>
 
@@ -111,5 +111,27 @@
     <string name="avatar_source_title">Add a photo</string>
     <string name="profile_decline_camera_permission">Camera access is required to take a photo. Please enable it in settings.</string>
     <string name="avatar_source_error">Failed to capture image</string>
+    <string name="include_ingredients">Include ingredients</string>
+    <string name="chicken">Chicken</string>
+    <string name="pork">Pork</string>
+    <string name="beef">Beef</string>
+    <string name="fish">Fish</string>
+    <string name="dish_type">Dish type</string>
+    <string name="main_course">Main course</string>
+    <string name="side_dish">Side dish</string>
+    <string name="dessert">Dessert</string>
+    <string name="appetizer">Appetizer</string>
+    <string name="salad">Salad</string>
+    <string name="bread">Bread</string>
+    <string name="breakfast">Breakfast</string>
+    <string name="soup">Soup</string>
+    <string name="beverage">Beverage</string>
+    <string name="sauce">Sauce</string>
+    <string name="marinade">Marinade</string>
+    <string name="fingerfood">Fingerfood</string>
+    <string name="snack">Snack</string>
+    <string name="drink">Drink</string>
+    <string name="clear">Clear</string>
+    <string name="accept">Accept</string>
 
 </resources>

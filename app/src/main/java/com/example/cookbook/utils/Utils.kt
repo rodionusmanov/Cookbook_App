@@ -11,7 +11,6 @@ import com.example.cookbook.model.datasource.DTO.recipeInformation.Measures
 import com.example.cookbook.model.datasource.DTO.recipeInformation.Metric
 import com.example.cookbook.model.datasource.DTO.recipeInformation.Nutrient
 import com.example.cookbook.model.datasource.DTO.recipeInformation.Step
-import com.example.cookbook.model.datasource.DTO.recipeInformation.WeightPerServing
 import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.RecipeInformation
 import com.example.cookbook.model.domain.SearchRecipeData

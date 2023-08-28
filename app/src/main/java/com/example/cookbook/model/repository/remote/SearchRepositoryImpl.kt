@@ -24,11 +24,12 @@ class SearchRepositoryImpl(
         request: String,
         ingredients: String,
         userDiets: String,
-        userIntolerances: String
+        userIntolerances: String,
+        dishType: String
     ): List<SearchRecipeData> {
 
         val response = searchRecipeDataSource
-            .getSearchResult(request, ingredients, userDiets, userIntolerances)
+            .getSearchResult(request, ingredients, userDiets, userIntolerances, dishType)
         return parseResponse(response) { responseDto ->
             responseDto.searchRecipeList.map { recipe ->
                 mapper.mapRecipeData(recipe) as SearchRecipeData
@@ -38,8 +39,9 @@ class SearchRepositoryImpl(
 
     override suspend fun getRandomRecipes(
         userDiets: String,
-        userIntolerances: String)
-    : List<RandomRecipeData> {
+        userIntolerances: String
+    )
+            : List<RandomRecipeData> {
         val response = randomRecipeDataSource.getRandomRecipes(userDiets, userIntolerances)
         return parseResponse(response) { responseDto ->
             responseDto.recipes.map { recipe ->
@@ -56,19 +58,6 @@ class SearchRepositoryImpl(
         return parseResponse(response) { responseDto ->
             responseDto.recipes.map { recipe ->
                 mapper.mapRecipeData(recipe) as RandomRecipeData
-            }
-        }
-    }
-
-    override suspend fun getRecipesByType(
-        dishType: String,
-        userDiets: String,
-        userIntolerances: String
-    ): List<SearchRecipeData> {
-        val response = searchRecipeDataSource.getRecipesByType(dishType, userDiets, userIntolerances)
-        return parseResponse(response) { responseDTO ->
-            responseDTO.searchRecipeList.map { recipe ->
-                mapper.mapRecipeData(recipe) as SearchRecipeData
             }
         }
     }

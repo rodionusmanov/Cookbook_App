@@ -1,10 +1,6 @@
 package com.example.cookbook.view.favorite
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.cookbook.model.AppState
-import com.example.cookbook.model.domain.BaseRecipeData
-import com.example.cookbook.model.domain.RecipeInformation
 import com.example.cookbook.model.interactor.FavoriteFragmentInteractor
 import com.example.cookbook.model.repository.local.LocalRepositoryInfoImpl
 import com.example.cookbook.model.room.fullRecipe.RecipeInfoEntity
@@ -21,7 +17,7 @@ class FavoriteRecipesViewModel(
     private val localRepository: LocalRepositoryInfoImpl
 ) : BaseViewModel<AppState>() {
 
-    private val _stateFlow = MutableStateFlow<Flow<List<RecipeInfoEntity>>>(flow {  })
+    private val _stateFlow = MutableStateFlow<Flow<List<RecipeInfoEntity>>>(flow { })
     val stateFlow: StateFlow<Flow<List<RecipeInfoEntity>>> get() = _stateFlow.asStateFlow()
 
     fun getRecipesFromDatabase() {

@@ -16,17 +16,24 @@ import com.example.cookbook.databinding.FragmentSearchBinding
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.utils.BUNDLE_DISH_TYPE
+import com.example.cookbook.utils.BUNDLE_DISH_TYPE_FILTER
+import com.example.cookbook.utils.BUNDLE_INCLUDE_INGREDIENT_FILTER
 import com.example.cookbook.utils.BUNDLE_SEARCH_QUERY
+import com.example.cookbook.utils.DISH_TYPE_APPETIZER
+import com.example.cookbook.utils.DISH_TYPE_BEVERAGE
+import com.example.cookbook.utils.DISH_TYPE_BREAD
 import com.example.cookbook.utils.DISH_TYPE_BREAKFAST
 import com.example.cookbook.utils.DISH_TYPE_DESSERT
+import com.example.cookbook.utils.DISH_TYPE_DRINK
 import com.example.cookbook.utils.DISH_TYPE_MAIN_COURSE
 import com.example.cookbook.utils.DISH_TYPE_SALAD
+import com.example.cookbook.utils.DISH_TYPE_SAUCE
 import com.example.cookbook.utils.DISH_TYPE_SIDE_DISH
 import com.example.cookbook.utils.DISH_TYPE_SNACK
+import com.example.cookbook.utils.DISH_TYPE_SOUP
 import com.example.cookbook.utils.navigation.NavigationManager
 import com.example.cookbook.view.base.BaseFragment
 import com.example.cookbook.view.mainActivity.MainActivity
-import com.example.cookbook.view.search.searchResult.SearchResultAdapter
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
@@ -51,7 +58,7 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
     }
 
     private fun setSearchQuery(query: String) {
-        model.searchRecipeRequest(query, "")
+        model.searchRecipeRequest(query, "", "")
         binding.searchView.setQuery(query, false)
     }
 
@@ -84,18 +91,33 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
         arguments?.let {
             val searchQuery = it.getString(BUNDLE_SEARCH_QUERY)
             val dishType = it.getString(BUNDLE_DISH_TYPE)
+            val includeFilter = it.getString(BUNDLE_INCLUDE_INGREDIENT_FILTER)
+            val dishTypeFilter = it.getString(BUNDLE_DISH_TYPE_FILTER)
 
             Log.d("@@@", "Handling arguments: searchQuery = $searchQuery, dishType = $dishType")
 
             when {
                 searchQuery != null -> setSearchQuery(searchQuery)
                 dishType != null -> setDishTypeQuery(dishType)
+                includeFilter != null || dishTypeFilter != null -> setFilterQuery(
+                    includeFilter ?: "", dishTypeFilter ?: ""
+                )
             }
         } ?: Log.d("@@@", "No arguments to handle")
     }
 
+    private fun setFilterQuery(includeList: String, dishType: String) {
+        model.searchRecipeRequest("", includeList, dishType)
+        with(binding) {
+            searchView.setQuery("Filter search", false)
+            if (searchView.query.isNotEmpty()) {
+                variousDishes.variousDishesTableContainer.isVisible = false
+            }
+        }
+    }
+
     private fun setDishTypeQuery(dishType: String) {
-        model.searchRandomRecipesByDishTypes(dishType)
+        model.searchRecipeRequest("", "", dishType)
         with(binding) {
             searchView.setQuery(dishType, false)
             variousDishes.variousDishesTableContainer.isVisible = false
@@ -104,11 +126,11 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
     }
 
     private fun initViewModel() {
-        arguments?.getString("search_query")?.let {
+        arguments?.getString(BUNDLE_SEARCH_QUERY)?.let {
             binding.searchView.setQuery(it, false)
             model.searchRecipeRequest(
                 it,
-                ""
+                "", ""
             )
         }
         lifecycleScope.launch {
@@ -125,7 +147,7 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
                 object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
                         query?.let {
-                            model.searchRecipeRequest(it, "")
+                            model.searchRecipeRequest(it, "", "")
                             hideKeyboard(binding.searchView)
 
                         }
@@ -136,14 +158,12 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
                         when (newText?.length) {
                             0 -> {
                                 with(binding) {
-                                    resultRecyclerView.isVisible = false
                                     variousDishes.variousDishesTableContainer.isVisible = true
                                 }
                             }
 
                             else -> {
                                 with(binding) {
-                                    resultRecyclerView.isVisible = true
                                     variousDishes.variousDishesTableContainer.isVisible = false
                                 }
                             }
@@ -180,22 +200,22 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
                 setDishTypeQuery(DISH_TYPE_DESSERT)
             }
             variousDishes.cardSoup.setOnClickListener {
-                setDishTypeQuery("soup")
+                setDishTypeQuery(DISH_TYPE_SOUP)
             }
             variousDishes.cardAppetizer.setOnClickListener {
-                setDishTypeQuery("appetizer")
+                setDishTypeQuery(DISH_TYPE_APPETIZER)
             }
             variousDishes.cardBeverage.setOnClickListener {
-                setDishTypeQuery("beverage")
+                setDishTypeQuery(DISH_TYPE_BEVERAGE)
             }
             variousDishes.cardSauce.setOnClickListener {
-                setDishTypeQuery("sauce")
+                setDishTypeQuery(DISH_TYPE_SAUCE)
             }
             variousDishes.cardBread.setOnClickListener {
-                setDishTypeQuery("bread")
+                setDishTypeQuery(DISH_TYPE_BREAD)
             }
             variousDishes.cardDrink.setOnClickListener {
-                setDishTypeQuery("drink")
+                setDishTypeQuery(DISH_TYPE_DRINK)
             }
         }
     }
@@ -211,7 +231,7 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
         navigationManager?.openRecipeInfoFragment(recipeId)
     }
 
-    private fun openAllFiltersFragment(){
+    private fun openAllFiltersFragment() {
         navigationManager?.openAllFiltersFragment()
     }
 
@@ -220,7 +240,8 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
     }
 
     private fun hideKeyboard(view: View) {
-        val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm =
+            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }

@@ -39,9 +39,11 @@ class EditProfileFragment : Fragment() {
             if (isGranted) {
                 continueTakingPhotoFromCamera()
             } else {
-                Toast.makeText(requireContext(),
+                Toast.makeText(
+                    requireContext(),
                     getString(R.string.profile_decline_camera_permission),
-                    Toast.LENGTH_LONG)
+                    Toast.LENGTH_LONG
+                )
             }
         }
 
@@ -80,9 +82,11 @@ class EditProfileFragment : Fragment() {
 
     private fun initFAB() {
         binding.editAvatar.setOnClickListener {
-            val view = layoutInflater.inflate(R.layout.bottom_sheet_dialog_avatar_edit,
+            val view = layoutInflater.inflate(
+                R.layout.bottom_sheet_dialog_avatar_edit,
                 binding.editAvatar.parent as ViewGroup?,
-                false)
+                false
+            )
             val dialog = BottomSheetDialog(requireContext())
             dialog.setContentView(view)
 
@@ -140,8 +144,10 @@ class EditProfileFragment : Fragment() {
                 binding.avatarImage.load(avatarUri) { crossfade(true) }
 
             } else {
-                Toast.makeText(requireContext(), getString(R.string.avatar_source_error),
-                    Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    requireContext(), getString(R.string.avatar_source_error),
+                    Toast.LENGTH_SHORT
+                )
                     .show()
             }
         }
@@ -151,8 +157,11 @@ class EditProfileFragment : Fragment() {
     }
 
     private fun takePhotoFromCamera() {
-        if (ContextCompat.checkSelfPermission(requireContext(),
-                android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                android.Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
             continueTakingPhotoFromCamera()
         } else {
             requestCameraPermission.launch(android.Manifest.permission.CAMERA)

@@ -3,9 +3,6 @@ package com.example.cookbook.view.recipeInfo
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
-import androidx.fragment.app.findFragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -17,7 +14,6 @@ import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.RecipeInformation
 import com.example.cookbook.utils.ID
 import com.example.cookbook.view.base.BaseFragment
-import com.example.cookbook.view.favorite.FavoriteFragment
 import com.example.cookbook.view.recipeInfo.adapters.RecipeInformationPageAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.launch
@@ -89,9 +85,12 @@ class RecipeInfoFragment :
                 transformations(RoundedCornersTransformation(16f))
             }
             chCalories.text = "${data.calories?.amount} ${data.calories?.unit}"
-            chProtein.text = "${resources.getString(R.string.protein)} - ${data.protein?.amount}${data.protein?.unit}"
-            chFat.text = "${resources.getString(R.string.fat)} - ${data.fat?.amount}${data.fat?.unit}"
-            chCarb.text = "${resources.getString(R.string.carb)} - ${data.carbohydrates?.amount}${data.carbohydrates?.unit}"
+            chProtein.text =
+                "${resources.getString(R.string.protein)} - ${data.protein?.amount}${data.protein?.unit}"
+            chFat.text =
+                "${resources.getString(R.string.fat)} - ${data.fat?.amount}${data.fat?.unit}"
+            chCarb.text =
+                "${resources.getString(R.string.carb)} - ${data.carbohydrates?.amount}${data.carbohydrates?.unit}"
 
             viewPager.adapter = RecipeInformationPageAdapter(requireActivity())
             viewPager.isUserInputEnabled = false

@@ -10,22 +10,21 @@ interface IRepositorySearchRequest {
         request: String,
         ingredients: String,
         userDiets: String,
-        userIntolerances: String
+        userIntolerances: String,
+        dishType: String,
     ): List<SearchRecipeData>
+
     suspend fun getRecipeInfo(id: Int): RecipeInformation
     suspend fun getRandomRecipes(
         userDiets: String,
         userIntolerances: String
     ): List<RandomRecipeData>
+
     suspend fun getRandomCuisineRecipes(
         cuisine: String,
         userIntolerances: String
     ): List<RandomRecipeData>
-    suspend fun getRecipesByType(
-        dishType: String,
-        userDiets: String,
-        userIntolerances: String
-    ): List<SearchRecipeData>
+
     suspend fun getHealthyRandomRecipes(): List<RandomRecipeData>
     suspend fun getJokeText(): String
 }

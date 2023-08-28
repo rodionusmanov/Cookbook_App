@@ -42,8 +42,8 @@ class FavoriteFragment : BaseFragment<AppState, List<RecipeInformation>, Fragmen
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.stateFlow.collect{
-                    it.collect{entityData ->
+                viewModel.stateFlow.collect {
+                    it.collect { entityData ->
                         val data = convertRecipeInfoEntityToList(entityData)
                         renderData(AppState.Success<List<RecipeInformation>>(data))
                     }

@@ -14,9 +14,9 @@ import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
-import com.example.cookbook.databinding.FragmentMyProfileBinding
 import coil.load
 import com.example.cookbook.R
+import com.example.cookbook.databinding.FragmentMyProfileBinding
 import com.example.cookbook.utils.SELECTED_DIET_KEY
 import com.example.cookbook.utils.SELECTED_INTOLERANCES_KEY
 import com.google.android.material.card.MaterialCardView
@@ -82,7 +82,7 @@ class MyProfileFragment : Fragment() {
         initChipGroup(
             binding.dietsChipGroup,
             SELECTED_DIET_KEY
-            )
+        )
         initChipGroup(
             binding.intolerancesChipGroup,
             SELECTED_INTOLERANCES_KEY
@@ -99,8 +99,8 @@ class MyProfileFragment : Fragment() {
         for (i in 0 until chipGroup.childCount) {
             val chip = chipGroup.getChildAt(i) as Chip
             chip.setOnCheckedChangeListener { _, isChecked ->
-                if(isProgrammaticallyChecked) return@setOnCheckedChangeListener
-                if(isChecked) {
+                if (isProgrammaticallyChecked) return@setOnCheckedChangeListener
+                if (isChecked) {
                     val newSelectedItems = getSelectedChipsText(chipGroup)
                     model.saveSelectedRestrictions(newSelectedItems, preferenceKey)
                 }
@@ -117,7 +117,7 @@ class MyProfileFragment : Fragment() {
         val selectedItems = mutableSetOf<String>()
         for (i in 0 until chipGroup.childCount) {
             val chip = chipGroup.getChildAt(i) as Chip
-            if(chip.isChecked) {
+            if (chip.isChecked) {
                 selectedItems.add(chip.text.toString())
             }
         }
