@@ -25,7 +25,6 @@ class UniversalAdapter :
             when (data) {
                 is ExtendedIngredient -> {
                     with(binding) {
-                        vDotItem.isVisible = true
                         tvUniversalItem.text =
                             "${data.originalName} ${data.measures.metric.amount} ${data.measures.metric.unitLong}"
                         ivUniversalItem.isVisible = false
@@ -35,7 +34,6 @@ class UniversalAdapter :
                 is Equipment -> {
                     with(binding) {
                         llUniversalItem.gravity = Gravity.CENTER_HORIZONTAL
-                        vDotItem.isVisible = false
                         tvUniversalItem.text = data.name
                         ivUniversalItem.isVisible = true
                         ivUniversalItem.load(data.image) {
@@ -47,7 +45,6 @@ class UniversalAdapter :
                 is Ingredient -> {
                     with(binding) {
                         llUniversalItem.gravity = Gravity.CENTER_HORIZONTAL
-                        vDotItem.isVisible = false
                         tvUniversalItem.text = data.name
                         ivUniversalItem.isVisible = true
                         ivUniversalItem.load(data.image) {
@@ -58,7 +55,6 @@ class UniversalAdapter :
 
                 is Step -> {
                     with(binding) {
-                        vDotItem.isVisible = true
                         tvUniversalItem.text = data.step
                         ivUniversalItem.isVisible = false
                     }

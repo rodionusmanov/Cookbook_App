@@ -34,12 +34,10 @@
     <style name="MyProfileUserNameTextStyle">
         <item name="android:textSize">@dimen/profile_user_name_title</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="MyProfileMenuLineTextStyle">
         <item name="android:textSize">@dimen/profile_user_name_title</item>
-        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="ShapeAppearanceOverlay.App.CornerSize50" parent="">
@@ -50,6 +48,13 @@
         <item name="android:layout_marginTop">@dimen/margin_10dp_small</item>
         <item name="android:layout_marginStart">@dimen/margin_10dp_small</item>
         <item name="tint">?attr/colorOnSecondary</item>
+    </style>
+
+    <style name="FiltersIconsStyle" parent="">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">@dimen/margin_40dp_large</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:padding">@dimen/top_badge_padding_2dp</item>
     </style>
 
 </resources>
