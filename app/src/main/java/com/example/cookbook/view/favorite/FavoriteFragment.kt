@@ -3,6 +3,7 @@ package com.example.cookbook.view.favorite
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -62,6 +63,16 @@ class FavoriteFragment : BaseFragment<AppState, List<RecipeInformation>, Fragmen
 
         adapter.listener = { recipe ->
             openRecipeInfoFromDatabaseFragment(recipe.id)
+        }
+
+        adapter.addRecipeListener = { recipe ->
+            viewModel.upsertRecipeToDatabase(recipe)
+            Toast.makeText(context,"adding recipe", Toast.LENGTH_SHORT).show()
+        }
+
+        adapter.deleteRecipeListener = { id ->
+            viewModel.deleteRecipeFromFavorite(id)
+            Toast.makeText(context,"deleting recipe", Toast.LENGTH_SHORT).show()
         }
 
         binding.favoriteRecipesRecyclerView.layoutManager = LinearLayoutManager(context)

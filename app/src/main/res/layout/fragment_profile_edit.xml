@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/my_profile_background"
+    android:background="?attr/colorOnPrimary"
     >
 
     <LinearLayout
@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@color/my_profile_background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:gravity="center_horizontal"
@@ -105,7 +104,7 @@
         android:layout_marginTop="@dimen/margin_16dp_medium"
         android:layout_marginHorizontal="@dimen/margin_16dp_medium"
         android:text="@string/profile_save_and_exit"
-        android:backgroundTint="@color/black"
+        android:backgroundTint="?attr/colorOnSecondary"
         android:padding="@dimen/padding_8dp"
         />
 

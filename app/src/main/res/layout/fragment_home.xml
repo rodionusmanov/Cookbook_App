@@ -9,7 +9,6 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/home_search_toolbar_height"
-        android:background="@color/white"
         android:paddingVertical="@dimen/margin_10dp_small"
         android:stateListAnimator="@animator/toolbar_elevation"
         app:layout_constraintStart_toStartOf="parent"
@@ -119,8 +118,9 @@
 
                         <ImageView
                             android:id="@+id/search_by_ingredient_logo"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_width="@dimen/iv_services_size"
+                            android:layout_height="@dimen/iv_services_size"
+                            style="@style/ServicesContainersImageViewStyle"
                             android:src="@drawable/icon_search_by_ingredient"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
@@ -153,8 +153,9 @@
 
                         <ImageView
                             android:id="@+id/favorites_list_logo"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_width="@dimen/iv_services_size"
+                            android:layout_height="@dimen/iv_services_size"
+                            style="@style/ServicesContainersImageViewStyle"
                             android:src="@drawable/icon_favorite_list"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
@@ -187,8 +188,10 @@
 
                         <ImageView
                             android:id="@+id/shopping_list_logo"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_width="@dimen/iv_services_size"
+                            android:layout_height="@dimen/iv_services_size"
+                            style="@style/ServicesContainersImageViewStyle"
+                            android:src="@drawable/icon_shopping_list"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             tools:ignore="ContentDescription" />
@@ -250,6 +253,7 @@
                         android:layout_height="@dimen/home_joke_of_the_day_layout_quote_size"
                         android:rotation="180"
                         android:src="@drawable/icon_quote"
+                        app:tint="?attr/colorOnSecondary"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/joke_of_the_day_title"
                         tools:ignore="ContentDescription" />
@@ -272,6 +276,7 @@
                         android:layout_height="@dimen/home_joke_of_the_day_layout_quote_size"
                         android:layout_marginTop="-20dp"
                         android:src="@drawable/icon_quote"
+                        app:tint="?attr/colorOnSecondary"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/joke_text"
                         tools:ignore="ContentDescription" />
@@ -336,4 +341,3 @@
         tools:layout_editor_absoluteY="176dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-

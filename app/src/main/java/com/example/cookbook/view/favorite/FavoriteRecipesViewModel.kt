@@ -1,6 +1,7 @@
 package com.example.cookbook.view.favorite
 
 import com.example.cookbook.model.AppState
+import com.example.cookbook.model.domain.RecipeInformation
 import com.example.cookbook.model.interactor.FavoriteFragmentInteractor
 import com.example.cookbook.model.repository.local.LocalRepositoryInfoImpl
 import com.example.cookbook.model.room.fullRecipe.RecipeInfoEntity
@@ -26,6 +27,18 @@ class FavoriteRecipesViewModel(
                 _stateFlow.emit(interactor.getRecipesFromDatabase())
             } catch (e: Throwable) {
             }
+        }
+    }
+
+    fun upsertRecipeToDatabase(recipeInformation: RecipeInformation) {
+        viewModelCoroutineScope.launch {
+            localRepository.upsertNewRecipe(recipeInformation)
+        }
+    }
+
+    fun deleteRecipeFromFavorite(id: Int) {
+        viewModelCoroutineScope.launch {
+            localRepository.removeRecipeFromData(id)
         }
     }
 }
