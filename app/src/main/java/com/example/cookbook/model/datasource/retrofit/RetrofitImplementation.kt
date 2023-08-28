@@ -29,13 +29,14 @@ class RetrofitImplementation : SearchRecipeDataSource, RandomRecipeDataSource,
         request: String,
         ingredients: String,
         userDiets: String,
-        userIntolerances: String
+        userIntolerances: String,
+        dishType: String
     ): Response<SearchRecipeListDTO> {
         Log.d("@@@", "User Diets: $userDiets")
         Log.d("@@@", "User Intolerances: $userIntolerances")
 
         return getService(baseInterceptor).searchRecipesAsync(
-            request, ingredients, userDiets, userIntolerances, ""
+            request, ingredients, userDiets, userIntolerances, dishType
         ).await()
     }
 
@@ -64,16 +65,6 @@ class RetrofitImplementation : SearchRecipeDataSource, RandomRecipeDataSource,
             .joinToString(",")
         return getService(baseInterceptor).getRandomRecipesAsync(
             DEFAULT_RECIPE_NUMBER, tags
-        ).await()
-    }
-
-    override suspend fun getRecipesByType(
-        dishType: String,
-        userDiets: String,
-        userIntolerances: String
-    ): Response<SearchRecipeListDTO> {
-        return getService(baseInterceptor).searchRecipesAsync(
-            "", "", userDiets, userIntolerances, dishType
         ).await()
     }
 

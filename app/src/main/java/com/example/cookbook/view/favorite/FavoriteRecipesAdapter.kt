@@ -8,10 +8,9 @@ import coil.load
 import coil.size.Scale
 import com.example.cookbook.R
 import com.example.cookbook.databinding.ItemSearchResultBinding
-import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.RecipeInformation
 
-class FavoriteRecipesAdapter() :
+class FavoriteRecipesAdapter :
     RecyclerView.Adapter<FavoriteRecipesAdapter.RecyclerItemViewHolder>() {
 
     private var data: List<RecipeInformation> = arrayListOf()

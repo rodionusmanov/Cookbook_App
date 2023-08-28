@@ -6,7 +6,6 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import com.example.cookbook.model.datasource.DTO.recipeInformation.AnalyzedInstruction
 import com.example.cookbook.model.datasource.DTO.recipeInformation.WeightPerServing
 import com.example.cookbook.model.room.DataTypeConverters
 

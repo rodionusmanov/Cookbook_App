@@ -65,7 +65,7 @@ class RecipeInfoFromDatabaseViewModel(
         }
     }
 
-    fun checkRecipeExistenceInDatabase(id: Int){
+    fun checkRecipeExistenceInDatabase(id: Int) {
         viewModelCoroutineScope.launch {
             _recipeExistenceInDatabase.value = localRepository.checkExistence(id)
         }

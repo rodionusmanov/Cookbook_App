@@ -69,8 +69,8 @@ class RandomCuisineRecipeListFragment :
 
     private fun initBackgroundImage(cuisine: String) {
         initTitleText()
-        with(binding){
-            val imageResource = when(cuisine) {
+        with(binding) {
+            val imageResource = when (cuisine) {
                 CUISINE_ASIA -> R.drawable.background_asia
                 CUISINE_MDTRN -> R.drawable.background_mediterranian
                 CUISINE_INDIA -> R.drawable.background_indian
@@ -81,7 +81,7 @@ class RandomCuisineRecipeListFragment :
             Glide.with(this@RandomCuisineRecipeListFragment)
                 .asBitmap()
                 .load(imageResource)
-                .into(object : CustomTarget<Bitmap>(){
+                .into(object : CustomTarget<Bitmap>() {
                     override fun onResourceReady(
                         resource: Bitmap,
                         transition: Transition<in Bitmap>?
@@ -92,7 +92,8 @@ class RandomCuisineRecipeListFragment :
                         val imageWidth = resource.width
                         val imageViewWith = backgroundImage.width
 
-                        val scaleFactor = backgroundImage.height.toFloat() / resource.height.toFloat()
+                        val scaleFactor =
+                            backgroundImage.height.toFloat() / resource.height.toFloat()
                         val translatedWidth = imageWidth * scaleFactor
 
                         val matrix = Matrix()
@@ -126,47 +127,91 @@ class RandomCuisineRecipeListFragment :
             setAlphaForBackground(firstLineTitle, 170)
             setAlphaForBackground(secondLineTitle, 170)
 
-            when(cuisine) {
+            when (cuisine) {
                 CUISINE_ASIA -> {
-                    firstLineTitle.apply{
+                    firstLineTitle.apply {
                         text = getString(R.string.asia_title_first_line)
-                        setTextColor(ContextCompat.getColor(context, R.color.random_cuisine_text_title_color))
+                        setTextColor(
+                            ContextCompat.getColor(
+                                context,
+                                R.color.random_cuisine_text_title_color
+                            )
+                        )
                     }
-                    secondLineTitle.apply{
+                    secondLineTitle.apply {
                         text = getString(R.string.asia_title_second_line)
-                        setTextColor(ContextCompat.getColor(context, R.color.random_cuisine_text_second_title_color))
+                        setTextColor(
+                            ContextCompat.getColor(
+                                context,
+                                R.color.random_cuisine_text_second_title_color
+                            )
+                        )
                     }
                 }
+
                 CUISINE_MDTRN -> {
-                    firstLineTitle.apply{
+                    firstLineTitle.apply {
                         text = getString(R.string.mdtrn_title_first_line)
-                        setTextColor(ContextCompat.getColor(context, R.color.random_cuisine_text_title_color))
+                        setTextColor(
+                            ContextCompat.getColor(
+                                context,
+                                R.color.random_cuisine_text_title_color
+                            )
+                        )
                     }
-                    secondLineTitle.apply{
+                    secondLineTitle.apply {
                         text = getString(R.string.mdtrn_title_second_line)
-                        setTextColor(ContextCompat.getColor(context, R.color.random_cuisine_text_second_title_color))
+                        setTextColor(
+                            ContextCompat.getColor(
+                                context,
+                                R.color.random_cuisine_text_second_title_color
+                            )
+                        )
                     }
                 }
+
                 CUISINE_INDIA -> {
-                    firstLineTitle.apply{
+                    firstLineTitle.apply {
                         text = getString(R.string.india_title_first_line)
-                        setTextColor(ContextCompat.getColor(context, R.color.random_cuisine_text_title_color))
+                        setTextColor(
+                            ContextCompat.getColor(
+                                context,
+                                R.color.random_cuisine_text_title_color
+                            )
+                        )
                     }
-                    secondLineTitle.apply{
+                    secondLineTitle.apply {
                         text = getString(R.string.india_title_second_line)
-                        setTextColor(ContextCompat.getColor(context, R.color.random_cuisine_text_second_title_color))
+                        setTextColor(
+                            ContextCompat.getColor(
+                                context,
+                                R.color.random_cuisine_text_second_title_color
+                            )
+                        )
                     }
                 }
+
                 CUISINE_NORDIC -> {
-                    firstLineTitle.apply{
+                    firstLineTitle.apply {
                         text = getString(R.string.nordic_title_first_line)
-                        setTextColor(ContextCompat.getColor(context, R.color.random_cuisine_text_title_color))
+                        setTextColor(
+                            ContextCompat.getColor(
+                                context,
+                                R.color.random_cuisine_text_title_color
+                            )
+                        )
                     }
-                    secondLineTitle.apply{
+                    secondLineTitle.apply {
                         text = getString(R.string.nordic_title_second_line)
-                        setTextColor(ContextCompat.getColor(context, R.color.random_cuisine_text_second_title_color))
+                        setTextColor(
+                            ContextCompat.getColor(
+                                context,
+                                R.color.random_cuisine_text_second_title_color
+                            )
+                        )
                     }
                 }
+
                 else -> return
             }
         }

@@ -22,20 +22,19 @@
             android:id="@+id/search_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/orange_light"
             android:hint="@string/search_view_hint"
             app:iconifiedByDefault="false" />
 
     </com.google.android.material.card.MaterialCardView>
 
     <Button
-        android:id="@+id/btn_all_filters"
         style="@style/Widget.Material3.Button"
+        android:id="@+id/btn_all_filters"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="20sp"
         android:layout_margin="16dp"
-        android:text="@string/all_filters"
-        android:textSize="20sp" />
+        android:text="@string/all_filters"/>
 
     <LinearLayout
         android:id="@+id/various_dishes_table"
@@ -79,8 +78,7 @@
                     style="@style/HomeFragmentDishCardTitleStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/card_breakfast_title"
-                    android:textColor="?attr/colorOnSecondary" />
+                    android:text="@string/card_breakfast_title" />
 
             </LinearLayout>
 
@@ -111,8 +109,7 @@
                     style="@style/HomeFragmentDishCardTitleStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/card_side_dish_title"
-                    android:textColor="?attr/colorOnSecondary" />
+                    android:text="@string/card_side_dish_title" />
 
             </LinearLayout>
 
@@ -143,8 +140,7 @@
                     style="@style/HomeFragmentDishCardTitleStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/card_main_course_title"
-                    android:textColor="?attr/colorOnSecondary" />
+                    android:text="@string/card_main_course_title" />
 
             </LinearLayout>
 
@@ -184,8 +180,7 @@
                     style="@style/HomeFragmentDishCardTitleStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/card_salads_title"
-                    android:textColor="?attr/colorOnSecondary" />
+                    android:text="@string/card_salads_title" />
 
             </LinearLayout>
 
@@ -216,8 +211,7 @@
                     style="@style/HomeFragmentDishCardTitleStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/card_snacks_title"
-                    android:textColor="?attr/colorOnSecondary" />
+                    android:text="@string/card_snacks_title" />
 
             </LinearLayout>
 
@@ -248,8 +242,7 @@
                     style="@style/HomeFragmentDishCardTitleStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/card_desserts_title"
-                    android:textColor="?attr/colorOnSecondary" />
+                    android:text="@string/card_desserts_title" />
 
             </LinearLayout>
 

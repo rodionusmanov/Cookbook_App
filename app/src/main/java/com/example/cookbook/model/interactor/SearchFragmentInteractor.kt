@@ -9,7 +9,12 @@ class SearchFragmentInteractor(
     private val preferencesRepository: SharedPreferencesRepository
 ) {
 
-    suspend fun searchRecipe(request: String, ingredients: String, isOnline: Boolean): AppState {
+    suspend fun searchRecipe(
+        request: String,
+        ingredients: String,
+        dishType: String,
+        isOnline: Boolean
+    ): AppState {
         val userDiets = preferencesRepository.getSelectedDiets()
         val userIntolerances = preferencesRepository.getSelectedIntolerances()
         return AppState.Success(
@@ -17,19 +22,8 @@ class SearchFragmentInteractor(
                 request,
                 ingredients,
                 userDiets,
-                userIntolerances
-            )
-        )
-    }
-
-    suspend fun searchRecipesByDishTypes(dishType: String, isOnline: Boolean): AppState {
-        val userDiets = preferencesRepository.getSelectedDiets()
-        val userIntolerances = preferencesRepository.getSelectedIntolerances()
-        return AppState.Success(
-            remoteRepository.getRecipesByType(
-                dishType,
-                userDiets,
-                userIntolerances
+                userIntolerances,
+                dishType
             )
         )
     }

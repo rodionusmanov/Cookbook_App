@@ -13,13 +13,10 @@ import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.RecipeInformation
 import com.example.cookbook.utils.ID
 import com.example.cookbook.view.base.BaseFragment
-import com.example.cookbook.view.recipeInfo.RecipeInfoFragment
 import com.example.cookbook.view.recipeInfo.adapters.RecipeInformationFromDatabasePageAdapter
-import com.example.cookbook.view.recipeInfo.adapters.RecipeInformationPageAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RecipeInfoFromDatabaseFragment :
     BaseFragment<AppState, RecipeInformation, FragmentRecipeInfoFromDatabaseBinding>(

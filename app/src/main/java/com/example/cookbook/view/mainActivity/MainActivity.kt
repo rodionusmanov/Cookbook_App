@@ -18,8 +18,13 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity(), OnProfileUpdatedListener {
 
-    private lateinit var binding: ActivityMainBinding
-    private lateinit var navigationManager: NavigationManager
+    private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+
+    private val navigationManager: NavigationManager by lazy {
+        NavigationManager(this, binding.navView).apply {
+            setupBottomNavigationMenu()
+        }
+    }
 
     private val recipeInfoViewModel: RecipeInfoViewModel by viewModel()
     private val searchViewModel: SearchViewModel by viewModel()
@@ -27,11 +32,7 @@ class MainActivity : AppCompatActivity(), OnProfileUpdatedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        navigationManager = NavigationManager(this, binding.navView)
-        navigationManager.setupBottomNavigationMenu()
 
         if (savedInstanceState == null) {
             navigationManager.switchFragment(FRAGMENT_HOME, addToBackStack = true)

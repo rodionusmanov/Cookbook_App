@@ -9,6 +9,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/home_search_toolbar_height"
+        android:background="@color/white"
         android:stateListAnimator="@animator/toolbar_elevation"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -36,10 +37,9 @@
                     android:id="@+id/search_view"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/search_view_height"
-                    android:background="@color/white"
-                    android:focusable="false"
                     android:hint="@string/search_view_hint"
                     app:iconifiedByDefault="false"
+                    android:focusable="false"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -245,10 +245,9 @@
                         style="@style/HomeFragmentTitleTextStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/margin_10dp_small"
                         android:layout_marginTop="@dimen/margin_10dp_small"
+                        android:layout_marginHorizontal="@dimen/margin_10dp_small"
                         android:text="@string/joke_of_the_day_title"
-                        android:textColor="?attr/colorOnSecondary"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -259,7 +258,6 @@
                         android:layout_height="@dimen/home_joke_of_the_day_layout_quote_size"
                         android:rotation="180"
                         android:src="@drawable/icon_quote"
-                        app:tint="?attr/colorOnSecondary"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/joke_of_the_day_title"
                         tools:ignore="ContentDescription" />
@@ -282,7 +280,6 @@
                         android:layout_height="@dimen/home_joke_of_the_day_layout_quote_size"
                         android:layout_marginTop="-20dp"
                         android:src="@drawable/icon_quote"
-                        app:tint="?attr/colorOnSecondary"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/joke_text"
                         tools:ignore="ContentDescription" />
@@ -309,8 +306,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="@dimen/margin_16dp_medium"
                     android:paddingHorizontal="@dimen/margin_8dp_small"
-                    android:text="@string/dishes_table_title"
-                    android:textColor="?attr/colorOnSecondary"/>
+                    android:text="@string/dishes_table_title" />
 
                 <LinearLayout
                     android:id="@+id/dishes_table_first_line_container"
@@ -347,9 +343,7 @@
                             style="@style/HomeFragmentDishCardTitleStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/card_breakfast_title"
-                            android:textColor="?attr/colorOnSecondary"/>
-
+                            android:text="@string/card_breakfast_title" />
 
                     </LinearLayout>
 
@@ -380,8 +374,7 @@
                             style="@style/HomeFragmentDishCardTitleStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/card_side_dish_title"
-                            android:textColor="?attr/colorOnSecondary"/>
+                            android:text="@string/card_side_dish_title" />
 
                     </LinearLayout>
 
@@ -412,8 +405,7 @@
                             style="@style/HomeFragmentDishCardTitleStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/card_main_course_title"
-                            android:textColor="?attr/colorOnSecondary"/>
+                            android:text="@string/card_main_course_title" />
 
                     </LinearLayout>
 
@@ -454,8 +446,7 @@
                             style="@style/HomeFragmentDishCardTitleStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/card_salads_title"
-                            android:textColor="?attr/colorOnSecondary"/>
+                            android:text="@string/card_salads_title" />
 
                     </LinearLayout>
 
@@ -486,8 +477,7 @@
                             style="@style/HomeFragmentDishCardTitleStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/card_snacks_title"
-                            android:textColor="?attr/colorOnSecondary"/>
+                            android:text="@string/card_snacks_title" />
 
                     </LinearLayout>
 
@@ -518,8 +508,7 @@
                             style="@style/HomeFragmentDishCardTitleStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/card_desserts_title"
-                            android:textColor="?attr/colorOnSecondary"/>
+                            android:text="@string/card_desserts_title" />
 
                     </LinearLayout>
 
@@ -554,7 +543,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/recently_viewed_title"
-                    android:textColor="?attr/colorOnSecondary"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

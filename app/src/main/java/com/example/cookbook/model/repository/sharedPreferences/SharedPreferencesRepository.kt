@@ -12,7 +12,7 @@ class SharedPreferencesRepository(context: Context) {
 
     private val sharedPreferences: SharedPreferences =
         context.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
-    
+
     fun getSelectedDiets(): String {
         return getStringFromPreferences(SELECTED_DIET_KEY)
     }
@@ -30,11 +30,11 @@ class SharedPreferencesRepository(context: Context) {
         sharedPreferences.edit().putStringSet(preferenceKey, restrictions).apply()
     }
 
-    fun getSelectedRestrictions(preferenceKey: String): MutableSet<String>{
+    fun getSelectedRestrictions(preferenceKey: String): MutableSet<String> {
         return sharedPreferences.getStringSet(preferenceKey, mutableSetOf()) ?: mutableSetOf()
     }
 
-    fun saveProfileName(name:String) {
+    fun saveProfileName(name: String) {
         sharedPreferences.edit().putString(PROFILE_NAME_KEY, name).apply()
     }
 
