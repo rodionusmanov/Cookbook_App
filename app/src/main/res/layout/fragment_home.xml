@@ -79,18 +79,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <FrameLayout
                 android:id="@+id/random_recipe_container"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/random_recipe_layout_height"
-                android:layout_marginHorizontal="@dimen/margin_16dp_medium"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_marginHorizontal="@dimen/margin_16dp_medium" />
 
             <LinearLayout
                 android:id="@+id/services_container"
@@ -98,10 +96,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_16dp_medium"
                 android:orientation="horizontal"
-                android:weightSum="3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/random_recipe_container">
+                android:weightSum="3">
 
                 <com.example.cookbook.view.customviews.SquareMaterialCardView
                     android:id="@+id/detailed_ingredient_search"
@@ -118,9 +113,9 @@
 
                         <ImageView
                             android:id="@+id/search_by_ingredient_logo"
+                            style="@style/ServicesContainersImageViewStyle"
                             android:layout_width="@dimen/iv_services_size"
                             android:layout_height="@dimen/iv_services_size"
-                            style="@style/ServicesContainersImageViewStyle"
                             android:src="@drawable/icon_search_by_ingredient"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
@@ -153,9 +148,9 @@
 
                         <ImageView
                             android:id="@+id/favorites_list_logo"
+                            style="@style/ServicesContainersImageViewStyle"
                             android:layout_width="@dimen/iv_services_size"
                             android:layout_height="@dimen/iv_services_size"
-                            style="@style/ServicesContainersImageViewStyle"
                             android:src="@drawable/icon_favorite_list"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
@@ -188,9 +183,9 @@
 
                         <ImageView
                             android:id="@+id/shopping_list_logo"
+                            style="@style/ServicesContainersImageViewStyle"
                             android:layout_width="@dimen/iv_services_size"
                             android:layout_height="@dimen/iv_services_size"
-                            style="@style/ServicesContainersImageViewStyle"
                             android:src="@drawable/icon_shopping_list"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
@@ -214,11 +209,7 @@
                 android:id="@+id/random_cuisine_recipes_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/services_container" />
+                android:layout_marginTop="60dp" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/joke_of_the_day_container"
@@ -226,10 +217,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_16dp_medium"
                 android:elevation="@dimen/elevation_10dp_small"
-                app:cardCornerRadius="@dimen/material_card_corner_radius_20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/random_cuisine_recipes_container">
+                app:cardCornerRadius="@dimen/material_card_corner_radius_20dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -253,9 +241,9 @@
                         android:layout_height="@dimen/home_joke_of_the_day_layout_quote_size"
                         android:rotation="180"
                         android:src="@drawable/icon_quote"
-                        app:tint="?attr/colorOnSecondary"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/joke_of_the_day_title"
+                        app:tint="?attr/colorOnSecondary"
                         tools:ignore="ContentDescription" />
 
                     <TextView
@@ -276,9 +264,9 @@
                         android:layout_height="@dimen/home_joke_of_the_day_layout_quote_size"
                         android:layout_marginTop="-20dp"
                         android:src="@drawable/icon_quote"
-                        app:tint="?attr/colorOnSecondary"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/joke_text"
+                        app:tint="?attr/colorOnSecondary"
                         tools:ignore="ContentDescription" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -287,20 +275,14 @@
 
             <include
                 android:id="@+id/various_dishes"
-                layout="@layout/various_dishes"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/joke_of_the_day_container" />
+                layout="@layout/various_dishes"/>
 
             <FrameLayout
                 android:id="@+id/healthy_random_recipes_container"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/random_recipe_layout_height"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="@dimen/margin_16dp_medium"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/various_dishes" />
+                android:layout_marginTop="@dimen/margin_16dp_medium"/>
 
             <LinearLayout
                 android:id="@+id/recently_viewed_recipes_container"
@@ -308,10 +290,7 @@
                 android:layout_height="@dimen/random_recipe_layout_height"
                 android:layout_marginHorizontal="@dimen/margin_16dp_medium"
                 android:layout_marginTop="@dimen/margin_16dp_medium"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/healthy_random_recipes_container">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/recently_viewed_title"
@@ -330,7 +309,7 @@
 
             </LinearLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
 
