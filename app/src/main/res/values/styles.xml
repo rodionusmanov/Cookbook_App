@@ -45,8 +45,8 @@
     </style>
 
     <style name="ServicesContainersImageViewStyle" parent="">
-        <item name="android:layout_marginTop">@dimen/margin_10dp_small</item>
-        <item name="android:layout_marginStart">@dimen/margin_10dp_small</item>
+        <item name="android:layout_marginTop">@dimen/margin_16dp_medium</item>
+        <item name="android:layout_marginStart">@dimen/margin_16dp_medium</item>
         <item name="tint">?attr/colorOnSecondary</item>
     </style>
 
