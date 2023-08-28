@@ -21,7 +21,7 @@ class FavoriteRecipesViewModel(
     private val localRepository: LocalRepositoryInfoImpl
 ) : BaseViewModel<AppState>() {
 
-    private val _stateFlow = MutableStateFlow<Flow<List<RecipeInfoEntity>>>(flow {  })
+    private val _stateFlow = MutableStateFlow<Flow<List<RecipeInfoEntity>>>(flow { })
     val stateFlow: StateFlow<Flow<List<RecipeInfoEntity>>> get() = _stateFlow.asStateFlow()
 
     fun getRecipesFromDatabase() {
@@ -30,6 +30,18 @@ class FavoriteRecipesViewModel(
                 _stateFlow.emit(interactor.getRecipesFromDatabase())
             } catch (e: Throwable) {
             }
+        }
+    }
+
+    fun upsertRecipeToDatabase(recipeInformation: RecipeInformation) {
+        viewModelCoroutineScope.launch {
+            localRepository.upsertNewRecipe(recipeInformation)
+        }
+    }
+
+    fun deleteRecipeFromFavorite(id: Int) {
+        viewModelCoroutineScope.launch {
+            localRepository.removeRecipeFromData(id)
         }
     }
 }

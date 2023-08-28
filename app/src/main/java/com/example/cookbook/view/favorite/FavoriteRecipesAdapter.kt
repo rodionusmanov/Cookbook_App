@@ -16,6 +16,8 @@ class FavoriteRecipesAdapter() :
 
     private var data: List<RecipeInformation> = arrayListOf()
     var listener: ((RecipeInformation) -> Unit)? = null
+    var addRecipeListener: ((RecipeInformation) -> Unit)? = null
+    var deleteRecipeListener: ((Int) -> Unit)? = null
     fun setData(data: List<RecipeInformation>) {
         this.data = data
         notifyDataSetChanged()
@@ -33,6 +35,14 @@ class FavoriteRecipesAdapter() :
                         placeholder(R.drawable.icon_search)
                     }
                     setOnClickListener(data)
+                    ivAddFavorite.setOnCheckedChangeListener { compoundButton, isFavorite ->
+                        if (isFavorite) {
+                            deleteRecipeListener?.invoke(data.id)
+                        } else {
+                            addRecipeListener?.invoke(data)
+                        }
+                        compoundButton.isChecked = !ivAddFavorite.isChecked
+                    }
                 }
             }
         }
