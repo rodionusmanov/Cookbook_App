@@ -9,14 +9,13 @@
     <style name="HomeFragmentDishCardTitleStyle">
         <item name="android:textSize">@dimen/home_dishes_card_title</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/black</item>
         <item name="android:gravity">center_horizontal</item>
         <item name="android:padding">@dimen/margin_6dp_small</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
     </style>
 
     <style name="HomeFragmentServiceCardTitleStyle">
         <item name="android:textSize">@dimen/home_service_card_title</item>
-        <item name="android:textColor">@color/black</item>
         <item name="android:gravity">start|center_vertical</item>
         <item name="android:padding">@dimen/margin_6dp_small</item>
         <item name="android:layout_marginStart">@dimen/margin_8dp_small</item>
@@ -29,7 +28,7 @@
     <style name="HomeFragmentTitleTextStyle">
         <item name="android:textSize">@dimen/home_joke_of_the_day_title</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
     </style>
 
     <style name="MyProfileUserNameTextStyle">
@@ -45,6 +44,12 @@
 
     <style name="ShapeAppearanceOverlay.App.CornerSize50" parent="">
         <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="ServicesContainersImageViewStyle" parent="">
+        <item name="android:layout_marginTop">@dimen/margin_10dp_small</item>
+        <item name="android:layout_marginStart">@dimen/margin_10dp_small</item>
+        <item name="tint">?attr/colorOnSecondary</item>
     </style>
 
 </resources>

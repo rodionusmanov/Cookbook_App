@@ -66,5 +66,6 @@
     //MyProfile Layout
     <dimen name="my_profile_avatar_height">100dp</dimen>
     <dimen name="edit_profile_avatar_height">150dp</dimen>
+    <dimen name="iv_services_size">30dp</dimen>
 
 </resources>

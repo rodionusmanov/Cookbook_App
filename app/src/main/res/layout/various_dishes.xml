@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/margin_16dp_medium"
         android:paddingHorizontal="@dimen/margin_8dp_small"
-        android:text="@string/dishes_table_title" />
+        android:text="@string/dishes_table_title"/>
 
     <LinearLayout
         android:id="@+id/dishes_table_first_line_container"
