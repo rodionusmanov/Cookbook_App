@@ -70,19 +70,28 @@ class HomeFragment :
         }
         binding.userAvatarImage.setOnClickListener {
             val profileFragment = MyProfileFragment()
-            navigationManager?.switchFragment(FRAGMENT_PROFILE, profileFragment, addToBackStack = true)
+            navigationManager?.switchFragment(
+                FRAGMENT_PROFILE,
+                profileFragment,
+                addToBackStack = true
+            )
         }
     }
 
     private fun initServiceButtons() {
         binding.favoritesService.setOnClickListener {
             val favoriteFragment = FavoriteFragment.newInstance()
-            navigationManager?.switchFragment(FRAGMENT_FAVORITE, favoriteFragment, addToBackStack = true)
+            navigationManager?.switchFragment(
+                FRAGMENT_FAVORITE,
+                favoriteFragment,
+                addToBackStack = true
+            )
         }
     }
 
     private fun initRandomCuisineFragment() {
-        val existingFragment = childFragmentManager.findFragmentById(R.id.random_cuisine_recipes_container)
+        val existingFragment =
+            childFragmentManager.findFragmentById(R.id.random_cuisine_recipes_container)
         if (existingFragment == null) {
             val fragment = RandomCuisineRecipeListFragment.newInstance()
             childFragmentManager
@@ -93,7 +102,8 @@ class HomeFragment :
     }
 
     private fun initHealthyRandomRecipeFragment() {
-        val existingFragment = childFragmentManager.findFragmentById(R.id.healthy_random_recipes_container)
+        val existingFragment =
+            childFragmentManager.findFragmentById(R.id.healthy_random_recipes_container)
         if (existingFragment == null) {
             val fragment = HealthyRandomRecipeListFragment.newInstance()
             childFragmentManager
@@ -104,22 +114,22 @@ class HomeFragment :
     }
 
     private fun initDishTypeCards() {
-        binding.cardBreakfast.setOnClickListener {
+        binding.variousDishes.cardBreakfast.setOnClickListener {
             openSearchFragmentWithQuery(BUNDLE_DISH_TYPE, DISH_TYPE_BREAKFAST)
-            }
-        binding.cardSideDish.setOnClickListener {
+        }
+        binding.variousDishes.cardSideDish.setOnClickListener {
             openSearchFragmentWithQuery(BUNDLE_DISH_TYPE, DISH_TYPE_SIDE_DISH)
         }
-        binding.cardMainCourse.setOnClickListener {
+        binding.variousDishes.cardMainCourse.setOnClickListener {
             openSearchFragmentWithQuery(BUNDLE_DISH_TYPE, DISH_TYPE_MAIN_COURSE)
         }
-        binding.cardSalads.setOnClickListener {
+        binding.variousDishes.cardSalads.setOnClickListener {
             openSearchFragmentWithQuery(BUNDLE_DISH_TYPE, DISH_TYPE_SALAD)
         }
-        binding.cardSnack.setOnClickListener {
+        binding.variousDishes.cardSnack.setOnClickListener {
             openSearchFragmentWithQuery(BUNDLE_DISH_TYPE, DISH_TYPE_SNACK)
         }
-        binding.cardDessert.setOnClickListener {
+        binding.variousDishes.cardDessert.setOnClickListener {
             openSearchFragmentWithQuery(BUNDLE_DISH_TYPE, DISH_TYPE_DESSERT)
         }
     }

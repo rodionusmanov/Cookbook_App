@@ -1,4 +1,4 @@
-package com.example.cookbook.view.search.searchResult
+package com.example.cookbook.view.search
 
 import android.view.LayoutInflater
 import android.view.View

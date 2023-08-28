@@ -14,7 +14,6 @@ import com.example.cookbook.databinding.FragmentPreparationBinding
 import com.example.cookbook.model.datasource.DTO.recipeInformation.AnalyzedInstruction
 import com.example.cookbook.model.datasource.DTO.recipeInformation.Equipment
 import com.example.cookbook.model.datasource.DTO.recipeInformation.Ingredient
-import com.example.cookbook.view.recipeInfo.RecipeInfoViewModel
 import com.example.cookbook.view.recipeInfo.adapters.UniversalAdapter
 import com.example.cookbook.view.recipeInfoFromDatabase.RecipeInfoFromDatabaseViewModel
 import kotlinx.coroutines.launch

@@ -19,23 +19,11 @@ class SearchViewModel(
 
     private val _argumentsFlow = MutableStateFlow<Bundle?>(null)
     val argumentsFlow: StateFlow<Bundle?> get() = _argumentsFlow
-    fun searchRecipeRequest(request: String, ingredients: String) {
+    fun searchRecipeRequest(request: String, ingredients: String, dishType: String) {
         viewModelCoroutineScope.launch {
             _stateFlow.value = AppState.Loading
             try {
-                _stateFlow.emit(interactor.searchRecipe(request, ingredients, true))
-            } catch (e: Throwable) {
-                _stateFlow.emit(AppState.Error(e))
-            }
-        }
-    }
-
-    fun searchRandomRecipesByDishTypes(query: String){
-        Log.d("@@@","SearchViewModel working get query: $query")
-        viewModelCoroutineScope.launch {
-            _stateFlow.value = AppState.Loading
-            try {
-                _stateFlow.emit(interactor.searchRecipesByDishTypes(query, true))
+                _stateFlow.emit(interactor.searchRecipe(request, ingredients, dishType, true))
             } catch (e: Throwable) {
                 _stateFlow.emit(AppState.Error(e))
             }
