@@ -22,7 +22,8 @@ interface ISearchRecipeApi {
         @Query("type") dishType: String,
         @Query("maxReadyTime") maxReadyTime: Int,
         @Query("minCalories") minCalories: Int,
-        @Query("maxCalories") maxCalories: Int
+        @Query("maxCalories") maxCalories: Int,
+        @Query("offset") offset: Int
     ): Deferred<Response<SearchRecipeListDTO>>
 
     @GET("recipes/random")

@@ -11,6 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.cookbook.databinding.FragmentSearchBinding
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.BaseRecipeData
@@ -77,9 +78,26 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
         binding.resultRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.resultRecyclerView.adapter = adapter
 
+        setupLoadMoreListener()
         initViewModel()
         initArgumentsFlow()
         initView()
+    }
+
+    private fun setupLoadMoreListener() {
+        binding.resultRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                val totalItemCount = layoutManager.itemCount
+                val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
+
+                if(totalItemCount <= lastVisibleItem + 2) {
+                    model.loadNextPage()
+                }
+            }
+        })
     }
 
     private fun initArgumentsFlow() {

@@ -19,7 +19,6 @@ class SearchResultAdapter :
     var listenerOnSaveRecipe: ((BaseRecipeData) -> Unit)? = null
     var listenerOnRemoveRecipe: ((BaseRecipeData) -> Unit)? = null
 
-
     inner class RecyclerItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(data: BaseRecipeData) {
             if (layoutPosition != RecyclerView.NO_POSITION) {

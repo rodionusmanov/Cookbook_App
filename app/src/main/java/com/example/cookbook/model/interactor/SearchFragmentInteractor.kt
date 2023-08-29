@@ -18,7 +18,8 @@ class SearchFragmentInteractor(
         maxReadyTime: Int,
         minCalories: Int,
         maxCalories: Int,
-        isOnline: Boolean
+        isOnline: Boolean,
+        currentPage: Int
     ): AppState {
         val userDiets = preferencesRepository.getSelectedDiets()
         val userIntolerances = preferencesRepository.getSelectedIntolerances()
@@ -32,7 +33,7 @@ class SearchFragmentInteractor(
                 userIntolerances,
                 dishType,
                 maxReadyTime,
-                minCalories, maxCalories
+                minCalories, maxCalories, currentPage
             )
         )
     }

@@ -14,6 +14,7 @@ interface SearchRecipeDataSource {
         dishType: String,
         maxReadyTime: Int,
         minCalories: Int,
-        maxCalories: Int
+        maxCalories: Int,
+        currentPage: Int
     ): Response<SearchRecipeListDTO>
 }
