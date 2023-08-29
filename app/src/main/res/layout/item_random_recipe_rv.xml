@@ -28,7 +28,7 @@
             android:id="@+id/title_background_view"
             android:layout_width="match_parent"
             android:layout_height="@dimen/random_recipe_bottom_view_height"
-            android:background="@color/orange_light"
+            android:background="?attr/colorSecondary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

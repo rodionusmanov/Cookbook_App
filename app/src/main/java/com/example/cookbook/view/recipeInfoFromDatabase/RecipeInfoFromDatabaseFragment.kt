@@ -130,7 +130,6 @@ class RecipeInfoFromDatabaseFragment :
 
     private fun setChipAsAdd(data: RecipeInformation) {
         with(binding.chAddToFavorite) {
-            isChecked = false
             text = resources.getString(R.string.add_to_favorite)
             setOnClickListener {
                 viewModel.upsertRecipeToFavorite(data)
@@ -141,7 +140,6 @@ class RecipeInfoFromDatabaseFragment :
 
     private fun setChipAsDelete(data: RecipeInformation) {
         with(binding.chAddToFavorite) {
-            isChecked = true
             text = resources.getString(R.string.delete_from_favorite)
             setOnClickListener {
                 viewModel.deleteRecipeFromFavorite(data.id)

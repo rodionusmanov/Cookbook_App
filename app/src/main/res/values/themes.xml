@@ -13,5 +13,8 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="colorPrimaryDark">@color/black</item>
+
+        <item name="colorOnTertiary">@color/orange_middle</item>
+        <item name="colorTertiary">@color/grey_day</item>
     </style>
 </resources>

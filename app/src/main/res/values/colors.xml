@@ -34,4 +34,8 @@
     <color name="my_profile_background">#C1B7B7</color>
     <color name="text_pressed_color">#838080</color>
 
+    //NavigationView
+    <color name="grey_day">#696969</color>
+    <color name="grey_night">#E4E4E4</color>
+
 </resources>

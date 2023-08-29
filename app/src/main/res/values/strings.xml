@@ -53,7 +53,7 @@
     <string name="search_view_hint">Search</string>
 
     //RandomRecipeFragment
-    <string name="random_recipe_list_title">What you want to try</string>
+    <string name="random_recipe_list_title">What do you want to try</string>
     <string name="random_recipe_list_title_second_line">today?</string>
 
     //HealthyRandomRecipeFragment
