@@ -86,12 +86,11 @@
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/ch_add_to_favorite"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checkable="true"
-                    android:text="@string/add_to_favorite"
-                    android:checked="false"/>
+                    android:layout_gravity="center_vertical"
+                    android:clickable="true"
+                    android:text="@string/add_to_favorite"/>
 
             </LinearLayout>
 
@@ -110,7 +109,6 @@
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/ch_calories"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:clickable="false"
@@ -123,7 +121,6 @@
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/ch_protein"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:clickable="false"
@@ -136,7 +133,6 @@
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/ch_fat"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:clickable="false"
@@ -149,7 +145,6 @@
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/ch_carb"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:clickable="false"
@@ -162,10 +157,10 @@
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/ch_dairy_free"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:clickable="false"
+                        android:checkable="true"
                         android:text="@string/dairy_free"
                         android:textAlignment="center"
                         android:textAllCaps="true"
@@ -175,10 +170,10 @@
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/ch_gluten_free"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:clickable="false"
+                        android:checkable="true"
                         android:text="@string/gluten_free"
                         android:textAlignment="center"
                         android:textAllCaps="true"
@@ -188,10 +183,10 @@
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/ch_vegan"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:clickable="false"
+                        android:checkable="true"
                         android:text="@string/vegan"
                         android:textAlignment="center"
                         android:textAllCaps="true"
@@ -201,11 +196,11 @@
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/ch_vegetarian"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
                         android:clickable="false"
+                        android:checkable="true"
                         android:text="@string/vegetarian"
                         android:textAlignment="center"
                         android:textAllCaps="true"
@@ -215,10 +210,10 @@
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/ch_very_healthy"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:clickable="false"
+                        android:checkable="true"
                         android:text="@string/very_healthy"
                         android:textAlignment="center"
                         android:textAllCaps="true"

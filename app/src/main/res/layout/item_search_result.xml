@@ -65,7 +65,7 @@
                 android:background="?attr/colorSecondary"
                 android:padding="@dimen/elevation_5dp_small"
                 android:text="@string/search_recipe"
-                android:textColor="?attr/colorOnSecondary"
+                android:textColor="@color/black"
                 android:textSize="@dimen/search_result_item_layout_recipe_title"
                 android:textStyle="bold"
                 android:gravity="center"
