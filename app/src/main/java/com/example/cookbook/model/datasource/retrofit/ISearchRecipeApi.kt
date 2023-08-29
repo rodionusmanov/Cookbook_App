@@ -14,10 +14,15 @@ interface ISearchRecipeApi {
     @GET("recipes/complexSearch")
     fun searchRecipesAsync(
         @Query("query") query: String,
+        @Query("cuisine") cuisine: String,
+        @Query("excludeIngredients") excludeIngredients: String,
         @Query("includeIngredients") includeIngredients: String,
         @Query("diet") diet: String,
         @Query("intolerances") intolerances: String,
-        @Query("type") dishType: String
+        @Query("type") dishType: String,
+        @Query("maxReadyTime") maxReadyTime: Int,
+        @Query("minCalories") minCalories: Int,
+        @Query("maxCalories") maxCalories: Int
     ): Deferred<Response<SearchRecipeListDTO>>
 
     @GET("recipes/random")

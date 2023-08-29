@@ -22,14 +22,28 @@ class SearchRepositoryImpl(
 
     override suspend fun getSearchResult(
         request: String,
-        ingredients: String,
+        cuisine: String,
+        includeIngredients: String,
+        excludeIngredients: String,
         userDiets: String,
         userIntolerances: String,
-        dishType: String
+        dishType: String,
+        maxReadyTime: Int,
+        minCalories: Int,
+        maxCalories: Int
     ): List<SearchRecipeData> {
 
         val response = searchRecipeDataSource
-            .getSearchResult(request, ingredients, userDiets, userIntolerances, dishType)
+            .getSearchResult(request,
+                cuisine,
+                includeIngredients,
+                excludeIngredients,
+                userDiets,
+                userIntolerances,
+                dishType,
+                maxReadyTime,
+                minCalories,
+                maxCalories)
         return parseResponse(response) { responseDto ->
             responseDto.searchRecipeList.map { recipe ->
                 mapper.mapRecipeData(recipe) as SearchRecipeData

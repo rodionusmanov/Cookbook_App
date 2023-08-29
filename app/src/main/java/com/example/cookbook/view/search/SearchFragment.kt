@@ -2,7 +2,6 @@ package com.example.cookbook.view.search
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -19,6 +18,14 @@ import com.example.cookbook.utils.BUNDLE_DISH_TYPE
 import com.example.cookbook.utils.BUNDLE_DISH_TYPE_FILTER
 import com.example.cookbook.utils.BUNDLE_INCLUDE_INGREDIENT_FILTER
 import com.example.cookbook.utils.BUNDLE_SEARCH_QUERY
+import com.example.cookbook.utils.DEFAULT_CUISINE
+import com.example.cookbook.utils.DEFAULT_EXCLUDE_INGREDIENTS
+import com.example.cookbook.utils.DEFAULT_INCLUDE_INGREDIENTS
+import com.example.cookbook.utils.DEFAULT_MAX_CALORIES
+import com.example.cookbook.utils.DEFAULT_MIN_CALORIES
+import com.example.cookbook.utils.DEFAULT_QUERY
+import com.example.cookbook.utils.DEFAULT_READY_TIME
+import com.example.cookbook.utils.DEFAULT_TYPE
 import com.example.cookbook.utils.DISH_TYPE_APPETIZER
 import com.example.cookbook.utils.DISH_TYPE_BEVERAGE
 import com.example.cookbook.utils.DISH_TYPE_BREAD
@@ -58,7 +65,9 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
     }
 
     private fun setSearchQuery(query: String) {
-        model.searchRecipeRequest(query, "", "")
+        model.searchRecipeRequest(query, DEFAULT_CUISINE, DEFAULT_INCLUDE_INGREDIENTS,
+            DEFAULT_EXCLUDE_INGREDIENTS, DEFAULT_TYPE, DEFAULT_READY_TIME,
+        DEFAULT_MIN_CALORIES, DEFAULT_MAX_CALORIES)
         binding.searchView.setQuery(query, false)
     }
 
@@ -75,13 +84,11 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
 
     private fun initArgumentsFlow() {
         viewLifecycleOwner.lifecycleScope.launch {
-            Log.d("@@@", "Start collecting arguments")
             val initialArgs = model.argumentsFlow.value
             if (initialArgs != null) {
                 handleBundle(initialArgs)
             }
             model.argumentsFlow.collect { args ->
-                Log.d("@@@", "Collect arguments $args")
                 handleBundle(args)
             }
         }
@@ -94,8 +101,6 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
             val includeFilter = it.getString(BUNDLE_INCLUDE_INGREDIENT_FILTER)
             val dishTypeFilter = it.getString(BUNDLE_DISH_TYPE_FILTER)
 
-            Log.d("@@@", "Handling arguments: searchQuery = $searchQuery, dishType = $dishType")
-
             when {
                 searchQuery != null -> setSearchQuery(searchQuery)
                 dishType != null -> setDishTypeQuery(dishType)
@@ -103,11 +108,13 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
                     includeFilter ?: "", dishTypeFilter ?: ""
                 )
             }
-        } ?: Log.d("@@@", "No arguments to handle")
+        }
     }
 
     private fun setFilterQuery(includeList: String, dishType: String) {
-        model.searchRecipeRequest("", includeList, dishType)
+        model.searchRecipeRequest(
+            DEFAULT_QUERY, DEFAULT_CUISINE, DEFAULT_INCLUDE_INGREDIENTS, DEFAULT_EXCLUDE_INGREDIENTS,
+            dishType, DEFAULT_READY_TIME, DEFAULT_MIN_CALORIES, DEFAULT_MAX_CALORIES)
         with(binding) {
             searchView.setQuery("Filter search", false)
             if (searchView.query.isNotEmpty()) {
@@ -117,7 +124,9 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
     }
 
     private fun setDishTypeQuery(dishType: String) {
-        model.searchRecipeRequest("", "", dishType)
+        model.searchRecipeRequest(
+            DEFAULT_QUERY , DEFAULT_CUISINE, DEFAULT_INCLUDE_INGREDIENTS, DEFAULT_EXCLUDE_INGREDIENTS,
+            dishType, DEFAULT_READY_TIME, DEFAULT_MIN_CALORIES, DEFAULT_MAX_CALORIES)
         with(binding) {
             searchView.setQuery(dishType, false)
             variousDishes.variousDishesTableContainer.isVisible = false
@@ -130,7 +139,8 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
             binding.searchView.setQuery(it, false)
             model.searchRecipeRequest(
                 it,
-                "", ""
+                DEFAULT_CUISINE, DEFAULT_INCLUDE_INGREDIENTS, DEFAULT_EXCLUDE_INGREDIENTS,
+                DEFAULT_TYPE, DEFAULT_READY_TIME, DEFAULT_MIN_CALORIES, DEFAULT_MAX_CALORIES
             )
         }
         lifecycleScope.launch {
@@ -147,7 +157,9 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
                 object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
                         query?.let {
-                            model.searchRecipeRequest(it, "", "")
+                            model.searchRecipeRequest(it, DEFAULT_CUISINE, DEFAULT_INCLUDE_INGREDIENTS,
+                                DEFAULT_EXCLUDE_INGREDIENTS, DEFAULT_TYPE, DEFAULT_READY_TIME,
+                                DEFAULT_MIN_CALORIES, DEFAULT_MAX_CALORIES)
                             hideKeyboard(binding.searchView)
 
                         }
