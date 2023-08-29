@@ -8,10 +8,15 @@ import com.example.cookbook.model.domain.SearchRecipeData
 interface IRepositorySearchRequest {
     suspend fun getSearchResult(
         request: String,
-        ingredients: String,
+        cuisine: String,
+        includeIngredients: String,
+        excludeIngredients: String,
         userDiets: String,
         userIntolerances: String,
         dishType: String,
+        maxReadyTime: Int,
+        minCalories: Int,
+        maxCalories: Int
     ): List<SearchRecipeData>
 
     suspend fun getRecipeInfo(id: Int): RecipeInformation

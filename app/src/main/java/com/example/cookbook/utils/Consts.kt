@@ -41,6 +41,16 @@ const val INCLUDE_INGREDIENT_PORK = "pork"
 const val INCLUDE_INGREDIENT_BEEF = "beef"
 const val INCLUDE_INGREDIENT_FISH = "fish"
 
+const val DEFAULT_QUERY = ""
+const val DEFAULT_CUISINE = ""
+const val DEFAULT_INCLUDE_INGREDIENTS = ""
+const val DEFAULT_EXCLUDE_INGREDIENTS = ""
+const val DEFAULT_TYPE = ""
+const val DEFAULT_READY_TIME = 0
+const val DEFAULT_MIN_CALORIES = 0
+const val DEFAULT_MAX_CALORIES = 0
+
+
 
 const val SPOONACULAR_HEALTHY_DIET_TAG = "whole30"
 

@@ -1,7 +1,6 @@
 package com.example.cookbook.view.search
 
 import android.os.Bundle
-import android.util.Log
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.interactor.SearchFragmentInteractor
 import com.example.cookbook.view.base.BaseViewModel
@@ -19,11 +18,28 @@ class SearchViewModel(
 
     private val _argumentsFlow = MutableStateFlow<Bundle?>(null)
     val argumentsFlow: StateFlow<Bundle?> get() = _argumentsFlow
-    fun searchRecipeRequest(request: String, ingredients: String, dishType: String) {
+    fun searchRecipeRequest(
+        request: String,
+        cuisine: String,
+        includeIngredients: String,
+        excludeIngredients: String,
+        dishType: String,
+        maxReadyTime: Int,
+        minCalories: Int,
+        maxCalories: Int
+    ) {
         viewModelCoroutineScope.launch {
             _stateFlow.value = AppState.Loading
             try {
-                _stateFlow.emit(interactor.searchRecipe(request, ingredients, dishType, true))
+                _stateFlow.emit(interactor.searchRecipe(
+                    request,
+                    cuisine,
+                    includeIngredients,
+                    excludeIngredients,
+                    dishType,
+                    maxReadyTime,
+                    minCalories,
+                    maxCalories, true))
             } catch (e: Throwable) {
                 _stateFlow.emit(AppState.Error(e))
             }
@@ -32,7 +48,6 @@ class SearchViewModel(
 
     fun updateArguments(arguments: Bundle) {
         viewModelCoroutineScope.launch {
-            Log.d("@@@", "Updating arguments: $arguments")
             _argumentsFlow.emit(arguments)
         }
     }

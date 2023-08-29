@@ -11,8 +11,13 @@ class SearchFragmentInteractor(
 
     suspend fun searchRecipe(
         request: String,
-        ingredients: String,
+        cuisine: String,
+        includeIngredients: String,
+        excludeIngredients: String,
         dishType: String,
+        maxReadyTime: Int,
+        minCalories: Int,
+        maxCalories: Int,
         isOnline: Boolean
     ): AppState {
         val userDiets = preferencesRepository.getSelectedDiets()
@@ -20,10 +25,14 @@ class SearchFragmentInteractor(
         return AppState.Success(
             remoteRepository.getSearchResult(
                 request,
-                ingredients,
+                cuisine,
+                includeIngredients,
+                excludeIngredients,
                 userDiets,
                 userIntolerances,
-                dishType
+                dishType,
+                maxReadyTime,
+                minCalories, maxCalories
             )
         )
     }
