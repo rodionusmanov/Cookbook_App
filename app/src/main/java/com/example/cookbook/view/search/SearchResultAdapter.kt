@@ -1,5 +1,6 @@
 package com.example.cookbook.view.search
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,23 +33,14 @@ class SearchResultAdapter :
         }
     }
 
-    init {
-        submitList(currentListData)
-    }
-
     fun addData(newData: List<BaseRecipeData>) {
-        currentListData.addAll(newData)
-        submitList(currentListData) {
-            notifyDataSetChanged()
+        val updatedList = currentListData.toMutableList().apply {
+            addAll(newData)
         }
-    }
-
-    override fun submitList(list: List<BaseRecipeData>?) {
-        if(list != null) {
-            currentListData.clear()
-            currentListData.addAll(list)
-        }
-        super.submitList(list)
+        Log.d("@@@", "Current List Size: ${currentListData.size}, " +
+                "New Data Size: ${newData.size}, " +
+                "Updated List Size: ${currentListData.size}")
+        submitList(updatedList)
     }
 
     class SearchCallback : DiffUtil.ItemCallback<BaseRecipeData>() {
@@ -65,7 +57,6 @@ class SearchResultAdapter :
         ): Boolean {
             return oldItem.id == newItem.id
         }
-
     }
 
     private fun ItemSearchResultBinding.setOnClickListener(data: BaseRecipeData) {
@@ -90,7 +81,6 @@ class SearchResultAdapter :
             }
         }
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerItemViewHolder {
         val binding =

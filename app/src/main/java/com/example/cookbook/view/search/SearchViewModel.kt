@@ -29,6 +29,8 @@ class SearchViewModel(
     val argumentsFlow: StateFlow<Bundle?> get() = _argumentsFlow
     var isInitialLoad = true
 
+    private val allRecipes = mutableListOf<BaseRecipeData>()
+
     private var currentPage = 1
 
     private var lastRequest: String? = null
@@ -94,19 +96,12 @@ class SearchViewModel(
                         }
 
                         if (loadNext) {
-                            val currentRecipes = when (val currentState = _stateFlow.value) {
-                                is AppState.Success<*> -> {
-                                    (currentState.data as? List<*>)?.filterIsInstance<BaseRecipeData>()
-                                        ?: listOf()
-                                }
-
-                                else -> listOf()
-                            }
-                            val combinedRecipes = currentRecipes + newRecipes
-                            _stateFlow.emit(AppState.Success(combinedRecipes))
+                            allRecipes.addAll(newRecipes)
                         } else {
-                            _stateFlow.emit(AppState.Success(newRecipes))
+                            allRecipes.clear()
+                            allRecipes.addAll(newRecipes)
                         }
+                        _stateFlow.emit(AppState.Success(allRecipes.toList()))
                     }
 
                     is AppState.Error -> {
