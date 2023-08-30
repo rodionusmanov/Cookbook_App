@@ -251,7 +251,11 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
     }
 
     override fun setupData(data: List<BaseRecipeData>) {
-        adapter.submitList(data)
+        if(model.isInitialLoad) {
+            adapter.submitList(data)
+        } else {
+            adapter.addData(data)
+        }
         adapter.listener = { recipe ->
             openRecipeInfoFragment(recipe.id)
         }

@@ -27,6 +27,7 @@ class SearchViewModel(
 
     private val _argumentsFlow = MutableStateFlow<Bundle?>(null)
     val argumentsFlow: StateFlow<Bundle?> get() = _argumentsFlow
+    var isInitialLoad = true
 
     private var currentPage = 1
 
@@ -50,8 +51,9 @@ class SearchViewModel(
         loadNext: Boolean = false
     ) {
 
-        if(loadNext) {
+        if (loadNext) {
             currentPage++
+            isInitialLoad = false
         } else {
             currentPage = 1
         }
@@ -67,8 +69,9 @@ class SearchViewModel(
 
         viewModelCoroutineScope.launch {
             _stateFlow.value = AppState.Loading
+
             try {
-                val newRecipes = interactor.searchRecipe(
+                val response = interactor.searchRecipe(
                     request,
                     cuisine,
                     includeIngredients,
@@ -78,21 +81,39 @@ class SearchViewModel(
                     minCalories,
                     maxCalories,
                     true,
-                    currentPage)
+                    currentPage
+                )
 
-                if (loadNext) {
-                    val currentRecipes = when(val currentState = _stateFlow.value) {
-                        is AppState.Success<*> -> {
-                            @Suppress("UNCHECKED_CAST")
-                            currentState.data as? List<BaseRecipeData> ?: listOf()
+                when (response) {
+                    is AppState.Success<*> -> {
+                        val newRecipes: List<BaseRecipeData> = if (response.data is List<*>) {
+                            (response.data as? List<*>)?.filterIsInstance<BaseRecipeData>()
+                                ?: listOf()
+                        } else {
+                            listOf()
                         }
-                        else -> listOf()
+
+                        if (loadNext) {
+                            val currentRecipes = when (val currentState = _stateFlow.value) {
+                                is AppState.Success<*> -> {
+                                    (currentState.data as? List<*>)?.filterIsInstance<BaseRecipeData>()
+                                        ?: listOf()
+                                }
+
+                                else -> listOf()
+                            }
+                            val combinedRecipes = currentRecipes + newRecipes
+                            _stateFlow.emit(AppState.Success(combinedRecipes))
+                        } else {
+                            _stateFlow.emit(AppState.Success(newRecipes))
+                        }
                     }
 
-                    val combinedRecipes = currentRecipes + newRecipes
-                    _stateFlow.emit(AppState.Success(combinedRecipes))
-                } else {
-                    _stateFlow.emit(AppState.Success(newRecipes))
+                    is AppState.Error -> {
+                        _stateFlow.emit(AppState.Error(response.error))
+                    }
+
+                    is AppState.Loading -> {}
                 }
             } catch (e: Throwable) {
                 _stateFlow.emit(AppState.Error(e))
@@ -107,13 +128,15 @@ class SearchViewModel(
     }
 
     fun loadNextPage() {
-        searchRecipeRequest(lastRequest ?: DEFAULT_QUERY,
+        searchRecipeRequest(
+            lastRequest ?: DEFAULT_QUERY,
             lastCuisine ?: DEFAULT_CUISINE,
             lastIncludeIngredients ?: DEFAULT_INCLUDE_INGREDIENTS,
             lastExcludeIngredients ?: DEFAULT_EXCLUDE_INGREDIENTS,
             lastDishType ?: DEFAULT_TYPE,
             lastMaxReadyTime ?: DEFAULT_READY_TIME,
             lastMinCalories ?: DEFAULT_MIN_CALORIES,
-            lastMaxCalories ?: DEFAULT_MAX_CALORIES, true)
+            lastMaxCalories ?: DEFAULT_MAX_CALORIES, true
+        )
     }
 }
