@@ -2,6 +2,7 @@ package com.example.cookbook.view.search
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -52,6 +53,7 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
     private val model: SearchViewModel by activityViewModel()
     private val adapter: SearchResultAdapter by lazy { SearchResultAdapter() }
     private var navigationManager: NavigationManager? = null
+    private var isLoading = false
 
     companion object {
         @JvmStatic
@@ -93,7 +95,8 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
                 val totalItemCount = layoutManager.itemCount
                 val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
 
-                if(totalItemCount <= lastVisibleItem + 2) {
+                if(!isLoading && totalItemCount <= lastVisibleItem + 2) {
+                    isLoading = true
                     model.loadNextPage()
                 }
             }
@@ -251,10 +254,12 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
     }
 
     override fun setupData(data: List<BaseRecipeData>) {
+        Log.d("@@@", "Received Data Size: ${data.size}")
         if(model.isInitialLoad) {
             adapter.submitList(data)
         } else {
             adapter.addData(data)
+            isLoading = false
         }
         adapter.listener = { recipe ->
             openRecipeInfoFragment(recipe.id)
