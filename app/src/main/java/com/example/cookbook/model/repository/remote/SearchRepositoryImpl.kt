@@ -30,7 +30,8 @@ class SearchRepositoryImpl(
         dishType: String,
         maxReadyTime: Int,
         minCalories: Int,
-        maxCalories: Int
+        maxCalories: Int,
+        currentPage: Int
     ): List<SearchRecipeData> {
 
         val response = searchRecipeDataSource
@@ -43,7 +44,7 @@ class SearchRepositoryImpl(
                 dishType,
                 maxReadyTime,
                 minCalories,
-                maxCalories)
+                maxCalories, currentPage)
         return parseResponse(response) { responseDto ->
             responseDto.searchRecipeList.map { recipe ->
                 mapper.mapRecipeData(recipe) as SearchRecipeData

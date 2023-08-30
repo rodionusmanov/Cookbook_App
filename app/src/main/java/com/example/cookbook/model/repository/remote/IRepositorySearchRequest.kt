@@ -16,7 +16,8 @@ interface IRepositorySearchRequest {
         dishType: String,
         maxReadyTime: Int,
         minCalories: Int,
-        maxCalories: Int
+        maxCalories: Int,
+        currentPage: Int
     ): List<SearchRecipeData>
 
     suspend fun getRecipeInfo(id: Int): RecipeInformation

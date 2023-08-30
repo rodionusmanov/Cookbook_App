@@ -18,7 +18,7 @@ class SearchResultAdapter :
     var listener: ((BaseRecipeData) -> Unit)? = null
     var listenerOnSaveRecipe: ((BaseRecipeData) -> Unit)? = null
     var listenerOnRemoveRecipe: ((BaseRecipeData) -> Unit)? = null
-
+    private val currentListData = mutableListOf<BaseRecipeData>()
 
     inner class RecyclerItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(data: BaseRecipeData) {
@@ -30,6 +30,25 @@ class SearchResultAdapter :
                 }
             }
         }
+    }
+
+    init {
+        submitList(currentListData)
+    }
+
+    fun addData(newData: List<BaseRecipeData>) {
+        currentListData.addAll(newData)
+        submitList(currentListData) {
+            notifyDataSetChanged()
+        }
+    }
+
+    override fun submitList(list: List<BaseRecipeData>?) {
+        if(list != null) {
+            currentListData.clear()
+            currentListData.addAll(list)
+        }
+        super.submitList(list)
     }
 
     class SearchCallback : DiffUtil.ItemCallback<BaseRecipeData>() {

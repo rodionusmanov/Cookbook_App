@@ -35,7 +35,8 @@ class RetrofitImplementation : SearchRecipeDataSource, RandomRecipeDataSource,
         dishType: String,
         maxReadyTime: Int,
         minCalories: Int,
-        maxCalories: Int
+        maxCalories: Int,
+        currentPage: Int
     ): Response<SearchRecipeListDTO> {
         Log.d("@@@", "User Diets: $userDiets")
         Log.d("@@@", "User Intolerances: $userIntolerances")
@@ -44,7 +45,7 @@ class RetrofitImplementation : SearchRecipeDataSource, RandomRecipeDataSource,
             query = request, cuisine = cuisine, excludeIngredients = excludeIngredients,
             includeIngredients = includeIngredients, diet = userDiets,
             intolerances = userIntolerances, dishType = dishType, maxReadyTime = maxReadyTime,
-            minCalories = minCalories, maxCalories = maxCalories
+            minCalories = minCalories, maxCalories = maxCalories, offset = currentPage*10
         ).await()
     }
 

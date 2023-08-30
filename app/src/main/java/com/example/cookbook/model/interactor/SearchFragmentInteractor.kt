@@ -18,12 +18,13 @@ class SearchFragmentInteractor(
         maxReadyTime: Int,
         minCalories: Int,
         maxCalories: Int,
-        isOnline: Boolean
+        isOnline: Boolean,
+        currentPage: Int
     ): AppState {
         val userDiets = preferencesRepository.getSelectedDiets()
         val userIntolerances = preferencesRepository.getSelectedIntolerances()
-        return AppState.Success(
-            remoteRepository.getSearchResult(
+        return try {
+            val results = remoteRepository.getSearchResult(
                 request,
                 cuisine,
                 includeIngredients,
@@ -32,8 +33,11 @@ class SearchFragmentInteractor(
                 userIntolerances,
                 dishType,
                 maxReadyTime,
-                minCalories, maxCalories
+                minCalories, maxCalories, currentPage
             )
-        )
+            AppState.Success(results)
+        } catch (e: Exception) {
+            AppState.Error(e)
+        }
     }
 }
