@@ -2,6 +2,7 @@ package com.example.cookbook.view.search
 
 import android.os.Bundle
 import com.example.cookbook.model.AppState
+import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.interactor.SearchFragmentInteractor
 import com.example.cookbook.utils.DEFAULT_CUISINE
 import com.example.cookbook.utils.DEFAULT_EXCLUDE_INGREDIENTS
@@ -67,7 +68,7 @@ class SearchViewModel(
         viewModelCoroutineScope.launch {
             _stateFlow.value = AppState.Loading
             try {
-                _stateFlow.emit(interactor.searchRecipe(
+                val newRecipes = interactor.searchRecipe(
                     request,
                     cuisine,
                     includeIngredients,
@@ -77,7 +78,22 @@ class SearchViewModel(
                     minCalories,
                     maxCalories,
                     true,
-                    currentPage))
+                    currentPage)
+
+                if (loadNext) {
+                    val currentRecipes = when(val currentState = _stateFlow.value) {
+                        is AppState.Success<*> -> {
+                            @Suppress("UNCHECKED_CAST")
+                            currentState.data as? List<BaseRecipeData> ?: listOf()
+                        }
+                        else -> listOf()
+                    }
+
+                    val combinedRecipes = currentRecipes + newRecipes
+                    _stateFlow.emit(AppState.Success(combinedRecipes))
+                } else {
+                    _stateFlow.emit(AppState.Success(newRecipes))
+                }
             } catch (e: Throwable) {
                 _stateFlow.emit(AppState.Error(e))
             }
