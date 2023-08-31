@@ -16,8 +16,6 @@ class RandomRecipeListAdapter :
 
     private var data: List<RandomRecipeData> = arrayListOf()
     var listener: ((BaseRecipeData) -> Unit)? = null
-    var listenerOnSaveRecipe: ((BaseRecipeData) -> Unit)? = null
-    var listenerOnRemoveRecipe: ((BaseRecipeData) -> Unit)? = null
 
     fun setData(data: List<RandomRecipeData>) {
         this.data = data
@@ -38,9 +36,9 @@ class RandomRecipeListAdapter :
         private fun ItemRandomRecipeRvBinding.setCheckBox(data: BaseRecipeData) {
             cbAddFavorite.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
-                    listenerOnSaveRecipe?.invoke(data)
+
                 } else {
-                    listenerOnRemoveRecipe?.invoke(data)
+
                 }
             }
         }

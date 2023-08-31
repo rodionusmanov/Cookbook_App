@@ -25,4 +25,8 @@ class RandomRecipeListInteractor(
     suspend fun getHealthyRandomRecipes(): AppState {
         return AppState.Success(remoteRepository.getHealthyRandomRecipes())
     }
+
+    suspend fun checkRecipeExistenceInDatabase(id: Int): Boolean {
+       return localRepository.checkExistence(id)
+    }
 }

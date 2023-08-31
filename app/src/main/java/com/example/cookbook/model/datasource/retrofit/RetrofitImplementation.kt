@@ -53,7 +53,8 @@ class RetrofitImplementation : SearchRecipeDataSource, RandomRecipeDataSource,
         userDiets: String,
         userIntolerances: String
     ): Response<RandomRecipeListDTO> {
-        val tags = arrayOf(userDiets, userIntolerances)
+        val tags = listOf(userDiets, userIntolerances)
+            .filter { it.isNotBlank() }
             .joinToString(",")
         return getService(baseInterceptor).getRandomRecipesAsync(
             DEFAULT_RECIPE_NUMBER, tags

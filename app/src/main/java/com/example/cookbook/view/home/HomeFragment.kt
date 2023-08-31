@@ -3,6 +3,7 @@ package com.example.cookbook.view.home
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
@@ -137,6 +138,7 @@ class HomeFragment :
     private fun initRandomRecipeFragment() {
         val existingFragment = childFragmentManager.findFragmentById(R.id.random_recipe_container)
         if (existingFragment == null) {
+            Log.d("@@@", "Adding new RandomRecipesListFragment")
             val fragment = RandomRecipesListFragment.newInstance()
             childFragmentManager
                 .beginTransaction()

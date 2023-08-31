@@ -5,6 +5,7 @@ import com.example.cookbook.model.interactor.RandomRecipeListInteractor
 import com.example.cookbook.view.base.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class RandomCuisineRecipeListViewModel(
@@ -14,6 +15,9 @@ class RandomCuisineRecipeListViewModel(
     private val _stateFlow = MutableStateFlow<AppState>(AppState.Loading)
     val stateFlow: StateFlow<AppState> get() = _stateFlow
 
+    private val _recipeExistenceInDatabase = MutableStateFlow<Boolean>(false)
+    val recipeExistenceInDatabase: StateFlow<Boolean> get() = _recipeExistenceInDatabase.asStateFlow()
+
     fun getRandomRecipesByCuisine(cuisine: String) {
         viewModelCoroutineScope.launch {
             _stateFlow.value = AppState.Loading
@@ -22,6 +26,12 @@ class RandomCuisineRecipeListViewModel(
             } catch (e: Throwable) {
                 _stateFlow.emit(AppState.Error(e))
             }
+        }
+    }
+
+    fun checkRecipeExistenceInDatabase(id: Int) {
+        viewModelCoroutineScope.launch {
+            _recipeExistenceInDatabase.value = interactor.checkRecipeExistenceInDatabase(id)
         }
     }
 }

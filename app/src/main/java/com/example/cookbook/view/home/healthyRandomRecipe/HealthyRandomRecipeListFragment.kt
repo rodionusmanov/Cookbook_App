@@ -58,9 +58,6 @@ class HealthyRandomRecipeListFragment :
         val layoutManager = StackLayoutManager()
         binding.randomRecipesRecyclerView.adapter = adapter
         binding.randomRecipesRecyclerView.layoutManager = layoutManager
-
-        initFavoritesListeners()
-
         adapter.listener = { recipe ->
             openRecipeInfoFragment(recipe.id)
         }
@@ -68,16 +65,6 @@ class HealthyRandomRecipeListFragment :
 
     private fun openRecipeInfoFragment(recipeId: Int) {
         navigationManager?.openRecipeInfoFragment(recipeId)
-    }
-
-    private fun initFavoritesListeners() {
-        adapter.listenerOnSaveRecipe = { recipe ->
-//            model.insertNewRecipeToDataBase(recipe)
-        }
-
-        adapter.listenerOnRemoveRecipe = { recipe ->
-//            model.deleteRecipeFromData(recipe.id)
-        }
     }
 
     override fun showErrorDialog(message: String?) {
