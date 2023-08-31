@@ -24,7 +24,6 @@ import com.example.cookbook.model.repository.remote.IRepositorySearchRequest
 import com.example.cookbook.model.repository.remote.SearchRepositoryImpl
 import com.example.cookbook.model.repository.sharedPreferences.SharedPreferencesRepository
 import com.example.cookbook.model.room.RecipesDatabase
-import com.example.cookbook.model.room.fullRecipe.IRecipesInfoDAO
 import com.example.cookbook.utils.network.NetworkLiveData
 import com.example.cookbook.view.favorite.FavoriteRecipesViewModel
 import com.example.cookbook.view.home.HomeViewModel
@@ -68,8 +67,8 @@ val remoteDataSource = module {
 val localDataBase = module {
     single<ILocalRecipesRepository> { get<LocalRepositoryImpl>() }
     single<ILocalRecipesInfoRepository> { get<LocalRepositoryInfoImpl>() }
-    single<IRecipesInfoDAO> { get<RecipesDatabase>().getRecipesDAO() }
-    single<RecipesDatabase> {
+    single { get<RecipesDatabase>().getRecipesDAO() }
+    single {
         Room.databaseBuilder(
             androidApplication(),
             RecipesDatabase::class.java,
@@ -85,7 +84,7 @@ val network = module {
 
 val homeFragment = module {
     viewModel { HomeViewModel(get()) }
-    factory { HomeFragmentInteractor(get(), LocalRepositoryInfoImpl(get<IRecipesInfoDAO>())) }
+    factory { HomeFragmentInteractor(get()) }
 }
 
 val searchFragment = module {
@@ -98,13 +97,13 @@ val randomRecipeFragment = module {
     viewModel { HealthyRandomRecipeListViewModel(get()) }
     viewModel { RandomCuisineRecipeListViewModel(get()) }
     factory {
-        RandomRecipeListInteractor(get(), LocalRepositoryInfoImpl(get<IRecipesInfoDAO>()), get())
+        RandomRecipeListInteractor(get(), LocalRepositoryInfoImpl(get()), get())
     }
 }
 
 val recipeInfo = module {
     factory { UniversalAdapter() }
-    viewModel { RecipeInfoViewModel(get(), LocalRepositoryInfoImpl(get<IRecipesInfoDAO>())) }
+    viewModel { RecipeInfoViewModel(get(), LocalRepositoryInfoImpl(get())) }
     factory { RecipeInfoFragmentInteractor(get()) }
 }
 
@@ -112,20 +111,20 @@ val recipeInfoFromDatabase = module {
     viewModel {
         RecipeInfoFromDatabaseViewModel(
             get(),
-            LocalRepositoryInfoImpl(get<IRecipesInfoDAO>())
+            LocalRepositoryInfoImpl(get())
         )
     }
-    factory { RecipeFromDatabaseFragmentInteractor(LocalRepositoryInfoImpl(get<IRecipesInfoDAO>())) }
+    factory { RecipeFromDatabaseFragmentInteractor(LocalRepositoryInfoImpl(get())) }
 }
 
 val favoritesFragment = module {
     viewModel {
         FavoriteRecipesViewModel(
             get(),
-            LocalRepositoryInfoImpl(get<IRecipesInfoDAO>())
+            LocalRepositoryInfoImpl(get())
         )
     }
-    factory { FavoriteFragmentInteractor(LocalRepositoryInfoImpl(get<IRecipesInfoDAO>())) }
+    factory { FavoriteFragmentInteractor(LocalRepositoryInfoImpl(get())) }
 }
 
 val myProfileFragment = module {

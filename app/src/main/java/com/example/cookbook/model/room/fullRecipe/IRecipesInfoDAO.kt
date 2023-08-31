@@ -22,4 +22,7 @@ interface IRecipesInfoDAO {
 
     @Query("SELECT EXISTS(SELECT 1 FROM Recipes_info_table WHERE id = :recipeId)")
     suspend fun exists(recipeId: Int): Boolean
+
+    @Query("SELECT EXISTS(SELECT 1 FROM Recipes_info_table WHERE id = :recipeId)")
+    fun observeExistence(recipeId: Int): Flow<Boolean>
 }

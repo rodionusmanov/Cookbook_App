@@ -2,6 +2,7 @@ package com.example.cookbook.view.home.randomRecipe
 
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -23,7 +24,14 @@ class RandomRecipesListFragment :
 
     private val model: RandomRecipeListViewModel by viewModel()
 
-    private val adapter: RandomRecipeListAdapter by lazy { RandomRecipeListAdapter() }
+    private val adapter: RandomRecipeListAdapter by lazy {
+        RandomRecipeListAdapter(
+            model,
+            viewLifecycleOwner.lifecycleScope,
+            viewLifecycleOwner.lifecycle
+        )
+    }
+
     private var navigationManager: NavigationManager? = null
 
     override fun onAttach(context: Context) {
@@ -37,8 +45,8 @@ class RandomRecipesListFragment :
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initViewModel()
         model.getRandomRecipes()
     }
@@ -47,7 +55,11 @@ class RandomRecipesListFragment :
     private fun initViewModel() {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                model.stateFlow.collect { renderData(it) }
+                launch {
+                    model.stateFlow.collect {
+                        renderData(it)
+                    }
+                }
             }
         }
     }

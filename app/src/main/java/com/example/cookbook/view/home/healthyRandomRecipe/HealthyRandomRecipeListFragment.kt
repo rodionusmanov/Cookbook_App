@@ -24,7 +24,13 @@ class HealthyRandomRecipeListFragment :
 
     private val model: HealthyRandomRecipeListViewModel by viewModel()
 
-    private val adapter: RandomRecipeListAdapter by lazy { RandomRecipeListAdapter() }
+    private val adapter: RandomRecipeListAdapter by lazy {
+        RandomRecipeListAdapter(
+            model,
+            viewLifecycleOwner.lifecycleScope,
+            viewLifecycleOwner.lifecycle
+        )
+    }
     private var navigationManager: NavigationManager? = null
 
     override fun onAttach(context: Context) {
@@ -58,9 +64,6 @@ class HealthyRandomRecipeListFragment :
         val layoutManager = StackLayoutManager()
         binding.randomRecipesRecyclerView.adapter = adapter
         binding.randomRecipesRecyclerView.layoutManager = layoutManager
-
-        initFavoritesListeners()
-
         adapter.listener = { recipe ->
             openRecipeInfoFragment(recipe.id)
         }
@@ -68,16 +71,6 @@ class HealthyRandomRecipeListFragment :
 
     private fun openRecipeInfoFragment(recipeId: Int) {
         navigationManager?.openRecipeInfoFragment(recipeId)
-    }
-
-    private fun initFavoritesListeners() {
-        adapter.listenerOnSaveRecipe = { recipe ->
-//            model.insertNewRecipeToDataBase(recipe)
-        }
-
-        adapter.listenerOnRemoveRecipe = { recipe ->
-//            model.deleteRecipeFromData(recipe.id)
-        }
     }
 
     override fun showErrorDialog(message: String?) {

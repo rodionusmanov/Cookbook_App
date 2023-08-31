@@ -9,7 +9,6 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -39,7 +38,13 @@ class RandomCuisineRecipeListFragment :
 
     private val model: RandomCuisineRecipeListViewModel by viewModel()
 
-    private val adapter: RandomRecipeListAdapter by lazy { RandomRecipeListAdapter() }
+    private val adapter: RandomRecipeListAdapter by lazy {
+        RandomRecipeListAdapter(
+            model,
+            viewLifecycleOwner.lifecycleScope,
+            viewLifecycleOwner.lifecycle
+        )
+    }
     private var navigationManager: NavigationManager? = null
 
     private lateinit var cuisine: String
@@ -61,6 +66,7 @@ class RandomCuisineRecipeListFragment :
         initViewModel()
         model.getRandomRecipesByCuisine(cuisine)
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -129,89 +135,24 @@ class RandomCuisineRecipeListFragment :
 
             when (cuisine) {
                 CUISINE_ASIA -> {
-                    firstLineTitle.apply {
-                        text = getString(R.string.asia_title_first_line)
-                        setTextColor(
-                            ContextCompat.getColor(
-                                context,
-                                R.color.random_cuisine_text_title_color
-                            )
-                        )
-                    }
-                    secondLineTitle.apply {
-                        text = getString(R.string.asia_title_second_line)
-                        setTextColor(
-                            ContextCompat.getColor(
-                                context,
-                                R.color.random_cuisine_text_second_title_color
-                            )
-                        )
-                    }
+                    firstLineTitle.apply { text = getString(R.string.asia_title_first_line) }
+                    secondLineTitle.apply { text = getString(R.string.asia_title_second_line) }
                 }
 
                 CUISINE_MDTRN -> {
-                    firstLineTitle.apply {
-                        text = getString(R.string.mdtrn_title_first_line)
-                        setTextColor(
-                            ContextCompat.getColor(
-                                context,
-                                R.color.random_cuisine_text_title_color
-                            )
-                        )
-                    }
-                    secondLineTitle.apply {
-                        text = getString(R.string.mdtrn_title_second_line)
-                        setTextColor(
-                            ContextCompat.getColor(
-                                context,
-                                R.color.random_cuisine_text_second_title_color
-                            )
-                        )
-                    }
+                    firstLineTitle.apply { text = getString(R.string.mdtrn_title_first_line) }
+                    secondLineTitle.apply { text = getString(R.string.mdtrn_title_second_line) }
                 }
 
                 CUISINE_INDIA -> {
-                    firstLineTitle.apply {
-                        text = getString(R.string.india_title_first_line)
-                        setTextColor(
-                            ContextCompat.getColor(
-                                context,
-                                R.color.random_cuisine_text_title_color
-                            )
-                        )
-                    }
-                    secondLineTitle.apply {
-                        text = getString(R.string.india_title_second_line)
-                        setTextColor(
-                            ContextCompat.getColor(
-                                context,
-                                R.color.random_cuisine_text_second_title_color
-                            )
-                        )
-                    }
+                    firstLineTitle.apply { text = getString(R.string.india_title_first_line) }
+                    secondLineTitle.apply { text = getString(R.string.india_title_second_line) }
                 }
 
                 CUISINE_NORDIC -> {
-                    firstLineTitle.apply {
-                        text = getString(R.string.nordic_title_first_line)
-                        setTextColor(
-                            ContextCompat.getColor(
-                                context,
-                                R.color.random_cuisine_text_title_color
-                            )
-                        )
-                    }
-                    secondLineTitle.apply {
-                        text = getString(R.string.nordic_title_second_line)
-                        setTextColor(
-                            ContextCompat.getColor(
-                                context,
-                                R.color.random_cuisine_text_second_title_color
-                            )
-                        )
-                    }
+                    firstLineTitle.apply { text = getString(R.string.nordic_title_first_line) }
+                    secondLineTitle.apply { text = getString(R.string.nordic_title_second_line) }
                 }
-
                 else -> return
             }
         }
@@ -236,9 +177,6 @@ class RandomCuisineRecipeListFragment :
         val layoutManager = StackLayoutManager()
         binding.randomRecipesRecyclerView.adapter = adapter
         binding.randomRecipesRecyclerView.layoutManager = layoutManager
-
-        //initFavoritesListeners()
-
         adapter.listener = { recipe ->
             openRecipeInfoFragment(recipe.id)
         }

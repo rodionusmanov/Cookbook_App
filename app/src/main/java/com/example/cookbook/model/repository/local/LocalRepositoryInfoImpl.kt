@@ -29,4 +29,7 @@ class LocalRepositoryInfoImpl(private val recipeInfoDAO: IRecipesInfoDAO) :
         return recipeInfoDAO.exists(id)
     }
 
+    override fun observeRecipeExistence(id: Int): Flow<Boolean> {
+        return recipeInfoDAO.observeExistence(id)
+    }
 }
