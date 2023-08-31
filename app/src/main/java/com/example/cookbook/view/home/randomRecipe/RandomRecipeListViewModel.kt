@@ -29,10 +29,12 @@ class RandomRecipeListViewModel(
             }
         }
     }
-    override fun checkRecipeExistenceInDatabase(id: Int) {
+
+    override fun observeRecipeExistenceInDatabase(id: Int) {
         viewModelCoroutineScope.launch {
-            val exists = interactor.checkRecipeExistenceInDatabase(id)
-            _recipeExistenceInDatabase.value = id to exists
+            interactor.observeRecipeExistence(id).collect {exists ->
+                _recipeExistenceInDatabase.value = id to exists
+            }
         }
     }
 }

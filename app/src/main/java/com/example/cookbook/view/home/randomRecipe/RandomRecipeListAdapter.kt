@@ -3,6 +3,9 @@ package com.example.cookbook.view.home.randomRecipe
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.size.Scale
@@ -10,9 +13,12 @@ import com.example.cookbook.R
 import com.example.cookbook.databinding.ItemRandomRecipeRvBinding
 import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.RandomRecipeData
+import kotlinx.coroutines.launch
 
 class RandomRecipeListAdapter(
-    private val viewModel: CheckRecipeExistenceViewModelExistence
+    private val viewModel: CheckRecipeExistenceViewModelExistence,
+    private val lifecycleScope: LifecycleCoroutineScope,
+    private val lifecycle: Lifecycle
 ) :
     RecyclerView.Adapter<RandomRecipeListAdapter.RecyclerItemViewHolder>() {
 
@@ -20,6 +26,10 @@ class RandomRecipeListAdapter(
     var listener: ((BaseRecipeData) -> Unit)? = null
 
     private val recipeExistenceMap = mutableMapOf<Int, Boolean>()
+
+    init {
+        observeRecipeExistence()
+    }
 
     fun setData(data: List<RandomRecipeData>) {
         this.data = data
@@ -30,7 +40,7 @@ class RandomRecipeListAdapter(
         fun bind(data: BaseRecipeData) {
             if (layoutPosition != RecyclerView.NO_POSITION) {
                 ItemRandomRecipeRvBinding.bind(itemView).apply {
-                    viewModel.checkRecipeExistenceInDatabase(data.id)
+                    viewModel.observeRecipeExistenceInDatabase(data.id)
                     setTextAndImage(data)
                     setOnClickListener(data)
                     setCheckBox(data)
@@ -74,11 +84,23 @@ class RandomRecipeListAdapter(
         holder.bind(data[position])
     }
 
-    fun updateRecipeExistence(id: Int, exists: Boolean) {
+    private fun updateRecipeExistence(id: Int, exists: Boolean) {
         recipeExistenceMap[id] = exists
         val position = data.indexOfFirst { it.id == id }
         if (position != -1) {
             notifyItemChanged(position)
+        }
+    }
+
+    private fun observeRecipeExistence() {
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.recipeExistenceInDatabase.collect { result ->
+                    result?.let { (id, exists) ->
+                        updateRecipeExistence(id, exists)
+                    }
+                }
+            }
         }
     }
 }

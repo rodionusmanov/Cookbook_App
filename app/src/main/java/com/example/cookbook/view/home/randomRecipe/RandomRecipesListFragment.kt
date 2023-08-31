@@ -24,7 +24,14 @@ class RandomRecipesListFragment :
 
     private val model: RandomRecipeListViewModel by viewModel()
 
-    private val adapter: RandomRecipeListAdapter by lazy { RandomRecipeListAdapter(model) }
+    private val adapter: RandomRecipeListAdapter by lazy {
+        RandomRecipeListAdapter(
+            model,
+            viewLifecycleOwner.lifecycleScope,
+            viewLifecycleOwner.lifecycle
+        )
+    }
+
     private var navigationManager: NavigationManager? = null
 
     override fun onAttach(context: Context) {
@@ -50,13 +57,7 @@ class RandomRecipesListFragment :
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     model.stateFlow.collect {
-                        renderData(it) }
-                }
-                launch {
-                    model.recipeExistenceInDatabase.collect { result ->
-                        result?.let { (id, exists) ->
-                            adapter.updateRecipeExistence(id, exists)
-                        }
+                        renderData(it)
                     }
                 }
             }

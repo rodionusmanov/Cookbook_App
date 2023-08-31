@@ -4,6 +4,7 @@ import com.example.cookbook.model.AppState
 import com.example.cookbook.model.repository.local.LocalRepositoryInfoImpl
 import com.example.cookbook.model.repository.remote.IRepositorySearchRequest
 import com.example.cookbook.model.repository.sharedPreferences.SharedPreferencesRepository
+import kotlinx.coroutines.flow.Flow
 
 class RandomRecipeListInteractor(
     private val remoteRepository: IRepositorySearchRequest,
@@ -26,7 +27,7 @@ class RandomRecipeListInteractor(
         return AppState.Success(remoteRepository.getHealthyRandomRecipes())
     }
 
-    suspend fun checkRecipeExistenceInDatabase(id: Int): Boolean {
-       return localRepository.checkExistence(id)
+    fun observeRecipeExistence(id: Int): Flow<Boolean> {
+        return localRepository.observeRecipeExistence(id)
     }
 }
