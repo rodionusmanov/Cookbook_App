@@ -38,7 +38,7 @@ class RandomCuisineRecipeListFragment :
 
     private val model: RandomCuisineRecipeListViewModel by viewModel()
 
-    private val adapter: RandomRecipeListAdapter by lazy { RandomRecipeListAdapter() }
+    private val adapter: RandomRecipeListAdapter by lazy { RandomRecipeListAdapter(model) }
     private var navigationManager: NavigationManager? = null
 
     private lateinit var cuisine: String

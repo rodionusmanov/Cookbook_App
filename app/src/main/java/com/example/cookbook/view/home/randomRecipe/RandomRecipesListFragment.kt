@@ -2,7 +2,6 @@ package com.example.cookbook.view.home.randomRecipe
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Lifecycle
@@ -25,12 +24,11 @@ class RandomRecipesListFragment :
 
     private val model: RandomRecipeListViewModel by viewModel()
 
-    private val adapter: RandomRecipeListAdapter by lazy { RandomRecipeListAdapter() }
+    private val adapter: RandomRecipeListAdapter by lazy { RandomRecipeListAdapter(model) }
     private var navigationManager: NavigationManager? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        Log.d("@@@", "RandomRecipesList fragment onAttach called")
         navigationManager = (context as MainActivity).provideNavigationManager()
     }
 
@@ -40,33 +38,32 @@ class RandomRecipesListFragment :
         }
     }
 
-    /*override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        initViewModel()
-        model.getRandomRecipes()
-    }*/
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("@@@", "RandomRecipesList fragment onViewCreated called")
         initViewModel()
         model.getRandomRecipes()
     }
 
 
     private fun initViewModel() {
-        Log.d("@@@", "RandomRecipesList fragment initViewModel called" )
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                model.stateFlow.collect {
-                    Log.d("@@@", "Received data: $it" )
-                    renderData(it) }
+                launch {
+                    model.stateFlow.collect {
+                        renderData(it) }
+                }
+                launch {
+                    model.recipeExistenceInDatabase.collect { result ->
+                        result?.let { (id, exists) ->
+                            adapter.updateRecipeExistence(id, exists)
+                        }
+                    }
+                }
             }
         }
     }
 
     override fun setupData(data: List<RandomRecipeData>) {
-        Log.d("@@@", "Setting up data with ${data.size} items")
         adapter.setData(data)
         val layoutManager = StackLayoutManager()
         binding.randomRecipesRecyclerView.adapter = adapter

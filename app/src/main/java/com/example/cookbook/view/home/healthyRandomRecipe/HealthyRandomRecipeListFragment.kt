@@ -24,7 +24,7 @@ class HealthyRandomRecipeListFragment :
 
     private val model: HealthyRandomRecipeListViewModel by viewModel()
 
-    private val adapter: RandomRecipeListAdapter by lazy { RandomRecipeListAdapter() }
+    private val adapter: RandomRecipeListAdapter by lazy { RandomRecipeListAdapter(model) }
     private var navigationManager: NavigationManager? = null
 
     override fun onAttach(context: Context) {

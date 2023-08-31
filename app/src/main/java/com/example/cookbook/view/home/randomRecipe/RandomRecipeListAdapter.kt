@@ -11,11 +11,15 @@ import com.example.cookbook.databinding.ItemRandomRecipeRvBinding
 import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.RandomRecipeData
 
-class RandomRecipeListAdapter :
+class RandomRecipeListAdapter(
+    private val viewModel: CheckRecipeExistenceViewModelExistence
+) :
     RecyclerView.Adapter<RandomRecipeListAdapter.RecyclerItemViewHolder>() {
 
     private var data: List<RandomRecipeData> = arrayListOf()
     var listener: ((BaseRecipeData) -> Unit)? = null
+
+    private val recipeExistenceMap = mutableMapOf<Int, Boolean>()
 
     fun setData(data: List<RandomRecipeData>) {
         this.data = data
@@ -26,6 +30,7 @@ class RandomRecipeListAdapter :
         fun bind(data: BaseRecipeData) {
             if (layoutPosition != RecyclerView.NO_POSITION) {
                 ItemRandomRecipeRvBinding.bind(itemView).apply {
+                    viewModel.checkRecipeExistenceInDatabase(data.id)
                     setTextAndImage(data)
                     setOnClickListener(data)
                     setCheckBox(data)
@@ -34,13 +39,9 @@ class RandomRecipeListAdapter :
         }
 
         private fun ItemRandomRecipeRvBinding.setCheckBox(data: BaseRecipeData) {
-            cbAddFavorite.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-
-                } else {
-
-                }
-            }
+            cbAddFavorite.isChecked = recipeExistenceMap[data.id] ?: false
+            cbAddFavorite.isClickable = false
+            cbAddFavorite.isFocusable = false
         }
 
         private fun ItemRandomRecipeRvBinding.setOnClickListener(data: BaseRecipeData) {
@@ -71,5 +72,13 @@ class RandomRecipeListAdapter :
 
     override fun onBindViewHolder(holder: RecyclerItemViewHolder, position: Int) {
         holder.bind(data[position])
+    }
+
+    fun updateRecipeExistence(id: Int, exists: Boolean) {
+        recipeExistenceMap[id] = exists
+        val position = data.indexOfFirst { it.id == id }
+        if (position != -1) {
+            notifyItemChanged(position)
+        }
     }
 }

@@ -10,13 +10,14 @@ import kotlinx.coroutines.launch
 
 class RandomRecipeListViewModel(
     private val interactor: RandomRecipeListInteractor
-) : BaseViewModel<AppState>() {
+) : BaseViewModel<AppState>(), CheckRecipeExistenceViewModelExistence {
 
     private val _stateFlow = MutableStateFlow<AppState>(AppState.Loading)
     val stateFlow: StateFlow<AppState> get() = _stateFlow
 
-    private val _recipeExistenceInDatabase = MutableStateFlow(false)
-    val recipeExistenceInDatabase: StateFlow<Boolean> get() = _recipeExistenceInDatabase.asStateFlow()
+    private val _recipeExistenceInDatabase = MutableStateFlow<Pair<Int, Boolean>?>(null)
+    override val recipeExistenceInDatabase: StateFlow<Pair<Int, Boolean>?> get() =
+        _recipeExistenceInDatabase.asStateFlow()
 
     fun getRandomRecipes() {
         viewModelCoroutineScope.launch {
@@ -28,9 +29,10 @@ class RandomRecipeListViewModel(
             }
         }
     }
-    fun checkRecipeExistenceInDatabase(id: Int) {
+    override fun checkRecipeExistenceInDatabase(id: Int) {
         viewModelCoroutineScope.launch {
-            _recipeExistenceInDatabase.value = interactor.checkRecipeExistenceInDatabase(id)
+            val exists = interactor.checkRecipeExistenceInDatabase(id)
+            _recipeExistenceInDatabase.value = id to exists
         }
     }
 }
