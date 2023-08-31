@@ -249,31 +249,6 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="@dimen/margin_16dp_medium"/>
 
-            <LinearLayout
-                android:id="@+id/recently_viewed_recipes_container"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/random_recipe_layout_height"
-                android:layout_marginHorizontal="@dimen/margin_16dp_medium"
-                android:layout_marginTop="@dimen/margin_16dp_medium"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/recently_viewed_title"
-                    style="@style/HomeFragmentTitleTextStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/recently_viewed_title"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:listitem="@layout/item_random_recipe_rv" />
-
-            </LinearLayout>
-
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
