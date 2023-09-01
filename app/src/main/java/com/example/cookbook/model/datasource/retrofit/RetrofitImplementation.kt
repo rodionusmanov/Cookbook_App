@@ -26,17 +26,17 @@ class RetrofitImplementation : SearchRecipeDataSource, RandomRecipeDataSource,
 
     private val baseInterceptor = BaseInterceptor.interceptor
     override suspend fun getSearchResult(
-        request: String,
-        cuisine: String,
-        includeIngredients: String,
-        excludeIngredients: String,
-        userDiets: String,
-        userIntolerances: String,
-        dishType: String,
-        maxReadyTime: Int,
-        minCalories: Int,
-        maxCalories: Int,
-        currentPage: Int
+        request: String?,
+        cuisine: String?,
+        includeIngredients: String?,
+        excludeIngredients: String?,
+        userDiets: String?,
+        userIntolerances: String?,
+        dishType: String?,
+        maxReadyTime: Int?,
+        minCalories: Int?,
+        maxCalories: Int?,
+        currentPage: Int?
     ): Response<SearchRecipeListDTO> {
         Log.d("@@@", "User Diets: $userDiets")
         Log.d("@@@", "User Intolerances: $userIntolerances")
@@ -45,7 +45,7 @@ class RetrofitImplementation : SearchRecipeDataSource, RandomRecipeDataSource,
             query = request, cuisine = cuisine, excludeIngredients = excludeIngredients,
             includeIngredients = includeIngredients, diet = userDiets,
             intolerances = userIntolerances, dishType = dishType, maxReadyTime = maxReadyTime,
-            minCalories = minCalories, maxCalories = maxCalories, offset = currentPage*10
+            minCalories = minCalories, maxCalories = maxCalories, offset = currentPage
         ).await()
     }
 

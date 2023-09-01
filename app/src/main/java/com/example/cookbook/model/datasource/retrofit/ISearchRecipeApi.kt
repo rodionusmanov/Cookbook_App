@@ -13,17 +13,17 @@ import retrofit2.http.Query
 interface ISearchRecipeApi {
     @GET("recipes/complexSearch")
     fun searchRecipesAsync(
-        @Query("query") query: String,
-        @Query("cuisine") cuisine: String,
-        @Query("excludeIngredients") excludeIngredients: String,
-        @Query("includeIngredients") includeIngredients: String,
-        @Query("diet") diet: String,
-        @Query("intolerances") intolerances: String,
-        @Query("type") dishType: String,
-        @Query("maxReadyTime") maxReadyTime: Int,
-        @Query("minCalories") minCalories: Int,
-        @Query("maxCalories") maxCalories: Int,
-        @Query("offset") offset: Int
+        @Query("query") query: String?,
+        @Query("cuisine") cuisine: String?,
+        @Query("excludeIngredients") excludeIngredients: String?,
+        @Query("includeIngredients") includeIngredients: String?,
+        @Query("diet") diet: String?,
+        @Query("intolerances") intolerances: String?,
+        @Query("type") dishType: String?,
+        @Query("maxReadyTime") maxReadyTime: Int?,
+        @Query("minCalories") minCalories: Int?,
+        @Query("maxCalories") maxCalories: Int?,
+        @Query("offset") offset: Int?
     ): Deferred<Response<SearchRecipeListDTO>>
 
     @GET("recipes/random")

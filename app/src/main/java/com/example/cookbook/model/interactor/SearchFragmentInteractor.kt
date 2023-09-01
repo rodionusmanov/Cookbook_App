@@ -10,16 +10,16 @@ class SearchFragmentInteractor(
 ) {
 
     suspend fun searchRecipe(
-        request: String,
-        cuisine: String,
-        includeIngredients: String,
-        excludeIngredients: String,
-        dishType: String,
-        maxReadyTime: Int,
-        minCalories: Int,
-        maxCalories: Int,
+        request: String?,
+        cuisine: String?,
+        includeIngredients: String?,
+        excludeIngredients: String?,
+        dishType: String?,
+        maxReadyTime: Int?,
+        minCalories: Int?,
+        maxCalories: Int?,
         isOnline: Boolean,
-        currentPage: Int
+        currentPage: Int?
     ): AppState {
         val userDiets = preferencesRepository.getSelectedDiets()
         val userIntolerances = preferencesRepository.getSelectedIntolerances()

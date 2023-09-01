@@ -2,12 +2,23 @@ package com.example.cookbook.view.allFilters
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import androidx.core.view.forEach
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.transition.AutoTransition
+import androidx.transition.Fade
+import androidx.transition.Fade.IN
+import androidx.transition.Fade.OUT
+import androidx.transition.Slide
+import androidx.transition.Transition
+import androidx.transition.TransitionManager
 import com.example.cookbook.databinding.FragmentAllFiltersBinding
 import com.example.cookbook.utils.BUNDLE_DISH_TYPE_FILTER
 import com.example.cookbook.utils.BUNDLE_INCLUDE_INGREDIENT_FILTER
@@ -26,10 +37,6 @@ import com.example.cookbook.utils.DISH_TYPE_SIDE_DISH
 import com.example.cookbook.utils.DISH_TYPE_SNACK
 import com.example.cookbook.utils.DISH_TYPE_SOUP
 import com.example.cookbook.utils.FRAGMENT_SEARCH
-import com.example.cookbook.utils.INCLUDE_INGREDIENT_BEEF
-import com.example.cookbook.utils.INCLUDE_INGREDIENT_CHICKEN
-import com.example.cookbook.utils.INCLUDE_INGREDIENT_FISH
-import com.example.cookbook.utils.INCLUDE_INGREDIENT_PORK
 import com.example.cookbook.utils.navigation.NavigationManager
 import com.example.cookbook.view.mainActivity.MainActivity
 import com.example.cookbook.view.search.SearchFragment
@@ -47,8 +54,7 @@ class AllFiltersFragment : Fragment() {
     private val dishTypeList: MutableSet<String> = mutableSetOf()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAllFiltersBinding.inflate(inflater)
         return binding.root
@@ -81,9 +87,35 @@ class AllFiltersFragment : Fragment() {
                 backToSearch()
             }
 
+            etIngredient.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                }
 
-            chipsInclude.forEach {
-                (it as Chip).setOnCheckedChangeListener(checkedChangeListener)
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    p0?.let {
+                        btnAdd.isVisible = it.isNotEmpty()
+                    }
+                }
+
+                override fun afterTextChanged(p0: Editable?) {
+                }
+            })
+
+            btnAdd.setOnClickListener {
+                val newChip: Chip = Chip(it.context).apply {
+                    this.text = etIngredient.text
+                    this.isCloseIconVisible = true
+                    includeList.add(this.text.toString())
+                    this.setOnCloseIconClickListener {
+                        chipsInclude.removeView(this)
+                        includeList.remove(this.text.toString())
+                    }
+                }
+                println(includeList)
+
+                TransitionManager.beginDelayedTransition(chipsInclude, Slide(Gravity.BOTTOM))
+                chipsInclude.addView(newChip)
+                etIngredient.text = null
             }
 
             chipsDishType.forEach {
@@ -104,9 +136,7 @@ class AllFiltersFragment : Fragment() {
     private fun backToSearch() {
         val searchFragment = SearchFragment.newInstance()
         navigationManager?.switchFragment(
-            FRAGMENT_SEARCH,
-            searchFragment,
-            addToBackStack = true
+            FRAGMENT_SEARCH, searchFragment, addToBackStack = true
         )
     }
 
@@ -114,22 +144,6 @@ class AllFiltersFragment : Fragment() {
         CompoundButton.OnCheckedChangeListener { compoundButton: CompoundButton, isChecked: Boolean ->
             with(binding) {
                 when (compoundButton.id) {
-                    //------------------------------------------------------------Include ingredient
-                    chChicken.id -> {
-                        addOrRemoveListener(includeList, INCLUDE_INGREDIENT_CHICKEN, isChecked)
-                    }
-
-                    chPork.id -> {
-                        addOrRemoveListener(includeList, INCLUDE_INGREDIENT_PORK, isChecked)
-                    }
-
-                    chBeef.id -> {
-                        addOrRemoveListener(includeList, INCLUDE_INGREDIENT_BEEF, isChecked)
-                    }
-
-                    chFish.id -> {
-                        addOrRemoveListener(includeList, INCLUDE_INGREDIENT_FISH, isChecked)
-                    }
                     //---------------------------------------------------------------------Dish type
                     chAppetizer.id -> {
                         addOrRemoveListener(dishTypeList, DISH_TYPE_APPETIZER, isChecked)
@@ -191,9 +205,7 @@ class AllFiltersFragment : Fragment() {
         }
 
     private fun addOrRemoveListener(
-        listType: MutableSet<String>,
-        ingredient: String,
-        isChecked: Boolean
+        listType: MutableSet<String>, ingredient: String, isChecked: Boolean
     ) {
         if (isChecked) {
             listType.add(ingredient)

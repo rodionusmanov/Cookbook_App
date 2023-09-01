@@ -5,16 +5,16 @@ import retrofit2.Response
 
 interface SearchRecipeDataSource {
     suspend fun getSearchResult(
-        request: String,
-        cuisine: String,
-        includeIngredients: String,
-        excludeIngredients: String,
-        userDiets: String,
-        userIntolerances: String,
-        dishType: String,
-        maxReadyTime: Int,
-        minCalories: Int,
-        maxCalories: Int,
-        currentPage: Int
+        request: String?,
+        cuisine: String?,
+        includeIngredients: String?,
+        excludeIngredients: String?,
+        userDiets: String?,
+        userIntolerances: String?,
+        dishType: String?,
+        maxReadyTime: Int?,
+        minCalories: Int?,
+        maxCalories: Int?,
+        currentPage: Int?
     ): Response<SearchRecipeListDTO>
 }

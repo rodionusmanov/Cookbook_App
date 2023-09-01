@@ -33,15 +33,6 @@ class SearchResultAdapter :
         }
     }
 
-    fun addData(newData: List<BaseRecipeData>) {
-        val updatedList = currentListData.toMutableList().apply {
-            addAll(newData)
-        }
-        Log.d("@@@", "Current List Size: ${currentListData.size}, " +
-                "New Data Size: ${newData.size}, " +
-                "Updated List Size: ${currentListData.size}")
-        submitList(updatedList)
-    }
 
     class SearchCallback : DiffUtil.ItemCallback<BaseRecipeData>() {
         override fun areItemsTheSame(

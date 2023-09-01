@@ -10,8 +10,8 @@
         android:id="@+id/search_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_10dp_small"
         android:layout_marginHorizontal="@dimen/margin_8dp_small"
+        android:layout_marginTop="@dimen/margin_10dp_small"
         app:cardCornerRadius="@dimen/material_card_corner_radius_15dp"
         app:strokeColor="@color/orange_dark"
         app:strokeWidth="1dp">
@@ -22,19 +22,19 @@
             android:layout_height="@dimen/search_view_height"
             android:focusable="false"
             android:hint="@string/search_view_hint"
-            app:iconifiedByDefault="false"/>
+            app:iconifiedByDefault="false" />
 
     </com.google.android.material.card.MaterialCardView>
 
     <Button
-        style="@style/Widget.Material3.Button"
         android:id="@+id/btn_all_filters"
+        style="@style/Widget.Material3.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_16dp_medium"
-        android:textSize="20sp"
         android:layout_marginTop="@dimen/margin_16dp_medium"
-        android:text="@string/all_filters"/>
+        android:text="@string/all_filters"
+        android:textSize="20sp" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -45,12 +45,14 @@
             layout="@layout/various_dishes"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/joke_of_the_day_container"
-            />
+            app:layout_constraintTop_toBottomOf="@id/joke_of_the_day_container" />
 
     </androidx.core.widget.NestedScrollView>
 
-
+    <include
+        layout="@layout/layout_loading"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="176dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/result_recycler_view"
@@ -58,6 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_10dp_small"
         android:padding="@dimen/margin_8dp_small"
+        android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -42,14 +42,14 @@ class SearchViewModel(
     private var lastMinCalories: Int? = null
     private var lastMaxCalories: Int? = null
     fun searchRecipeRequest(
-        request: String,
-        cuisine: String,
-        includeIngredients: String,
-        excludeIngredients: String,
-        dishType: String,
-        maxReadyTime: Int,
-        minCalories: Int,
-        maxCalories: Int,
+        request: String? = null,
+        cuisine: String? = null,
+        includeIngredients: String? = null,
+        excludeIngredients: String? = null,
+        dishType: String? = null,
+        maxReadyTime: Int? = null,
+        minCalories: Int? = null,
+        maxCalories: Int? = null,
         loadNext: Boolean = false
     ) {
 
@@ -124,14 +124,15 @@ class SearchViewModel(
 
     fun loadNextPage() {
         searchRecipeRequest(
-            lastRequest ?: DEFAULT_QUERY,
-            lastCuisine ?: DEFAULT_CUISINE,
-            lastIncludeIngredients ?: DEFAULT_INCLUDE_INGREDIENTS,
-            lastExcludeIngredients ?: DEFAULT_EXCLUDE_INGREDIENTS,
-            lastDishType ?: DEFAULT_TYPE,
-            lastMaxReadyTime ?: DEFAULT_READY_TIME,
-            lastMinCalories ?: DEFAULT_MIN_CALORIES,
-            lastMaxCalories ?: DEFAULT_MAX_CALORIES, true
+            lastRequest,
+            lastCuisine,
+            lastIncludeIngredients,
+            lastExcludeIngredients,
+            lastDishType,
+            lastMaxReadyTime,
+            lastMinCalories,
+            lastMaxCalories,
+            true
         )
     }
 }

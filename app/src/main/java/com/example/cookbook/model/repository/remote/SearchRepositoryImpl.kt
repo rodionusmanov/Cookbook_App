@@ -21,17 +21,17 @@ class SearchRepositoryImpl(
     private val mapper = MappingUtils()
 
     override suspend fun getSearchResult(
-        request: String,
-        cuisine: String,
-        includeIngredients: String,
-        excludeIngredients: String,
-        userDiets: String,
-        userIntolerances: String,
-        dishType: String,
-        maxReadyTime: Int,
-        minCalories: Int,
-        maxCalories: Int,
-        currentPage: Int
+        request: String?,
+        cuisine: String?,
+        includeIngredients: String?,
+        excludeIngredients: String?,
+        userDiets: String?,
+        userIntolerances: String?,
+        dishType: String?,
+        maxReadyTime: Int?,
+        minCalories: Int?,
+        maxCalories: Int?,
+        currentPage: Int?
     ): List<SearchRecipeData> {
 
         val response = searchRecipeDataSource
