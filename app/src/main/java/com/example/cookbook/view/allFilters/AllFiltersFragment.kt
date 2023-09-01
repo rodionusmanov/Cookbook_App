@@ -9,16 +9,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
+import androidx.core.content.ContextCompat
 import androidx.core.view.forEach
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.transition.AutoTransition
-import androidx.transition.Fade
-import androidx.transition.Fade.IN
-import androidx.transition.Fade.OUT
 import androidx.transition.Slide
-import androidx.transition.Transition
 import androidx.transition.TransitionManager
+import com.example.cookbook.R
 import com.example.cookbook.databinding.FragmentAllFiltersBinding
 import com.example.cookbook.utils.BUNDLE_DISH_TYPE_FILTER
 import com.example.cookbook.utils.BUNDLE_INCLUDE_INGREDIENT_FILTER
@@ -50,6 +48,7 @@ class AllFiltersFragment : Fragment() {
     private val binding get() = _binding!!
     private var navigationManager: NavigationManager? = null
     private val model: SearchViewModel by activityViewModel()
+    private var btnDishTypeFlag = false
     private val includeList: MutableSet<String> = mutableSetOf()
     private val dishTypeList: MutableSet<String> = mutableSetOf()
 
@@ -111,11 +110,33 @@ class AllFiltersFragment : Fragment() {
                         includeList.remove(this.text.toString())
                     }
                 }
-                println(includeList)
 
                 TransitionManager.beginDelayedTransition(chipsInclude, Slide(Gravity.BOTTOM))
                 chipsInclude.addView(newChip)
                 etIngredient.text = null
+            }
+
+            btnDishType.setOnClickListener {
+                if (btnDishTypeFlag) {
+                    TransitionManager.beginDelayedTransition(chipsDishType, AutoTransition())
+                    btnDishType.icon =
+                        ContextCompat.getDrawable(requireContext(), R.drawable.icon_arrow_down)
+                    chipsDishType.forEach {
+                        if (!(it as Chip).isChecked) {
+                            it.isVisible = false
+                        }
+                    }
+                } else {
+                    TransitionManager.beginDelayedTransition(chipsDishType, Slide(Gravity.TOP))
+                    btnDishType.icon =
+                        ContextCompat.getDrawable(requireContext(), R.drawable.icon_arrow_up)
+                    chipsDishType.forEach {
+                        if (!(it as Chip).isChecked) {
+                            it.isVisible = true
+                        }
+                    }
+                }
+                btnDishTypeFlag = !btnDishTypeFlag
             }
 
             chipsDishType.forEach {
@@ -123,11 +144,11 @@ class AllFiltersFragment : Fragment() {
             }
 
             btnClear.setOnClickListener {
-                binding.chipsDishType.forEach {
+                chipsDishType.forEach {
                     (it as Chip).isChecked = false
                 }
-                binding.chipsInclude.forEach {
-                    (it as Chip).isChecked = false
+                chipsInclude.forEach {
+                    chipsInclude.removeView(it)
                 }
             }
         }
@@ -146,71 +167,102 @@ class AllFiltersFragment : Fragment() {
                 when (compoundButton.id) {
                     //---------------------------------------------------------------------Dish type
                     chAppetizer.id -> {
-                        addOrRemoveListener(dishTypeList, DISH_TYPE_APPETIZER, isChecked)
+                        addOrRemoveListener(
+                            dishTypeList, DISH_TYPE_APPETIZER, isChecked, compoundButton
+                        )
                     }
 
                     chBeverage.id -> {
-                        addOrRemoveListener(dishTypeList, DISH_TYPE_BEVERAGE, isChecked)
+                        addOrRemoveListener(
+                            dishTypeList, DISH_TYPE_BEVERAGE, isChecked, compoundButton
+                        )
                     }
 
                     chBread.id -> {
-                        addOrRemoveListener(dishTypeList, DISH_TYPE_BREAD, isChecked)
+                        addOrRemoveListener(
+                            dishTypeList, DISH_TYPE_BREAD, isChecked, compoundButton
+                        )
                     }
 
                     chBreakfast.id -> {
-                        addOrRemoveListener(dishTypeList, DISH_TYPE_BREAKFAST, isChecked)
+                        addOrRemoveListener(
+                            dishTypeList, DISH_TYPE_BREAKFAST, isChecked, compoundButton
+                        )
                     }
 
                     chDessert.id -> {
-                        addOrRemoveListener(dishTypeList, DISH_TYPE_DESSERT, isChecked)
+                        addOrRemoveListener(
+                            dishTypeList, DISH_TYPE_DESSERT, isChecked, compoundButton
+                        )
                     }
 
                     chDrink.id -> {
-                        addOrRemoveListener(dishTypeList, DISH_TYPE_DRINK, isChecked)
+                        addOrRemoveListener(
+                            dishTypeList, DISH_TYPE_DRINK, isChecked, compoundButton
+                        )
                     }
 
                     chFingerfood.id -> {
-                        addOrRemoveListener(dishTypeList, DISH_TYPE_FINGERFOOD, isChecked)
+                        addOrRemoveListener(
+                            dishTypeList, DISH_TYPE_FINGERFOOD, isChecked, compoundButton
+                        )
                     }
 
                     chMainCourse.id -> {
-                        addOrRemoveListener(dishTypeList, DISH_TYPE_MAIN_COURSE, isChecked)
+                        addOrRemoveListener(
+                            dishTypeList, DISH_TYPE_MAIN_COURSE, isChecked, compoundButton
+                        )
                     }
 
                     chMarinade.id -> {
-                        addOrRemoveListener(dishTypeList, DISH_TYPE_MARINADE, isChecked)
+                        addOrRemoveListener(
+                            dishTypeList, DISH_TYPE_MARINADE, isChecked, compoundButton
+                        )
                     }
 
                     chSalad.id -> {
-                        addOrRemoveListener(dishTypeList, DISH_TYPE_SALAD, isChecked)
+                        addOrRemoveListener(
+                            dishTypeList, DISH_TYPE_SALAD, isChecked, compoundButton
+                        )
                     }
 
                     chSauce.id -> {
-                        addOrRemoveListener(dishTypeList, DISH_TYPE_SAUCE, isChecked)
+                        addOrRemoveListener(
+                            dishTypeList, DISH_TYPE_SAUCE, isChecked, compoundButton
+                        )
                     }
 
                     chSideDish.id -> {
-                        addOrRemoveListener(dishTypeList, DISH_TYPE_SIDE_DISH, isChecked)
+                        addOrRemoveListener(
+                            dishTypeList, DISH_TYPE_SIDE_DISH, isChecked, compoundButton
+                        )
                     }
 
                     chSnack.id -> {
-                        addOrRemoveListener(dishTypeList, DISH_TYPE_SNACK, isChecked)
+                        addOrRemoveListener(
+                            dishTypeList, DISH_TYPE_SNACK, isChecked, compoundButton
+                        )
                     }
 
                     chSoup.id -> {
-                        addOrRemoveListener(dishTypeList, DISH_TYPE_SOUP, isChecked)
+                        addOrRemoveListener(dishTypeList, DISH_TYPE_SOUP, isChecked, compoundButton)
                     }
                 }
             }
         }
 
     private fun addOrRemoveListener(
-        listType: MutableSet<String>, ingredient: String, isChecked: Boolean
+        listType: MutableSet<String>, ingredient: String, isChecked: Boolean, chip: CompoundButton
     ) {
         if (isChecked) {
             listType.add(ingredient)
         } else {
             listType.remove(ingredient)
+        }
+
+        if (!btnDishTypeFlag) {
+            TransitionManager.beginDelayedTransition(binding.root, AutoTransition())
+            chip.isVisible = isChecked
         }
     }
 

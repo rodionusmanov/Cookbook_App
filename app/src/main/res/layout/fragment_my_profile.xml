@@ -24,12 +24,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_16dp_medium"
                 android:layout_marginTop="28dp"
-                android:text="@string/user_name"
                 android:gravity="start"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                android:text="@string/user_name"
                 app:layout_constraintEnd_toStartOf="@+id/user_avatar_container"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/user_second_name"
@@ -38,12 +37,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_8dp_small"
                 android:layout_marginEnd="8dp"
-                android:text="@string/user_second_name"
                 android:gravity="start"
-                app:layout_constraintStart_toStartOf="@id/user_name"
-                app:layout_constraintTop_toBottomOf="@id/user_name"
+                android:text="@string/user_second_name"
                 app:layout_constraintEnd_toStartOf="@+id/user_avatar_container"
-                />
+                app:layout_constraintStart_toStartOf="@id/user_name"
+                app:layout_constraintTop_toBottomOf="@id/user_name" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/user_avatar_container"
@@ -59,8 +57,8 @@
                     android:id="@+id/user_avatar_image"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@drawable/icon_profile"
                     android:scaleType="centerCrop"
+                    android:src="@drawable/icon_profile"
                     tools:ignore="ContentDescription" />
 
             </com.google.android.material.card.MaterialCardView>
@@ -95,10 +93,10 @@
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_toolbar"
+        android:background="?attr/colorOnPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:background="?attr/colorOnPrimary">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile_toolbar">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -108,10 +106,9 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/margin_20dp_medium"
                 android:layout_marginHorizontal="@dimen/margin_16dp_medium"
-                app:cardCornerRadius="30dp"
-                >
+                android:layout_marginVertical="@dimen/margin_20dp_medium"
+                app:cardCornerRadius="30dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/dietary_restrictions_layout"
@@ -133,8 +130,8 @@
                         android:id="@+id/diet_block"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:layout_marginBottom="@dimen/margin_8dp_small"
+                        android:orientation="vertical"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/dietary_restrictions_title">
 
@@ -183,73 +180,79 @@
                             android:id="@+id/diets_chip_group"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:visibility="gone"
-                            android:alpha="0"
-                            android:layout_marginHorizontal="@dimen/margin_16dp_medium"
-                            >
+                            android:layout_marginHorizontal="@dimen/margin_16dp_medium">
 
                             <com.google.android.material.chip.Chip
                                 android:id="@+id/chip_gluten_free"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checkable="true"
-                                android:text="@string/diet_gluten_free" />
+                                android:text="@string/diet_gluten_free"
+                                android:visibility="gone" />
 
                             <com.google.android.material.chip.Chip
                                 android:id="@+id/chip_ketogenic"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checkable="true"
-                                android:text="@string/diet_ketogenic" />
+                                android:text="@string/diet_ketogenic"
+                                android:visibility="gone" />
 
                             <com.google.android.material.chip.Chip
                                 android:id="@+id/chip_vegetarian"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checkable="true"
-                                android:text="@string/diet_vegetarian" />
+                                android:text="@string/diet_vegetarian"
+                                android:visibility="gone" />
 
                             <com.google.android.material.chip.Chip
                                 android:id="@+id/chip_lacto_vegetarian"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checkable="true"
-                                android:text="@string/diet_lacto_vegetarian" />
+                                android:text="@string/diet_lacto_vegetarian"
+                                android:visibility="gone" />
 
                             <com.google.android.material.chip.Chip
                                 android:id="@+id/chip_ovo_vegetarian"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checkable="true"
-                                android:text="@string/diet_ovo_vegetarian" />
+                                android:text="@string/diet_ovo_vegetarian"
+                                android:visibility="gone" />
 
                             <com.google.android.material.chip.Chip
                                 android:id="@+id/chip_vegan"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checkable="true"
-                                android:text="@string/diet_vegan" />
+                                android:text="@string/diet_vegan"
+                                android:visibility="gone" />
 
                             <com.google.android.material.chip.Chip
                                 android:id="@+id/chip_pescetarian"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checkable="true"
-                                android:text="@string/diet_pescetarian" />
+                                android:text="@string/diet_pescetarian"
+                                android:visibility="gone" />
 
                             <com.google.android.material.chip.Chip
                                 android:id="@+id/chip_paleo"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checkable="true"
-                                android:text="@string/diet_paleo" />
+                                android:text="@string/diet_paleo"
+                                android:visibility="gone" />
 
                             <com.google.android.material.chip.Chip
                                 android:id="@+id/chip_primal"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checkable="true"
-                                android:text="@string/diet_primal" />
+                                android:text="@string/diet_primal"
+                                android:visibility="gone" />
 
                         </com.google.android.material.chip.ChipGroup>
 
@@ -266,27 +269,25 @@
                         android:id="@+id/intolerances_block"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/diet_block"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         android:layout_marginTop="@dimen/margin_8dp_small"
                         android:layout_marginBottom="@dimen/margin_16dp_medium"
-                        >
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/diet_block">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            >
+                            android:layout_height="wrap_content">
 
                             <TextView
                                 android:id="@+id/intolerances_text"
                                 style="@style/MyProfileMenuLineTextStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:background="@drawable/text_click_selector"
                                 android:clickable="true"
                                 android:focusable="true"
-                                android:background="@drawable/text_click_selector"
                                 android:paddingHorizontal="@dimen/margin_20dp_medium"
                                 android:paddingVertical="@dimen/padding_8dp"
                                 android:text="@string/intolerances_block_title"
@@ -321,14 +322,13 @@
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="@dimen/margin_16dp_medium"
                             android:layout_marginBottom="@dimen/margin_8dp_small"
-                            android:visibility="gone"
-                            android:alpha="0"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/intolerances_text">
 
                             <com.google.android.material.chip.Chip
                                 android:id="@+id/chip_dairy"
+                                android:visibility="gone"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checkable="true"
@@ -336,6 +336,7 @@
 
                             <com.google.android.material.chip.Chip
                                 android:id="@+id/chip_egg"
+                                android:visibility="gone"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checkable="true"
@@ -343,6 +344,7 @@
 
                             <com.google.android.material.chip.Chip
                                 android:id="@+id/chip_gluten"
+                                android:visibility="gone"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checkable="true"
@@ -350,6 +352,7 @@
 
                             <com.google.android.material.chip.Chip
                                 android:id="@+id/chip_grain"
+                                android:visibility="gone"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checkable="true"
@@ -357,6 +360,7 @@
 
                             <com.google.android.material.chip.Chip
                                 android:id="@+id/chip_seafood"
+                                android:visibility="gone"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checkable="true"
@@ -364,6 +368,7 @@
 
                             <com.google.android.material.chip.Chip
                                 android:id="@+id/chip_sesame"
+                                android:visibility="gone"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checkable="true"
@@ -371,6 +376,7 @@
 
                             <com.google.android.material.chip.Chip
                                 android:id="@+id/chip_shellfish"
+                                android:visibility="gone"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checkable="true"
@@ -378,6 +384,7 @@
 
                             <com.google.android.material.chip.Chip
                                 android:id="@+id/chip_soy"
+                                android:visibility="gone"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checkable="true"
@@ -385,6 +392,7 @@
 
                             <com.google.android.material.chip.Chip
                                 android:id="@+id/chip_tree_nut"
+                                android:visibility="gone"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checkable="true"
@@ -392,6 +400,7 @@
 
                             <com.google.android.material.chip.Chip
                                 android:id="@+id/chip_wheat"
+                                android:visibility="gone"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:checkable="true"
@@ -413,10 +422,9 @@
         android:id="@+id/my_profile_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
         android:clickable="true"
-        android:focusable="true"
         android:elevation="20dp"
-        />
+        android:focusable="true"
+        android:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
