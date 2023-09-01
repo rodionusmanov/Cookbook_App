@@ -1,11 +1,13 @@
 package com.example.cookbook.view.home
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ValueAnimator
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import android.transition.ChangeBounds
-import android.transition.TransitionManager
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.BounceInterpolator
 import android.view.animation.RotateAnimation
@@ -73,11 +75,7 @@ class HomeFragment :
 
     private fun initJokeTextContainer() {
         binding.moreTextButton.setOnClickListener {
-            val transition = ChangeBounds()
-            transition.interpolator = BounceInterpolator()
-            transition.duration = 500
-            TransitionManager.beginDelayedTransition(binding.jokeTextBlock, transition)
-
+            animateJokeTextChange()
             with(binding) {
                 if(isJokeTextExpanded) {
                     jokeText.maxLines = 5
@@ -93,6 +91,48 @@ class HomeFragment :
             }
             isJokeTextExpanded = !isJokeTextExpanded
         }
+    }
+
+    private fun animateJokeTextChange() {
+        val startHeight: Int
+        val endHeight: Int
+
+        if(isJokeTextExpanded) {
+            startHeight = binding.jokeText.measuredHeight
+            binding.jokeText.maxLines = 5
+            binding.jokeText.measure(
+                View.MeasureSpec.makeMeasureSpec(binding.jokeText.width, View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+            )
+            endHeight = binding.jokeText.measuredHeight
+        } else {
+            startHeight = binding.jokeText.measuredHeight
+            binding.jokeText.maxLines = Integer.MAX_VALUE
+            binding.jokeText.measure(
+                View.MeasureSpec.makeMeasureSpec(binding.jokeText.width, View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+            )
+            endHeight = binding.jokeText.measuredHeight
+        }
+
+        val animator = ValueAnimator.ofInt(startHeight, endHeight).apply{
+            duration = 500
+            addUpdateListener { animation->
+                val animatedValue = animation.animatedValue as Int
+                val layoutParams = binding.jokeText.layoutParams
+                layoutParams.height = animatedValue
+                binding.jokeText.layoutParams = layoutParams
+                binding.jokeText.alpha = (animatedValue - startHeight).toFloat()/
+                        (endHeight - startHeight)
+                binding.jokeText.requestLayout()
+            }
+            addListener(object: AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    binding.jokeText.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+                }
+            })
+        }
+        animator.start()
     }
 
     private fun animateBlockCloseMark(cardView: MaterialCardView) {

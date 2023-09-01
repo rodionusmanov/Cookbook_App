@@ -83,7 +83,4 @@ dependencies {
 
     //RecyclerView
     implementation project(path: ':stacklayoutmanager')
-
-    //animation
-    implementation 'androidx.transition:transition-ktx:1.4.1'
 }
