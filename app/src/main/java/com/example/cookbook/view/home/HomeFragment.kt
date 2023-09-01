@@ -193,7 +193,7 @@ class HomeFragment :
     }
 
     override fun showErrorDialog(message: String?) {
-        Toast.makeText(context, "Error {$message}", Toast.LENGTH_LONG).show()
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
     override fun setupData(data: String) {

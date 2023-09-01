@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.AbsListView
+import android.widget.AbsListView.OnScrollListener
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
@@ -20,14 +22,6 @@ import com.example.cookbook.utils.BUNDLE_DISH_TYPE
 import com.example.cookbook.utils.BUNDLE_DISH_TYPE_FILTER
 import com.example.cookbook.utils.BUNDLE_INCLUDE_INGREDIENT_FILTER
 import com.example.cookbook.utils.BUNDLE_SEARCH_QUERY
-import com.example.cookbook.utils.DEFAULT_CUISINE
-import com.example.cookbook.utils.DEFAULT_EXCLUDE_INGREDIENTS
-import com.example.cookbook.utils.DEFAULT_INCLUDE_INGREDIENTS
-import com.example.cookbook.utils.DEFAULT_MAX_CALORIES
-import com.example.cookbook.utils.DEFAULT_MIN_CALORIES
-import com.example.cookbook.utils.DEFAULT_QUERY
-import com.example.cookbook.utils.DEFAULT_READY_TIME
-import com.example.cookbook.utils.DEFAULT_TYPE
 import com.example.cookbook.utils.DISH_TYPE_APPETIZER
 import com.example.cookbook.utils.DISH_TYPE_BEVERAGE
 import com.example.cookbook.utils.DISH_TYPE_BREAD
@@ -68,39 +62,16 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
     }
 
     private fun setSearchQuery(query: String) {
-        model.searchRecipeRequest(query, DEFAULT_CUISINE, DEFAULT_INCLUDE_INGREDIENTS,
-            DEFAULT_EXCLUDE_INGREDIENTS, DEFAULT_TYPE, DEFAULT_READY_TIME,
-        DEFAULT_MIN_CALORIES, DEFAULT_MAX_CALORIES)
+        model.searchRecipeRequest(request = query)
         binding.searchView.setQuery(query, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.resultRecyclerView.layoutManager = LinearLayoutManager(context)
-        binding.resultRecyclerView.adapter = adapter
-
-        setupLoadMoreListener()
         initViewModel()
         initArgumentsFlow()
         initView()
-    }
-
-    private fun setupLoadMoreListener() {
-        binding.resultRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-
-                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-                val totalItemCount = layoutManager.itemCount
-                val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
-
-                if(!isLoading && totalItemCount <= lastVisibleItem + 2) {
-                    isLoading = true
-                    model.loadNextPage()
-                }
-            }
-        })
     }
 
     private fun initArgumentsFlow() {
@@ -126,16 +97,17 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
                 searchQuery != null -> setSearchQuery(searchQuery)
                 dishType != null -> setDishTypeQuery(dishType)
                 includeFilter != null || dishTypeFilter != null -> setFilterQuery(
-                    includeFilter ?: "", dishTypeFilter ?: ""
+                    includeFilter, dishTypeFilter
                 )
             }
-        }
+        } ?: Log.d("@@@", "No arguments to handle")
     }
 
-    private fun setFilterQuery(includeList: String, dishType: String) {
+    private fun setFilterQuery(includeList: String?, dishType: String?) {
         model.searchRecipeRequest(
-            DEFAULT_QUERY, DEFAULT_CUISINE, DEFAULT_INCLUDE_INGREDIENTS, DEFAULT_EXCLUDE_INGREDIENTS,
-            dishType, DEFAULT_READY_TIME, DEFAULT_MIN_CALORIES, DEFAULT_MAX_CALORIES)
+            includeIngredients = includeList,
+            dishType = dishType
+        )
         with(binding) {
             searchView.setQuery("Filter search", false)
             if (searchView.query.isNotEmpty()) {
@@ -145,9 +117,7 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
     }
 
     private fun setDishTypeQuery(dishType: String) {
-        model.searchRecipeRequest(
-            DEFAULT_QUERY , DEFAULT_CUISINE, DEFAULT_INCLUDE_INGREDIENTS, DEFAULT_EXCLUDE_INGREDIENTS,
-            dishType, DEFAULT_READY_TIME, DEFAULT_MIN_CALORIES, DEFAULT_MAX_CALORIES)
+        model.searchRecipeRequest(dishType =  dishType)
         with(binding) {
             searchView.setQuery(dishType, false)
             variousDishes.variousDishesTableContainer.isVisible = false
@@ -159,10 +129,7 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
         arguments?.getString(BUNDLE_SEARCH_QUERY)?.let {
             binding.searchView.setQuery(it, false)
             model.searchRecipeRequest(
-                it,
-                DEFAULT_CUISINE, DEFAULT_INCLUDE_INGREDIENTS, DEFAULT_EXCLUDE_INGREDIENTS,
-                DEFAULT_TYPE, DEFAULT_READY_TIME, DEFAULT_MIN_CALORIES, DEFAULT_MAX_CALORIES
-            )
+                it)
         }
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -178,9 +145,7 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
                 object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
                         query?.let {
-                            model.searchRecipeRequest(it, DEFAULT_CUISINE, DEFAULT_INCLUDE_INGREDIENTS,
-                                DEFAULT_EXCLUDE_INGREDIENTS, DEFAULT_TYPE, DEFAULT_READY_TIME,
-                                DEFAULT_MIN_CALORIES, DEFAULT_MAX_CALORIES)
+                            model.searchRecipeRequest(it)
                             hideKeyboard(binding.searchView)
 
                         }
@@ -209,6 +174,25 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
             btnAllFilters.setOnClickListener {
                 openAllFiltersFragment()
             }
+
+            val linearLayout= LinearLayoutManager(context)
+            binding.resultRecyclerView.layoutManager =linearLayout
+            binding.resultRecyclerView.adapter = adapter
+
+            resultRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+
+                    val visibleItemCount = linearLayout.childCount
+                    val totalItemCount = linearLayout.itemCount
+                    val lastVisibleItem = linearLayout.findLastVisibleItemPosition()
+
+                    if(!isLoading && totalItemCount == lastVisibleItem + visibleItemCount) {
+                        isLoading = true
+                        model.loadNextPage()
+                    }
+                }
+            })
 
 
             variousDishes.dishesTableThirdLineContainer.isVisible = true
@@ -254,11 +238,10 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
     }
 
     override fun setupData(data: List<BaseRecipeData>) {
-        Log.d("@@@", "Received Data Size: ${data.size}")
         if(model.isInitialLoad) {
             adapter.submitList(data)
         } else {
-            adapter.addData(data)
+            adapter.submitList(data)
             isLoading = false
         }
         adapter.listener = { recipe ->
