@@ -185,6 +185,7 @@
                 app:cardCornerRadius="@dimen/material_card_corner_radius_20dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/joke_text_block"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -231,6 +232,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginVertical="@dimen/margin_10dp_small"
+                        android:background="@drawable/text_click_selector"
+                        android:clickable="true"
+                        android:focusable="true"
                         android:text="@string/joke_read_more"
                         android:textStyle="bold"
                         android:textSize="@dimen/home_joke_text"
