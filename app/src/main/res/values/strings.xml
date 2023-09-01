@@ -24,6 +24,8 @@
     <string name="joke_of_the_day_title">Joke of the day</string>
     <string name="recently_viewed_title">Recently viewed</string>
     <string name="joke_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </string>
+    <string name="joke_read_more">Read more</string>
+    <string name="joke_show_less">Show less</string>
     <string name="dishes_table_title">What do you want to cook?</string>
     <string name="card_breakfast_title">Breakfast</string>
     <string name="card_side_dish_title">Side Dish</string>

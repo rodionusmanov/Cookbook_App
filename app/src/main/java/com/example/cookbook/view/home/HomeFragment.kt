@@ -1,10 +1,16 @@
 package com.example.cookbook.view.home
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ValueAnimator
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.BounceInterpolator
+import android.view.animation.RotateAnimation
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.lifecycle.Lifecycle
@@ -34,6 +40,7 @@ import com.example.cookbook.view.mainActivity.MainActivity
 import com.example.cookbook.view.myProfile.MyProfileFragment
 import com.example.cookbook.view.search.SearchFragment
 import com.example.cookbook.view.search.SearchViewModel
+import com.google.android.material.card.MaterialCardView
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -46,6 +53,7 @@ class HomeFragment :
 
     private val model: HomeViewModel by viewModel()
     private var navigationManager: NavigationManager? = null
+    private var isJokeTextExpanded = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -61,7 +69,96 @@ class HomeFragment :
         initRandomCuisineFragment()
         initServiceButtons()
         initUserAvatarImage()
+        initJokeTextContainer()
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun initJokeTextContainer() {
+        binding.moreTextButton.setOnClickListener {
+            animateJokeTextChange()
+            with(binding) {
+                if(isJokeTextExpanded) {
+                    jokeText.maxLines = 5
+                    jokeText.requestLayout()
+                    moreTextButton.text = getString(R.string.joke_read_more)
+                    animateBlockCloseMark(binding.moreTextMark)
+                } else {
+                    jokeText.maxLines = Integer.MAX_VALUE
+                    jokeText.requestLayout()
+                    moreTextButton.text = getString(R.string.joke_show_less)
+                    animateBlockOpenMark(binding.moreTextMark)
+                }
+            }
+            isJokeTextExpanded = !isJokeTextExpanded
+        }
+    }
+
+    private fun animateJokeTextChange() {
+        val startHeight: Int
+        val endHeight: Int
+
+        if(isJokeTextExpanded) {
+            startHeight = binding.jokeText.measuredHeight
+            binding.jokeText.maxLines = 5
+            binding.jokeText.measure(
+                View.MeasureSpec.makeMeasureSpec(binding.jokeText.width, View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+            )
+            endHeight = binding.jokeText.measuredHeight
+        } else {
+            startHeight = binding.jokeText.measuredHeight
+            binding.jokeText.maxLines = Integer.MAX_VALUE
+            binding.jokeText.measure(
+                View.MeasureSpec.makeMeasureSpec(binding.jokeText.width, View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+            )
+            endHeight = binding.jokeText.measuredHeight
+        }
+
+        val animator = ValueAnimator.ofInt(startHeight, endHeight).apply{
+            duration = 500
+            addUpdateListener { animation->
+                val animatedValue = animation.animatedValue as Int
+                val layoutParams = binding.jokeText.layoutParams
+                layoutParams.height = animatedValue
+                binding.jokeText.layoutParams = layoutParams
+                binding.jokeText.alpha = (animatedValue - startHeight).toFloat()/
+                        (endHeight - startHeight)
+                binding.jokeText.requestLayout()
+            }
+            addListener(object: AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    binding.jokeText.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+                }
+            })
+        }
+        animator.start()
+    }
+
+    private fun animateBlockCloseMark(cardView: MaterialCardView) {
+        val rotate = RotateAnimation(
+            180f, 0f,
+            Animation.RELATIVE_TO_SELF,
+            0.5f,
+            Animation.RELATIVE_TO_SELF,
+            0.5f
+        )
+        rotate.duration = 500
+        rotate.fillAfter = true
+        cardView.startAnimation(rotate)
+    }
+
+    private fun animateBlockOpenMark(cardView: MaterialCardView) {
+        val rotate = RotateAnimation(
+            0f, 180f,
+            Animation.RELATIVE_TO_SELF,
+            0.5f,
+            Animation.RELATIVE_TO_SELF,
+            0.5f
+        )
+        rotate.duration = 500
+        rotate.fillAfter = true
+        cardView.startAnimation(rotate)
     }
 
     private fun initUserAvatarImage() {
@@ -138,7 +235,6 @@ class HomeFragment :
     private fun initRandomRecipeFragment() {
         val existingFragment = childFragmentManager.findFragmentById(R.id.random_recipe_container)
         if (existingFragment == null) {
-            Log.d("@@@", "Adding new RandomRecipesListFragment")
             val fragment = RandomRecipesListFragment.newInstance()
             childFragmentManager
                 .beginTransaction()

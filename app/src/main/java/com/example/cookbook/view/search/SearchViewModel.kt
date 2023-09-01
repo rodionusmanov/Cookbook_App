@@ -4,14 +4,6 @@ import android.os.Bundle
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.interactor.SearchFragmentInteractor
-import com.example.cookbook.utils.DEFAULT_CUISINE
-import com.example.cookbook.utils.DEFAULT_EXCLUDE_INGREDIENTS
-import com.example.cookbook.utils.DEFAULT_INCLUDE_INGREDIENTS
-import com.example.cookbook.utils.DEFAULT_MAX_CALORIES
-import com.example.cookbook.utils.DEFAULT_MIN_CALORIES
-import com.example.cookbook.utils.DEFAULT_QUERY
-import com.example.cookbook.utils.DEFAULT_READY_TIME
-import com.example.cookbook.utils.DEFAULT_TYPE
 import com.example.cookbook.view.base.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

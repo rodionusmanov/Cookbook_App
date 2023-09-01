@@ -1,10 +1,10 @@
 package com.example.cookbook.utils
 
 const val COMPLEX_SEARCH_RECIPE_API = "https://api.spoonacular.com/"
-//const val SPOONACULAR_API_KEY = "e0f820d255c2495698a1eb65d4f195ff"
+const val SPOONACULAR_API_KEY = "e0f820d255c2495698a1eb65d4f195ff"
 
 //const val SPOONACULAR_API_KEY = "5cd80f128c6a4bc583f45c3b53b010be"
-const val SPOONACULAR_API_KEY = "e51af98a8a0649d98081a6445393c430"
+//const val SPOONACULAR_API_KEY = "e51af98a8a0649d98081a6445393c430"
 //const val SPOONACULAR_API_KEY = "c279e4340d6449d6820e2bc4b3ad37cd"
 const val ID = "id"
 
@@ -35,22 +35,6 @@ const val DISH_TYPE_SAUCE = "sauce"
 const val DISH_TYPE_MARINADE = "marinade"
 const val DISH_TYPE_FINGERFOOD = "fingerfood"
 const val DISH_TYPE_DRINK = "drink"
-
-const val INCLUDE_INGREDIENT_CHICKEN = "chicken"
-const val INCLUDE_INGREDIENT_PORK = "pork"
-const val INCLUDE_INGREDIENT_BEEF = "beef"
-const val INCLUDE_INGREDIENT_FISH = "fish"
-
-const val DEFAULT_QUERY = ""
-const val DEFAULT_CUISINE = ""
-const val DEFAULT_INCLUDE_INGREDIENTS = ""
-const val DEFAULT_EXCLUDE_INGREDIENTS = ""
-const val DEFAULT_TYPE = ""
-const val DEFAULT_READY_TIME = 0
-const val DEFAULT_MIN_CALORIES = 0
-const val DEFAULT_MAX_CALORIES = 0
-
-
 
 const val SPOONACULAR_HEALTHY_DIET_TAG = "whole30"
 
