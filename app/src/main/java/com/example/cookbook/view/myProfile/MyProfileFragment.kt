@@ -99,10 +99,12 @@ class MyProfileFragment : Fragment() {
             chip.isVisible = selectedItems.contains(chip.text.toString())
             chip.isChecked = chip.isVisible
 
-            chip.setOnCheckedChangeListener { _, _ ->
+            chip.setOnCheckedChangeListener { _, isChecked ->
                 if(!isDietBlockOpen || !isIntoleranceBlockOpen) {
                     TransitionManager.beginDelayedTransition(binding.root, AutoTransition())
                 }
+
+                chip.isVisible = isChecked
 
                 val newSelectedItems = getSelectedChipsText(chipGroup)
                 model.saveSelectedRestrictions(newSelectedItems, preferenceKey)
