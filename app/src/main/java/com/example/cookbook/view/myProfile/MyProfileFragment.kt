@@ -99,7 +99,7 @@ class MyProfileFragment : Fragment() {
             chip.isVisible = selectedItems.contains(chip.text.toString())
             chip.isChecked = chip.isVisible
 
-            chip.setOnCheckedChangeListener { _, isChecked ->
+            chip.setOnCheckedChangeListener { _, _ ->
                 if(!isDietBlockOpen || !isIntoleranceBlockOpen) {
                     TransitionManager.beginDelayedTransition(binding.root, AutoTransition())
                 }
@@ -125,11 +125,21 @@ class MyProfileFragment : Fragment() {
         with(binding) {
             dietsText.setOnClickListener {
                 isDietBlockOpen = !isDietBlockOpen
+                if(isDietBlockOpen) {
+                    animateBlockOpenMark(binding.dietBlockMark)
+                } else {
+                    animateBlockCloseMark(binding.dietBlockMark)
+                }
                 handleChipVisibilityAnimation(dietsChipGroup, isDietBlockOpen)
             }
 
             intolerancesText.setOnClickListener {
                 isIntoleranceBlockOpen = !isIntoleranceBlockOpen
+                if(isIntoleranceBlockOpen) {
+                    animateBlockOpenMark(binding.intoleranceBlockMark)
+                } else {
+                    animateBlockCloseMark(binding.intoleranceBlockMark)
+                }
                 handleChipVisibilityAnimation(intolerancesChipGroup, isIntoleranceBlockOpen)
             }
         }
@@ -148,91 +158,6 @@ class MyProfileFragment : Fragment() {
             }
         }
     }
-
-//    private fun openChipGroup(chipGroup: ChipGroup, parentLayout: LinearLayout) {
-//
-//        val height = getMaxHeightForChips(chipGroup)
-//        val parentOriginalHeight = parentLayout.measuredHeight
-//
-//        val chipSlideAnimator = ObjectAnimator
-//            .ofFloat(chipGroup, "translationY", -height.toFloat(), 0f)
-//
-//        val chipAlphaAnimator = ObjectAnimator
-//            .ofFloat(chipGroup, "alpha", 0f, 1f)
-//            .setDuration(150)
-//
-//        val chipLayoutAnimator = ValueAnimator.ofInt(0, height)
-//        chipLayoutAnimator.addUpdateListener { animation ->
-//            val layoutParams = chipGroup.layoutParams
-//            layoutParams.height = animation.animatedValue as Int
-//            chipGroup.requestLayout()
-//        }
-//
-//        val parentLayoutAnimator = ValueAnimator
-//            .ofInt(parentOriginalHeight, parentOriginalHeight + height)
-//        parentLayoutAnimator.addUpdateListener { animation ->
-//            val layoutParams = parentLayout.layoutParams
-//            layoutParams.height = animation.animatedValue as Int
-//            parentLayout.requestLayout()
-//        }
-//
-//        val animatorSet = AnimatorSet()
-//        animatorSet.playTogether(chipSlideAnimator, chipLayoutAnimator, parentLayoutAnimator)
-//        animatorSet.addListener(object : AnimatorListenerAdapter() {
-//            override fun onAnimationStart(animation: Animator) {
-//                chipGroup.visibility = View.VISIBLE
-//            }
-//        })
-//        animatorSet.duration = 300
-//        chipAlphaAnimator.start()
-//        animatorSet.start()
-//    }
-
-//    private fun getMaxHeightForChips(chipGroup: ChipGroup): Int {
-//        if (chipGroup.childCount == 0) {
-//            return 0
-//        }
-//        val chip = chipGroup.getChildAt(0) as Chip
-//        chip.measure(
-//            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-//            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
-//        )
-//        return chip.measuredHeight * 5
-//    }
-
-//    private fun closeChipGroup(chipGroup: ChipGroup, parentLayout: LinearLayout) {
-//
-//        val height = chipGroup.measuredHeight
-//        val parentHeight = parentLayout.measuredHeight
-//
-//        val chipSlideAnimator = ObjectAnimator
-//            .ofFloat(chipGroup, "translationY", 0f, -height.toFloat())
-//
-//        val chipAlphaAnimator = ObjectAnimator
-//            .ofFloat(chipGroup, "alpha", 1f, 0f)
-//            .setDuration(150)
-//
-//        val parentLayoutAnimator = ValueAnimator.ofInt(parentHeight, parentHeight - height)
-//        parentLayoutAnimator.addUpdateListener { animation ->
-//            val parentLayoutParams = parentLayout.layoutParams
-//            parentLayoutParams.height = animation.animatedValue as Int
-//            parentLayout.layoutParams = parentLayoutParams
-//        }
-//
-//        AnimatorSet().also { set ->
-//            with(set) {
-//                playTogether(chipSlideAnimator, parentLayoutAnimator)
-//                addListener(object : AnimatorListenerAdapter() {
-//                    override fun onAnimationEnd(animation: Animator) {
-//                        chipGroup.visibility = View.INVISIBLE
-//                        chipGroup.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-//                    }
-//                })
-//                duration = 300
-//            }
-//        }.start()
-//        chipAlphaAnimator.start()
-//    }
 
     private fun animateBlockCloseMark(cardView: MaterialCardView) {
         val rotate = RotateAnimation(
