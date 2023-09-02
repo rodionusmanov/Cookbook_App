@@ -124,13 +124,13 @@ class MyProfileFragment : Fragment() {
     private fun initTextViewBlockListener() {
         with(binding) {
             dietsText.setOnClickListener {
-                handleChipVisibilityAnimation(dietsChipGroup, isDietBlockOpen)
                 isDietBlockOpen = !isDietBlockOpen
+                handleChipVisibilityAnimation(dietsChipGroup, isDietBlockOpen)
             }
 
             intolerancesText.setOnClickListener {
-                handleChipVisibilityAnimation(intolerancesChipGroup, isIntoleranceBlockOpen)
                 isIntoleranceBlockOpen = !isIntoleranceBlockOpen
+                handleChipVisibilityAnimation(intolerancesChipGroup, isIntoleranceBlockOpen)
             }
         }
     }
