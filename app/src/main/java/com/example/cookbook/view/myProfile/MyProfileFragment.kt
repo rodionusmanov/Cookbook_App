@@ -1,24 +1,16 @@
 package com.example.cookbook.view.myProfile
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
 import android.net.Uri
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
-import android.widget.LinearLayout
 import androidx.core.view.forEach
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.transition.AutoTransition
-import androidx.transition.Slide
 import androidx.transition.TransitionManager
 import coil.load
 import com.example.cookbook.R
@@ -104,17 +96,16 @@ class MyProfileFragment : Fragment() {
         for (i in 0 until chipGroup.childCount) {
             val chip = chipGroup.getChildAt(i) as Chip
 
-            if (selectedItems.contains(chip.text.toString())) {
-                chip.isChecked = true
-            }
+            chip.isVisible = selectedItems.contains(chip.text.toString())
+            chip.isChecked = chip.isVisible
 
             chip.setOnCheckedChangeListener { _, isChecked ->
+                if(!isDietBlockOpen || !isIntoleranceBlockOpen) {
+                    TransitionManager.beginDelayedTransition(binding.root, AutoTransition())
+                }
+
                 val newSelectedItems = getSelectedChipsText(chipGroup)
                 model.saveSelectedRestrictions(newSelectedItems, preferenceKey)
-                if (!isDietBlockOpen || !isIntoleranceBlockOpen) {
-                    TransitionManager.beginDelayedTransition(binding.root, AutoTransition())
-                    chip.isVisible = isChecked
-                }
             }
         }
     }
@@ -133,61 +124,28 @@ class MyProfileFragment : Fragment() {
     private fun initTextViewBlockListener() {
         with(binding) {
             dietsText.setOnClickListener {
-//                isDietBlockOpen = if (isDietBlockOpen) {
-//                    closeChipGroup(dietsChipGroup, dietBlock)
-//                    animateBlockCloseMark(dietBlockMark)
-//                    false
-//                } else {
-//                    openChipGroup(dietsChipGroup, dietBlock)
-//                    animateBlockOpenMark(dietBlockMark)
-//                    true
-//                }
-                if (isDietBlockOpen) {
-                    TransitionManager.beginDelayedTransition(binding.root, AutoTransition())
-                    dietsChipGroup.forEach {
-                        if (!(it as Chip).isChecked) {
-                            it.isVisible = false
-                        }
-                    }
-                } else {
-                    TransitionManager.beginDelayedTransition(binding.root, Slide(Gravity.TOP))
-                    dietsChipGroup.forEach {
-                        if (!(it as Chip).isChecked) {
-                            it.isVisible = true
-                        }
-                    }
-                }
+                handleChipVisibilityAnimation(dietsChipGroup, isDietBlockOpen)
                 isDietBlockOpen = !isDietBlockOpen
             }
 
             intolerancesText.setOnClickListener {
-//                isIntoleranceBlockOpen = if (isIntoleranceBlockOpen) {
-//                    closeChipGroup(intolerancesChipGroup, intolerancesBlock)
-//                    animateBlockCloseMark(intoleranceBlockMark)
-//                    false
-//                } else {
-//                    openChipGroup(intolerancesChipGroup, intolerancesBlock)
-//                    animateBlockOpenMark(intoleranceBlockMark)
-//                    true
-//                }
-                if (isIntoleranceBlockOpen) {
-                    TransitionManager.beginDelayedTransition(binding.root, AutoTransition())
-                    intolerancesChipGroup.forEach {
-                        if (!(it as Chip).isChecked) {
-                            it.isVisible = false
-                        }
-                    }
-                } else {
-                    TransitionManager.beginDelayedTransition(binding.root, Slide(Gravity.TOP))
-                    intolerancesChipGroup.forEach {
-                        if (!(it as Chip).isChecked) {
-                            it.isVisible = true
-                        }
-                    }
-                }
+                handleChipVisibilityAnimation(intolerancesChipGroup, isIntoleranceBlockOpen)
                 isIntoleranceBlockOpen = !isIntoleranceBlockOpen
             }
+        }
+    }
 
+    private fun handleChipVisibilityAnimation(targetGroup: ChipGroup, isOpen: Boolean) {
+        val transition = AutoTransition()
+        TransitionManager.beginDelayedTransition(binding.root, transition)
+
+        if (isOpen) {
+            targetGroup.forEach { it.isVisible = true }
+        } else {
+            val isChipChecked = {chip: View -> (chip as Chip).isChecked}
+            targetGroup.forEach {
+                it.isVisible = isChipChecked(it)
+            }
         }
     }
 
@@ -276,31 +234,31 @@ class MyProfileFragment : Fragment() {
 //        chipAlphaAnimator.start()
 //    }
 
-//    private fun animateBlockCloseMark(cardView: MaterialCardView) {
-//        val rotate = RotateAnimation(
-//            180f, 0f,
-//            Animation.RELATIVE_TO_SELF,
-//            0.5f,
-//            Animation.RELATIVE_TO_SELF,
-//            0.5f
-//        )
-//        rotate.duration = 300
-//        rotate.fillAfter = true
-//        cardView.startAnimation(rotate)
-//    }
+    private fun animateBlockCloseMark(cardView: MaterialCardView) {
+        val rotate = RotateAnimation(
+            180f, 0f,
+            Animation.RELATIVE_TO_SELF,
+            0.5f,
+            Animation.RELATIVE_TO_SELF,
+           0.5f
+       )
+       rotate.duration = 300
+       rotate.fillAfter = true
+        cardView.startAnimation(rotate)
+    }
 
-//    private fun animateBlockOpenMark(cardView: MaterialCardView) {
-//        val rotate = RotateAnimation(
-//            0f, 180f,
-//            Animation.RELATIVE_TO_SELF,
-//            0.5f,
-//            Animation.RELATIVE_TO_SELF,
-//            0.5f
-//        )
-//        rotate.duration = 300
-//        rotate.fillAfter = true
-//        cardView.startAnimation(rotate)
-//    }
+    private fun animateBlockOpenMark(cardView: MaterialCardView) {
+        val rotate = RotateAnimation(
+            0f, 180f,
+            Animation.RELATIVE_TO_SELF,
+            0.5f,
+            Animation.RELATIVE_TO_SELF,
+            0.5f
+        )
+        rotate.duration = 300
+        rotate.fillAfter = true
+        cardView.startAnimation(rotate)
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
