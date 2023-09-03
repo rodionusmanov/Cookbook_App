@@ -16,8 +16,6 @@ import com.example.cookbook.model.interactor.RecipeFromDatabaseFragmentInteracto
 import com.example.cookbook.model.interactor.RecipeInfoFragmentInteractor
 import com.example.cookbook.model.interactor.SearchFragmentInteractor
 import com.example.cookbook.model.repository.local.ILocalRecipesInfoRepository
-import com.example.cookbook.model.repository.local.ILocalRecipesRepository
-import com.example.cookbook.model.repository.local.LocalRepositoryImpl
 import com.example.cookbook.model.repository.local.LocalRepositoryInfoImpl
 import com.example.cookbook.model.repository.network.NetworkRepository
 import com.example.cookbook.model.repository.remote.IRepositorySearchRequest
@@ -65,7 +63,6 @@ val remoteDataSource = module {
 }
 
 val localDataBase = module {
-    single<ILocalRecipesRepository> { get<LocalRepositoryImpl>() }
     single<ILocalRecipesInfoRepository> { get<LocalRepositoryInfoImpl>() }
     single { get<RecipesDatabase>().getRecipesDAO() }
     single {
@@ -120,8 +117,7 @@ val recipeInfoFromDatabase = module {
 val favoritesFragment = module {
     viewModel {
         FavoriteRecipesViewModel(
-            get(),
-            LocalRepositoryInfoImpl(get())
+            get()
         )
     }
     factory { FavoriteFragmentInteractor(LocalRepositoryInfoImpl(get())) }

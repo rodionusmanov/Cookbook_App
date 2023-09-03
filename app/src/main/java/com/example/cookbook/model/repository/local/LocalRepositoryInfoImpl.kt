@@ -1,8 +1,8 @@
 package com.example.cookbook.model.repository.local
 
 import com.example.cookbook.model.domain.RecipeInformation
-import com.example.cookbook.model.room.fullRecipe.IRecipesInfoDAO
-import com.example.cookbook.model.room.fullRecipe.RecipeInfoEntity
+import com.example.cookbook.model.room.IRecipesInfoDAO
+import com.example.cookbook.model.room.RecipeInfoEntity
 import com.example.cookbook.utils.convertRecipeInfoEntityToRecipeInformation
 import com.example.cookbook.utils.convertRecipeInfoToEntity
 import kotlinx.coroutines.flow.Flow

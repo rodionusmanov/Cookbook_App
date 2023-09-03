@@ -1,6 +1,5 @@
 package com.example.cookbook.view.search
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,21 +11,23 @@ import coil.size.Scale
 import com.example.cookbook.R
 import com.example.cookbook.databinding.ItemSearchResultBinding
 import com.example.cookbook.model.domain.BaseRecipeData
+import com.example.cookbook.model.interactor.RandomRecipeListInteractor
+import com.example.cookbook.view.favorite.FavoriteRecipesViewModel
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class SearchResultAdapter :
     ListAdapter<BaseRecipeData, SearchResultAdapter.RecyclerItemViewHolder>(SearchCallback()) {
 
     var listener: ((BaseRecipeData) -> Unit)? = null
-    var listenerOnSaveRecipe: ((BaseRecipeData) -> Unit)? = null
-    var listenerOnRemoveRecipe: ((BaseRecipeData) -> Unit)? = null
-    private val currentListData = mutableListOf<BaseRecipeData>()
 
     inner class RecyclerItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(data: BaseRecipeData) {
             if (layoutPosition != RecyclerView.NO_POSITION) {
                 ItemSearchResultBinding.bind(itemView).apply {
                     setTextAndImage(data)
-                    setCheckBox(data)
+                    setCheckBox(data.id)
                     setOnClickListener(data)
                 }
             }
@@ -63,14 +64,8 @@ class SearchResultAdapter :
         }
     }
 
-    private fun ItemSearchResultBinding.setCheckBox(data: BaseRecipeData) {
-        ivAddFavorite.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                listenerOnSaveRecipe?.invoke(data)
-            } else {
-                listenerOnRemoveRecipe?.invoke(data)
-            }
-        }
+    private fun ItemSearchResultBinding.setCheckBox(id: Int) {
+        ivAddFavorite.isChecked = true
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerItemViewHolder {

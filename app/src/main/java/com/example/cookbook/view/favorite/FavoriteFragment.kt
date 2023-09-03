@@ -48,7 +48,7 @@ class FavoriteFragment : BaseFragment<AppState, List<RecipeInformation>, Fragmen
                 viewModel.stateFlow.collect {
                     it.collect { entityData ->
                         val data = convertRecipeInfoEntityToList(entityData)
-                        renderData(AppState.Success<List<RecipeInformation>>(data))
+                        renderData(AppState.Success(data))
                     }
                 }
             }
@@ -66,17 +66,6 @@ class FavoriteFragment : BaseFragment<AppState, List<RecipeInformation>, Fragmen
         adapter.listener = { recipe ->
             openRecipeInfoFromDatabaseFragment(recipe.id)
         }
-
-        adapter.addRecipeListener = { recipe ->
-            viewModel.upsertRecipeToDatabase(recipe)
-            Toast.makeText(context,"adding recipe", Toast.LENGTH_SHORT).show()
-        }
-
-        adapter.deleteRecipeListener = { id ->
-            viewModel.deleteRecipeFromFavorite(id)
-            Toast.makeText(context,"deleting recipe", Toast.LENGTH_SHORT).show()
-        }
-
         binding.favoriteRecipesRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.favoriteRecipesRecyclerView.adapter = adapter
     }
