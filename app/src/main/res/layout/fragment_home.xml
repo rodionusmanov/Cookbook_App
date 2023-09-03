@@ -213,9 +213,10 @@
                         tools:ignore="ContentDescription" />
 
                     <TextView
-                        android:id="@+id/joke_text"
+                        android:id="@+id/joke_text_full"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/clip_drawable"
                         android:maxLines="5"
                         android:ellipsize="end"
                         android:layout_marginStart="8dp"
@@ -240,7 +241,7 @@
                         android:textSize="@dimen/home_joke_text"
                         app:layout_constraintEnd_toStartOf="@id/more_text_mark"
                         app:layout_constraintStart_toEndOf="@id/joke_quote_start"
-                        app:layout_constraintTop_toBottomOf="@id/joke_text" />
+                        app:layout_constraintTop_toBottomOf="@id/joke_text_full" />
 
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/more_text_mark"

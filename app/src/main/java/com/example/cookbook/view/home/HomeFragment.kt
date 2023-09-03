@@ -2,20 +2,24 @@ package com.example.cookbook.view.home
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.animation.RectEvaluator
 import android.animation.ValueAnimator
 import android.content.Context
+import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
-import android.view.animation.BounceInterpolator
 import android.view.animation.RotateAnimation
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.transition.AutoTransition
+import androidx.transition.TransitionManager
 import coil.load
 import com.example.cookbook.R
 import com.example.cookbook.databinding.FragmentHomeBinding
@@ -63,10 +67,10 @@ class HomeFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initViewModel()
         setupSearchView()
-        initRandomRecipeFragment()
-        initHealthyRandomRecipeFragment()
+        //initRandomRecipeFragment()
+        //initHealthyRandomRecipeFragment()
         initDishTypeCards()
-        initRandomCuisineFragment()
+        //initRandomCuisineFragment()
         initServiceButtons()
         initUserAvatarImage()
         initJokeTextContainer()
@@ -75,16 +79,15 @@ class HomeFragment :
 
     private fun initJokeTextContainer() {
         binding.moreTextButton.setOnClickListener {
-            animateJokeTextChange()
+            TransitionManager.beginDelayedTransition(binding.root, AutoTransition())
             with(binding) {
                 if(isJokeTextExpanded) {
-                    jokeText.maxLines = 5
-                    jokeText.requestLayout()
                     moreTextButton.text = getString(R.string.joke_read_more)
+                    animateJokeTextHide()
                     animateBlockCloseMark(binding.moreTextMark)
                 } else {
-                    jokeText.maxLines = Integer.MAX_VALUE
-                    jokeText.requestLayout()
+                    TransitionManager.beginDelayedTransition(binding.jokeTextBlock)
+                    jokeTextFull.maxLines = Integer.MAX_VALUE
                     moreTextButton.text = getString(R.string.joke_show_less)
                     animateBlockOpenMark(binding.moreTextMark)
                 }
@@ -93,42 +96,86 @@ class HomeFragment :
         }
     }
 
+    private fun animateJokeTextHide() {
+        val startClipBounds = Rect(0, 0,
+            binding.jokeTextFull.width, binding.jokeTextFull.height)
+        val endClipBounds = Rect(0, 0,
+            binding.jokeTextFull.width, getTextViewHeight(binding.jokeTextFull, 5))
+        animateClipBoundsChange(binding.jokeTextFull, startClipBounds, endClipBounds) {
+            binding.jokeTextFull.maxLines = 5
+        }
+    }
+
+    private fun animateJokeTextShow() {
+        val startClipBounds = Rect(0, 0,
+            binding.jokeTextFull.width, getTextViewHeight(binding.jokeTextFull, 5))
+        val endClipBounds = Rect(0, 0,
+            binding.jokeTextFull.width, getTextViewHeight(binding.jokeTextFull, Integer.MAX_VALUE))
+        animateClipBoundsChange(binding.jokeTextFull, startClipBounds, endClipBounds){
+            binding.jokeTextFull.maxLines = Integer.MAX_VALUE
+        }
+    }
+
+    private fun animateClipBoundsChange(
+        textView: TextView, startBounds: Rect, endBounds: Rect, onAnimationEnd: (() -> Unit)? = null
+    ) {
+        val animator = ValueAnimator.ofObject(RectEvaluator(), startBounds, endBounds)
+        animator.duration = 300
+        animator.addUpdateListener {
+            textView.clipBounds = it.animatedValue as Rect
+        }
+        animator.addListener(object: AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                onAnimationEnd?.invoke()
+            }
+        })
+        animator.start()
+    }
+
+    private fun getTextViewHeight(textView: TextView, maxLine: Int): Int {
+        val previousMaxLines = textView.maxLines
+        textView.maxLines = maxLine
+        textView.measure(
+            View.MeasureSpec.makeMeasureSpec(textView.width, View.MeasureSpec.EXACTLY),
+            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+        )
+        textView.maxLines = previousMaxLines
+        return textView.measuredHeight
+    }
+
     private fun animateJokeTextChange() {
         val startHeight: Int
         val endHeight: Int
 
         if(isJokeTextExpanded) {
-            startHeight = binding.jokeText.measuredHeight
-            binding.jokeText.maxLines = 5
-            binding.jokeText.measure(
-                View.MeasureSpec.makeMeasureSpec(binding.jokeText.width, View.MeasureSpec.EXACTLY),
+            startHeight = binding.jokeOfTheDayContainer.measuredHeight
+            binding.jokeTextFull.maxLines = 5
+            binding.jokeTextFull.measure(
+                View.MeasureSpec.makeMeasureSpec(binding.jokeTextFull.width, View.MeasureSpec.EXACTLY),
                 View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
             )
-            endHeight = binding.jokeText.measuredHeight
+            endHeight = binding.jokeOfTheDayContainer.measuredHeight
         } else {
-            startHeight = binding.jokeText.measuredHeight
-            binding.jokeText.maxLines = Integer.MAX_VALUE
-            binding.jokeText.measure(
-                View.MeasureSpec.makeMeasureSpec(binding.jokeText.width, View.MeasureSpec.EXACTLY),
+            startHeight = binding.jokeOfTheDayContainer.measuredHeight
+            binding.jokeTextFull.maxLines = Integer.MAX_VALUE
+            binding.jokeTextFull.measure(
+                View.MeasureSpec.makeMeasureSpec(binding.jokeTextFull.width, View.MeasureSpec.EXACTLY),
                 View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
             )
-            endHeight = binding.jokeText.measuredHeight
+            endHeight = binding.jokeOfTheDayContainer.measuredHeight
         }
 
         val animator = ValueAnimator.ofInt(startHeight, endHeight).apply{
             duration = 500
             addUpdateListener { animation->
                 val animatedValue = animation.animatedValue as Int
-                val layoutParams = binding.jokeText.layoutParams
+                val layoutParams = binding.jokeOfTheDayContainer.layoutParams
                 layoutParams.height = animatedValue
-                binding.jokeText.layoutParams = layoutParams
-                binding.jokeText.alpha = (animatedValue - startHeight).toFloat()/
-                        (endHeight - startHeight)
-                binding.jokeText.requestLayout()
+                binding.jokeOfTheDayContainer.layoutParams = layoutParams
             }
             addListener(object: AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
-                    binding.jokeText.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+                    binding.jokeOfTheDayContainer.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
                 }
             })
         }
@@ -281,7 +328,7 @@ class HomeFragment :
                 model.stateFlow.collect { renderData(it) }
             }
         }
-        requestJokeText()
+        //requestJokeText()
     }
 
     private fun requestJokeText() {
@@ -293,7 +340,7 @@ class HomeFragment :
     }
 
     override fun setupData(data: String) {
-        binding.jokeText.text = data
+        binding.jokeTextFull.text = data
     }
 
     fun updateAvatar(avatarUri: Uri?) {
