@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cookbook.databinding.FragmentFavoriteBinding
 import com.example.cookbook.model.AppState
@@ -34,8 +35,9 @@ class FavoriteFragment : BaseFragment<AppState, List<RecipeInformation>, Fragmen
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initViewModel()
+        ItemTouchHelper(ItemTouchHelperCallback(adapter))
+            .attachToRecyclerView(binding.favoriteRecipesRecyclerView)
     }
 
     private fun initViewModel() {
