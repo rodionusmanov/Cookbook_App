@@ -2,6 +2,7 @@ package com.example.cookbook.view.recipeInfo.adapters
 
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
@@ -25,6 +26,7 @@ class UniversalAdapter :
             when (data) {
                 is ExtendedIngredient -> {
                     with(binding) {
+                        itemCircle.visibility = View.GONE
                         tvUniversalItem.text =
                             "${data.originalName} ${data.measures.metric.amount} ${data.measures.metric.unitLong}"
                         ivUniversalItem.isVisible = false
@@ -33,7 +35,6 @@ class UniversalAdapter :
 
                 is Equipment -> {
                     with(binding) {
-                        llUniversalItem.gravity = Gravity.CENTER_HORIZONTAL
                         tvUniversalItem.text = data.name
                         ivUniversalItem.isVisible = true
                         ivUniversalItem.load(data.image) {
@@ -44,7 +45,6 @@ class UniversalAdapter :
 
                 is Ingredient -> {
                     with(binding) {
-                        llUniversalItem.gravity = Gravity.CENTER_HORIZONTAL
                         tvUniversalItem.text = data.name
                         ivUniversalItem.isVisible = true
                         ivUniversalItem.load(data.image) {
@@ -55,6 +55,7 @@ class UniversalAdapter :
 
                 is Step -> {
                     with(binding) {
+                        itemCircle.visibility = View.GONE
                         tvUniversalItem.text = data.step
                         ivUniversalItem.isVisible = false
                     }

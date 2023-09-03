@@ -11,29 +11,12 @@ import com.example.cookbook.model.datasource.DTO.recipeInformation.Measures
 import com.example.cookbook.model.datasource.DTO.recipeInformation.Metric
 import com.example.cookbook.model.datasource.DTO.recipeInformation.Nutrient
 import com.example.cookbook.model.datasource.DTO.recipeInformation.Step
-import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.RecipeInformation
-import com.example.cookbook.model.domain.SearchRecipeData
-import com.example.cookbook.model.room.RecipesEntity
 import com.example.cookbook.model.room.fullRecipe.CaloriesNutrient
 import com.example.cookbook.model.room.fullRecipe.CarbohydratesNutrient
 import com.example.cookbook.model.room.fullRecipe.FatNutrient
 import com.example.cookbook.model.room.fullRecipe.ProteinNutrient
-import com.example.cookbook.model.room.fullRecipe.RecipeInfoEntity
-
-fun convertRecipeEntityToList(entityList: List<RecipesEntity>): List<SearchRecipeData> {
-    return entityList.map {
-        SearchRecipeData(it.id, it.title, it.image)
-    }
-}
-
-fun convertRecipeToEntity(recipe: BaseRecipeData): RecipesEntity {
-    return RecipesEntity(
-        recipe.id,
-        recipe.title,
-        recipe.image
-    )
-}
+import com.example.cookbook.model.room.RecipeInfoEntity
 
 fun convertRecipeInfoToEntity(recipe: RecipeInformation): RecipeInfoEntity {
     return RecipeInfoEntity(

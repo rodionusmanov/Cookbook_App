@@ -69,5 +69,9 @@
     <dimen name="edit_profile_avatar_height">150dp</dimen>
     <dimen name="iv_services_size">30dp</dimen>
     <dimen name="margin_vertical_8dp">8dp</dimen>
+    <dimen name="item_circle_size_160dp">160dp</dimen>
+    <dimen name="item_circle_corner_radius_80dp">80dp</dimen>
+    <dimen name="viewpager_widget_margin_horizontal_26dp">26dp</dimen>
+    <dimen name="viewpager_tab_margin_horizontal_40dp">40dp</dimen>
 
 </resources>

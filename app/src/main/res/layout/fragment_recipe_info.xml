@@ -95,6 +95,7 @@
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:checkable="true"
                     android:checked="false"
                     android:text="@string/add_to_favorite" />
@@ -239,13 +240,13 @@
                 android:id="@+id/tab_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="40dp" />
+                android:layout_marginHorizontal="@dimen/viewpager_tab_margin_horizontal_40dp" />
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/view_pager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginHorizontal="40dp"
+                android:layout_marginHorizontal="@dimen/viewpager_widget_margin_horizontal_26dp"
                 android:nestedScrollingEnabled="true" />
 
         </LinearLayout>
