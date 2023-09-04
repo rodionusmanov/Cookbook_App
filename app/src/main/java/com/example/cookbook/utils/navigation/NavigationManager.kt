@@ -72,7 +72,7 @@ class NavigationManager(
         val fragmentTransaction = activity.supportFragmentManager.beginTransaction()
 
         fragmentTransaction.setCustomAnimations(
-            R.anim.fade_in, R.anim.scale_down, R.anim.slide_in, R.anim.fade_out
+            R.anim.slide_in, R.anim.scale_down, R.anim.scale_up, R.anim.slide_out
         )
 
         if (tag == FRAGMENT_RECIPE_INFO || tag == FRAGMENT_RECIPE_INFO_FROM_DATABASE) {
