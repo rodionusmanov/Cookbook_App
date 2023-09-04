@@ -290,7 +290,15 @@ class HomeFragment :
     }
 
     override fun setupData(data: String) {
-        binding.jokeTextFull.text = data
+        with(binding) {
+            jokeTextFull.text = data
+            jokeTextFull.post {
+                if (jokeTextFull.lineCount < 8) {
+                    moreTextButton.visibility = View.GONE
+                    moreTextMark.visibility = View.GONE
+                }
+            }
+        }
     }
 
     fun updateAvatar(avatarUri: Uri?) {
