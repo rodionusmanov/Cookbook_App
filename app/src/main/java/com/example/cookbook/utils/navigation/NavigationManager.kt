@@ -71,6 +71,10 @@ class NavigationManager(
         Log.d("@@@", "Switching to fragment: $tag")
         val fragmentTransaction = activity.supportFragmentManager.beginTransaction()
 
+        fragmentTransaction.setCustomAnimations(
+            R.anim.fade_in, R.anim.scale_down, R.anim.slide_in, R.anim.fade_out
+        )
+
         if (tag == FRAGMENT_RECIPE_INFO || tag == FRAGMENT_RECIPE_INFO_FROM_DATABASE) {
             val oldFragment =
                 activity.supportFragmentManager.findFragmentByTag(FRAGMENT_RECIPE_INFO)
