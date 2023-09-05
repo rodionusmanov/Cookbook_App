@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.example.cookbook.R
 import com.example.cookbook.utils.FRAGMENT_ALL_FILTERS
 import com.example.cookbook.utils.FRAGMENT_FAVORITE
@@ -40,6 +41,10 @@ class NavigationManager(
     private val fragmentBackStack = Stack<String>()
     private var isSwitchingFragment: Boolean = false
 
+    private val fragmentOrder = mapOf(
+        FRAGMENT_HOME to 0, FRAGMENT_SEARCH to 1, FRAGMENT_FAVORITE to 2, FRAGMENT_PROFILE to 3)
+
+
     fun setupBottomNavigationMenu() {
         navView.setOnItemSelectedListener { item ->
 
@@ -71,24 +76,57 @@ class NavigationManager(
         Log.d("@@@", "Switching to fragment: $tag")
         val fragmentTransaction = activity.supportFragmentManager.beginTransaction()
 
-        fragmentTransaction.setCustomAnimations(
-            R.anim.slide_in, R.anim.scale_down, R.anim.scale_up, R.anim.slide_out
-        )
+        setupAnimation(fragmentTransaction, tag)
+        handleSpecialFragments(fragmentTransaction, tag)
+        hideExistingFragments(fragmentTransaction)
+        showOrAddNewFragment(fragmentTransaction, tag, recipeInfoFragment)
 
+        fragmentTransaction.commit()
+        currentFragmentTag = tag
+        Log.d("@@@", "Current fragment tag: $currentFragmentTag")
+
+        onFragmentSwitched(tag)
+
+        if (addToBackStack) {
+            pushFragmentToStack(tag)
+        }
+        logFragmentBackStack()
+    }
+
+    private fun setupAnimation(fragmentTransaction: FragmentTransaction, tag: String) {
+        val currentFragmentOrder = currentFragmentTag?.let { fragmentOrder[it] }
+        val newFragmentOrder = fragmentOrder[tag]
+        if(currentFragmentOrder != null && newFragmentOrder != null) {
+            if(newFragmentOrder > currentFragmentOrder) {
+                fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.scale_down)
+            } else {
+                fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_left, R.anim.scale_down)
+            }
+        }
+    }
+
+    private fun handleSpecialFragments(fragmentTransaction: FragmentTransaction, tag: String) {
         if (tag == FRAGMENT_RECIPE_INFO || tag == FRAGMENT_RECIPE_INFO_FROM_DATABASE) {
             val oldFragment =
                 activity.supportFragmentManager.findFragmentByTag(FRAGMENT_RECIPE_INFO)
-            if (oldFragment != null) {
-                fragmentTransaction.remove(oldFragment)
+            oldFragment?.let {
+                fragmentTransaction.remove(it)
             }
         }
-
         fragmentBackStack.removeAll { it == FRAGMENT_RECIPE_INFO }
+    }
 
+    private fun hideExistingFragments(fragmentTransaction: FragmentTransaction) {
         for (fragment in activity.supportFragmentManager.fragments) {
             fragmentTransaction.hide(fragment)
         }
+    }
 
+    private fun showOrAddNewFragment(
+        fragmentTransaction: FragmentTransaction,
+        tag: String,
+        recipeInfoFragment: Fragment?
+    ) {
         var newFragment = activity.supportFragmentManager.findFragmentByTag(tag)
         if (newFragment == null || tag == FRAGMENT_RECIPE_INFO || tag == FRAGMENT_RECIPE_INFO_FROM_DATABASE) {
             newFragment = recipeInfoFragment ?: fragments[tag]
@@ -102,17 +140,9 @@ class NavigationManager(
                 "Fragment to show: ${newFragment.tag} - isVisible: ${newFragment.isVisible}"
             )
         }
+    }
 
-        fragmentTransaction.commit()
-        currentFragmentTag = tag
-        Log.d("@@@", "Current fragment tag: $currentFragmentTag")
-
-        onFragmentSwitched(tag)
-
-        if (addToBackStack) {
-            pushFragmentToStack(tag)
-        }
-
+    private fun logFragmentBackStack() {
         for (i in fragmentBackStack.indices) {
             val entry = fragmentBackStack[i]
             Log.d("@@@", "BackStack entry $i: $entry")
