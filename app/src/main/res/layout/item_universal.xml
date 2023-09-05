@@ -13,10 +13,13 @@
         android:layout_width="@dimen/item_circle_size_160dp"
         android:layout_height="@dimen/item_circle_size_160dp"
         app:cardCornerRadius="@dimen/item_circle_corner_radius_80dp"
-        android:backgroundTint="@color/white">
+        android:backgroundTint="@color/white"
+        android:background="@color/white">
 
         <ImageView
             android:id="@+id/iv_universal_item"
+            android:backgroundTint="@color/white"
+            android:background="@color/white"
             android:layout_width="160dp"
             android:layout_height="160dp"
             tools:ignore="ContentDescription" />
