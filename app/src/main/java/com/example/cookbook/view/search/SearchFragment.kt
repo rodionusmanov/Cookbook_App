@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.AbsListView
-import android.widget.AbsListView.OnScrollListener
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
@@ -253,7 +251,7 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
         navigationManager?.openRecipeInfoFragment(recipeId)
     }
 
-    private fun openAllFiltersFragment() {
+    fun openAllFiltersFragment() {
         navigationManager?.openAllFiltersFragment()
     }
 
