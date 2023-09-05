@@ -10,8 +10,8 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/item_circle"
         android:layout_gravity="top"
-        android:layout_width="@dimen/item_circle_size_160dp"
-        android:layout_height="@dimen/item_circle_size_160dp"
+        android:layout_width="@dimen/item_circle_80dp"
+        android:layout_height="@dimen/item_circle_80dp"
         app:cardCornerRadius="@dimen/item_circle_corner_radius_80dp"
         android:backgroundTint="@color/white"
         android:background="@color/white">
@@ -20,8 +20,9 @@
             android:id="@+id/iv_universal_item"
             android:backgroundTint="@color/white"
             android:background="@color/white"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
             tools:ignore="ContentDescription" />
 
     </com.google.android.material.card.MaterialCardView>
