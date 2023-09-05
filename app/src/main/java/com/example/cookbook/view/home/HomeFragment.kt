@@ -174,13 +174,23 @@ class HomeFragment :
     }
 
     private fun initServiceButtons() {
-        binding.favoritesService.setOnClickListener {
-            val favoriteFragment = FavoriteFragment.newInstance()
-            navigationManager?.switchFragment(
-                FRAGMENT_FAVORITE,
-                favoriteFragment,
-                addToBackStack = true
-            )
+        with(binding) {
+            favoritesService.setOnClickListener {
+                val favoriteFragment = FavoriteFragment.newInstance()
+                navigationManager?.switchFragment(
+                    FRAGMENT_FAVORITE,
+                    favoriteFragment,
+                    addToBackStack = true
+                )
+            }
+            detailedIngredientSearch.setOnClickListener {
+                navigationManager?.switchFragment(
+                    FRAGMENT_SEARCH,
+                    addToBackStack = true
+                ) { fragment ->
+                    (fragment as? SearchFragment)?.openAllFiltersFragment()
+                }
+            }
         }
     }
 

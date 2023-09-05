@@ -67,8 +67,9 @@ class NavigationManager(
 
     fun switchFragment(
         tag: String,
-        recipeInfoFragment: Fragment? = null,
-        addToBackStack: Boolean = false
+        fragment: Fragment? = null,
+        addToBackStack: Boolean = false,
+        onTransactionComplete: ((Fragment?) -> Unit)? = null
     ) {
         Log.d("@@@", "Switching to fragment: $tag")
         val fragmentTransaction = activity.supportFragmentManager.beginTransaction()
@@ -76,8 +77,11 @@ class NavigationManager(
         setupAnimation(fragmentTransaction, tag)
         handleSpecialFragments(fragmentTransaction, tag)
         hideExistingFragments(fragmentTransaction)
-        showOrAddNewFragment(fragmentTransaction, tag, recipeInfoFragment)
+        val newFragment = showOrAddNewFragment(fragmentTransaction, tag, fragment)
 
+        fragmentTransaction.runOnCommit {
+            onTransactionComplete?.invoke(newFragment)
+        }
         fragmentTransaction.commit()
         currentFragmentTag = tag
         Log.d("@@@", "Current fragment tag: $currentFragmentTag")
@@ -150,7 +154,7 @@ class NavigationManager(
         fragmentTransaction: FragmentTransaction,
         tag: String,
         recipeInfoFragment: Fragment?
-    ) {
+    ): Fragment? {
         var newFragment = activity.supportFragmentManager.findFragmentByTag(tag)
         if (newFragment == null || tag == FRAGMENT_RECIPE_INFO || tag == FRAGMENT_RECIPE_INFO_FROM_DATABASE) {
             newFragment = recipeInfoFragment ?: fragments[tag]
@@ -164,6 +168,7 @@ class NavigationManager(
                 "Fragment to show: ${newFragment.tag} - isVisible: ${newFragment.isVisible}"
             )
         }
+        return newFragment
     }
 
     private fun logFragmentBackStack() {
@@ -222,7 +227,7 @@ class NavigationManager(
         recipeInfoFragment.arguments = bundle
         switchFragment(
             FRAGMENT_RECIPE_INFO,
-            recipeInfoFragment = recipeInfoFragment,
+            fragment = recipeInfoFragment,
             addToBackStack = true
         )
     }
@@ -240,7 +245,7 @@ class NavigationManager(
         recipeInfoFromDatabaseFragment.arguments = bundle
         switchFragment(
             FRAGMENT_RECIPE_INFO_FROM_DATABASE,
-            recipeInfoFragment = recipeInfoFromDatabaseFragment,
+            fragment = recipeInfoFromDatabaseFragment,
             addToBackStack = true
         )
     }
