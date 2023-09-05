@@ -9,13 +9,15 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
-import android.view.animation.BounceInterpolator
 import android.view.animation.RotateAnimation
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.transition.AutoTransition
+import androidx.transition.TransitionManager
 import coil.load
 import com.example.cookbook.R
 import com.example.cookbook.databinding.FragmentHomeBinding
@@ -63,10 +65,10 @@ class HomeFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initViewModel()
         setupSearchView()
-        initRandomRecipeFragment()
-        initHealthyRandomRecipeFragment()
+        //initRandomRecipeFragment()
+        //initHealthyRandomRecipeFragment()
         initDishTypeCards()
-        initRandomCuisineFragment()
+        //initRandomCuisineFragment()
         initServiceButtons()
         initUserAvatarImage()
         initJokeTextContainer()
@@ -75,17 +77,19 @@ class HomeFragment :
 
     private fun initJokeTextContainer() {
         binding.moreTextButton.setOnClickListener {
-            animateJokeTextChange()
             with(binding) {
-                if(isJokeTextExpanded) {
-                    jokeText.maxLines = 5
-                    jokeText.requestLayout()
+                val transition = createAutoTransition()
+                if (isJokeTextExpanded) {
                     moreTextButton.text = getString(R.string.joke_read_more)
                     animateBlockCloseMark(binding.moreTextMark)
+
+                    animateJokeTextHide {
+                        TransitionManager.beginDelayedTransition(binding.root, transition)
+                    }
                 } else {
-                    jokeText.maxLines = Integer.MAX_VALUE
-                    jokeText.requestLayout()
+                    jokeTextFull.maxLines = Integer.MAX_VALUE
                     moreTextButton.text = getString(R.string.joke_show_less)
+                    TransitionManager.beginDelayedTransition(binding.root, transition)
                     animateBlockOpenMark(binding.moreTextMark)
                 }
             }
@@ -93,46 +97,39 @@ class HomeFragment :
         }
     }
 
-    private fun animateJokeTextChange() {
-        val startHeight: Int
-        val endHeight: Int
+    private fun createAutoTransition(): AutoTransition {
+        val transition = AutoTransition()
+        transition.duration = 500
+        return transition
+    }
 
-        if(isJokeTextExpanded) {
-            startHeight = binding.jokeText.measuredHeight
-            binding.jokeText.maxLines = 5
-            binding.jokeText.measure(
-                View.MeasureSpec.makeMeasureSpec(binding.jokeText.width, View.MeasureSpec.EXACTLY),
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
-            )
-            endHeight = binding.jokeText.measuredHeight
-        } else {
-            startHeight = binding.jokeText.measuredHeight
-            binding.jokeText.maxLines = Integer.MAX_VALUE
-            binding.jokeText.measure(
-                View.MeasureSpec.makeMeasureSpec(binding.jokeText.width, View.MeasureSpec.EXACTLY),
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
-            )
-            endHeight = binding.jokeText.measuredHeight
+    private fun animateJokeTextHide(
+        onAnimationEndExtra: (() -> Unit)? = null
+    ) {
+        val initialHeight = binding.jokeTextFull.height
+        val targetHeight = getTextViewHeight(binding.jokeTextFull, 5)
+
+        val heightAnimator = ValueAnimator.ofInt(initialHeight, targetHeight)
+        heightAnimator.addUpdateListener {
+            val animatedValue = it.animatedValue as Int
+            val layoutParams = binding.jokeTextFull.layoutParams
+            layoutParams.height = animatedValue
+            binding.jokeTextFull.layoutParams = layoutParams
         }
 
-        val animator = ValueAnimator.ofInt(startHeight, endHeight).apply{
-            duration = 500
-            addUpdateListener { animation->
-                val animatedValue = animation.animatedValue as Int
-                val layoutParams = binding.jokeText.layoutParams
-                layoutParams.height = animatedValue
-                binding.jokeText.layoutParams = layoutParams
-                binding.jokeText.alpha = (animatedValue - startHeight).toFloat()/
-                        (endHeight - startHeight)
-                binding.jokeText.requestLayout()
+        heightAnimator.addListener(object: AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                binding.jokeTextFull.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+                binding.jokeTextFull.maxLines = 5
+                onAnimationEndExtra?.invoke()
             }
-            addListener(object: AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator) {
-                    binding.jokeText.layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-                }
-            })
-        }
-        animator.start()
+        })
+
+        heightAnimator.start()
+    }
+
+    private fun getTextViewHeight(textView: TextView, maxLine: Int): Int {
+        return textView.lineHeight * maxLine
     }
 
     private fun animateBlockCloseMark(cardView: MaterialCardView) {
@@ -281,7 +278,7 @@ class HomeFragment :
                 model.stateFlow.collect { renderData(it) }
             }
         }
-        requestJokeText()
+        //requestJokeText()
     }
 
     private fun requestJokeText() {
@@ -293,7 +290,15 @@ class HomeFragment :
     }
 
     override fun setupData(data: String) {
-        binding.jokeText.text = data
+        with(binding) {
+            jokeTextFull.text = data
+            jokeTextFull.post {
+                if (jokeTextFull.lineCount < 8) {
+                    moreTextButton.visibility = View.GONE
+                    moreTextMark.visibility = View.GONE
+                }
+            }
+        }
     }
 
     fun updateAvatar(avatarUri: Uri?) {
