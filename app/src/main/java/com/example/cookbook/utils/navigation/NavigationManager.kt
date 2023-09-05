@@ -41,9 +41,6 @@ class NavigationManager(
     private val fragmentBackStack = Stack<String>()
     private var isSwitchingFragment: Boolean = false
 
-    private val fragmentOrder = mapOf(
-        FRAGMENT_HOME to 0, FRAGMENT_SEARCH to 1, FRAGMENT_FAVORITE to 2, FRAGMENT_PROFILE to 3)
-
 
     fun setupBottomNavigationMenu() {
         navView.setOnItemSelectedListener { item ->
@@ -94,13 +91,38 @@ class NavigationManager(
     }
 
     private fun setupAnimation(fragmentTransaction: FragmentTransaction, tag: String) {
+        val fragmentOrder = mapOf(
+            FRAGMENT_HOME to 0, FRAGMENT_SEARCH to 1, FRAGMENT_FAVORITE to 2, FRAGMENT_PROFILE to 3)
+
+        val specialTags = setOf(
+            FRAGMENT_RECIPE_INFO, FRAGMENT_RECIPE_INFO_FROM_DATABASE, FRAGMENT_ALL_FILTERS)
+
         val currentFragmentOrder = currentFragmentTag?.let { fragmentOrder[it] }
         val newFragmentOrder = fragmentOrder[tag]
-        if(currentFragmentOrder != null && newFragmentOrder != null) {
-            if(newFragmentOrder > currentFragmentOrder) {
-                fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_right, R.anim.scale_down)
+
+        if (tag in specialTags || currentFragmentTag in specialTags) {
+            if (currentFragmentTag in specialTags && tag !in specialTags) {
+                fragmentTransaction.setCustomAnimations(
+                    R.anim.scale_up,
+                    R.anim.slide_out_to_bottom
+                )
+            } else if (tag in specialTags && currentFragmentTag !in specialTags) {
+                fragmentTransaction.setCustomAnimations(
+                    R.anim.slide_in_from_bottom,
+                    R.anim.scale_down
+                )
+            }
+        } else if (currentFragmentOrder != null && newFragmentOrder != null) {
+            if (newFragmentOrder > currentFragmentOrder) {
+                fragmentTransaction.setCustomAnimations(
+                    R.anim.slide_in_from_right,
+                    R.anim.scale_down
+                )
             } else {
-                fragmentTransaction.setCustomAnimations(R.anim.slide_in_from_left, R.anim.scale_down)
+                fragmentTransaction.setCustomAnimations(
+                    R.anim.slide_in_from_left,
+                    R.anim.scale_down
+                )
             }
         }
     }
@@ -108,12 +130,14 @@ class NavigationManager(
     private fun handleSpecialFragments(fragmentTransaction: FragmentTransaction, tag: String) {
         if (tag == FRAGMENT_RECIPE_INFO || tag == FRAGMENT_RECIPE_INFO_FROM_DATABASE) {
             val oldFragment =
-                activity.supportFragmentManager.findFragmentByTag(FRAGMENT_RECIPE_INFO)
+                activity.supportFragmentManager.findFragmentByTag(tag)
             oldFragment?.let {
                 fragmentTransaction.remove(it)
             }
         }
-        fragmentBackStack.removeAll { it == FRAGMENT_RECIPE_INFO }
+        fragmentBackStack.removeAll {
+            it == FRAGMENT_RECIPE_INFO || it == FRAGMENT_RECIPE_INFO_FROM_DATABASE
+        }
     }
 
     private fun hideExistingFragments(fragmentTransaction: FragmentTransaction) {
