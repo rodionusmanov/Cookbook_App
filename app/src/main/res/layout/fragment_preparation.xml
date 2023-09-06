@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:layout_marginHorizontal="@dimen/margin_8dp_small"
     tools:context=".view.recipeInfo.preparation.PreparationFragment">
 
     <TextView
@@ -13,14 +14,17 @@
         android:layout_height="wrap_content"
         android:text="@string/equipment"
         android:textAlignment="center"
-        android:textSize="30sp"
+        android:textSize="26sp"
         android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_equipments"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginVertical="8dp"
+        android:orientation="horizontal"
+        tools:listitem="@layout/item_universal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:nestedScrollingEnabled="true" />
 
     <TextView
@@ -29,14 +33,17 @@
         android:layout_height="wrap_content"
         android:text="@string/ingredients"
         android:textAlignment="center"
-        android:textSize="30sp"
+        android:textSize="26sp"
         android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_ingredients_preparation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        tools:listitem="@layout/item_universal"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_marginVertical="8dp"
         android:nestedScrollingEnabled="true" />
 
     <TextView
@@ -45,7 +52,7 @@
         android:layout_height="wrap_content"
         android:text="@string/steps"
         android:textAlignment="center"
-        android:textSize="30sp"
+        android:textSize="26sp"
         android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
