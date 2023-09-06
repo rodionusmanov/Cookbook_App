@@ -15,6 +15,7 @@ import com.example.cookbook.model.datasource.DTO.recipeInformation.AnalyzedInstr
 import com.example.cookbook.model.datasource.DTO.recipeInformation.Equipment
 import com.example.cookbook.model.datasource.DTO.recipeInformation.Ingredient
 import com.example.cookbook.view.recipeInfo.RecipeInfoViewModel
+import com.example.cookbook.view.recipeInfo.adapters.RecipeStepsAdapter
 import com.example.cookbook.view.recipeInfo.adapters.UniversalAdapter
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -26,7 +27,7 @@ class PreparationFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: RecipeInfoViewModel by activityViewModel()
 
-    private val stepsAdapter: UniversalAdapter by inject()
+    private val stepsAdapter: RecipeStepsAdapter by lazy { RecipeStepsAdapter() }
     private val equipmentsAdapter: UniversalAdapter by inject()
     private val ingredientAdapter: UniversalAdapter by inject()
 
@@ -48,7 +49,6 @@ class PreparationFragment : Fragment() {
             }
         }
     }
-
 
     private fun initView(analyzedInstructions: List<AnalyzedInstruction>) {
 
@@ -80,7 +80,6 @@ class PreparationFragment : Fragment() {
             rvIngredientsPreparation.adapter = ingredientAdapter
             rvSteps.adapter = stepsAdapter
         }
-
     }
 
     override fun onDestroyView() {

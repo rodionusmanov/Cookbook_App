@@ -14,6 +14,7 @@ import com.example.cookbook.databinding.FragmentPreparationBinding
 import com.example.cookbook.model.datasource.DTO.recipeInformation.AnalyzedInstruction
 import com.example.cookbook.model.datasource.DTO.recipeInformation.Equipment
 import com.example.cookbook.model.datasource.DTO.recipeInformation.Ingredient
+import com.example.cookbook.view.recipeInfo.adapters.RecipeStepsAdapter
 import com.example.cookbook.view.recipeInfo.adapters.UniversalAdapter
 import com.example.cookbook.view.recipeInfoFromDatabase.RecipeInfoFromDatabaseViewModel
 import kotlinx.coroutines.launch
@@ -26,7 +27,7 @@ class PreparationFromDatabaseFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: RecipeInfoFromDatabaseViewModel by activityViewModel()
 
-    private val stepsAdapter: UniversalAdapter by inject()
+    private val stepsAdapter: RecipeStepsAdapter by lazy { RecipeStepsAdapter() }
     private val equipmentsAdapter: UniversalAdapter by inject()
     private val ingredientAdapter: UniversalAdapter by inject()
 

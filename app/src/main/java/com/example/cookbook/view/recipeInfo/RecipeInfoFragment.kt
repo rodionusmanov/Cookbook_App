@@ -53,44 +53,21 @@ class RecipeInfoFragment :
             chVegetarian.isChecked = data.vegetarian
             chVeryHealthy.isChecked = data.veryHealthy
 
-            iconDairyFree.visibility = if (data.dairyFree) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
-            iconGlutenFree.visibility = if (data.glutenFree) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
-            iconVegan.visibility = if (data.vegan) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
-            iconVegetarian.visibility = if (data.vegetarian) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
-            iconHealthyFood.visibility = if (data.veryHealthy) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
+            iconDairyFree.setVisibility(data.dairyFree)
+            iconGlutenFree.setVisibility(data.glutenFree)
+            iconVegan.setVisibility(data.vegan)
+            iconVegetarian.setVisibility(data.vegetarian)
+            iconHealthyFood.setVisibility(data.veryHealthy)
 
             tvRecipeInfoTitle.text = data.title
             ivRecipeInfoImage.load(data.image) {
                 crossfade(true)
                 transformations(RoundedCornersTransformation(16f))
             }
-            chCalories.text = "${data.calories?.amount} ${data.calories?.unit}"
-            chProtein.text =
-                "${resources.getString(R.string.protein)} - ${data.protein?.amount}${data.protein?.unit}"
-            chFat.text =
-                "${resources.getString(R.string.fat)} - ${data.fat?.amount}${data.fat?.unit}"
-            chCarb.text =
-                "${resources.getString(R.string.carb)} - ${data.carbohydrates?.amount}${data.carbohydrates?.unit}"
+            tvCaloriesText.text = "${data.calories?.amount} ${data.calories?.unit}"
+            tvProteinText.text = "${data.protein?.amount}${data.protein?.unit}"
+            tvFatText.text = "${data.fat?.amount}${data.fat?.unit}"
+            tvCarbText.text = "${data.carbohydrates?.amount}${data.carbohydrates?.unit}"
 
             viewPager.adapter = RecipeInformationPageAdapter(requireActivity())
             viewPager.isUserInputEnabled = false
@@ -103,6 +80,10 @@ class RecipeInfoFragment :
 
             checkAndSetFavoriteChip(data)
         }
+    }
+
+    private fun View.setVisibility(isVisible: Boolean) {
+        visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
     private fun checkAndSetFavoriteChip(data: RecipeInformation) {

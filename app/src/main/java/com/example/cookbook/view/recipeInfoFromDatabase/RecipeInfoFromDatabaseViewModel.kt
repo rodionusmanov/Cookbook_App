@@ -26,7 +26,7 @@ class RecipeInfoFromDatabaseViewModel(
     private val _instructions = MutableStateFlow<List<AnalyzedInstruction>>(listOf())
     val instructions: StateFlow<List<AnalyzedInstruction>> get() = _instructions.asStateFlow()
 
-    private val _recipeExistenceInDatabase = MutableStateFlow<Boolean>(false)
+    private val _recipeExistenceInDatabase = MutableStateFlow(false)
     val recipeExistenceInDatabase: StateFlow<Boolean> get() = _recipeExistenceInDatabase.asStateFlow()
 
 
