@@ -14,8 +14,9 @@
         android:layout_width="@dimen/item_circle_80dp"
         android:layout_height="@dimen/item_circle_80dp"
         app:cardCornerRadius="@dimen/item_circle_corner_radius_80dp"
-        android:backgroundTint="@color/white"
-        android:background="@color/white">
+        app:cardBackgroundColor="@color/white"
+        android:forceDarkAllowed="false"
+        >
 
         <ImageView
             android:id="@+id/iv_universal_item"
