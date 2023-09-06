@@ -2,10 +2,11 @@ package com.example.cookbook.utils
 
 const val COMPLEX_SEARCH_RECIPE_API = "https://api.spoonacular.com/"
 //const val SPOONACULAR_API_KEY = "e0f820d255c2495698a1eb65d4f195ff"
-
 //const val SPOONACULAR_API_KEY = "5cd80f128c6a4bc583f45c3b53b010be"
 const val SPOONACULAR_API_KEY = "e51af98a8a0649d98081a6445393c430"
 //const val SPOONACULAR_API_KEY = "c279e4340d6449d6820e2bc4b3ad37cd"
+//const val SPOONACULAR_API_KEY = "test"
+
 const val ID = "id"
 
 const val FRAGMENT_HOME = "home"
@@ -19,7 +20,12 @@ const val FRAGMENT_ALL_FILTERS = "recipe_all_filters"
 const val BUNDLE_SEARCH_QUERY = "search_query"
 const val BUNDLE_DISH_TYPE = "dish_type_query"
 const val BUNDLE_INCLUDE_INGREDIENT_FILTER = "include_ingredient_filter"
+const val BUNDLE_EXCLUDE_INGREDIENT_FILTER = "exclude_ingredient_filter"
 const val BUNDLE_DISH_TYPE_FILTER = "dish_type_filter"
+const val BUNDLE_CUISINE_TYPE_FILTER = "cuisine_type_filter"
+const val BUNDLE_MAX_TIME_FILTER = "max_time_filter"
+const val BUNDLE_MIN_CAL_FILTER = "min_cal_filter"
+const val BUNDLE_MAX_CAL_FILTER = "max_cal_filter"
 
 const val DISH_TYPE_BREAKFAST = "breakfast"
 const val DISH_TYPE_SIDE_DISH = "side dish"
@@ -36,21 +42,22 @@ const val DISH_TYPE_MARINADE = "marinade"
 const val DISH_TYPE_FINGERFOOD = "fingerfood"
 const val DISH_TYPE_DRINK = "drink"
 
-const val INCLUDE_INGREDIENT_CHICKEN = "chicken"
-const val INCLUDE_INGREDIENT_PORK = "pork"
-const val INCLUDE_INGREDIENT_BEEF = "beef"
-const val INCLUDE_INGREDIENT_FISH = "fish"
-
-const val DEFAULT_QUERY = ""
-const val DEFAULT_CUISINE = ""
-const val DEFAULT_INCLUDE_INGREDIENTS = ""
-const val DEFAULT_EXCLUDE_INGREDIENTS = ""
-const val DEFAULT_TYPE = ""
-const val DEFAULT_READY_TIME = 0
-const val DEFAULT_MIN_CALORIES = 0
-const val DEFAULT_MAX_CALORIES = 0
-
-
+const val CUISINE_TYPE_AMERICAN = "american"
+const val CUISINE_TYPE_ASIAN = "asian"
+const val CUISINE_TYPE_CHINESE = "chinese"
+const val CUISINE_TYPE_EASTERN_EUROPEAN = "eastern european"
+const val CUISINE_TYPE_EUROPEAN = "european"
+const val CUISINE_TYPE_FRENCH = "french"
+const val CUISINE_TYPE_GREEK = "greek"
+const val CUISINE_TYPE_ITALIAN = "italian"
+const val CUISINE_TYPE_JAPANESE = "japanese"
+const val CUISINE_TYPE_KOREAN = "korean"
+const val CUISINE_TYPE_MEDITERRANEAN = "mediterranean"
+const val CUISINE_TYPE_MEXICAN = "mexican"
+const val CUISINE_TYPE_MIDDLE_EASTERN = "middle eastern"
+const val CUISINE_TYPE_SPANISH = "spanish"
+const val CUISINE_TYPE_THAI = "thai"
+const val CUISINE_TYPE_VIETNAMESE = "vietnamese"
 
 const val SPOONACULAR_HEALTHY_DIET_TAG = "whole30"
 

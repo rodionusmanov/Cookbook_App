@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.AbsListView
-import android.widget.AbsListView.OnScrollListener
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
@@ -18,9 +16,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cookbook.databinding.FragmentSearchBinding
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.BaseRecipeData
+import com.example.cookbook.utils.BUNDLE_CUISINE_TYPE_FILTER
 import com.example.cookbook.utils.BUNDLE_DISH_TYPE
 import com.example.cookbook.utils.BUNDLE_DISH_TYPE_FILTER
+import com.example.cookbook.utils.BUNDLE_EXCLUDE_INGREDIENT_FILTER
 import com.example.cookbook.utils.BUNDLE_INCLUDE_INGREDIENT_FILTER
+import com.example.cookbook.utils.BUNDLE_MAX_CAL_FILTER
+import com.example.cookbook.utils.BUNDLE_MAX_TIME_FILTER
+import com.example.cookbook.utils.BUNDLE_MIN_CAL_FILTER
 import com.example.cookbook.utils.BUNDLE_SEARCH_QUERY
 import com.example.cookbook.utils.DISH_TYPE_APPETIZER
 import com.example.cookbook.utils.DISH_TYPE_BEVERAGE
@@ -91,22 +94,47 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
             val searchQuery = it.getString(BUNDLE_SEARCH_QUERY)
             val dishType = it.getString(BUNDLE_DISH_TYPE)
             val includeFilter = it.getString(BUNDLE_INCLUDE_INGREDIENT_FILTER)
+            val excludeFilter = it.getString(BUNDLE_EXCLUDE_INGREDIENT_FILTER)
             val dishTypeFilter = it.getString(BUNDLE_DISH_TYPE_FILTER)
+            val cuisineTypeFilter = it.getString(BUNDLE_CUISINE_TYPE_FILTER)
+            val maxTimeFilter = it.getInt(BUNDLE_MAX_TIME_FILTER, 360)
+            val minCaloriesFilter = it.getInt(BUNDLE_MIN_CAL_FILTER,0)
+            val maxCaloriesFilter = it.getInt(BUNDLE_MAX_CAL_FILTER,10000)
 
             when {
                 searchQuery != null -> setSearchQuery(searchQuery)
                 dishType != null -> setDishTypeQuery(dishType)
-                includeFilter != null || dishTypeFilter != null -> setFilterQuery(
-                    includeFilter, dishTypeFilter
+
+                includeFilter != null || dishTypeFilter != null || cuisineTypeFilter != null || excludeFilter != null -> setFilterQuery(
+                    includeFilter,
+                    excludeFilter,
+                    dishTypeFilter,
+                    cuisineTypeFilter,
+                    maxTimeFilter,
+                    minCaloriesFilter,
+                    maxCaloriesFilter
                 )
             }
         } ?: Log.d("@@@", "No arguments to handle")
     }
 
-    private fun setFilterQuery(includeList: String?, dishType: String?) {
+    private fun setFilterQuery(
+        includeList: String?,
+        excludeList: String?,
+        dishType: String?,
+        cuisineType: String?,
+        maxTime: Int?,
+        minCal: Int?,
+        maxCal: Int?
+    ) {
         model.searchRecipeRequest(
             includeIngredients = includeList,
-            dishType = dishType
+            excludeIngredients = excludeList,
+            dishType = dishType,
+            cuisine = cuisineType,
+            maxReadyTime = maxTime,
+            minCalories = minCal,
+            maxCalories = maxCal
         )
         with(binding) {
             searchView.setQuery("Filter search", false)
@@ -117,7 +145,7 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
     }
 
     private fun setDishTypeQuery(dishType: String) {
-        model.searchRecipeRequest(dishType =  dishType)
+        model.searchRecipeRequest(dishType = dishType)
         with(binding) {
             searchView.setQuery(dishType, false)
             variousDishes.variousDishesTableContainer.isVisible = false
@@ -129,7 +157,8 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
         arguments?.getString(BUNDLE_SEARCH_QUERY)?.let {
             binding.searchView.setQuery(it, false)
             model.searchRecipeRequest(
-                it)
+                it
+            )
         }
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -175,11 +204,11 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
                 openAllFiltersFragment()
             }
 
-            val linearLayout= LinearLayoutManager(context)
-            binding.resultRecyclerView.layoutManager =linearLayout
+            val linearLayout = LinearLayoutManager(context)
+            binding.resultRecyclerView.layoutManager = linearLayout
             binding.resultRecyclerView.adapter = adapter
 
-            resultRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            resultRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
 
@@ -187,7 +216,7 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
                     val totalItemCount = linearLayout.itemCount
                     val lastVisibleItem = linearLayout.findLastVisibleItemPosition()
 
-                    if(!isLoading && totalItemCount == lastVisibleItem + visibleItemCount) {
+                    if (!isLoading && totalItemCount == lastVisibleItem + visibleItemCount) {
                         isLoading = true
                         model.loadNextPage()
                     }
@@ -238,7 +267,7 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
     }
 
     override fun setupData(data: List<BaseRecipeData>) {
-        if(model.isInitialLoad) {
+        if (model.isInitialLoad) {
             adapter.submitList(data)
         } else {
             adapter.submitList(data)
