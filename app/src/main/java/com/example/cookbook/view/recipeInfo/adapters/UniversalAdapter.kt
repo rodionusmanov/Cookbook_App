@@ -1,6 +1,5 @@
 package com.example.cookbook.view.recipeInfo.adapters
 
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,10 +15,9 @@ import com.example.cookbook.model.datasource.DTO.recipeInformation.Ingredient
 import com.example.cookbook.model.datasource.DTO.recipeInformation.Step
 import com.example.cookbook.model.domain.UniversalItem
 
-class UniversalAdapter :
-    ListAdapter<UniversalItem, UniversalAdapter.UniversalViewHolder>(UniversalCallback()) {
-
-
+class UniversalAdapter : ListAdapter<UniversalItem, UniversalAdapter.UniversalViewHolder> (
+    UniversalCallback()
+) {
     inner class UniversalViewHolder(private val binding: ItemUniversalBinding) :
         ViewHolder(binding.root) {
         fun bind(data: UniversalItem) {
@@ -72,8 +70,6 @@ class UniversalAdapter :
         override fun areContentsTheSame(oldItem: UniversalItem, newItem: UniversalItem): Boolean {
             return true
         }
-
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UniversalViewHolder {
@@ -89,5 +85,4 @@ class UniversalAdapter :
     override fun onBindViewHolder(holder: UniversalViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
-
 }

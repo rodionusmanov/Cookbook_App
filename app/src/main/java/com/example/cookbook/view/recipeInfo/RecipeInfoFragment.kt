@@ -53,31 +53,11 @@ class RecipeInfoFragment :
             chVegetarian.isChecked = data.vegetarian
             chVeryHealthy.isChecked = data.veryHealthy
 
-            iconDairyFree.visibility = if (data.dairyFree) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
-            iconGlutenFree.visibility = if (data.glutenFree) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
-            iconVegan.visibility = if (data.vegan) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
-            iconVegetarian.visibility = if (data.vegetarian) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
-            iconHealthyFood.visibility = if (data.veryHealthy) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
+            iconDairyFree.setVisibility(data.dairyFree)
+            iconGlutenFree.setVisibility(data.glutenFree)
+            iconVegan.setVisibility(data.vegan)
+            iconVegetarian.setVisibility(data.vegetarian)
+            iconHealthyFood.setVisibility(data.veryHealthy)
 
             tvRecipeInfoTitle.text = data.title
             ivRecipeInfoImage.load(data.image) {
@@ -103,6 +83,10 @@ class RecipeInfoFragment :
 
             checkAndSetFavoriteChip(data)
         }
+    }
+
+    fun View.setVisibility(isVisible: Boolean) {
+        visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
     private fun checkAndSetFavoriteChip(data: RecipeInformation) {
