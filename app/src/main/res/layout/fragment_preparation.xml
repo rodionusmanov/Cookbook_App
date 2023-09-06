@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_marginHorizontal="@dimen/margin_8dp_small"
+    android:layout_marginHorizontal="@dimen/margin_16dp_medium"
     tools:context=".view.recipeInfo.preparation.PreparationFragment">
 
     <TextView
