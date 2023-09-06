@@ -64,13 +64,10 @@ class RecipeInfoFragment :
                 crossfade(true)
                 transformations(RoundedCornersTransformation(16f))
             }
-            chCalories.text = "${data.calories?.amount} ${data.calories?.unit}"
-            chProtein.text =
-                "${resources.getString(R.string.protein)} - ${data.protein?.amount}${data.protein?.unit}"
-            chFat.text =
-                "${resources.getString(R.string.fat)} - ${data.fat?.amount}${data.fat?.unit}"
-            chCarb.text =
-                "${resources.getString(R.string.carb)} - ${data.carbohydrates?.amount}${data.carbohydrates?.unit}"
+            tvCaloriesText.text = "${data.calories?.amount} ${data.calories?.unit}"
+            tvProteinText.text = "${data.protein?.amount}${data.protein?.unit}"
+            tvFatText.text = "${data.fat?.amount}${data.fat?.unit}"
+            tvCarbText.text = "${data.carbohydrates?.amount}${data.carbohydrates?.unit}"
 
             viewPager.adapter = RecipeInformationPageAdapter(requireActivity())
             viewPager.isUserInputEnabled = false
@@ -85,7 +82,7 @@ class RecipeInfoFragment :
         }
     }
 
-    fun View.setVisibility(isVisible: Boolean) {
+    private fun View.setVisibility(isVisible: Boolean) {
         visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
