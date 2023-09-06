@@ -135,5 +135,35 @@
     <string name="clear">Clear</string>
     <string name="accept">Accept</string>
     <string name="ingredient">ingredient</string>
+    <string name="cuisine_type">Cuisine type</string>
+    <string name="asian">Asian</string>
+    <string name="american">American</string>
+    <string name="chinese">Chinese</string>
+    <string name="european">European</string>
+    <string name="french">French</string>
+    <string name="greek">Greek</string>
+    <string name="italian">Italian</string>
+    <string name="japanese">Japanese</string>
+    <string name="korean">Korean</string>
+    <string name="mediterranean">Mediterranean</string>
+    <string name="mexican">Mexican</string>
+    <string name="spanish">Spanish</string>
+    <string name="thai">Thai</string>
+    <string name="vietnamese">Vietnamese</string>
+    <string name="eastern_european">Eastern European</string>
+    <string name="middle_eastern">Middle Eastern</string>
+    <string name="exclude_ingredients">Exclude Ingredints</string>
+    <string name="add">add</string>
+    <string name="max_time">Max time to cook</string>
+    <string name="_15_min">up to 15 min</string>
+    <string name="_30_min">up to 30 min</string>
+    <string name="_45_min">up to 45 min</string>
+    <string name="_60_min">up to 60 min</string>
+    <string name="calories_per_100g">Сalories per 100g</string>
+    <string name="up_to_300_kcal">up to 300 kcal</string>
+    <string name="_300_600_kcal">300 – 600 kcal</string>
+    <string name="_600_900_kcal">600 – 900 kcal</string>
+    <string name="_900_1200_kcal">900 – 1200 kcal</string>
+    <string name="more_than_1200_kcal">more than 1200 kcal</string>
 
 </resources>
