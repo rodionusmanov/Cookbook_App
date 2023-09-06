@@ -144,10 +144,7 @@ class EditProfileFragment : Fragment() {
                 binding.avatarImage.load(avatarUri) { crossfade(true) }
 
             } else {
-                Toast.makeText(
-                    requireContext(), getString(R.string.avatar_source_error),
-                    Toast.LENGTH_SHORT
-                )
+                Toast.makeText(requireContext(), getString(R.string.avatar_source_error), Toast.LENGTH_SHORT)
                     .show()
             }
         }
@@ -194,9 +191,7 @@ class EditProfileFragment : Fragment() {
                 val secondName = secondNameEdit.editText?.text.toString()
                 saveProfile(name, secondName)
                 profileUpdatedListener?.onProfileUpdated(name, secondName, avatarUri)
-                parentFragmentManager.beginTransaction()
-                    .remove(this@EditProfileFragment)
-                    .commit()
+                parentFragmentManager.popBackStack()
             }
         }
     }

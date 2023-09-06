@@ -282,7 +282,7 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
         navigationManager?.openRecipeInfoFragment(recipeId)
     }
 
-    private fun openAllFiltersFragment() {
+    fun openAllFiltersFragment() {
         navigationManager?.openAllFiltersFragment()
     }
 
@@ -294,5 +294,9 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
         val imm =
             requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    private fun checkRecipeExistenceInDatabase(){
+
     }
 }

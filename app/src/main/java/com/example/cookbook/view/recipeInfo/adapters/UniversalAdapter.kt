@@ -1,7 +1,7 @@
 package com.example.cookbook.view.recipeInfo.adapters
 
-import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
@@ -15,16 +15,16 @@ import com.example.cookbook.model.datasource.DTO.recipeInformation.Ingredient
 import com.example.cookbook.model.datasource.DTO.recipeInformation.Step
 import com.example.cookbook.model.domain.UniversalItem
 
-class UniversalAdapter :
-    ListAdapter<UniversalItem, UniversalAdapter.UniversalViewHolder>(UniversalCallback()) {
-
-
+class UniversalAdapter : ListAdapter<UniversalItem, UniversalAdapter.UniversalViewHolder> (
+    UniversalCallback()
+) {
     inner class UniversalViewHolder(private val binding: ItemUniversalBinding) :
         ViewHolder(binding.root) {
         fun bind(data: UniversalItem) {
             when (data) {
                 is ExtendedIngredient -> {
                     with(binding) {
+                        itemCircle.visibility = View.GONE
                         tvUniversalItem.text =
                             "${data.originalName} ${data.measures.metric.amount} ${data.measures.metric.unitLong}"
                         ivUniversalItem.isVisible = false
@@ -33,7 +33,6 @@ class UniversalAdapter :
 
                 is Equipment -> {
                     with(binding) {
-                        llUniversalItem.gravity = Gravity.CENTER_HORIZONTAL
                         tvUniversalItem.text = data.name
                         ivUniversalItem.isVisible = true
                         ivUniversalItem.load(data.image) {
@@ -44,7 +43,6 @@ class UniversalAdapter :
 
                 is Ingredient -> {
                     with(binding) {
-                        llUniversalItem.gravity = Gravity.CENTER_HORIZONTAL
                         tvUniversalItem.text = data.name
                         ivUniversalItem.isVisible = true
                         ivUniversalItem.load(data.image) {
@@ -55,6 +53,7 @@ class UniversalAdapter :
 
                 is Step -> {
                     with(binding) {
+                        itemCircle.visibility = View.GONE
                         tvUniversalItem.text = data.step
                         ivUniversalItem.isVisible = false
                     }
@@ -71,8 +70,6 @@ class UniversalAdapter :
         override fun areContentsTheSame(oldItem: UniversalItem, newItem: UniversalItem): Boolean {
             return true
         }
-
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UniversalViewHolder {
@@ -88,5 +85,4 @@ class UniversalAdapter :
     override fun onBindViewHolder(holder: UniversalViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
-
 }

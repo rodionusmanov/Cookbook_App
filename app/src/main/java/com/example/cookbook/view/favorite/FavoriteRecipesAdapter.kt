@@ -11,7 +11,7 @@ import com.example.cookbook.databinding.ItemSearchResultBinding
 import com.example.cookbook.model.domain.RecipeInformation
 
 class FavoriteRecipesAdapter :
-    RecyclerView.Adapter<FavoriteRecipesAdapter.RecyclerItemViewHolder>() {
+    RecyclerView.Adapter<FavoriteRecipesAdapter.RecyclerItemViewHolder>(), IItemTouchHelperAdapter{
 
     private var data: List<RecipeInformation> = arrayListOf()
     var listener: ((RecipeInformation) -> Unit)? = null
@@ -61,5 +61,10 @@ class FavoriteRecipesAdapter :
 
     override fun onBindViewHolder(holder: RecyclerItemViewHolder, position: Int) {
         holder.bind(data[position])
+    }
+
+    override fun onItemDismiss(position: Int) {
+        deleteRecipeListener?.invoke(data[position].id)
+        notifyItemRemoved(position)
     }
 }

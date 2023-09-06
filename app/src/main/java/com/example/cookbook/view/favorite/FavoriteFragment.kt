@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cookbook.databinding.FragmentFavoriteBinding
 import com.example.cookbook.model.AppState
@@ -34,8 +35,9 @@ class FavoriteFragment : BaseFragment<AppState, List<RecipeInformation>, Fragmen
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initViewModel()
+        ItemTouchHelper(ItemTouchHelperCallback(adapter))
+            .attachToRecyclerView(binding.favoriteRecipesRecyclerView)
     }
 
     private fun initViewModel() {
@@ -46,7 +48,7 @@ class FavoriteFragment : BaseFragment<AppState, List<RecipeInformation>, Fragmen
                 viewModel.stateFlow.collect {
                     it.collect { entityData ->
                         val data = convertRecipeInfoEntityToList(entityData)
-                        renderData(AppState.Success<List<RecipeInformation>>(data))
+                        renderData(AppState.Success(data))
                     }
                 }
             }
@@ -64,17 +66,6 @@ class FavoriteFragment : BaseFragment<AppState, List<RecipeInformation>, Fragmen
         adapter.listener = { recipe ->
             openRecipeInfoFromDatabaseFragment(recipe.id)
         }
-
-        adapter.addRecipeListener = { recipe ->
-            viewModel.upsertRecipeToDatabase(recipe)
-            Toast.makeText(context,"adding recipe", Toast.LENGTH_SHORT).show()
-        }
-
-        adapter.deleteRecipeListener = { id ->
-            viewModel.deleteRecipeFromFavorite(id)
-            Toast.makeText(context,"deleting recipe", Toast.LENGTH_SHORT).show()
-        }
-
         binding.favoriteRecipesRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.favoriteRecipesRecyclerView.adapter = adapter
     }

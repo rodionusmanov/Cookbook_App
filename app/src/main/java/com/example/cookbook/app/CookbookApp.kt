@@ -14,7 +14,7 @@ import com.example.cookbook.di.recipeInfoFromDatabase
 import com.example.cookbook.di.remoteDataSource
 import com.example.cookbook.di.searchFragment
 import com.example.cookbook.model.room.RecipesDatabase
-import com.example.cookbook.model.room.fullRecipe.IRecipesInfoDAO
+import com.example.cookbook.model.room.IRecipesInfoDAO
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 

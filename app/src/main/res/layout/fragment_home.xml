@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/colorOnPrimary"
+    >
 
     <FrameLayout
         android:id="@+id/toolbar"
@@ -185,6 +187,7 @@
                 app:cardCornerRadius="@dimen/material_card_corner_radius_20dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/joke_text_block"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -212,9 +215,12 @@
                         tools:ignore="ContentDescription" />
 
                     <TextView
-                        android:id="@+id/joke_text"
+                        android:id="@+id/joke_text_full"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/clip_drawable"
+                        android:maxLines="5"
+                        android:ellipsize="end"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="-20dp"
                         android:text="@string/joke_text"
@@ -223,6 +229,41 @@
                         app:layout_constraintStart_toEndOf="@id/joke_quote_start"
                         app:layout_constraintTop_toBottomOf="@id/joke_quote_start" />
 
+                    <TextView
+                        android:id="@+id/more_text_button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginVertical="@dimen/margin_10dp_small"
+                        android:background="@drawable/text_click_selector"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:text="@string/joke_read_more"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/home_joke_text"
+                        app:layout_constraintEnd_toStartOf="@id/more_text_mark"
+                        app:layout_constraintStart_toEndOf="@id/joke_quote_start"
+                        app:layout_constraintTop_toBottomOf="@id/joke_text_full" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/more_text_mark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:elevation="@dimen/margin_4dp_small"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/joke_quote_close"
+                        app:layout_constraintTop_toTopOf="@id/more_text_button"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/icon_arrow_down"
+                            app:tint="?attr/colorPrimaryDark"
+                            tools:ignore="ContentDescription" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
                     <ImageView
                         android:id="@+id/joke_quote_close"
                         android:layout_width="@dimen/home_joke_of_the_day_layout_quote_size"
@@ -230,7 +271,7 @@
                         android:layout_marginTop="-20dp"
                         android:src="@drawable/icon_quote"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/joke_text"
+                        app:layout_constraintTop_toBottomOf="@id/more_text_button"
                         app:tint="?attr/colorOnSecondary"
                         tools:ignore="ContentDescription" />
 

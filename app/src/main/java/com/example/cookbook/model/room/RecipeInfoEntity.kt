@@ -1,4 +1,4 @@
-package com.example.cookbook.model.room.fullRecipe
+package com.example.cookbook.model.room
 
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
@@ -7,7 +7,10 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.example.cookbook.model.datasource.DTO.recipeInformation.WeightPerServing
-import com.example.cookbook.model.room.DataTypeConverters
+import com.example.cookbook.model.room.fullRecipe.CaloriesNutrient
+import com.example.cookbook.model.room.fullRecipe.CarbohydratesNutrient
+import com.example.cookbook.model.room.fullRecipe.FatNutrient
+import com.example.cookbook.model.room.fullRecipe.ProteinNutrient
 
 @Entity(tableName = "Recipes_info_table", indices = [Index("id")])
 data class RecipeInfoEntity(

@@ -8,7 +8,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.example.cookbook.R
-import com.example.cookbook.databinding.FragmentRecipeInfoFromDatabaseBinding
+import com.example.cookbook.databinding.FragmentRecipeInfoBinding
 import com.example.cookbook.model.AppState
 import com.example.cookbook.model.domain.RecipeInformation
 import com.example.cookbook.utils.ID
@@ -19,8 +19,8 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class RecipeInfoFromDatabaseFragment :
-    BaseFragment<AppState, RecipeInformation, FragmentRecipeInfoFromDatabaseBinding>(
-        FragmentRecipeInfoFromDatabaseBinding::inflate
+    BaseFragment<AppState, RecipeInformation, FragmentRecipeInfoBinding>(
+        FragmentRecipeInfoBinding::inflate
     ) {
 
     companion object {
@@ -93,13 +93,10 @@ class RecipeInfoFromDatabaseFragment :
                 crossfade(true)
                 transformations(RoundedCornersTransformation(16f))
             }
-            chCalories.text = "${data.calories?.amount} ${data.calories?.unit}"
-            chProtein.text =
-                "${resources.getString(R.string.protein)} - ${data.protein?.amount}${data.protein?.unit}"
-            chFat.text =
-                "${resources.getString(R.string.fat)} - ${data.fat?.amount}${data.fat?.unit}"
-            chCarb.text =
-                "${resources.getString(R.string.carb)} - ${data.carbohydrates?.amount}${data.carbohydrates?.unit}"
+            tvCaloriesText.text = "${data.calories?.amount} ${data.calories?.unit}"
+            tvProteinText.text = "${data.protein?.amount}${data.protein?.unit}"
+            tvFatText.text = "${data.fat?.amount}${data.fat?.unit}"
+            tvCarbText.text = "${data.carbohydrates?.amount}${data.carbohydrates?.unit}"
 
             viewPager.adapter = RecipeInformationFromDatabasePageAdapter(requireActivity())
             viewPager.isUserInputEnabled = false

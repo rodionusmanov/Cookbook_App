@@ -12,6 +12,7 @@
     <color name="orange_dark">#ff4400</color>
     <color name="orange_middle">#ff855b</color>
     <color name="orange_light">#ffcbb8</color>
+    <color name="green_light">#53A826</color>
 
     //HomeFragment
     <color name="service_cardview_background">#FFFFFFFF</color>

@@ -1,4 +1,4 @@
-package com.example.cookbook.model.room.fullRecipe
+package com.example.cookbook.model.room
 
 import androidx.room.Dao
 import androidx.room.Query

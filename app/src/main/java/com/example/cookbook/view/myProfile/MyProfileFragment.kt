@@ -2,6 +2,8 @@ package com.example.cookbook.view.myProfile
 
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -69,9 +71,12 @@ class MyProfileFragment : Fragment() {
     private fun initEditButton() {
         binding.editProfileButton.setOnClickListener {
             childFragmentManager.beginTransaction()
+                .setCustomAnimations(
+                    R.anim.slide_in_from_bottom, 0,0, R.anim.slide_out_to_bottom
+                )
                 .replace(R.id.my_profile_container, EditProfileFragment.newInstance())
+                .addToBackStack(null)
                 .commit()
-
             binding.myProfileContainer.visibility = View.VISIBLE
         }
     }
@@ -200,7 +205,11 @@ class MyProfileFragment : Fragment() {
             userSecondName.text = secondName.ifBlank {
                 getString(R.string.profile_empty_second_name_cell)
             }
-            myProfileContainer.visibility = View.GONE
+
+            Handler(Looper.getMainLooper()).postDelayed({
+                myProfileContainer.visibility = View.GONE
+            }, 500)
+
             avatarUri?.let { binding.userAvatarImage.load(it) }
         }
     }
