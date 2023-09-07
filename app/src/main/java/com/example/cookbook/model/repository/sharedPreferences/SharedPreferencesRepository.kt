@@ -10,6 +10,8 @@ import com.example.cookbook.utils.SHARED_PREFERENCES_NAME
 
 class SharedPreferencesRepository(context: Context) {
 
+    private var isFirstLaunch = true
+
     private val sharedPreferences: SharedPreferences =
         context.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
 
@@ -49,4 +51,15 @@ class SharedPreferencesRepository(context: Context) {
     fun getProfileSecondName(): String {
         return sharedPreferences.getString(PROFILE_SECOND_NAME_KEY, "") ?: ""
     }
+
+    fun getFirstLaunch(): Boolean {
+        return sharedPreferences.getBoolean("first launch", isFirstLaunch)
+    }
+
+    fun setNotFirstLaunch() {
+        isFirstLaunch = false
+        sharedPreferences.edit().putBoolean("first launch", isFirstLaunch).apply()
+    }
+
+
 }

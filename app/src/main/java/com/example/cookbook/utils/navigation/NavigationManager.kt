@@ -8,12 +8,14 @@ import androidx.fragment.app.FragmentTransaction
 import com.example.cookbook.R
 import com.example.cookbook.utils.FRAGMENT_ALL_FILTERS
 import com.example.cookbook.utils.FRAGMENT_FAVORITE
+import com.example.cookbook.utils.FRAGMENT_FIRST_LAUNCH
 import com.example.cookbook.utils.FRAGMENT_HOME
 import com.example.cookbook.utils.FRAGMENT_PROFILE
 import com.example.cookbook.utils.FRAGMENT_RECIPE_INFO
 import com.example.cookbook.utils.FRAGMENT_RECIPE_INFO_FROM_DATABASE
 import com.example.cookbook.utils.FRAGMENT_SEARCH
 import com.example.cookbook.utils.ID
+import com.example.cookbook.view.FirstLaunchFragment
 import com.example.cookbook.view.allFilters.AllFiltersFragment
 import com.example.cookbook.view.favorite.FavoriteFragment
 import com.example.cookbook.view.home.HomeFragment
@@ -36,7 +38,8 @@ class NavigationManager(
         FRAGMENT_PROFILE to MyProfileFragment(),
         FRAGMENT_RECIPE_INFO to RecipeInfoFragment(),
         FRAGMENT_RECIPE_INFO_FROM_DATABASE to RecipeInfoFromDatabaseFragment(),
-        FRAGMENT_ALL_FILTERS to AllFiltersFragment()
+        FRAGMENT_ALL_FILTERS to AllFiltersFragment(),
+        FRAGMENT_FIRST_LAUNCH to FirstLaunchFragment()
     )
     private val fragmentBackStack = Stack<String>()
     private var isSwitchingFragment: Boolean = false
