@@ -68,4 +68,23 @@
         <item name="android:textAlignment">center</item>
     </style>
 
+    <style name="ImageViewAllFiltersStyle" parent="">
+        <item name="android:scaleX">5</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/height_40dp</item>
+        <item name="android:src">@drawable/gradient_top</item>
+        <item name="tint">?attr/colorSecondaryVariant</item>
+    </style>
+
+    <style name="TextViewTitleAllFilterStyle" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginHorizontal">@dimen/margin_16dp_medium</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
+        <item name="android:textSize">@dimen/text_size_20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <dimen name="height_40dp">40dp</dimen>
+    <dimen name="text_size_20sp">20sp</dimen>
 </resources>

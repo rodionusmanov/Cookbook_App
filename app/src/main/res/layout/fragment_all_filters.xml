@@ -25,188 +25,201 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:importantForAccessibility="no"
-                android:src="@drawable/ic_arrow_back" />
+                android:src="@drawable/ic_arrow_back"
+                app:tint="?attr/colorOnSecondary" />
 
-            <LinearLayout
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shadow"
-                android:orientation="vertical">
+                android:layout_marginBottom="@dimen/margin_8dp_small">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_cuisines_type"
-                    android:layout_width="wrap_content"
+                <ImageView
+                    style="@style/ImageViewAllFiltersStyle"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#00000000"
-                    android:text="@string/cuisine_type"
-                    android:textAllCaps="false"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    app:icon="@drawable/icon_arrow_down"
-                    app:iconGravity="end"
-                    app:iconTint="@color/black" />
+                    android:orientation="vertical">
 
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chips_cuisine_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="@dimen/margin_16dp_medium">
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/ch_asian"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_cuisines_type"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/asian"
-                        android:visibility="gone" />
+                        android:background="@color/transparent"
+                        android:text="@string/cuisine_type"
+                        android:textAllCaps="false"
+                        android:textColor="?attr/colorOnSecondary"
+                        android:textSize="@dimen/text_size_20sp"
+                        android:textStyle="bold"
+                        app:icon="@drawable/icon_arrow_down"
+                        app:iconGravity="end"
+                        app:iconTint="?attr/colorOnSecondary" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/ch_american"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chips_cuisine_type"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/american"
-                        android:visibility="gone" />
+                        android:paddingHorizontal="@dimen/margin_16dp_medium">
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/ch_chinese"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/chinese"
-                        android:visibility="gone" />
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/ch_asian"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/asian"
+                            android:visibility="gone" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/ch_eastern_european"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/eastern_european"
-                        android:visibility="gone" />
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/ch_american"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/american"
+                            android:visibility="gone" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/ch_european"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/european"
-                        android:visibility="gone" />
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/ch_chinese"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/chinese"
+                            android:visibility="gone" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/ch_french"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/french"
-                        android:visibility="gone" />
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/ch_eastern_european"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/eastern_european"
+                            android:visibility="gone" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/ch_greek"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/greek"
-                        android:visibility="gone" />
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/ch_european"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/european"
+                            android:visibility="gone" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/ch_italian"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/italian"
-                        android:visibility="gone" />
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/ch_french"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/french"
+                            android:visibility="gone" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/ch_japanese"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/japanese"
-                        android:visibility="gone" />
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/ch_greek"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/greek"
+                            android:visibility="gone" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/ch_korean"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/korean"
-                        android:visibility="gone" />
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/ch_italian"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/italian"
+                            android:visibility="gone" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/ch_mediterranean"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/mediterranean"
-                        android:visibility="gone" />
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/ch_japanese"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/japanese"
+                            android:visibility="gone" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/ch_mexican"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/mexican"
-                        android:visibility="gone" />
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/ch_korean"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/korean"
+                            android:visibility="gone" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/ch_middle_eastern"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/middle_eastern"
-                        android:visibility="gone" />
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/ch_mediterranean"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/mediterranean"
+                            android:visibility="gone" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/ch_spanish"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/spanish"
-                        android:visibility="gone" />
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/ch_mexican"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/mexican"
+                            android:visibility="gone" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/ch_thai"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/thai"
-                        android:visibility="gone" />
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/ch_middle_eastern"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/middle_eastern"
+                            android:visibility="gone" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/ch_vietnamese"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/vietnamese"
-                        android:visibility="gone" />
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/ch_spanish"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/spanish"
+                            android:visibility="gone" />
 
-                </com.google.android.material.chip.ChipGroup>
-            </LinearLayout>
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/ch_thai"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/thai"
+                            android:visibility="gone" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/ch_vietnamese"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/vietnamese"
+                            android:visibility="gone" />
+
+                    </com.google.android.material.chip.ChipGroup>
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_8dp_small">
+
+                <ImageView
+                    style="@style/ImageViewAllFiltersStyle"
+                    />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/margin_8dp_small"
-                android:background="@drawable/shadow"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tv_include_ingredients"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin_16dp_medium"
-                    android:text="@string/include_ingredients"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    style="@style/TextViewTitleAllFilterStyle"
+                    android:text="@string/include_ingredients" />
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chips_include"
-                    android:paddingHorizontal="@dimen/margin_16dp_medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    />
+                    android:paddingHorizontal="@dimen/margin_16dp_medium" />
 
                 <LinearLayout
                     android:id="@+id/add_include_ingredient"
@@ -219,18 +232,18 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:importantForAccessibility="no"
                         android:src="@drawable/ic_add"
-                        app:tint="#0055FF"
-                        android:importantForAccessibility="no" />
+                        app:tint="?attr/colorOnSecondary" />
 
                     <EditText
                         android:id="@+id/et_include_ingredient"
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
                         android:hint="@string/ingredient"
+                        android:importantForAutofill="no"
                         android:inputType="text"
-                        android:textColorHint="#0055FF"
-                        android:importantForAutofill="no" />
+                        android:textColorHint="?attr/colorOnSecondary" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/btn_add_include"
@@ -243,27 +256,35 @@
 
             </LinearLayout>
 
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_8dp_small">
+
+                <ImageView
+                    style="@style/ImageViewAllFiltersStyle"
+                    />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/margin_8dp_small"
-                android:background="@drawable/shadow"
                 android:orientation="vertical">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_dish_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="#00000000"
+                    android:background="@color/transparent"
                     android:text="@string/dish_type"
                     android:textAllCaps="false"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
+                    android:textColor="?attr/colorOnSecondary"
+                    android:textSize="@dimen/text_size_20sp"
                     android:textStyle="bold"
                     app:icon="@drawable/icon_arrow_down"
                     app:iconGravity="end"
-                    app:iconTint="@color/black" />
+                    app:iconTint="?attr/colorOnSecondary" />
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chips_dish_type"
@@ -387,21 +408,27 @@
 
             </LinearLayout>
 
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_8dp_small">
+
+                <ImageView
+                    style="@style/ImageViewAllFiltersStyle"
+                    />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shadow"
+                android:layout_marginVertical="@dimen/margin_8dp_small"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tv_exclude_ingredients"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin_16dp_medium"
-                    android:text="@string/exclude_ingredients"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    style="@style/TextViewTitleAllFilterStyle"
+                    android:text="@string/exclude_ingredients"/>
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chips_exclude"
@@ -420,18 +447,18 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:importantForAccessibility="no"
                         android:src="@drawable/ic_add"
-                        app:tint="#F44336"
-                        android:importantForAccessibility="no" />
+                        app:tint="?attr/colorOnSecondary" />
 
                     <EditText
                         android:id="@+id/et_exclude_ingredient"
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
                         android:hint="@string/ingredient"
+                        android:importantForAutofill="no"
                         android:inputType="text"
-                        android:textColorHint="#F44336"
-                        android:importantForAutofill="no" />
+                        android:textColorHint="?attr/colorOnSecondary" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/btn_add_exclude"
@@ -444,21 +471,26 @@
 
             </LinearLayout>
 
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_8dp_small">
+
+                <ImageView
+                    style="@style/ImageViewAllFiltersStyle"
+                    />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/margin_8dp_small"
-                android:background="@drawable/shadow"
                 android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin_16dp_medium"
-                    android:text="@string/max_time"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    style="@style/TextViewTitleAllFilterStyle"
+                    android:text="@string/max_time" />
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chips_time"
@@ -499,21 +531,26 @@
 
             </LinearLayout>
 
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_8dp_small">
+
+                <ImageView
+                    style="@style/ImageViewAllFiltersStyle"
+                    />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/margin_8dp_small"
-                android:background="@drawable/shadow"
                 android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin_16dp_medium"
-                    android:text="@string/calories_per_100g"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    style="@style/TextViewTitleAllFilterStyle"
+                    android:text="@string/calories_per_100g" />
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chips_calories"
@@ -562,6 +599,8 @@
 
             </LinearLayout>
 
+            </com.google.android.material.card.MaterialCardView>
+
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="30dp" />
@@ -584,9 +623,9 @@
             android:layout_marginStart="@dimen/margin_16dp_medium"
             android:backgroundTint="@color/white"
             android:text="@string/clear"
-            android:visibility="gone"
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/btn_accept"

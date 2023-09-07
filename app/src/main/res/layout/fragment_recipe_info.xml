@@ -28,35 +28,35 @@
                     android:id="@+id/icon_dairy_free"
                     style="@style/FiltersIconsStyle"
                     android:src="@drawable/icon_dairy_free"
-                    app:tint="?attr/colorSecondaryVariant"
+                    app:tint="?attr/colorPrimary"
                     tools:ignore="ContentDescription" />
 
                 <ImageView
                     android:id="@+id/icon_gluten_free"
                     style="@style/FiltersIconsStyle"
                     android:src="@drawable/icon_gluten_free"
-                    app:tint="?attr/colorSecondaryVariant"
+                    app:tint="?attr/colorPrimary"
                     tools:ignore="ContentDescription" />
 
                 <ImageView
                     android:id="@+id/icon_vegan"
                     style="@style/FiltersIconsStyle"
                     android:src="@drawable/icon_vegan"
-                    app:tint="?attr/colorSecondaryVariant"
+                    app:tint="?attr/colorPrimary"
                     tools:ignore="ContentDescription" />
 
                 <ImageView
                     android:id="@+id/icon_vegetarian"
                     style="@style/FiltersIconsStyle"
                     android:src="@drawable/icon_vegetarian"
-                    app:tint="?attr/colorSecondaryVariant"
+                    app:tint="?attr/colorPrimary"
                     tools:ignore="ContentDescription" />
 
                 <ImageView
                     android:id="@+id/icon_healthy_food"
                     style="@style/FiltersIconsStyle"
                     android:src="@drawable/icon_healthy_food"
-                    app:tint="?attr/colorSecondaryVariant"
+                    app:tint="?attr/colorPrimary"
                     tools:ignore="ContentDescription" />
 
             </LinearLayout>
@@ -138,7 +138,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="@dimen/margin_26dp_medium"
                             android:layout_weight="3"
-                            android:backgroundTint="?attr/colorControlNormal"
+                            android:backgroundTint="?attr/colorTertiaryContainer"
                             app:cardCornerRadius="20dp">
 
                             <TextView
@@ -189,7 +189,7 @@
                             android:layout_marginStart="@dimen/margin_26dp_medium"
                             android:layout_marginEnd="@dimen/margin_16dp_medium"
                             android:layout_weight="1"
-                            android:backgroundTint="?attr/colorControlNormal"
+                            android:backgroundTint="?attr/colorTertiaryContainer"
                             app:cardCornerRadius="20dp">
 
                             <TextView
@@ -226,7 +226,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="@dimen/margin_16dp_medium"
                             android:layout_weight="1"
-                            android:backgroundTint="?attr/colorControlNormal"
+                            android:backgroundTint="?attr/colorTertiaryContainer"
                             app:cardCornerRadius="20dp">
 
                             <TextView
@@ -264,7 +264,7 @@
                             android:layout_marginStart="@dimen/margin_16dp_medium"
                             android:layout_marginEnd="@dimen/margin_26dp_medium"
                             android:layout_weight="1"
-                            android:backgroundTint="?attr/colorControlNormal"
+                            android:backgroundTint="?attr/colorTertiaryContainer"
                             app:cardCornerRadius="20dp">
 
                             <TextView
