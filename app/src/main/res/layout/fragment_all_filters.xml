@@ -51,14 +51,15 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_add" />
+            android:src="@drawable/ic_add"
+            android:tint="?attr/colorPrimary"/>
 
         <EditText
             android:id="@+id/et_ingredient"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/ingredient"
-            android:textColorHint="#0055FF" />
+            android:textColorHint="?attr/colorPrimary" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/btn_add"

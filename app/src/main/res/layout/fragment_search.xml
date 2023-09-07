@@ -15,7 +15,7 @@
         android:layout_marginHorizontal="@dimen/margin_8dp_small"
         android:layout_marginTop="@dimen/margin_10dp_small"
         app:cardCornerRadius="@dimen/material_card_corner_radius_15dp"
-        app:strokeColor="@color/orange_dark"
+        app:strokeColor="?attr/colorPrimary"
         app:strokeWidth="1dp">
 
         <androidx.appcompat.widget.SearchView

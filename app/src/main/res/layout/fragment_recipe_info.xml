@@ -28,30 +28,35 @@
                     android:id="@+id/icon_dairy_free"
                     style="@style/FiltersIconsStyle"
                     android:src="@drawable/icon_dairy_free"
+                    app:tint="?attr/colorSecondaryVariant"
                     tools:ignore="ContentDescription" />
 
                 <ImageView
                     android:id="@+id/icon_gluten_free"
                     style="@style/FiltersIconsStyle"
                     android:src="@drawable/icon_gluten_free"
+                    app:tint="?attr/colorSecondaryVariant"
                     tools:ignore="ContentDescription" />
 
                 <ImageView
                     android:id="@+id/icon_vegan"
                     style="@style/FiltersIconsStyle"
                     android:src="@drawable/icon_vegan"
+                    app:tint="?attr/colorSecondaryVariant"
                     tools:ignore="ContentDescription" />
 
                 <ImageView
                     android:id="@+id/icon_vegetarian"
                     style="@style/FiltersIconsStyle"
                     android:src="@drawable/icon_vegetarian"
+                    app:tint="?attr/colorSecondaryVariant"
                     tools:ignore="ContentDescription" />
 
                 <ImageView
                     android:id="@+id/icon_healthy_food"
                     style="@style/FiltersIconsStyle"
                     android:src="@drawable/icon_healthy_food"
+                    app:tint="?attr/colorSecondaryVariant"
                     tools:ignore="ContentDescription" />
 
             </LinearLayout>
@@ -91,7 +96,7 @@
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/ch_add_to_favorite"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    style="@style/ChipRecipeInfoStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -133,7 +138,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="@dimen/margin_26dp_medium"
                             android:layout_weight="3"
-                            android:backgroundTint="@color/green_light"
+                            android:backgroundTint="?attr/colorControlNormal"
                             app:cardCornerRadius="20dp">
 
                             <TextView
@@ -148,9 +153,7 @@
                             <com.google.android.material.card.MaterialCardView
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/nutrients_card_height"
-                                android:layout_marginHorizontal="@dimen/margin_4dp_small"
                                 android:layout_marginTop="@dimen/margin_30dp_large"
-                                android:backgroundTint="@color/white"
                                 app:cardCornerRadius="20dp">
 
                                 <TextView
@@ -159,6 +162,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:gravity="center"
+                                    android:textColor="?attr/colorOnSecondary"
                                     android:textSize="@dimen/recipe_info_nutrients_amounts_text" />
 
                             </com.google.android.material.card.MaterialCardView>
@@ -185,7 +189,7 @@
                             android:layout_marginStart="@dimen/margin_26dp_medium"
                             android:layout_marginEnd="@dimen/margin_16dp_medium"
                             android:layout_weight="1"
-                            android:backgroundTint="@color/green_light"
+                            android:backgroundTint="?attr/colorControlNormal"
                             app:cardCornerRadius="20dp">
 
                             <TextView
@@ -200,9 +204,7 @@
                             <com.google.android.material.card.MaterialCardView
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/nutrients_card_height"
-                                android:layout_marginHorizontal="@dimen/margin_4dp_small"
                                 android:layout_marginTop="@dimen/margin_30dp_large"
-                                android:backgroundTint="@color/white"
                                 app:cardCornerRadius="20dp">
 
                                 <TextView
@@ -211,6 +213,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:gravity="center"
+                                    android:textColor="?attr/colorOnSecondary"
                                     android:textSize="@dimen/recipe_info_nutrients_amounts_text" />
 
                             </com.google.android.material.card.MaterialCardView>
@@ -223,7 +226,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="@dimen/margin_16dp_medium"
                             android:layout_weight="1"
-                            android:backgroundTint="@color/green_light"
+                            android:backgroundTint="?attr/colorControlNormal"
                             app:cardCornerRadius="20dp">
 
                             <TextView
@@ -238,9 +241,7 @@
                             <com.google.android.material.card.MaterialCardView
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/nutrients_card_height"
-                                android:layout_marginHorizontal="@dimen/margin_4dp_small"
                                 android:layout_marginTop="@dimen/margin_30dp_large"
-                                android:backgroundTint="@color/white"
                                 app:cardCornerRadius="20dp">
 
                                 <TextView
@@ -249,6 +250,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:gravity="center"
+                                    android:textColor="?attr/colorOnSecondary"
                                     android:textSize="@dimen/recipe_info_nutrients_amounts_text" />
 
                             </com.google.android.material.card.MaterialCardView>
@@ -262,7 +264,7 @@
                             android:layout_marginStart="@dimen/margin_16dp_medium"
                             android:layout_marginEnd="@dimen/margin_26dp_medium"
                             android:layout_weight="1"
-                            android:backgroundTint="@color/green_light"
+                            android:backgroundTint="?attr/colorControlNormal"
                             app:cardCornerRadius="20dp">
 
                             <TextView
@@ -277,9 +279,7 @@
                             <com.google.android.material.card.MaterialCardView
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/nutrients_card_height"
-                                android:layout_marginHorizontal="@dimen/margin_4dp_small"
                                 android:layout_marginTop="@dimen/margin_30dp_large"
-                                android:backgroundTint="@color/white"
                                 app:cardCornerRadius="20dp">
 
                                 <TextView
@@ -288,6 +288,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:gravity="center"
+                                    android:textColor="?attr/colorOnSecondary"
                                     android:textSize="@dimen/recipe_info_nutrients_amounts_text" />
 
                             </com.google.android.material.card.MaterialCardView>
@@ -298,67 +299,42 @@
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/ch_dairy_free"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_8dp_small"
-                        android:clickable="false"
+                        style="@style/ChipRecipeInfoStyle"
                         android:text="@string/dairy_free"
-                        android:textAlignment="center"
-                        android:textAllCaps="true"
+                        android:layout_marginTop="@dimen/margin_8dp_small"
                         app:layout_constraintEnd_toStartOf="@id/ch_gluten_free"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/nutrients_info_block" />
+                        app:layout_constraintTop_toBottomOf="@id/nutrients_info_block"
+                        android:checked="true"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/ch_gluten_free"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="false"
+                        style="@style/ChipRecipeInfoStyle"
                         android:text="@string/gluten_free"
-                        android:textAlignment="center"
-                        android:textAllCaps="true"
                         app:layout_constraintEnd_toStartOf="@id/ch_vegan"
                         app:layout_constraintStart_toEndOf="@id/ch_dairy_free"
                         app:layout_constraintTop_toTopOf="@id/ch_dairy_free" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/ch_vegan"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="false"
+                        style="@style/ChipRecipeInfoStyle"
                         android:text="@string/vegan"
-                        android:textAlignment="center"
-                        android:textAllCaps="true"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/ch_gluten_free"
                         app:layout_constraintTop_toTopOf="@id/ch_dairy_free" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/ch_vegetarian"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:clickable="false"
+                        style="@style/ChipRecipeInfoStyle"
                         android:text="@string/vegetarian"
-                        android:textAlignment="center"
-                        android:textAllCaps="true"
                         app:layout_constraintEnd_toStartOf="@id/ch_very_healthy"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/ch_dairy_free" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/ch_very_healthy"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="false"
+                        style="@style/ChipRecipeInfoStyle"
                         android:text="@string/very_healthy"
-                        android:textAlignment="center"
-                        android:textAllCaps="true"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/ch_vegetarian"
                         app:layout_constraintTop_toBottomOf="@id/ch_dairy_free" />

@@ -38,5 +38,11 @@
     //NavigationView
     <color name="grey_day">#696969</color>
     <color name="grey_night">#E4E4E4</color>
+    <color name="dark_grey">#303030</color>
+
+    //Contrast colors
+    <color name="light_blue">#63ADD0</color>
+    <color name="middle_blue">#086FA1</color>
+    <color name="dark_blue">#034769</color>
 
 </resources>
