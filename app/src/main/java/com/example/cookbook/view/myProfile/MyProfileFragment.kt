@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
+import android.widget.CompoundButton
 import androidx.core.view.forEach
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -72,7 +73,7 @@ class MyProfileFragment : Fragment() {
         binding.editProfileButton.setOnClickListener {
             childFragmentManager.beginTransaction()
                 .setCustomAnimations(
-                    R.anim.slide_in_from_bottom, 0,0, R.anim.slide_out_to_bottom
+                    R.anim.slide_in_from_bottom, 0, 0, R.anim.slide_out_to_bottom
                 )
                 .replace(R.id.my_profile_container, EditProfileFragment.newInstance())
                 .addToBackStack(null)
@@ -104,14 +105,27 @@ class MyProfileFragment : Fragment() {
             chip.isVisible = selectedItems.contains(chip.text.toString())
             chip.isChecked = chip.isVisible
 
-            chip.setOnCheckedChangeListener { _, isChecked ->
-                if(!isDietBlockOpen || !isIntoleranceBlockOpen) {
-                    TransitionManager.beginDelayedTransition(binding.root, AutoTransition())
+            chip.setOnCheckedChangeListener { ch, isChecked ->
+                when (ch.parent) {
+                    binding.dietsChipGroup -> {
+                        showHideChips(ch, isChecked, isDietBlockOpen)
+                    }
+
+                    binding.intolerancesChipGroup -> {
+                        showHideChips(ch, isChecked, isIntoleranceBlockOpen)
+                    }
                 }
 
                 val newSelectedItems = getSelectedChipsText(chipGroup)
                 model.saveSelectedRestrictions(newSelectedItems, preferenceKey)
             }
+        }
+    }
+
+    private fun showHideChips(ch: CompoundButton, isChecked: Boolean, flag: Boolean) {
+        if (!flag) {
+            TransitionManager.beginDelayedTransition(binding.root, AutoTransition())
+            ch.isVisible = isChecked
         }
     }
 
@@ -130,7 +144,7 @@ class MyProfileFragment : Fragment() {
         with(binding) {
             dietsText.setOnClickListener {
                 isDietBlockOpen = !isDietBlockOpen
-                if(isDietBlockOpen) {
+                if (isDietBlockOpen) {
                     animateBlockOpenMark(binding.dietBlockMark)
                 } else {
                     animateBlockCloseMark(binding.dietBlockMark)
@@ -140,7 +154,7 @@ class MyProfileFragment : Fragment() {
 
             intolerancesText.setOnClickListener {
                 isIntoleranceBlockOpen = !isIntoleranceBlockOpen
-                if(isIntoleranceBlockOpen) {
+                if (isIntoleranceBlockOpen) {
                     animateBlockOpenMark(binding.intoleranceBlockMark)
                 } else {
                     animateBlockCloseMark(binding.intoleranceBlockMark)
@@ -157,7 +171,7 @@ class MyProfileFragment : Fragment() {
         if (isOpen) {
             targetGroup.forEach { it.isVisible = true }
         } else {
-            val isChipChecked = {chip: View -> (chip as Chip).isChecked}
+            val isChipChecked = { chip: View -> (chip as Chip).isChecked }
             targetGroup.forEach {
                 it.isVisible = isChipChecked(it)
             }
@@ -170,10 +184,10 @@ class MyProfileFragment : Fragment() {
             Animation.RELATIVE_TO_SELF,
             0.5f,
             Animation.RELATIVE_TO_SELF,
-           0.5f
-       )
-       rotate.duration = 300
-       rotate.fillAfter = true
+            0.5f
+        )
+        rotate.duration = 300
+        rotate.fillAfter = true
         cardView.startAnimation(rotate)
     }
 
