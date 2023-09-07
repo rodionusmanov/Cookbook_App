@@ -15,7 +15,7 @@
         android:layout_gravity="center"
         android:layout_width="@dimen/item_circle_80dp"
         android:layout_height="@dimen/item_circle_80dp"
-        app:cardCornerRadius="@dimen/item_circle_corner_radius_80dp"
+        app:cardCornerRadius="@dimen/item_circle_corner_radius_20dp"
         app:cardBackgroundColor="@color/white"
         android:forceDarkAllowed="false"
         >

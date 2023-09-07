@@ -62,7 +62,7 @@
                 android:id="@+id/tv_search_recipe"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/search_result_item_recipe_title_height"
-                android:background="?attr/colorSecondary"
+                android:background="?attr/colorSecondaryVariant"
                 android:padding="@dimen/elevation_5dp_small"
                 android:text="@string/search_recipe"
                 android:textColor="@color/black"

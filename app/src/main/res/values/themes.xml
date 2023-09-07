@@ -7,7 +7,7 @@
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/orange_light</item>
-        <item name="colorSecondaryVariant">@color/orange_middle</item>
+        <item name="colorSecondaryVariant">@color/orange_light</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
@@ -16,5 +16,9 @@
 
         <item name="colorOnTertiary">@color/orange_middle</item>
         <item name="colorTertiary">@color/grey_day</item>
+        <item name="colorTertiaryContainer">@color/light_blue</item>
+
+        <item name="colorControlNormal">@color/orange_light</item>
+        <item name="colorButtonNormal">@color/dark_blue</item>
     </style>
 </resources>
