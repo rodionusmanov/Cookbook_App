@@ -44,5 +44,6 @@
     <color name="light_blue">#63ADD0</color>
     <color name="middle_blue">#086FA1</color>
     <color name="dark_blue">#034769</color>
+    <color name="transparent">#00000000</color>
 
 </resources>

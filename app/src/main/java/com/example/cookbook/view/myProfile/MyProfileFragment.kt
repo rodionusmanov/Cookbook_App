@@ -109,8 +109,6 @@ class MyProfileFragment : Fragment() {
                     TransitionManager.beginDelayedTransition(binding.root, AutoTransition())
                 }
 
-                chip.isVisible = isChecked
-
                 val newSelectedItems = getSelectedChipsText(chipGroup)
                 model.saveSelectedRestrictions(newSelectedItems, preferenceKey)
             }
