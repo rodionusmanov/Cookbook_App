@@ -51,11 +51,6 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <include
-        layout="@layout/layout_loading"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="176dp" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/result_recycler_view"
         android:layout_width="match_parent"

@@ -294,10 +294,4 @@
 
     </androidx.core.widget.NestedScrollView>
 
-
-    <include
-        layout="@layout/layout_loading"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="176dp" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

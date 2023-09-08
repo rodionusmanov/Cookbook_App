@@ -18,7 +18,6 @@
             android:layout_marginVertical="@dimen/margin_8dp_small"
             android:orientation="vertical">
 
-
             <ImageButton
                 android:id="@+id/btn_back"
                 style="@style/Widget.Material3.Button"
@@ -35,6 +34,7 @@
 
                 <ImageView
                     style="@style/ImageViewAllFiltersStyle"
+                    tools:ignore="ContentDescription"
                     />
 
                 <LinearLayout
@@ -202,6 +202,7 @@
 
                 <ImageView
                     style="@style/ImageViewAllFiltersStyle"
+                    tools:ignore="ContentDescription"
                     />
 
             <LinearLayout
@@ -234,7 +235,8 @@
                         android:layout_height="wrap_content"
                         android:importantForAccessibility="no"
                         android:src="@drawable/ic_add"
-                        app:tint="?attr/colorOnSecondary" />
+                        app:tint="?attr/colorOnSecondary"
+                        tools:ignore="ContentDescription"/>
 
                     <EditText
                         android:id="@+id/et_include_ingredient"
@@ -265,6 +267,7 @@
 
                 <ImageView
                     style="@style/ImageViewAllFiltersStyle"
+                    tools:ignore="ContentDescription"
                     />
 
             <LinearLayout
@@ -417,6 +420,7 @@
 
                 <ImageView
                     style="@style/ImageViewAllFiltersStyle"
+                    tools:ignore="ContentDescription"
                     />
 
             <LinearLayout
@@ -449,7 +453,8 @@
                         android:layout_height="wrap_content"
                         android:importantForAccessibility="no"
                         android:src="@drawable/ic_add"
-                        app:tint="?attr/colorOnSecondary" />
+                        app:tint="?attr/colorOnSecondary"
+                        tools:ignore="ContentDescription"/>
 
                     <EditText
                         android:id="@+id/et_exclude_ingredient"
@@ -480,6 +485,7 @@
 
                 <ImageView
                     style="@style/ImageViewAllFiltersStyle"
+                    tools:ignore="ContentDescription"
                     />
 
             <LinearLayout
@@ -540,6 +546,7 @@
 
                 <ImageView
                     style="@style/ImageViewAllFiltersStyle"
+                    tools:ignore="ContentDescription"
                     />
 
             <LinearLayout

@@ -65,7 +65,7 @@ class HomeFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initViewModel()
         setupSearchView()
-        //initRandomRecipeFragment()
+        initRandomRecipeFragment()
         //initHealthyRandomRecipeFragment()
         initDishTypeCards()
         //initRandomCuisineFragment()
@@ -288,7 +288,7 @@ class HomeFragment :
                 model.stateFlow.collect { renderData(it) }
             }
         }
-        //requestJokeText()
+        requestJokeText()
     }
 
     private fun requestJokeText() {
