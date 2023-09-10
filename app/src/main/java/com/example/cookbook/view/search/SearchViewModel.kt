@@ -50,6 +50,7 @@ class SearchViewModel(
             isInitialLoad = false
         } else {
             currentPage = 1
+            allRecipes.clear()
         }
 
         lastRequest = request
@@ -77,34 +78,33 @@ class SearchViewModel(
                     true,
                     currentPage
                 )
-
-                when (response) {
-                    is AppState.Success<*> -> {
-                        val newRecipes: List<BaseRecipeData> = if (response.data is List<*>) {
-                            (response.data as? List<*>)?.filterIsInstance<BaseRecipeData>()
-                                ?: listOf()
-                        } else {
-                            listOf()
-                        }
-
-                        if (loadNext) {
-                            allRecipes.addAll(newRecipes)
-                        } else {
-                            allRecipes.clear()
-                            allRecipes.addAll(newRecipes)
-                        }
-                        _stateFlow.emit(AppState.Success(allRecipes.toList()))
-                    }
-
-                    is AppState.Error -> {
-                        _stateFlow.emit(AppState.Error(response.error))
-                    }
-
-                    is AppState.Loading -> {}
-                }
+                processResponse(response, loadNext)
             } catch (e: Throwable) {
                 _stateFlow.emit(AppState.Error(e))
             }
+        }
+    }
+
+    private suspend fun processResponse(response: AppState, loadNext: Boolean) {
+        when (response) {
+            is AppState.Success<*> -> {
+                val newRecipes = (response.data as? List<*>)?.filterIsInstance<BaseRecipeData>()
+                    ?: listOf()
+
+                if (loadNext) {
+                    allRecipes.addAll(newRecipes)
+                } else {
+                    allRecipes.clear()
+                    allRecipes.addAll(newRecipes)
+                }
+                _stateFlow.emit(AppState.Success(allRecipes.toList()))
+            }
+
+            is AppState.Error -> {
+                _stateFlow.emit(AppState.Error(response.error))
+            }
+
+            is AppState.Loading -> {}
         }
     }
 

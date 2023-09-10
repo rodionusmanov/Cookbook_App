@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 
 class RandomRecipeListViewModel(
     private val interactor: RandomRecipeListInteractor
-) : BaseViewModel<AppState>(), CheckRecipeExistenceViewModelExistence {
+) : BaseViewModel<AppState>(), CheckRecipeExistence {
 
     private val _stateFlow = MutableStateFlow<AppState>(AppState.Loading)
     val stateFlow: StateFlow<AppState> get() = _stateFlow

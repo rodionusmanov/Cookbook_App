@@ -2,7 +2,6 @@ package com.example.cookbook.view.search
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -115,7 +114,7 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
                     maxCaloriesFilter
                 )
             }
-        } ?: Log.d("@@@", "No arguments to handle")
+        }
     }
 
     private fun setFilterQuery(
@@ -162,7 +161,9 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
         }
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                model.stateFlow.collect { renderData(it) }
+
+                model.stateFlow.collect {
+                    renderData(it) }
             }
         }
     }
@@ -267,6 +268,7 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
     }
 
     override fun setupData(data: List<BaseRecipeData>) {
+
         if (model.isInitialLoad) {
             adapter.submitList(data)
         } else {
@@ -294,9 +296,5 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
         val imm =
             requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
-    }
-
-    private fun checkRecipeExistenceInDatabase(){
-
     }
 }

@@ -8,14 +8,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.size.Scale
-import com.example.cookbook.R
 import com.example.cookbook.databinding.ItemSearchResultBinding
 import com.example.cookbook.model.domain.BaseRecipeData
-import com.example.cookbook.model.interactor.RandomRecipeListInteractor
-import com.example.cookbook.view.favorite.FavoriteRecipesViewModel
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class SearchResultAdapter :
     ListAdapter<BaseRecipeData, SearchResultAdapter.RecyclerItemViewHolder>(SearchCallback()) {
@@ -33,7 +27,6 @@ class SearchResultAdapter :
             }
         }
     }
-
 
     class SearchCallback : DiffUtil.ItemCallback<BaseRecipeData>() {
         override fun areItemsTheSame(
@@ -57,10 +50,21 @@ class SearchResultAdapter :
 
     private fun ItemSearchResultBinding.setTextAndImage(data: BaseRecipeData) {
         tvSearchRecipe.text = data.title
+
         ivSearchRecipe.load(data.image) {
             crossfade(500)
             scale(Scale.FILL)
-            placeholder(R.drawable.icon_search)
+            listener(
+                onStart = {
+                    progressBar.visibility = View.VISIBLE
+                },
+                onSuccess = {_,_ ->
+                    progressBar.visibility = View.GONE
+                },
+                onError = {_,_ ->
+                    progressBar.visibility = View.GONE
+                }
+            )
         }
     }
 

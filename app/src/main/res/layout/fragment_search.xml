@@ -44,10 +44,7 @@
 
         <include
             android:id="@+id/various_dishes"
-            layout="@layout/various_dishes"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/joke_of_the_day_container" />
+            layout="@layout/various_dishes" />
 
     </androidx.core.widget.NestedScrollView>
 
@@ -58,10 +55,6 @@
         android:layout_marginHorizontal="@dimen/margin_10dp_small"
         android:padding="@dimen/margin_8dp_small"
         android:scrollbars="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/item_search_result" />
 
 </LinearLayout>
