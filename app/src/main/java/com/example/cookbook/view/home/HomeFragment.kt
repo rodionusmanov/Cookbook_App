@@ -65,7 +65,7 @@ class HomeFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initViewModel()
         setupSearchView()
-        //initRandomRecipeFragment()
+        initRandomRecipeFragment()
         //initHealthyRandomRecipeFragment()
         initDishTypeCards()
         //initRandomCuisineFragment()
@@ -288,7 +288,7 @@ class HomeFragment :
                 model.stateFlow.collect { renderData(it) }
             }
         }
-        //requestJokeText()
+        requestJokeText()
     }
 
     private fun requestJokeText() {
@@ -306,6 +306,8 @@ class HomeFragment :
                 if (jokeTextFull.lineCount < 8) {
                     moreTextButton.visibility = View.GONE
                     moreTextMark.visibility = View.GONE
+                } else {
+                    jokeTextFull.maxLines = 5
                 }
             }
         }

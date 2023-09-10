@@ -86,7 +86,7 @@ val homeFragment = module {
 
 val searchFragment = module {
     viewModel { SearchViewModel(get()) }
-    factory { SearchFragmentInteractor(get(), get()) }
+    factory { SearchFragmentInteractor(get(), LocalRepositoryInfoImpl(get()), get()) }
 }
 
 val randomRecipeFragment = module {

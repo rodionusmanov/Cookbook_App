@@ -1,11 +1,14 @@
 package com.example.cookbook.model.interactor
 
 import com.example.cookbook.model.AppState
+import com.example.cookbook.model.repository.local.LocalRepositoryInfoImpl
 import com.example.cookbook.model.repository.remote.IRepositorySearchRequest
 import com.example.cookbook.model.repository.sharedPreferences.SharedPreferencesRepository
+import kotlinx.coroutines.flow.Flow
 
 class SearchFragmentInteractor(
     private val remoteRepository: IRepositorySearchRequest,
+    private val localRepository: LocalRepositoryInfoImpl,
     private val preferencesRepository: SharedPreferencesRepository
 ) {
 
@@ -39,5 +42,9 @@ class SearchFragmentInteractor(
         } catch (e: Exception) {
             AppState.Error(e)
         }
+    }
+
+    fun observeRecipeExistence(id: Int): Flow<Boolean> {
+        return localRepository.observeRecipeExistence(id)
     }
 }

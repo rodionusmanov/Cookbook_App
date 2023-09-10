@@ -9,16 +9,15 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.size.Scale
-import com.example.cookbook.R
 import com.example.cookbook.databinding.ItemRandomRecipeRvBinding
 import com.example.cookbook.model.domain.BaseRecipeData
 import com.example.cookbook.model.domain.RandomRecipeData
 import kotlinx.coroutines.launch
 
 class RandomRecipeListAdapter(
-    private val viewModel: CheckRecipeExistenceViewModelExistence,
+    private val viewModel: CheckRecipeExistence,
     private val lifecycleScope: LifecycleCoroutineScope,
-    private val lifecycle: Lifecycle
+    private val lifecycle: Lifecycle,
 ) :
     RecyclerView.Adapter<RandomRecipeListAdapter.RecyclerItemViewHolder>() {
 
@@ -33,6 +32,7 @@ class RandomRecipeListAdapter(
 
     fun setData(data: List<RandomRecipeData>) {
         this.data = data
+        viewModel.setRecipeIdsToWatch(data.map {it.id})
     }
 
     inner class RecyclerItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -40,7 +40,6 @@ class RandomRecipeListAdapter(
         fun bind(data: BaseRecipeData) {
             if (layoutPosition != RecyclerView.NO_POSITION) {
                 ItemRandomRecipeRvBinding.bind(itemView).apply {
-                    viewModel.observeRecipeExistenceInDatabase(data.id)
                     setTextAndImage(data)
                     setOnClickListener(data)
                     setCheckBox(data)
@@ -67,7 +66,18 @@ class RandomRecipeListAdapter(
             randomRecipeImage.load(data.image) {
                 crossfade(500)
                 scale(Scale.FILL)
-                placeholder(R.drawable.icon_search)
+                listener(
+                    onStart = {
+                        progressBar.visibility = View.VISIBLE
+                    },
+                    onSuccess = {_,_ ->
+                        progressBar.visibility = View.GONE
+                    },
+                    onError = {_,_ ->
+                        progressBar.visibility = View.GONE
+
+                    }
+                )
             }
         }
     }

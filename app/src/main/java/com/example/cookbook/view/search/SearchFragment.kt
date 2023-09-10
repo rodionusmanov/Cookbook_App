@@ -2,7 +2,6 @@ package com.example.cookbook.view.search
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -48,7 +47,13 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
 ) {
 
     private val model: SearchViewModel by activityViewModel()
-    private val adapter: SearchResultAdapter by lazy { SearchResultAdapter() }
+    private val adapter: SearchResultAdapter by lazy {
+        SearchResultAdapter(
+            model,
+            viewLifecycleOwner.lifecycleScope,
+            viewLifecycleOwner.lifecycle
+        )
+    }
     private var navigationManager: NavigationManager? = null
     private var isLoading = false
 
@@ -75,6 +80,13 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
         initViewModel()
         initArgumentsFlow()
         initView()
+        initToolbarAutoElevation()
+    }
+
+    private fun initToolbarAutoElevation() {
+        binding.searchFragmentScrollView.setOnScrollChangeListener {_,_,_,_,_ ->
+            binding.toolbar.isSelected = binding.searchFragmentScrollView.canScrollVertically(-1)
+        }
     }
 
     private fun initArgumentsFlow() {
@@ -115,7 +127,7 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
                     maxCaloriesFilter
                 )
             }
-        } ?: Log.d("@@@", "No arguments to handle")
+        }
     }
 
     private fun setFilterQuery(
@@ -162,7 +174,8 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
         }
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                model.stateFlow.collect { renderData(it) }
+                model.stateFlow.collect {
+                    renderData(it) }
             }
         }
     }
@@ -176,7 +189,6 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
                         query?.let {
                             model.searchRecipeRequest(it)
                             hideKeyboard(binding.searchView)
-
                         }
                         return true
                     }
@@ -267,10 +279,11 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
     }
 
     override fun setupData(data: List<BaseRecipeData>) {
+
         if (model.isInitialLoad) {
-            adapter.submitList(data)
+            adapter.setData(data)
         } else {
-            adapter.submitList(data)
+            adapter.setData(data)
             isLoading = false
         }
         adapter.listener = { recipe ->
@@ -294,9 +307,5 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
         val imm =
             requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
-    }
-
-    private fun checkRecipeExistenceInDatabase(){
-
     }
 }
