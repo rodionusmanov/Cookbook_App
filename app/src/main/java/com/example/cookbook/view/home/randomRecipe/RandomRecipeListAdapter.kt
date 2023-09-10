@@ -32,6 +32,7 @@ class RandomRecipeListAdapter(
 
     fun setData(data: List<RandomRecipeData>) {
         this.data = data
+        viewModel.setRecipeIdsToWatch(data.map {it.id})
     }
 
     inner class RecyclerItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -39,7 +40,6 @@ class RandomRecipeListAdapter(
         fun bind(data: BaseRecipeData) {
             if (layoutPosition != RecyclerView.NO_POSITION) {
                 ItemRandomRecipeRvBinding.bind(itemView).apply {
-                    viewModel.observeRecipeExistenceInDatabase(data.id)
                     setTextAndImage(data)
                     setOnClickListener(data)
                     setCheckBox(data)

@@ -1,9 +1,9 @@
 package com.example.cookbook.view.home.randomRecipe
 
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.Flow
 
 interface CheckRecipeExistence {
-    fun observeRecipeExistenceInDatabase(id: Int)
-    val recipeExistenceInDatabase: StateFlow<Pair<Int, Boolean>?>
+    fun setRecipeIdsToWatch(ids: List<Int>)
+    val recipeExistenceInDatabase: Flow<Pair<Int, Boolean>?>
 
 }

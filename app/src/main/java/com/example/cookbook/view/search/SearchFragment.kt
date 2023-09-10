@@ -47,7 +47,13 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
 ) {
 
     private val model: SearchViewModel by activityViewModel()
-    private val adapter: SearchResultAdapter by lazy { SearchResultAdapter() }
+    private val adapter: SearchResultAdapter by lazy {
+        SearchResultAdapter(
+            model,
+            viewLifecycleOwner.lifecycleScope,
+            viewLifecycleOwner.lifecycle
+        )
+    }
     private var navigationManager: NavigationManager? = null
     private var isLoading = false
 
@@ -161,7 +167,6 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
         }
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-
                 model.stateFlow.collect {
                     renderData(it) }
             }
@@ -177,7 +182,6 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
                         query?.let {
                             model.searchRecipeRequest(it)
                             hideKeyboard(binding.searchView)
-
                         }
                         return true
                     }
@@ -270,9 +274,9 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
     override fun setupData(data: List<BaseRecipeData>) {
 
         if (model.isInitialLoad) {
-            adapter.submitList(data)
+            adapter.setData(data)
         } else {
-            adapter.submitList(data)
+            adapter.setData(data)
             isLoading = false
         }
         adapter.listener = { recipe ->
