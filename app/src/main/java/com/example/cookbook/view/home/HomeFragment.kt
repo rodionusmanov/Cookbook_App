@@ -306,6 +306,8 @@ class HomeFragment :
                 if (jokeTextFull.lineCount < 8) {
                     moreTextButton.visibility = View.GONE
                     moreTextMark.visibility = View.GONE
+                } else {
+                    jokeTextFull.maxLines = 5
                 }
             }
         }
