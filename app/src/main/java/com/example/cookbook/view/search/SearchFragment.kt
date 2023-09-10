@@ -80,6 +80,13 @@ class SearchFragment : BaseFragment<AppState, List<BaseRecipeData>, FragmentSear
         initViewModel()
         initArgumentsFlow()
         initView()
+        initToolbarAutoElevation()
+    }
+
+    private fun initToolbarAutoElevation() {
+        binding.searchFragmentScrollView.setOnScrollChangeListener {_,_,_,_,_ ->
+            binding.toolbar.isSelected = binding.searchFragmentScrollView.canScrollVertically(-1)
+        }
     }
 
     private fun initArgumentsFlow() {
