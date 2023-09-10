@@ -1,7 +1,6 @@
 package com.example.cookbook.view.recipeInfo.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
@@ -10,9 +9,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import coil.load
 import com.example.cookbook.databinding.ItemUniversalBinding
 import com.example.cookbook.model.datasource.DTO.recipeInformation.Equipment
-import com.example.cookbook.model.datasource.DTO.recipeInformation.ExtendedIngredient
 import com.example.cookbook.model.datasource.DTO.recipeInformation.Ingredient
-import com.example.cookbook.model.datasource.DTO.recipeInformation.Step
 import com.example.cookbook.model.domain.UniversalItem
 
 class UniversalAdapter : ListAdapter<UniversalItem, UniversalAdapter.UniversalViewHolder> (
@@ -22,15 +19,6 @@ class UniversalAdapter : ListAdapter<UniversalItem, UniversalAdapter.UniversalVi
         ViewHolder(binding.root) {
         fun bind(data: UniversalItem) {
             when (data) {
-                is ExtendedIngredient -> {
-                    with(binding) {
-                        itemCircle.visibility = View.GONE
-                        tvUniversalItem.text =
-                            "${data.originalName} ${data.measures.metric.amount} ${data.measures.metric.unitLong}"
-                        ivUniversalItem.isVisible = false
-                    }
-                }
-
                 is Equipment -> {
                     with(binding) {
                         tvUniversalItem.text = data.name
@@ -48,14 +36,6 @@ class UniversalAdapter : ListAdapter<UniversalItem, UniversalAdapter.UniversalVi
                         ivUniversalItem.load(data.image) {
                             crossfade(true)
                         }
-                    }
-                }
-
-                is Step -> {
-                    with(binding) {
-                        itemCircle.visibility = View.GONE
-                        tvUniversalItem.text = data.step
-                        ivUniversalItem.isVisible = false
                     }
                 }
             }

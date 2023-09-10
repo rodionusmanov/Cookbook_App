@@ -9,17 +9,18 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.cookbook.databinding.FragmentIngredientBinding
-import com.example.cookbook.view.recipeInfo.adapters.UniversalAdapter
+import com.example.cookbook.view.recipeInfo.adapters.RecipeIngredientsAdapter
 import com.example.cookbook.view.recipeInfoFromDatabase.RecipeInfoFromDatabaseViewModel
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class IngredientFromDatabaseFragment : Fragment() {
 
     private var _binding: FragmentIngredientBinding? = null
     private val binding get() = _binding!!
-    private val adapter: UniversalAdapter by inject()
+    private val adapter: RecipeIngredientsAdapter by lazy {
+        RecipeIngredientsAdapter(context?.applicationContext)
+    }
     private val viewModel: RecipeInfoFromDatabaseViewModel by activityViewModel()
 
 

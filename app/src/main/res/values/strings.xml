@@ -73,6 +73,7 @@
     <string name="steps">Steps</string>
     <string name="calories">calories</string>
     <string name="add_to_favorite">add to favorite</string>
+    <string name="ingredient_format">%1$s %2$s %3$s</string>
 
     //MyProfile
     <string name="user_name">User Name</string>
