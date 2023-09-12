@@ -97,12 +97,11 @@
                 <com.google.android.material.chip.Chip
                     android:id="@+id/ch_add_to_favorite"
                     style="@style/ChipRecipeInfoStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:checkable="true"
+                    android:checkable="false"
                     android:checked="false"
-                    android:text="@string/add_to_favorite" />
+                    android:text="@string/add_to_favorite"
+                    app:chipBackgroundColor="?attr/colorTertiaryContainer" />
 
             </LinearLayout>
 
@@ -300,12 +299,12 @@
                     <com.google.android.material.chip.Chip
                         android:id="@+id/ch_dairy_free"
                         style="@style/ChipRecipeInfoStyle"
-                        android:text="@string/dairy_free"
                         android:layout_marginTop="@dimen/margin_8dp_small"
+                        android:checked="true"
+                        android:text="@string/dairy_free"
                         app:layout_constraintEnd_toStartOf="@id/ch_gluten_free"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/nutrients_info_block"
-                        android:checked="true"/>
+                        app:layout_constraintTop_toBottomOf="@id/nutrients_info_block" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/ch_gluten_free"
