@@ -1,6 +1,7 @@
 package com.example.cookbook.utils
 
 const val COMPLEX_SEARCH_RECIPE_API = "https://api.spoonacular.com/"
+
 //const val SPOONACULAR_API_KEY = "e0f820d255c2495698a1eb65d4f195ff"
 //const val SPOONACULAR_API_KEY = "5cd80f128c6a4bc583f45c3b53b010be"
 const val SPOONACULAR_API_KEY = "e51af98a8a0649d98081a6445393c430"
