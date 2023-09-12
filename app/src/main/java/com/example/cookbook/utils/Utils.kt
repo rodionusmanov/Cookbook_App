@@ -140,6 +140,7 @@ fun convertExtendedIngredientToStringList(extendedIngredients: List<ExtendedIngr
         resultList.add(
             listOf<String>(
                 it.originalName,
+                it.image,
                 it.measures.metric.amount.toString(),
                 it.measures.metric.unitLong
             ).joinToString(
@@ -253,8 +254,8 @@ fun convertStringListToExtendedIngredients(extendedIngredient: List<String>): Li
             ExtendedIngredient(
                 "",
                 0,
-                "",
-                Measures(Metric(strings[1].toDouble(), strings[2], "")),
+                strings[1],
+                Measures(Metric(strings[2].toDouble(), strings[3], "")),
                 listOf(),
                 strings[0]
             )
