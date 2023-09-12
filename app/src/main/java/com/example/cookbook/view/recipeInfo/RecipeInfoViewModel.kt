@@ -26,14 +26,19 @@ class RecipeInfoViewModel(
     private val _instructions = MutableStateFlow<List<AnalyzedInstruction>>(listOf())
     val instructions: StateFlow<List<AnalyzedInstruction>> get() = _instructions.asStateFlow()
 
-    private val _recipeExistenceInDatabase = MutableStateFlow<Boolean>(false)
+    private val _recipeExistenceInDatabase = MutableStateFlow(false)
     val recipeExistenceInDatabase: StateFlow<Boolean> get() = _recipeExistenceInDatabase.asStateFlow()
 
     fun recipeInfoRequest(id: Int) {
         viewModelCoroutineScope.launch {
             _stateFlow.value = AppState.Loading
             try {
-                _stateFlow.emit(interactor.getRecipeInfo(id, true))
+                if(localRepository.checkExistence(id)) {
+                    val localRecipeData = localRepository.getRecipeDataById(id)
+                    _stateFlow.emit(AppState.Success(localRecipeData))
+                } else {
+                    _stateFlow.emit(interactor.getRecipeInfo(id, true))
+                }
             } catch (e: Throwable) {
                 _stateFlow.emit(AppState.Error(e))
             }

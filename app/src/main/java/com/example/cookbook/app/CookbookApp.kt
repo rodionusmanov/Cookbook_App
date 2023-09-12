@@ -10,7 +10,6 @@ import com.example.cookbook.di.myProfileFragment
 import com.example.cookbook.di.network
 import com.example.cookbook.di.randomRecipeFragment
 import com.example.cookbook.di.recipeInfo
-import com.example.cookbook.di.recipeInfoFromDatabase
 import com.example.cookbook.di.remoteDataSource
 import com.example.cookbook.di.searchFragment
 import com.example.cookbook.model.room.RecipesDatabase
@@ -35,7 +34,6 @@ class CookbookApp : Application() {
                     randomRecipeFragment,
                     recipeInfo,
                     favoritesFragment,
-                    recipeInfoFromDatabase,
                     myProfileFragment
                 )
             )

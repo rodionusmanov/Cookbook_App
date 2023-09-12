@@ -11,7 +11,6 @@ import com.example.cookbook.utils.FRAGMENT_FAVORITE
 import com.example.cookbook.utils.FRAGMENT_HOME
 import com.example.cookbook.utils.FRAGMENT_PROFILE
 import com.example.cookbook.utils.FRAGMENT_RECIPE_INFO
-import com.example.cookbook.utils.FRAGMENT_RECIPE_INFO_FROM_DATABASE
 import com.example.cookbook.utils.FRAGMENT_SEARCH
 import com.example.cookbook.utils.ID
 import com.example.cookbook.view.allFilters.AllFiltersFragment
@@ -19,7 +18,6 @@ import com.example.cookbook.view.favorite.FavoriteFragment
 import com.example.cookbook.view.home.HomeFragment
 import com.example.cookbook.view.myProfile.MyProfileFragment
 import com.example.cookbook.view.recipeInfo.RecipeInfoFragment
-import com.example.cookbook.view.recipeInfoFromDatabase.RecipeInfoFromDatabaseFragment
 import com.example.cookbook.view.search.SearchFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.Stack
@@ -35,7 +33,6 @@ class NavigationManager(
         FRAGMENT_FAVORITE to FavoriteFragment(),
         FRAGMENT_PROFILE to MyProfileFragment(),
         FRAGMENT_RECIPE_INFO to RecipeInfoFragment(),
-        FRAGMENT_RECIPE_INFO_FROM_DATABASE to RecipeInfoFromDatabaseFragment(),
         FRAGMENT_ALL_FILTERS to AllFiltersFragment()
     )
     private val fragmentBackStack = Stack<String>()
@@ -99,7 +96,7 @@ class NavigationManager(
             FRAGMENT_HOME to 0, FRAGMENT_SEARCH to 1, FRAGMENT_FAVORITE to 2, FRAGMENT_PROFILE to 3)
 
         val specialTags = setOf(
-            FRAGMENT_RECIPE_INFO, FRAGMENT_RECIPE_INFO_FROM_DATABASE, FRAGMENT_ALL_FILTERS)
+            FRAGMENT_RECIPE_INFO, FRAGMENT_ALL_FILTERS)
 
         val currentFragmentOrder = currentFragmentTag?.let { fragmentOrder[it] }
         val newFragmentOrder = fragmentOrder[tag]
@@ -132,7 +129,7 @@ class NavigationManager(
     }
 
     private fun handleSpecialFragments(fragmentTransaction: FragmentTransaction, tag: String) {
-        if (tag == FRAGMENT_RECIPE_INFO || tag == FRAGMENT_RECIPE_INFO_FROM_DATABASE) {
+        if (tag == FRAGMENT_RECIPE_INFO) {
             val oldFragment =
                 activity.supportFragmentManager.findFragmentByTag(tag)
             oldFragment?.let {
@@ -140,7 +137,7 @@ class NavigationManager(
             }
         }
         fragmentBackStack.removeAll {
-            it == FRAGMENT_RECIPE_INFO || it == FRAGMENT_RECIPE_INFO_FROM_DATABASE
+            it == FRAGMENT_RECIPE_INFO
         }
     }
 
@@ -156,7 +153,7 @@ class NavigationManager(
         recipeInfoFragment: Fragment?
     ): Fragment? {
         var newFragment = activity.supportFragmentManager.findFragmentByTag(tag)
-        if (newFragment == null || tag == FRAGMENT_RECIPE_INFO || tag == FRAGMENT_RECIPE_INFO_FROM_DATABASE) {
+        if (newFragment == null || tag == FRAGMENT_RECIPE_INFO) {
             newFragment = recipeInfoFragment ?: fragments[tag]
             if (newFragment != null) {
                 fragmentTransaction.add(R.id.main_container, newFragment, tag)
@@ -235,18 +232,5 @@ class NavigationManager(
     fun openAllFiltersFragment() {
         val allFiltersFragment = AllFiltersFragment.newInstance()
         switchFragment(FRAGMENT_ALL_FILTERS, allFiltersFragment, true)
-    }
-
-    fun openRecipeInfoFromDatabaseFragment(recipeId: Int) {
-        val recipeInfoFromDatabaseFragment = RecipeInfoFromDatabaseFragment.newInstance()
-        val bundle = Bundle().apply {
-            putInt(ID, recipeId)
-        }
-        recipeInfoFromDatabaseFragment.arguments = bundle
-        switchFragment(
-            FRAGMENT_RECIPE_INFO_FROM_DATABASE,
-            fragment = recipeInfoFromDatabaseFragment,
-            addToBackStack = true
-        )
     }
 }
