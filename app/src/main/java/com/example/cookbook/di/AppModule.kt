@@ -12,7 +12,6 @@ import com.example.cookbook.model.datasource.retrofit.RetrofitImplementation
 import com.example.cookbook.model.interactor.FavoriteFragmentInteractor
 import com.example.cookbook.model.interactor.HomeFragmentInteractor
 import com.example.cookbook.model.interactor.RandomRecipeListInteractor
-import com.example.cookbook.model.interactor.RecipeFromDatabaseFragmentInteractor
 import com.example.cookbook.model.interactor.RecipeInfoFragmentInteractor
 import com.example.cookbook.model.interactor.SearchFragmentInteractor
 import com.example.cookbook.model.repository.local.ILocalRecipesInfoRepository
@@ -31,7 +30,6 @@ import com.example.cookbook.view.home.randomRecipe.RandomRecipeListViewModel
 import com.example.cookbook.view.myProfile.MyProfileViewModel
 import com.example.cookbook.view.recipeInfo.RecipeInfoViewModel
 import com.example.cookbook.view.recipeInfo.adapters.UniversalAdapter
-import com.example.cookbook.view.recipeInfoFromDatabase.RecipeInfoFromDatabaseViewModel
 import com.example.cookbook.view.search.SearchViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
@@ -104,22 +102,8 @@ val recipeInfo = module {
     factory { RecipeInfoFragmentInteractor(get()) }
 }
 
-val recipeInfoFromDatabase = module {
-    viewModel {
-        RecipeInfoFromDatabaseViewModel(
-            get(),
-            LocalRepositoryInfoImpl(get())
-        )
-    }
-    factory { RecipeFromDatabaseFragmentInteractor(LocalRepositoryInfoImpl(get())) }
-}
-
 val favoritesFragment = module {
-    viewModel {
-        FavoriteRecipesViewModel(
-            get()
-        )
-    }
+    viewModel { FavoriteRecipesViewModel(get()) }
     factory { FavoriteFragmentInteractor(LocalRepositoryInfoImpl(get())) }
 }
 

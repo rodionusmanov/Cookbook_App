@@ -17,13 +17,13 @@ import com.example.cookbook.utils.navigation.NavigationManager
 import com.example.cookbook.view.base.BaseFragment
 import com.example.cookbook.view.mainActivity.MainActivity
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.activityViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoriteFragment : BaseFragment<AppState, List<RecipeInformation>, FragmentFavoriteBinding>(
     FragmentFavoriteBinding::inflate
 ) {
 
-    private val viewModel: FavoriteRecipesViewModel by activityViewModel()
+    private val viewModel: FavoriteRecipesViewModel by viewModel()
     private val adapter: FavoriteRecipesAdapter by lazy { FavoriteRecipesAdapter() }
 
     override fun onAttach(context: Context) {
@@ -56,7 +56,7 @@ class FavoriteFragment : BaseFragment<AppState, List<RecipeInformation>, Fragmen
     }
 
     override fun showErrorDialog(message: String?) {
-//        TODO("Not yet implemented")
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
 
@@ -71,7 +71,7 @@ class FavoriteFragment : BaseFragment<AppState, List<RecipeInformation>, Fragmen
     }
 
     private fun openRecipeInfoFromDatabaseFragment(recipeId: Int) {
-        navigationManager?.openRecipeInfoFromDatabaseFragment(recipeId)
+        navigationManager?.openRecipeInfoFragment(recipeId)
     }
 
     companion object {
