@@ -284,36 +284,29 @@ fun convertStringListToAnalyzedInstruction(analyzedInstruction: List<String>): L
 
             equipmentInnerString.forEach { innerEquipment ->
                 val equipmentStrings = innerEquipment.split(SEPARATOR_EQUIPMENT).toTypedArray()
-                equipmentList.add(
-                    if (innerEquipment != "") {
+                if (innerEquipment != "" && innerEquipment != SEPARATOR_EQUIPMENT) {
+                    equipmentList.add(
                         Equipment(
                             0,
                             equipmentStrings[0],
                             equipmentStrings[1]
                         )
-                    } else {
-                        Equipment(0, "", "")
-                    }
-
-                )
+                    )
+                }
             }
 
             ingredientInnerString.forEach { innerIngredient ->
                 val ingredientStrings =
                     innerIngredient.split(SEPARATOR_INGREDIENT).toTypedArray()
-                ingredientList.add(
-                    if (innerIngredient != "") {
-                        Ingredient(
-                            0,
-                            ingredientStrings[0],
-                            ingredientStrings[1]
-                        )
-                    } else {
-                        Ingredient(
-                            0, "", ""
+                    if (innerIngredient != "" && innerIngredient != SEPARATOR_INGREDIENT) {
+                        ingredientList.add(
+                            Ingredient(
+                                0,
+                                ingredientStrings[0],
+                                ingredientStrings[1]
+                            )
                         )
                     }
-                )
             }
 
             stepList.add(
@@ -326,6 +319,8 @@ fun convertStringListToAnalyzedInstruction(analyzedInstruction: List<String>): L
                 )
             )
             stepName = ""
+            equipmentList = mutableListOf()
+            ingredientList = mutableListOf()
         }
         resultList.add(
             AnalyzedInstruction(stepList)

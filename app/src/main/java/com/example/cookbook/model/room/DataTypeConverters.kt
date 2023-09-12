@@ -23,18 +23,4 @@ class DataTypeConverters {
     fun listToString(someObjects: List<String>): String {
         return gson.toJson(someObjects)
     }
-
-    @TypeConverter
-    fun stringToDouble(data: String): Double {
-        if (data == null) {
-            return 0.0
-        }
-        val listType: Type = object : TypeToken<Double>() {}.type
-        return gson.fromJson(data, listType)
-    }
-
-    @TypeConverter
-    fun DoubleToString(someObjects: Double): String {
-        return gson.toJson(someObjects)
-    }
 }
