@@ -101,7 +101,8 @@ fun convertStepsToString(steps: List<Step>): String {
             listOf<String>(
                 convertEquipmentListToString(it.equipment),
                 convertIngredientsListToString(it.ingredients),
-                it.step
+                it.step,
+                it.number.toString()
             ).joinToString(separator = SEPARATOR_STEPS)
         )
     }
@@ -140,6 +141,7 @@ fun convertExtendedIngredientToStringList(extendedIngredients: List<ExtendedIngr
         resultList.add(
             listOf<String>(
                 it.originalName,
+                it.image,
                 it.measures.metric.amount.toString(),
                 it.measures.metric.unitLong
             ).joinToString(
@@ -153,7 +155,7 @@ fun convertExtendedIngredientToStringList(extendedIngredients: List<ExtendedIngr
 fun convertRecipeInfoEntityToList(entityList: List<RecipeInfoEntity>): List<RecipeInformation> {
     return entityList.map {
         RecipeInformation(
-            emptyList<AnalyzedInstruction>(),
+            convertStringListToAnalyzedInstruction(it.analyzedInstruction),
             (it.dairyFree == 1),
             it.dishTypes,
             convertStringListToExtendedIngredients(it.extendedIngredient),
@@ -253,8 +255,8 @@ fun convertStringListToExtendedIngredients(extendedIngredient: List<String>): Li
             ExtendedIngredient(
                 "",
                 0,
-                "",
-                Measures(Metric(strings[1].toDouble(), strings[2], "")),
+                strings[1],
+                Measures(Metric(strings[2].toDouble(), strings[3], "")),
                 listOf(),
                 strings[0]
             )
@@ -268,6 +270,7 @@ fun convertStringListToAnalyzedInstruction(analyzedInstruction: List<String>): L
     var equipmentList: MutableList<Equipment> = mutableListOf()
     var ingredientList: MutableList<Ingredient> = mutableListOf()
     var stepName = ""
+    var stepNumber = ""
 
     analyzedInstruction.forEach { instruction ->
         val stepsString = instruction.split(SEPARATOR_STEPS_LIST).toTypedArray()
@@ -281,6 +284,7 @@ fun convertStringListToAnalyzedInstruction(analyzedInstruction: List<String>): L
             val ingredientInnerString =
                 stepElements[1].split(SEPARATOR_INGREDIENT_LIST).toTypedArray()
             stepName = stepElements[2]
+            stepNumber = stepElements[3]
 
             equipmentInnerString.forEach { innerEquipment ->
                 val equipmentStrings = innerEquipment.split(SEPARATOR_EQUIPMENT).toTypedArray()
@@ -314,10 +318,11 @@ fun convertStringListToAnalyzedInstruction(analyzedInstruction: List<String>): L
                     equipmentList,
                     ingredientList,
                     null,
-                    0,
+                    stepNumber.toInt(),
                     stepName
                 )
             )
+            stepNumber = ""
             stepName = ""
             equipmentList = mutableListOf()
             ingredientList = mutableListOf()
