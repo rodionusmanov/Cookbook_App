@@ -66,6 +66,12 @@ class FavoriteFragment : BaseFragment<AppState, List<RecipeInformation>, Fragmen
         adapter.listener = { recipe ->
             openRecipeInfoFromDatabaseFragment(recipe.id)
         }
+
+        adapter.deleteRecipeListener = {
+            lifecycleScope.launch {
+                viewModel.removeRecipe(it)
+            }
+        }
         binding.favoriteRecipesRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.favoriteRecipesRecyclerView.adapter = adapter
     }

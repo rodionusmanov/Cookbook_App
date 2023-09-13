@@ -28,4 +28,8 @@ class FavoriteRecipesViewModel(
             }
         }
     }
+
+    suspend fun removeRecipe(id: Int){
+        interactor.removeRecipeById(id)
+    }
 }
