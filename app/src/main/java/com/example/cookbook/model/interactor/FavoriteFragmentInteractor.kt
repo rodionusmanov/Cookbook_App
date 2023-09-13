@@ -11,4 +11,8 @@ class FavoriteFragmentInteractor(
     fun getRecipesFromDatabase(): Flow<List<RecipeInfoEntity>> {
         return localRepositoryInfoImpl.getAllRecipesData()
     }
+
+    suspend fun removeRecipeById(id: Int){
+        localRepositoryInfoImpl.removeRecipeFromData(id)
+    }
 }
