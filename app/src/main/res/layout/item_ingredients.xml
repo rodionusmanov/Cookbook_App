@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="@dimen/margin_8dp_small"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/image_block"
+        android:layout_width="@dimen/item_circle_80dp"
+        android:layout_height="@dimen/item_circle_80dp"
+        android:layout_marginTop="@dimen/margin_8dp_small"
+        android:layout_marginStart="@dimen/margin_8dp_small"
+        android:elevation="@dimen/elevation_10dp_small"
+        app:cardCornerRadius="@dimen/item_circle_corner_radius_20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardBackgroundColor="@color/white"
+        android:forceDarkAllowed="false">
+
+        <ImageView
+            android:id="@+id/iv_ingredient_image"
+            android:backgroundTint="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            tools:ignore="ContentDescription" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/tv_ingredient_name"
+        android:layout_marginHorizontal="@dimen/margin_8dp_small"
+        app:layout_constraintTop_toTopOf="@id/image_block"
+        app:layout_constraintStart_toEndOf="@id/image_block"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/image_block"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        app:layout_constraintStart_toStartOf="@id/image_block"
+        app:layout_constraintTop_toBottomOf="@id/image_block"
+        app:layout_constraintEnd_toEndOf="@id/tv_ingredient_name"
+        android:layout_marginTop="20dp"
+        android:background="@color/random_cuisine_text_second_title_color" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

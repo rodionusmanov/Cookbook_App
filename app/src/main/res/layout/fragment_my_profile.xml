@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/profile_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:elevation="@dimen/margin_10dp_small"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/user_name"
+                style="@style/MyProfileUserNameTextStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_16dp_medium"
+                android:layout_marginTop="28dp"
+                android:gravity="start"
+                android:text="@string/user_name"
+                app:layout_constraintEnd_toStartOf="@+id/user_avatar_container"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/user_second_name"
+                style="@style/MyProfileUserNameTextStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_8dp_small"
+                android:layout_marginEnd="8dp"
+                android:gravity="start"
+                android:text="@string/user_second_name"
+                app:layout_constraintEnd_toStartOf="@+id/user_avatar_container"
+                app:layout_constraintStart_toStartOf="@id/user_name"
+                app:layout_constraintTop_toBottomOf="@id/user_name" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/user_avatar_container"
+                android:layout_width="@dimen/my_profile_avatar_height"
+                android:layout_height="@dimen/my_profile_avatar_height"
+                android:layout_marginTop="@dimen/margin_20dp_medium"
+                android:layout_marginEnd="@dimen/margin_45dp_large"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50">
+
+                <ImageView
+                    android:id="@+id/user_avatar_image"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_profile"
+                    tools:ignore="ContentDescription" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/edit_profile_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16dp_medium"
+                app:cardBackgroundColor="?attr/colorOnSecondary"
+                app:cardCornerRadius="@dimen/material_card_corner_radius_15dp"
+                app:layout_constraintStart_toStartOf="@id/user_name"
+                app:layout_constraintTop_toBottomOf="@id/user_second_name">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="5dp"
+                    android:text="@string/edit_prfile_button"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:textStyle="bold" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="?attr/colorOnPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile_toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_16dp_medium"
+                android:layout_marginVertical="@dimen/margin_20dp_medium"
+                app:cardCornerRadius="30dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/dietary_restrictions_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/dietary_restrictions_title"
+                        style="@style/MyProfileUserNameTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="@dimen/margin_20dp_medium"
+                        android:paddingVertical="@dimen/margin_16dp_medium"
+                        android:text="@string/dietary_restrictions_title"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <LinearLayout
+                        android:id="@+id/diet_block"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margin_8dp_small"
+                        android:orientation="vertical"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/dietary_restrictions_title">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/diets_text"
+                                style="@style/MyProfileMenuLineTextStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/text_click_selector"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:paddingHorizontal="@dimen/margin_20dp_medium"
+                                android:paddingVertical="@dimen/padding_8dp"
+                                android:text="@string/diet_block_title"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <com.google.android.material.card.MaterialCardView
+                                android:id="@+id/diet_block_mark"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/margin_20dp_medium"
+                                android:layout_marginTop="@dimen/margin_8dp_small"
+                                android:elevation="@dimen/margin_4dp_small"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="@id/diets_text"
+                                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/icon_arrow_down"
+                                    app:tint="?attr/colorPrimaryDark"
+                                    tools:ignore="ContentDescription" />
+
+                            </com.google.android.material.card.MaterialCardView>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/diets_chip_group"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/margin_16dp_medium">
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_gluten_free"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checkable="true"
+                                android:text="@string/diet_gluten_free"
+                                android:visibility="gone" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_ketogenic"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checkable="true"
+                                android:text="@string/diet_ketogenic"
+                                android:visibility="gone" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_vegetarian"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checkable="true"
+                                android:text="@string/diet_vegetarian"
+                                android:visibility="gone" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_lacto_vegetarian"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checkable="true"
+                                android:text="@string/diet_lacto_vegetarian"
+                                android:visibility="gone" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_ovo_vegetarian"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checkable="true"
+                                android:text="@string/diet_ovo_vegetarian"
+                                android:visibility="gone" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_vegan"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checkable="true"
+                                android:text="@string/diet_vegan"
+                                android:visibility="gone" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_pescetarian"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checkable="true"
+                                android:text="@string/diet_pescetarian"
+                                android:visibility="gone" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_paleo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checkable="true"
+                                android:text="@string/diet_paleo"
+                                android:visibility="gone" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_primal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checkable="true"
+                                android:text="@string/diet_primal"
+                                android:visibility="gone" />
+
+                        </com.google.android.material.chip.ChipGroup>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/diet_block"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="@dimen/margin_8dp_small"
+                        android:background="@color/random_cuisine_text_second_title_color" />
+
+                    <LinearLayout
+                        android:id="@+id/intolerances_block"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_8dp_small"
+                        android:layout_marginBottom="@dimen/margin_16dp_medium"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/diet_block">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/intolerances_text"
+                                style="@style/MyProfileMenuLineTextStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/text_click_selector"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:paddingHorizontal="@dimen/margin_20dp_medium"
+                                android:paddingVertical="@dimen/padding_8dp"
+                                android:text="@string/intolerances_block_title"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <com.google.android.material.card.MaterialCardView
+                                android:id="@+id/intolerance_block_mark"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/margin_20dp_medium"
+                                android:layout_marginTop="@dimen/margin_8dp_small"
+                                android:elevation="@dimen/margin_4dp_small"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="@id/intolerances_text"
+                                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/icon_arrow_down"
+                                    app:tint="?attr/colorPrimaryDark"
+                                    tools:ignore="ContentDescription" />
+
+                            </com.google.android.material.card.MaterialCardView>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/intolerances_chip_group"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="@dimen/margin_16dp_medium"
+                            android:layout_marginBottom="@dimen/margin_8dp_small"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/intolerances_text">
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_dairy"
+                                android:visibility="gone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checkable="true"
+                                android:text="@string/intolerances_dairy" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_egg"
+                                android:visibility="gone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checkable="true"
+                                android:text="@string/intolerances_egg" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_gluten"
+                                android:visibility="gone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checkable="true"
+                                android:text="@string/intolerances_gluten" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_grain"
+                                android:visibility="gone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checkable="true"
+                                android:text="@string/intolerances_grain" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_seafood"
+                                android:visibility="gone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checkable="true"
+                                android:text="@string/intolerances_seafood" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_sesame"
+                                android:visibility="gone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checkable="true"
+                                android:text="@string/intolerances_sesame" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_shellfish"
+                                android:visibility="gone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checkable="true"
+                                android:text="@string/intolerances_shellfish" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_soy"
+                                android:visibility="gone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checkable="true"
+                                android:text="@string/intolerances_soy" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_tree_nut"
+                                android:visibility="gone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checkable="true"
+                                android:text="@string/intolerances_tree_nut" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_wheat"
+                                android:visibility="gone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checkable="true"
+                                android:text="@string/intolerances_wheat" />
+
+                        </com.google.android.material.chip.ChipGroup>
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <FrameLayout
+        android:id="@+id/my_profile_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:elevation="20dp"
+        android:focusable="true"
+        android:visibility="gone" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,71 +1,82 @@
 package com.example.cookbook.view.favorite
 
-import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import android.widget.Toast
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cookbook.databinding.FragmentFavoriteBinding
-import com.example.cookbook.model.domain.BaseRecipeData
+import com.example.cookbook.model.AppState
+import com.example.cookbook.model.domain.RecipeInformation
+import com.example.cookbook.utils.convertRecipeInfoEntityToList
+import com.example.cookbook.utils.navigation.NavigationManager
+import com.example.cookbook.view.base.BaseFragment
 import com.example.cookbook.view.mainActivity.MainActivity
-import com.example.cookbook.view.search.searchResult.ISaveRecipe
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class FavoriteFragment : Fragment() {
+class FavoriteFragment : BaseFragment<AppState, List<RecipeInformation>, FragmentFavoriteBinding>(
+    FragmentFavoriteBinding::inflate
+) {
 
-    private var _binding: FragmentFavoriteBinding? = null
-    private val binding: FragmentFavoriteBinding
-        get() {
-            return _binding!!
-        }
+    private val viewModel: FavoriteRecipesViewModel by viewModel()
+    private val adapter: FavoriteRecipesAdapter by lazy { FavoriteRecipesAdapter() }
 
-    private lateinit var model: FavoriteRecipesViewModel
-    private val adapter: FavoriteRecipesAdapter by lazy {
-        FavoriteRecipesAdapter(
-            callbackDeleteRecipe
-        )
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        navigationManager = (context as MainActivity).provideNavigationManager()
     }
 
-    private lateinit var favoriteRecipes: List<BaseRecipeData>
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
+    private var navigationManager: NavigationManager? = null
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initViewModel()
-        return binding.root
+        ItemTouchHelper(ItemTouchHelperCallback(adapter))
+            .attachToRecyclerView(binding.favoriteRecipesRecyclerView)
     }
 
     private fun initViewModel() {
-        val viewModel by viewModel<FavoriteRecipesViewModel>()
-        model = viewModel
-        model.getAllLocalRecipes().observe(viewLifecycleOwner) {
-            favoriteRecipes = it
-            setupData(favoriteRecipes)
+        viewModel.getRecipesFromDatabase()
+
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.stateFlow.collect {
+                    it.collect { entityData ->
+                        val data = convertRecipeInfoEntityToList(entityData)
+                        renderData(AppState.Success(data))
+                    }
+                }
+            }
         }
     }
 
-    private fun setupData(favoriteRecipes: List<BaseRecipeData>) {
-        adapter.setData(favoriteRecipes)
+    override fun showErrorDialog(message: String?) {
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+    }
+
+
+    override fun setupData(data: List<RecipeInformation>) {
+        adapter.setData(data)
+
+        adapter.listener = { recipe ->
+            openRecipeInfoFromDatabaseFragment(recipe.id)
+        }
         binding.favoriteRecipesRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.favoriteRecipesRecyclerView.adapter = adapter
     }
 
-    private val callbackDeleteRecipe = object : IDeleteRecipe {
-        override fun deleteRecipe(id: Int) {
-            AlertDialog.Builder(context)
-                .setTitle("Deleting recipe")
-                .setMessage("Do you really want to delete this recipe from your favorites?")
-                .setPositiveButton("Yes") { dialog, _ ->
-                    model.deleteRecipeFromData(id)
-                    dialog.dismiss()
-                }
-                .setNegativeButton("No") { dialog, _ -> dialog.dismiss() }
-                .create()
-                .show()
+    private fun openRecipeInfoFromDatabaseFragment(recipeId: Int) {
+        navigationManager?.openRecipeInfoFragment(recipeId)
+    }
+
+    companion object {
+        fun newInstance(): FavoriteFragment {
+            return FavoriteFragment()
         }
     }
 }

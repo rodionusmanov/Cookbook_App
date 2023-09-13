@@ -9,14 +9,13 @@
     <style name="HomeFragmentDishCardTitleStyle">
         <item name="android:textSize">@dimen/home_dishes_card_title</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/black</item>
         <item name="android:gravity">center_horizontal</item>
         <item name="android:padding">@dimen/margin_6dp_small</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
     </style>
 
     <style name="HomeFragmentServiceCardTitleStyle">
         <item name="android:textSize">@dimen/home_service_card_title</item>
-        <item name="android:textColor">@color/black</item>
         <item name="android:gravity">start|center_vertical</item>
         <item name="android:padding">@dimen/margin_6dp_small</item>
         <item name="android:layout_marginStart">@dimen/margin_8dp_small</item>
@@ -29,8 +28,63 @@
     <style name="HomeFragmentTitleTextStyle">
         <item name="android:textSize">@dimen/home_joke_of_the_day_title</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
     </style>
 
+    <style name="MyProfileUserNameTextStyle">
+        <item name="android:textSize">@dimen/profile_user_name_title</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
+    <style name="MyProfileMenuLineTextStyle">
+        <item name="android:textSize">@dimen/profile_user_name_title</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.App.CornerSize50" parent="">
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="ServicesContainersImageViewStyle" parent="">
+        <item name="android:layout_marginTop">@dimen/margin_16dp_medium</item>
+        <item name="android:layout_marginStart">@dimen/margin_16dp_medium</item>
+        <item name="tint">?attr/colorOnSecondary</item>
+    </style>
+
+    <style name="FiltersIconsStyle" parent="">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">@dimen/margin_40dp_large</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:padding">@dimen/top_badge_padding_2dp</item>
+    </style>
+
+    <style name="ChipRecipeInfoStyle" parent="">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="chipBackgroundColor">@color/chip_background_color_selector</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:clickable">false</item>
+        <item name="android:checkable">true</item>
+        <item name="textAllCaps">true</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="ImageViewAllFiltersStyle" parent="">
+        <item name="android:scaleX">5</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/height_40dp</item>
+        <item name="android:src">@drawable/gradient_top</item>
+        <item name="tint">?attr/colorSecondaryVariant</item>
+    </style>
+
+    <style name="TextViewTitleAllFilterStyle" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginHorizontal">@dimen/margin_16dp_medium</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
+        <item name="android:textSize">@dimen/text_size_20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <dimen name="height_40dp">40dp</dimen>
+    <dimen name="text_size_20sp">20sp</dimen>
 </resources>

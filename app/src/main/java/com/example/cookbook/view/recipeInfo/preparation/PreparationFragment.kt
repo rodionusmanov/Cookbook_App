@@ -15,21 +15,21 @@ import com.example.cookbook.model.datasource.DTO.recipeInformation.AnalyzedInstr
 import com.example.cookbook.model.datasource.DTO.recipeInformation.Equipment
 import com.example.cookbook.model.datasource.DTO.recipeInformation.Ingredient
 import com.example.cookbook.view.recipeInfo.RecipeInfoViewModel
-import com.example.cookbook.view.recipeInfo.adapters.EquipmentsPreparationAdapter
-import com.example.cookbook.view.recipeInfo.adapters.IngredientsPreparationAdapter
-import com.example.cookbook.view.recipeInfo.adapters.InstructionsAdapter
+import com.example.cookbook.view.recipeInfo.adapters.RecipeStepsAdapter
+import com.example.cookbook.view.recipeInfo.adapters.UniversalAdapter
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class PreparationFragment : Fragment() {
 
     private var _binding: FragmentPreparationBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: RecipeInfoViewModel by inject()
+    private val viewModel: RecipeInfoViewModel by activityViewModel()
 
-    private val stepsAdapter = InstructionsAdapter()
-    private val equipmentsAdapter = EquipmentsPreparationAdapter()
-    private val ingredientAdapter = IngredientsPreparationAdapter()
+    private val stepsAdapter: RecipeStepsAdapter by lazy { RecipeStepsAdapter() }
+    private val equipmentsAdapter: UniversalAdapter by inject()
+    private val ingredientAdapter: UniversalAdapter by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,7 +50,6 @@ class PreparationFragment : Fragment() {
         }
     }
 
-
     private fun initView(analyzedInstructions: List<AnalyzedInstruction>) {
 
         val ingredientHorizontalLayoutManager =
@@ -67,9 +66,9 @@ class PreparationFragment : Fragment() {
                 ingredientsList.addAll(step.ingredients)
             }
         }
-        stepsAdapter.setData(analyzedInstructions.first().steps)
-        equipmentsAdapter.setData(equipmentList.distinct())
-        ingredientAdapter.setData(ingredientsList.distinct())
+        stepsAdapter.submitList(analyzedInstructions.first().steps)
+        equipmentsAdapter.submitList(equipmentList.distinct())
+        ingredientAdapter.submitList(ingredientsList.distinct())
 
         with(binding) {
             tvEquipments.isVisible = equipmentList.isNotEmpty()
@@ -81,7 +80,6 @@ class PreparationFragment : Fragment() {
             rvIngredientsPreparation.adapter = ingredientAdapter
             rvSteps.adapter = stepsAdapter
         }
-
     }
 
     override fun onDestroyView() {

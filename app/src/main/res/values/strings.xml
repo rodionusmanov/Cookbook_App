@@ -6,7 +6,7 @@
 
     //NavigationMenu
     <string name="nav_home">Home</string>
-    <string name="nav_search_recipe">Search recipe</string>
+    <string name="nav_search_recipe">Search</string>
     <string name="nav_favorite">Favorite</string>
     <string name="nav_my_profile">My profile</string>
 
@@ -21,10 +21,11 @@
     //HomeFragment
     <string name="card_searching_by_ingredient_title">Search a recipe by the available ingredients</string>
     <string name="card_favorite_list_title">Your list of favorite recipes</string>
-    <string name="card_shopping_list_title">Your shopping list for ingredients</string>
     <string name="joke_of_the_day_title">Joke of the day</string>
     <string name="recently_viewed_title">Recently viewed</string>
-    <string name="joke_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </string>
+    <string name="joke_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </string>
+    <string name="joke_read_more">Read more</string>
+    <string name="joke_show_less">Show less</string>
     <string name="dishes_table_title">What do you want to cook?</string>
     <string name="card_breakfast_title">Breakfast</string>
     <string name="card_side_dish_title">Side Dish</string>
@@ -32,17 +33,34 @@
     <string name="card_salads_title">Salads</string>
     <string name="card_snacks_title">Snacks</string>
     <string name="card_desserts_title">Desserts</string>
-
+    <string name="card_soup_title">Soup</string>
+    <string name="card_appetizer_title">Appetizer</string>
+    <string name="card_beverage_title">Beverage</string>
+    <string name="card_sauce_title">Sauce</string>
+    <string name="card_drink_title">Drink</string>
+    <string name="card_bread_title">Bread</string>
+    <string name="asia_title_first_line">Explore exquisite Asia:</string>
+    <string name="asia_title_second_line">dive into culinary delights!</string>
+    <string name="india_title_first_line">Embark on a flavorful journey:</string>
+    <string name="india_title_second_line">experience authentic Indian cuisine</string>
+    <string name="nordic_title_first_line">Indulge in nordic delights:</string>
+    <string name="nordic_title_second_line">experience the taste of Scandinavia</string>
+    <string name="mdtrn_title_first_line">Savor the sun-kissed flavors</string>
+    <string name="mdtrn_title_second_line">delight in Mediterranean cuisine</string>
 
     //SearchDialog
     <string name="search_recipe">Search recipe</string>
 
     //SearchFragment
-    <string name="search_view_hint">Search recipe</string>
+    <string name="search_view_hint">Search</string>
 
     //RandomRecipeFragment
-    <string name="random_recipe_list_title">What you want to try</string>
+    <string name="random_recipe_list_title">What do you want to try</string>
     <string name="random_recipe_list_title_second_line">today?</string>
+
+    //HealthyRandomRecipeFragment
+    <string name="healthy_random_recipe_list_title">A good day to start</string>
+    <string name="healthy_random_recipe_list_title_second_line">a healthy diet</string>
 
     //RecipeInfoFragment
     <string name="very_healthy">Very Healthy</string>
@@ -54,5 +72,99 @@
     <string name="ingredients">Ingredients</string>
     <string name="steps">Steps</string>
     <string name="calories">calories</string>
+    <string name="add_to_favorite">add to favorite</string>
+    <string name="ingredient_format">%1$s %2$s %3$s</string>
+
+    //MyProfile
+    <string name="user_name">User Name</string>
+    <string name="user_second_name">User Surname</string>
+    <string name="edit_prfile_button">Edit Profile</string>
+    <string name="dietary_restrictions_title">Dietary restrictions</string>
+    <string name="intolerances_block_title">Intolerances</string>
+    <string name="intolerances_dairy">Dairy</string>
+    <string name="intolerances_egg">Egg</string>
+    <string name="intolerances_gluten">Gluten</string>
+    <string name="intolerances_grain">Grain</string>
+    <string name="intolerances_seafood">Seafood</string>
+    <string name="intolerances_sesame">Sesame</string>
+    <string name="intolerances_shellfish">Shellfish</string>
+    <string name="intolerances_soy">Soy</string>
+    <string name="intolerances_tree_nut">Tree Nut</string>
+    <string name="intolerances_wheat">Wheat</string>
+    <string name="diet_block_title">Diets</string>
+    <string name="diet_gluten_free">Gluten free</string>
+    <string name="diet_ketogenic">Ketogenic</string>
+    <string name="diet_vegetarian">Vegetarian</string>
+    <string name="diet_lacto_vegetarian">Lacto-vegetarian</string>
+    <string name="diet_ovo_vegetarian">Ovo-vegetarian</string>
+    <string name="diet_vegan">Vegan</string>
+    <string name="diet_pescetarian">Pescetarian</string>
+    <string name="diet_paleo">Paleo</string>
+    <string name="diet_primal">Primal</string>
+    <string name="all_filters">All filters</string>
+    <string name="delete_from_favorite">Delete from favorite</string>
+    <string name="profile_edit_name">Display name</string>
+    <string name="profile_edit_second_name">Display second name</string>
+    <string name="profile_save_and_exit">Save and exit</string>
+    <string name="profile_empty_name_cell">Add your name</string>
+    <string name="profile_empty_second_name_cell">Specify your surname</string>
+    <string name="avatar_source_camera">Take a photo</string>
+    <string name="avatar_source_gallery">Choose from gallery</string>
+    <string name="avatar_source_title">Add a photo</string>
+    <string name="profile_decline_camera_permission">Camera access is required to take a photo. Please enable it in settings.</string>
+    <string name="avatar_source_error">Failed to capture image</string>
+    <string name="include_ingredients">Include ingredients</string>
+    <string name="chicken">Chicken</string>
+    <string name="pork">Pork</string>
+    <string name="beef">Beef</string>
+    <string name="fish">Fish</string>
+    <string name="dish_type">Dish type</string>
+    <string name="main_course">Main course</string>
+    <string name="side_dish">Side dish</string>
+    <string name="dessert">Dessert</string>
+    <string name="appetizer">Appetizer</string>
+    <string name="salad">Salad</string>
+    <string name="bread">Bread</string>
+    <string name="breakfast">Breakfast</string>
+    <string name="soup">Soup</string>
+    <string name="beverage">Beverage</string>
+    <string name="sauce">Sauce</string>
+    <string name="marinade">Marinade</string>
+    <string name="fingerfood">Fingerfood</string>
+    <string name="snack">Snack</string>
+    <string name="drink">Drink</string>
+    <string name="clear">Clear</string>
+    <string name="accept">Accept</string>
+    <string name="ingredient">ingredient</string>
+    <string name="cuisine_type">Cuisine type</string>
+    <string name="asian">Asian</string>
+    <string name="american">American</string>
+    <string name="chinese">Chinese</string>
+    <string name="european">European</string>
+    <string name="french">French</string>
+    <string name="greek">Greek</string>
+    <string name="italian">Italian</string>
+    <string name="japanese">Japanese</string>
+    <string name="korean">Korean</string>
+    <string name="mediterranean">Mediterranean</string>
+    <string name="mexican">Mexican</string>
+    <string name="spanish">Spanish</string>
+    <string name="thai">Thai</string>
+    <string name="vietnamese">Vietnamese</string>
+    <string name="eastern_european">Eastern European</string>
+    <string name="middle_eastern">Middle Eastern</string>
+    <string name="exclude_ingredients">Exclude Ingredints</string>
+    <string name="add">add</string>
+    <string name="max_time">Max time to cook</string>
+    <string name="_15_min">up to 15 min</string>
+    <string name="_30_min">up to 30 min</string>
+    <string name="_45_min">up to 45 min</string>
+    <string name="_60_min">up to 60 min</string>
+    <string name="calories_per_100g">Сalories per 100g</string>
+    <string name="up_to_300_kcal">up to 300 kcal</string>
+    <string name="_300_600_kcal">300 – 600 kcal</string>
+    <string name="_600_900_kcal">600 – 900 kcal</string>
+    <string name="_900_1200_kcal">900 – 1200 kcal</string>
+    <string name="more_than_1200_kcal">more than 1200 kcal</string>
 
 </resources>

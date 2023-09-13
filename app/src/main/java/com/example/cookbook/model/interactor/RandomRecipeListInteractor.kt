@@ -1,28 +1,33 @@
 package com.example.cookbook.model.interactor
 
 import com.example.cookbook.model.AppState
-import com.example.cookbook.model.domain.BaseRecipeData
-import com.example.cookbook.model.repository.local.LocalRepositoryImpl
-import com.example.cookbook.model.repository.remoteDataSource.IRepositorySearchRequest
+import com.example.cookbook.model.repository.local.LocalRepositoryInfoImpl
+import com.example.cookbook.model.repository.remote.IRepositorySearchRequest
+import com.example.cookbook.model.repository.sharedPreferences.SharedPreferencesRepository
+import kotlinx.coroutines.flow.Flow
 
 class RandomRecipeListInteractor(
     private val remoteRepository: IRepositorySearchRequest,
-    private val localRepository: LocalRepositoryImpl
+    private val localRepository: LocalRepositoryInfoImpl,
+    private val preferencesRepository: SharedPreferencesRepository
 ) {
 
     suspend fun getRandomRecipes(): AppState {
-        return AppState.Success(remoteRepository.getRandomRecipes())
+        val userDiets = preferencesRepository.getSelectedDiets()
+        val userIntolerances = preferencesRepository.getSelectedIntolerances()
+        return AppState.Success(remoteRepository.getRandomRecipes(userDiets, userIntolerances))
     }
 
-    suspend fun insertRecipeToDataBase(recipeData: BaseRecipeData){
-        localRepository.insertNewRecipe(recipeData)
+    suspend fun getRandomRecipesByCuisine(cuisine: String): AppState {
+        val userIntolerances = preferencesRepository.getSelectedIntolerances()
+        return AppState.Success(remoteRepository.getRandomCuisineRecipes(cuisine, userIntolerances))
     }
 
-    suspend fun deleteRecipeFromDataBase(id: Int) {
-        localRepository.removeRecipeFromData(id)
+    suspend fun getHealthyRandomRecipes(): AppState {
+        return AppState.Success(remoteRepository.getHealthyRandomRecipes())
     }
 
-    suspend fun getAllRecipesFromDataBase(): List<BaseRecipeData> {
-        return localRepository.getAllRecipesData()
+    fun observeRecipeExistence(id: Int): Flow<Boolean> {
+        return localRepository.observeRecipeExistence(id)
     }
 }
